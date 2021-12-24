@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginTop="16dp"
+    android:id="@+id/llDial"
+ >
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="2dp"
+        android:id="@+id/imgDial"
+        android:src="@drawable/round_green"
+        android:background="@drawable/dial_color_checkbox"
+        />
+</LinearLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.takeMedicine.TakeMedicineRepeatActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionText="保存"
+        app:actionTextColor="@color/color_main_green"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:iconActionImage="@mipmap/icon_add"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="重复"
+        app:showAction="true"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/device_alarm_clock_background"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+
+        <RadioGroup
+            android:id="@+id/radGroupAll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:paddingLeft="16dp"
+                android:paddingTop="12dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="12dp"
+                android:checked="true"
+                android:button="@drawable/circle_radio_button_bg"
+                android:text="重复"
+                android:textColor="@color/sub_text_color"
+                android:textDirection="ltr"
+                android:textSize="18sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                />
+            <RadioButton
+                android:id="@+id/radInterval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:paddingLeft="16dp"
+                android:paddingTop="12dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="12dp"
+                android:button="@drawable/circle_radio_button_bg"
+                android:text="间隔"
+                android:textColor="@color/sub_text_color"
+                android:textDirection="ltr"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/llRepeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvOne"
+                android:background="@drawable/device_repeat_false_gray"
+                android:text="1天"
+                android:textColor="@color/sub_text_color"
+                android:textSize="14sp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTwo"
+                android:background="@drawable/device_repeat_false_gray"
+                android:text="2天"
+                android:textColor="@color/sub_text_color"
+                android:textSize="14sp"
+                android:layout_marginRight="16dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvThree"
+                android:background="@drawable/device_repeat_false_gray"
+                android:text="3天"
+                android:textColor="@color/sub_text_color"
+                android:textSize="14sp"
+                android:layout_marginRight="16dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtCustom"
+                android:background="@drawable/device_repeat_false_gray"
+                android:hint="自定义"
+                android:textColor="@color/sub_text_color"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:singleLine="true"
+                android:maxLength="2"
+                android:imeOptions="actionDone"
+                android:layout_marginRight="16dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

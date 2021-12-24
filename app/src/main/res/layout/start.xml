@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_start_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@color/white"
+  >
+    <ImageView
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerCrop"
+          />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="守护健康"
+        android:textColor="@color/color_main_green"
+        android:gravity="center"
+        android:textSize="24sp"
+        />
+<!--    <TextView-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Copyright©2018 金行家 All rights reserved"-->
+<!--        android:textSize="24sp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:textColor="@color/bootom_nav_icon_dim"-->
+<!--        android:layout_marginBottom="@dimen/height_20dp"-->
+<!--        />-->
+</LinearLayout>

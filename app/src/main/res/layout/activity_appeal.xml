@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.setting.account.FindPhoneMainActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:homeBackClick="true"
+        app:midtitle="申诉"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="原手机号"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*******1111"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="联系方式"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvPhoneCode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            android:drawableRight="@mipmap/login_triangle"
+            android:text="+86"
+            android:drawablePadding="6dp"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:hint="请输入当前联系方式"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLostPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="提交成功后，我们将在3个工作日后短信通知您结果"
+        android:textColor="@color/color_main_green"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/tvSure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/bg_login_password_gray"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="提交"
+        android:textColor="@color/color_login_code"
+        android:textSize="18sp" />
+</LinearLayout>

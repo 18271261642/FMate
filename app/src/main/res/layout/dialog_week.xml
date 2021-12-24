@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:gravity="bottom|center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/device_alarm_clock_background"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+       >
+
+        <CheckBox
+            android:id="@+id/rad_sunday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周日"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_monday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周一"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_tuesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周二"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_wednesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周三"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_thursday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周四"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_friday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周五"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/color_view" />
+
+        <CheckBox
+            android:id="@+id/rad_saturday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:padding="16dp"
+            android:text="每周六"
+            android:textColor="@color/sub_text_color"
+            android:textDirection="ltr" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="32dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/device_alarm_clock_button"
+                android:layout_marginRight="8dp"
+                android:textSize="18sp"
+                android:text="@string/text_sure" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/device_alarm_clock_button"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                android:text="@string/text_cancel" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

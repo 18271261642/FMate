@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.xingliansdk.view.TasksRopeCompletedView
+        android:id="@+id/sport_stop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:radius="100dp"
+        app:ringColor="#ADADBB"
+        app:strokeWidth="4dp" />
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_rope_start"-->
+<!--        android:layout_width="10dp"-->
+<!--        android:layout_height="10dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:gravity="center"-->
+<!--        android:visibility="gone"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:text=""-->
+<!--        android:textSize="20sp" />-->
+
+<!--    <LinearLayout
+        android:id="@+id/layout_end"
+        android:layout_width="125dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_end_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="停止"
+            android:textColor="#32CD32"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_end_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="长按暂停" />
+    </LinearLayout>-->
+
+
+
+
+</RelativeLayout>

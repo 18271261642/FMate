@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="40dp"
+    android:layout_height="240dp"
+    android:background="#6699CC">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="50dp"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="50dp"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="50dp"
+            android:background="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="50dp"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="20:00pm"
+            android:textSize="10sp"
+            android:textColor="#fff" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/view_1"
+            android:layout_width="6dp"
+            android:layout_height="8dp"
+            android:background="@drawable/ic_baseline_brightness_1_24"/>
+        <View
+            android:layout_width="4dp"
+            android:layout_centerHorizontal="true"
+            android:background="#fff"
+            android:layout_marginTop="-4dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <View
+            android:id="@+id/view_2"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="-4dp"
+            android:background="@drawable/ic_baseline_brightness_1_24"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

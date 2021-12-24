@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+     android:paddingTop="24dp"
+    android:paddingBottom="32dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/itemAmapSportTypeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:textColor="@color/main_text_color"
+        android:textSize="20sp"
+        android:text="步行"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <TextView
+           android:id="@+id/itemSportDetailDistanceTv"
+           app:layout_constraintLeft_toLeftOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           android:textSize="32sp"
+           android:padding="5dp"
+           android:textStyle="bold"
+           android:layout_margin="5dp"
+           android:textColor="@color/main_text_color"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="__"/>
+
+
+
+        <TextView
+            android:id="@+id/itemSportDetailDateTv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintLeft_toRightOf="@+id/itemSportDetailDistanceTv"
+            android:textColor="@color/bottom_nav_icon_dim"
+            android:textSize="18sp"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:text="__"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="25dp"
+      android:orientation="horizontal">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:padding="3dp"
+
+          android:layout_height="wrap_content">
+
+
+
+          <ImageView
+              android:id="@+id/itemAmapSportDetailTimeImg"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="parent"
+              android:layout_width="28dp"
+              android:layout_height="28dp"
+              android:layout_marginStart="5dp"
+              android:background="@mipmap/icon_sport_time"/>
+
+
+          <View
+              android:id="@+id/itemTmpView1"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailTimeImg"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              android:layout_width="wrap_content"
+              android:layout_height="1dp"/>
+
+          <TextView
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="@id/itemTmpView1"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailTimeImg"
+              android:textSize="11sp"
+              android:layout_marginStart="8dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="运动时间"/>
+
+
+          <TextView
+              android:id="@+id/itemAmapSportDetailDurationTv"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailTimeImg"
+              app:layout_constraintTop_toBottomOf="@id/itemTmpView1"
+              android:textColor="@color/main_text_color"
+              android:textSize="24sp"
+              android:layout_marginStart="8dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="--" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:padding="3dp"
+          android:layout_height="wrap_content">
+
+
+
+          <ImageView
+              android:id="@+id/itemAmapSportDetailKcalImg"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="parent"
+              android:layout_width="28dp"
+              android:layout_height="28dp"
+              android:layout_marginStart="5dp"
+              android:background="@mipmap/icon_table_kcal"/>
+
+
+          <View
+              android:id="@+id/itemTmpView2"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailKcalImg"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              android:layout_marginStart="8dp"
+              android:layout_width="wrap_content"
+              android:layout_height="1dp"/>
+
+          <TextView
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="@id/itemTmpView2"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailKcalImg"
+              android:textSize="11sp"
+              android:layout_marginStart="8dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="热量"/>
+
+
+          <TextView
+              android:id="@+id/itemAmapSportDurationTv"
+              app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailKcalImg"
+              app:layout_constraintTop_toBottomOf="@id/itemTmpView2"
+              android:textColor="@color/main_text_color"
+              android:textSize="24sp"
+              android:layout_marginStart="8dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="--" />
+
+
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/itemAmapSportDetailHeartImg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@mipmap/icon_sport_bpm"/>
+
+
+            <View
+                android:id="@+id/itemTmpView3"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailHeartImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"/>
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/itemTmpView3"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailHeartImg"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="平均心率"/>
+
+
+            <TextView
+                android:id="@+id/itemAmapSportDetailHeartTv"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailHeartImg"
+                app:layout_constraintTop_toBottomOf="@id/itemTmpView3"
+                android:textColor="@color/main_text_color"
+                android:textSize="24sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/itemAmapSportDetailStepImg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@mipmap/icon_sport_step"/>
+
+
+            <View
+                android:id="@+id/itemTmpView4"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailStepImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"/>
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/itemTmpView4"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailStepImg"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="步数"/>
+
+
+            <TextView
+                android:id="@+id/itemAmapSportStepTv"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailStepImg"
+                app:layout_constraintTop_toBottomOf="@id/itemTmpView4"
+                android:textColor="@color/main_text_color"
+                android:textSize="24sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/itemAmapSportDetailPeisuImg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@mipmap/icon_sport_peisu"
+                android:layout_marginStart="5dp"
+                 />
+
+
+            <View
+                android:id="@+id/itemTmpView5"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailPeisuImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"/>
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/itemTmpView5"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailPeisuImg"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="平均配速"/>
+
+
+            <TextView
+                android:id="@+id/itemAmapSportDetailPeisuTv"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailPeisuImg"
+                app:layout_constraintTop_toBottomOf="@id/itemTmpView5"
+                android:textColor="@color/main_text_color"
+                android:textSize="24sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/itemAmapSportDetailSpeedImg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@mipmap/icon_sport_speed"
+                android:layout_marginStart="5dp"
+                 />
+
+
+            <View
+                android:id="@+id/itemTmpView6"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailSpeedImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_height="1dp"/>
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/itemTmpView6"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailSpeedImg"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="平均速度"/>
+
+
+            <TextView
+                android:id="@+id/itemAmapSportSpeedTv"
+                app:layout_constraintLeft_toRightOf="@id/itemAmapSportDetailSpeedImg"
+                app:layout_constraintTop_toBottomOf="@id/itemTmpView6"
+                android:textColor="@color/main_text_color"
+                android:textSize="24sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+</LinearLayout>

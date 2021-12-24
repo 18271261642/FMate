@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:id="@+id/constAll"
+    android:background="@drawable/comm_shap_layout"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/itemAmapSportTypeImg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@mipmap/ic_launcher"/>
+
+
+    <View
+        android:id="@+id/itemTmpView"
+        app:layout_constraintLeft_toRightOf="@id/itemAmapSportTypeImg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/itemAmapSportTypeImg"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:id="@+id/itemAmapSportDistanceTv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/itemTmpView"
+        app:layout_constraintLeft_toRightOf="@id/itemAmapSportTypeImg"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="5.0公里"/>
+
+
+    <TextView
+        android:id="@+id/itemAmapSportDurationTv"
+        app:layout_constraintLeft_toRightOf="@id/itemAmapSportTypeImg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemTmpView"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1:15:23"
+        app:drawableLeftCompat="@mipmap/icon_table_time" />
+
+
+    <TextView
+        android:id="@+id/itemAmapSportCaloriesTv"
+        app:layout_constraintTop_toBottomOf="@id/itemTmpView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/itemAmapSportDurationTv"
+        android:padding="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100千卡"
+        app:drawableLeftCompat="@mipmap/icon_table_kcal" />
+
+
+    <ImageView
+        android:id="@+id/tgImg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/right_back"/>
+
+
+    <TextView
+        android:id="@+id/itemAmapSportCurrDayTimeTv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tgImg"
+        android:layout_marginRight="5dp"
+        android:text="11/10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/view_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="60dp"
+        android:background="@color/color_view"
+        />
+</LinearLayout>

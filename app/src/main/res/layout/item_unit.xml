@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:paddingStart="@dimen/widget_size_15"
+    android:paddingTop="@dimen/widget_size_20"
+    android:paddingEnd="@dimen/widget_size_15"
+    android:paddingBottom="@dimen/widget_size_20">
+
+    <TextView
+        android:id="@+id/tvUnitTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/widget_size_10"
+        android:layout_weight="1"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/bottom_nav_text_dim"
+        tools:text="距离显示格式" />
+
+    <RadioGroup
+        android:id="@+id/rgUnitGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        android:orientation="horizontal">
+    <RadioButton
+        android:id="@+id/rbUnitLeft"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        tools:text="km"
+        android:textColor="@color/bottom_nav_text_dim"
+        android:textSize="@dimen/text_size_14"
+        android:button="@null"
+        android:background="@null"
+        android:drawableStart="@drawable/circle_radio_button_bg"
+        android:drawablePadding="@dimen/widget_size_5"/>
+
+        <RadioButton
+           android:id="@+id/rbUnitRight"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            tools:text="mile"
+            android:textColor="@color/bottom_nav_text_dim"
+            android:textSize="@dimen/text_size_14"
+            android:button="@null"
+            android:background="@null"
+            android:drawableStart="@drawable/circle_radio_button_bg"
+            android:drawablePadding="@dimen/widget_size_5"/>
+
+    </RadioGroup>
+
+</LinearLayout>

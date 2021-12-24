@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/img_calendar"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                 />
+        <TextView
+                android:id="@+id/tv_red_point"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignRight="@+id/img_calendar"
+                android:layout_alignTop="@+id/img_calendar"
+                android:background="@mipmap/icon_remindes"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                android:focusable="false"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="6dp"
+                android:text="20"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textSize="8sp" />
+<!--            <com.example.hundredbd.view.GuideableIconButton-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    app:btn_text_color="@color/black"-->
+<!--                    app:icon="@mipmap/icon_messg_off"-->
+<!--                    app:text_visibility="false"-->
+<!--                    />-->
+
+
+        <TextView
+            android:id="@+id/tv_titlebar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="标题"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView
+                android:id="@+id/tv_titlebar_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+
+                android:textColor="@color/red"
+                android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

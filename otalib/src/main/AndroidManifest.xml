@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.otalib">
+    <application>
+
+
+
+    <activity
+        android:name="com.example.otalib.NotificationActivity"
+        tools:ignore="WrongManifestParent" />
+    <service
+        android:name="com.example.otalib.service.DfuService"
+        android:noHistory="true"
+        tools:ignore="MissingClass,WrongManifestParent">
+        <intent-filter>
+            <action android:name="no.nordicsemi.android.action.DFU_UPLOAD" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </service>
+    </application>
+</manifest>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.setting.SettingActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:homeBackClick="true"
+        app:midtitle="设置"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+    <com.example.xingliansdk.widget.SettingItemLayout
+        android:id="@+id/settingAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:TextSize="18px"
+        app:layoutType="1"
+        app:mtitleTextColor="@color/sub_text_color"
+        app:titleText="账号与安全" />
+    <com.example.xingliansdk.widget.SettingItemLayout
+        android:id="@+id/settingUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:TextSize="18px"
+        app:layoutType="1"
+        app:mtitleTextColor="@color/sub_text_color"
+        app:titleText="单位设置" />
+</LinearLayout>

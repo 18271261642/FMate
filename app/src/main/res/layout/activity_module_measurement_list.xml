@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.alarmClock.AlarmClockListActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:iconActionImage="@mipmap/icon_sport_mode_walking"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="测量状态"
+        app:showHome="true"
+        app:titleTextColor01="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:layout_constraintBottom_toTopOf="@+id/tvPrompt"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar" />
+    <TextView
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/tvSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/device_border"
+        android:padding="@dimen/dp_10"
+        android:layout_marginBottom="20dp"
+        android:text="更改设置"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tvPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:padding="@dimen/dp_10"
+        android:text="说明：1、00:00 – 00:00 表示全天测量\n
+2、08:00 - 20:00 表示 08:00-20:00 不跨天\n
+3、20:00 - 08:00 表示 今天晚上 8 点到 第二天早上 8 点"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

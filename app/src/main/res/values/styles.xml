@@ -1,0 +1,155 @@
+<resources>
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="width_height">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <!-- popup window 显示消失动画-->
+    <style name="PopWindowAnimStyle">
+        <item name="android:windowShowAnimation">@anim/dialog_enter</item>
+        <!-- 指定显示的动画xml  -->
+        <item name="android:windowHideAnimation">@anim/dialog_exit</item>
+        <!-- 指定消失的动画xml  -->
+    </style>
+        <declare-styleable name="CircularProgressView">
+            <attr name="backWidth" format="dimension" />    <!--背景圆环宽度-->
+            <attr name="progWidth" format="dimension" />    <!--进度圆环宽度-->
+            <attr name="backColor" format="color" />        <!--背景圆环颜色-->
+            <attr name="progColor" format="color" />        <!--进度圆环颜色-->
+            <attr name="progStartColor" format="color" />   <!--进度圆环开始颜色-->
+            <attr name="progFirstColor" format="color" />   <!--进度圆环结束颜色-->
+            <attr name="progress" format="integer" />       <!--圆环进度-->
+            <attr name="text" format="string"/>
+            <attr name="textcolor" format="color"/>
+            <attr name="testSize" format="dimension"/>
+        </declare-styleable>
+    <declare-styleable name="SettingItemLayout">
+        <attr name="titleText" format="string" />
+        <attr name="contentText" format="string" />
+        <attr name="mtitleTextColor" format="color" />
+        <attr name="contentTextColor" format="color" />
+        <attr name="iconImage" format="reference" />
+        <attr name="styleImage" format="reference" />
+        <attr name="layoutId" format="integer" />
+        <attr name="layoutType" format="integer" />
+        <attr name="TextSize" format="dimension"/>
+        <attr name="contentTextSize" format="dimension"/>
+        <attr name="itemBackgroundResource" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="IndexItemLayout">
+        <attr name="contentText_index" format="string" />
+        <attr name="contentTextColor_index" format="color" />
+        <attr name="tvTypeText_index" format="string"/>
+        <attr name="tvTypeColor_index" format="color"/>
+        <attr name="styleImage_index" format="reference" />
+        <attr name="TextSize_index" format="dimension"/>
+        <attr name="contentTextSize_index" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ItemStatusLayout"  >
+        <attr name="StatusTitleText" format="string" />
+        <attr name="StatusTContentText" format="string" />
+    </declare-styleable>
+    <!--BaseDialog弹出动画-->
+    <style name="FromBottomAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_from_bottom_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_from_bottom_anim_out</item>
+    </style>
+
+    <!--BaseDialog样式-->
+    <style name="BaseDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <declare-styleable name="SwitchButton">
+        <attr name="buttonColor" format="color" />
+    </declare-styleable>
+    <!--头布局自定义属性-->
+    <declare-styleable name="TitleBarLayout">
+        <attr name="showHome" format="boolean" />
+        <attr name="showAction" format="boolean" />
+        <attr name="showActionImage" format="boolean" />
+        <attr name="iconHome" format="reference" />
+        <attr name="iconActionImage" format="reference" />
+        <attr name="backcolor" format="color" />
+        <attr name="midtitle" format="string" />
+        <attr name="actionText" format="string" />
+        <attr name="homeBackClick" format="boolean" />
+        <attr name="titleTextColor01" format="color" />
+        <attr name="actionTextColor" format="color"/>
+        <attr name="actionTextSize" format="dimension" />
+    </declare-styleable>
+    <style name="CustomSeekBarStyle" >
+        <item name="android:maxHeight">4dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@color/colorAccent</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:minHeight">4dp</item>
+        <item name="android:thumb">@mipmap/icon_sports_thumb</item>
+    </style>
+    <style name="CustomSeekSleepStyle" >
+        <item name="android:maxHeight">4dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@color/colorAccent</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable_sleep</item>
+        <item name="android:minHeight">4dp</item>
+        <item name="android:thumb">@mipmap/icon_sports_thumb</item>
+    </style>
+    <declare-styleable name="LongClickView">
+        <attr name="maxSeconds" format="integer" />
+        <attr name="annulusWidth" format="integer" />
+        <attr name="annulusColor" format="color" />
+        <attr name="delayMilliseconds" format="integer" />
+    </declare-styleable>
+    <style name="CustomCalendarView">
+        <item name="colorAccent">@color/color_main_green</item>
+
+    </style>
+
+    <style name="LoginCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/login_checkbox</item>
+    </style>
+    <style  name="RefreshStyle">
+        <!-- 下拉状态的图标设置 -->
+        <!-- 下拉状态图标尺寸大小-->
+        <item name="srlDrawableArrowSize">24dp</item>
+        <!-- 释放状态图标尺寸大小-->
+        <item name="srlDrawableProgressSize">24dp</item>
+
+        <!-- 上拉加载提示文字-->
+        <item name="srlTextLoading">客官莫急</item>
+        <!-- 上下拉状态提示文字设置-->
+        <item name="srlTextPulling">下拉进行刷新</item>
+        <!-- 松开刷新的文字设置-->
+        <item name="srlTextRelease">松开刷新</item>
+        <!-- 正在刷新中的状态文字设置-->
+        <item name="srlTextRefreshing">加载中...</item>
+        <!-- 刷新成功文字设置-->
+        <item name="srlTextFinish">数据刷新成功</item>
+    </style>
+</resources>

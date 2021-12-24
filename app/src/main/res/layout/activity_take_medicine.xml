@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.takeMedicine.TakeMedicineActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionText="保存"
+        app:actionTextColor="@color/color_main_green"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:iconActionImage="@mipmap/icon_add"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="添加提醒"
+        app:showAction="true"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:overScrollMode="never"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/device_alarm_clock_background"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="标题"
+                    android:textColor="@color/main_text_color"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/edtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="请输入标题,以便区分"
+                    android:lines="1"
+                    android:maxLength="30"
+                    android:padding="16dp"
+                    android:textColor="@color/bottom_nav_icon_dim"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/device_alarm_clock_background"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/ll_top">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="服用计划"
+                    android:textColor="@color/main_text_color"
+                    android:textSize="18sp" />
+
+                <com.example.xingliansdk.widget.SettingItemLayout
+                    android:id="@+id/settingNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:TextSize="14px"
+                    app:contentText="1次"
+                    app:contentTextSize="14px"
+                    app:layoutType="1"
+                    app:mtitleTextColor="@color/sub_text_color"
+                    app:styleImage="@mipmap/icon_device_wear"
+                    app:titleText="每天次数" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/ryIndex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:background="@drawable/device_alarm_clock_background"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/llPlan">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="更多"
+                    android:textColor="@color/main_text_color"
+                    android:textSize="18sp" />
+
+                <com.example.xingliansdk.widget.SettingItemLayout
+                    android:id="@+id/settingRepeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:TextSize="14px"
+                    app:contentText="每天"
+                    app:contentTextSize="14px"
+                    app:layoutType="1"
+                    app:mtitleTextColor="@color/sub_text_color"
+                    app:styleImage="@mipmap/icon_device_wear"
+                    app:titleText="重复" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_view" />
+
+                <com.example.xingliansdk.widget.SettingItemLayout
+                    android:id="@+id/settingStartTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:TextSize="14px"
+                    app:contentText="当前时间"
+                    app:contentTextSize="14px"
+                    app:layoutType="1"
+                    app:mtitleTextColor="@color/sub_text_color"
+                    app:styleImage="@mipmap/icon_device_wear"
+                    app:titleText="开始时间" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_view" />
+
+                <com.example.xingliansdk.widget.SettingItemLayout
+                    android:id="@+id/settingEndTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:TextSize="14px"
+                    app:contentText="永久"
+                    app:contentTextSize="14px"
+                    app:layoutType="1"
+                    app:mtitleTextColor="@color/sub_text_color"
+                    app:styleImage="@mipmap/icon_device_wear"
+                    app:titleText="结束时间" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

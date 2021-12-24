@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_garden"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.xingliansdk.ui.fragment.MainFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <!--        <action-->
+        <!--            android:id="@+id/action_mainFragment_to_deviceFragment"-->
+        <!--            app:destination="@id/deviceFragment" />-->
+        <!--        <action-->
+        <!--            android:id="@+id/action_mainFragment_to_meFragment"-->
+        <!--            app:destination="@id/meFragment" />-->
+        <!--        <action-->
+        <!--            android:id="@+id/action_mainFragment_to_motionMapFragment"-->
+        <!--            app:destination="@id/motionMapFragment" />-->
+        <!--        <action-->
+        <!--            android:id="@+id/action_MapFragment_to_GoalFragment"-->
+        <!--            app:destination="@id/GoalFragment"-->
+        <!--            app:popUpTo="@id/MapFragment"-->
+        <!--            app:popUpToInclusive="true" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.xingliansdk.ui.fragment.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_sleepDetailsActivity"
+            app:destination="@id/sleepDetailsActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_heartRateActivity"
+            app:destination="@id/heartRateActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/motionMapFragment"
+        android:name="com.example.xingliansdk.ui.fragment.MotionMapFragment"
+        android:label="MotionMapFragment">
+
+        <action
+            android:id="@+id/action_motionMapFragment_to_mapFragment"
+            app:destination="@id/MapFragment" />
+        <action
+            android:id="@+id/action_motionMapFragment_to_GoalFragment"
+            app:destination="@id/GoalFragment" />
+    </fragment>
+    <!--    <fragment-->
+    <!--        android:id="@+id/deviceFragment"-->
+    <!--        android:name="com.example.xingliansdk.ui.fragment.DeviceFragment"-->
+    <!--        android:label="DeviceFragment">-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_deviceFragment_to_moduleMeasurementListActivity"-->
+    <!--            app:destination="@id/moduleMeasurementListActivity" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_deviceFragment_to_bigDataIntervalActivity"-->
+    <!--            app:destination="@id/bigDataIntervalActivity" />-->
+    <!--    </fragment>-->
+    <fragment
+        android:id="@+id/meFragment"
+        android:name="com.example.xingliansdk.ui.fragment.MeFragment"
+        android:label="MeFragment">
+        <action
+            android:id="@+id/action_meFragment_to_deviceInformationActivity"
+            app:destination="@id/deviceInformationActivity" />
+        <action
+            android:id="@+id/action_meFragment_to_alarmClockListActivity"
+            app:destination="@id/alarmClockListActivity" />
+        <action
+            android:id="@+id/action_meFragment_to_settingWeatherActivity"
+            app:destination="@id/settingWeatherActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/testActivity"
+        android:name="com.example.xingliansdk.TestActivity"
+        android:label="activity_test"
+        tools:layout="@layout/activity_test" />
+    <activity
+        android:id="@+id/bleConnectActivity"
+        android:name="com.example.xingliansdk.ui.BleConnectActivity"
+        android:label="activity_ble_conne"
+        tools:layout="@layout/activity_ble_conne" />
+    <activity
+        android:id="@+id/sleepDetailsActivity"
+        android:name="com.example.xingliansdk.ui.sleep.SleepDetailsActivity"
+        android:label="activity_sleep_details"
+        tools:layout="@layout/activity_sleep_details" />
+    <activity
+        android:id="@+id/heartRateActivity"
+        android:name="com.example.xingliansdk.ui.heartrate.HeartRateActivity"
+        android:label="HeartRateActivity"
+        tools:layout="@layout/activity_heart_rate_o" />
+    <activity
+        android:id="@+id/deviceInformationActivity"
+        android:name="com.example.xingliansdk.ui.setting.DeviceInformationActivity"
+        android:label="activity_device_information"
+        tools:layout="@layout/activity_device_information" />
+    <activity
+        android:id="@+id/alarmClockListActivity"
+        android:name="com.example.xingliansdk.ui.setting.alarmClock.AlarmClockListActivity"
+        android:label="activity_alarm_clock_list"
+        tools:layout="@layout/activity_alarm_clock_list" />
+    <activity
+        android:id="@+id/settingWeatherActivity"
+        android:name="com.example.xingliansdk.ui.setting.SettingWeatherActivity"
+        android:label="activity_setting_weather"
+        tools:layout="@layout/activity_setting_weather" />
+    <activity
+        android:id="@+id/moduleMeasurementListActivity"
+        android:name="com.example.xingliansdk.ui.device.ModuleMeasurementListActivity"
+        android:label="ModuleMeasurementListActivity" />
+    <activity
+        android:id="@+id/bigDataIntervalActivity"
+        android:name="com.example.xingliansdk.ui.device.BigDataIntervalActivity"
+        android:label="activity_big_data_interval"
+        tools:layout="@layout/activity_big_data_interval" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/motionMapFragment"-->
+    <!--        android:name="com.example.xingliansdk.ui.fragment.MotionMapFragment"-->
+    <!--        android:label="MotionMapFragment" />-->
+    <fragment
+        android:id="@+id/GoalFragment"
+        android:name="com.example.xingliansdk.ui.fragment.map.GoalFragment"
+        android:label="activity_goal"
+        tools:layout="@layout/activity_goal"></fragment>
+    <fragment
+        android:id="@+id/MapFragment"
+        android:name="com.example.xingliansdk.ui.fragment.map.MapFragment"
+        android:label="fragment_movement_type"
+        tools:layout="@layout/fragment_movement_type">
+        <action
+            android:id="@+id/action_MapFragment_to_GoalFragment"
+            app:destination="@id/GoalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/permissions_fragment"
+        android:name="com.example.xingliansdk.ui.camera.fragments.PermissionsFragment"
+        android:label="PermissionsFragment">
+        <action
+            android:id="@+id/action_permissions_to_camera"
+            app:destination="@id/camera_fragment"
+            app:popUpTo="@id/permissions_fragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/camera_fragment"
+        android:name="com.example.xingliansdk.ui.camera.fragments.CameraFragment"
+        android:label="CameraFragment">
+
+        <action
+            android:id="@+id/action_camera_to_gallery"
+            app:destination="@id/gallery_fragment" />
+
+        <action
+            android:id="@+id/action_camera_to_permissions"
+            app:destination="@id/permissions_fragment"
+            app:popUpTo="@id/camera_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/gallery_fragment"
+        android:name="com.example.xingliansdk.ui.camera.fragments.GalleryFragment"
+        android:label="GalleryFragment" >
+        <argument
+            android:name="root_directory"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

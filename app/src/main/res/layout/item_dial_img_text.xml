@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        >
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="自定义"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp" />
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/imgDialCustomize"
+        android:src="@mipmap/icon_dial_zdy"
+        android:layout_marginLeft="16dp"
+        />
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:id="@+id/tvCustomize"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑"
+        android:gravity="center"
+        android:minWidth="78dp"
+        android:textColor="@color/color_main_green"
+        android:background="@drawable/bg_dial_green"
+        />
+</LinearLayout>

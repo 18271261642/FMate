@@ -1,0 +1,10 @@
+include ':PhoneAreaCodelibrary'
+include ':SNMapLibrary'
+include ':MPChartLib'
+include ':otalib'
+include ':net'
+include ':bluetooth'
+include ':JetpackMvvm'
+include ':app'
+
+rootProject.name = "XinglianApp"

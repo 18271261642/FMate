@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.example.xingliansdk.widget.SettingItemLayout
+        android:id="@+id/settingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:TextSize="18px"
+        app:contentText="08:00"
+        app:contentTextSize="18px"
+        app:layoutType="1"
+        app:mtitleTextColor="@color/sub_text_color"
+        app:titleText="第一次"/>
+</LinearLayout>

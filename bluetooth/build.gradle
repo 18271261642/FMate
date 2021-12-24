@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'androidx.navigation.safeargs'
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    testImplementation 'junit:junit:4.13'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    api 'no.nordicsemi.android.support.v18:scanner:1.5.0'
+    api 'com.github.orhanobut:hawk:2.0.1'
+//    api 'org.greenrobot:eventbus:3.1.1'
+}
+
+//task makeJar(type: Copy) {
+//    //删除存在的
+//    delete '../jar'
+//    //设置拷贝的文件 注意studio 版本不同文件目录不同
+//    from('build/intermediates/aar_main_jar/release')
+//    //设置打包jar存放位置
+//    into('../jar')
+//    //我们只关心classes.jar这个文件
+//    // 也就是from('build/intermediates/aar_main_jar/release')
+//    include('classes.jar')
+//    //重新命名
+//    rename('classes.jar', 'startLink-1.0.jar')
+//}
+//makeJar.dependsOn(build)

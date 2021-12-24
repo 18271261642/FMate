@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.sleep.details.SleepNightActivity">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionTextColor="@color/color_main_green"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="夜间睡眠"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+    <TextView
+        android:id="@+id/tvReferValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="35dp"
+        android:paddingBottom="8dp"
+        android:text="参考值:"
+        android:textColor="@color/sub_text_color"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text=""
+        android:gravity="center"
+        android:textColor="@color/main_text_color"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:text="正常"
+        android:textColor="@color/color_main_green" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/color_view" />
+
+        <WebView
+            android:id="@+id/tvHTML"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="32dp"
+            android:scrollbars="none"
+            />
+
+</LinearLayout>

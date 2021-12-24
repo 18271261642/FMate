@@ -1,0 +1,95 @@
+ext {
+    android = [
+            compileSdkVersion  : 30,
+            buildToolsVersion  : "30.0.2",
+            minSdkVersion      : 21,
+            targetSdkVersion   : 30,
+            versionCode        : 2,
+            versionName        : "1.0.1",
+            room_version       : '2.2.6',
+            isGooglePlayVersion: false
+    ]
+    supports = [
+            isSupportStrava          : true,
+            isSupportTmallGenie      : true,
+            isSupportDiet            : true,
+            isSupportLoginFromQQ     : true,
+            isSupportLoginFromWX     : true,
+            isSupportLoginFromTwitter: true
+    ]
+    mapApiKey = [
+            apiKeyGaodeMap : "ef2698e05ff8170fbd76f27721772f22",
+            apiKeyGoogleMap: "AIzaSyDwmewF127UgSSMfcBch9d7mhxJ1R9uDmQ",
+    ]
+    HTTP = [
+            HttpServer    : "http://www.starlinkmed.com:8089",
+            HttpServerDev : "https://starlinkmed.com:18086",
+            HttpServerChangSang : "https://test-health.vita-course.com",
+            appName     : "ai Health",
+            appNameDebug: "ai Health(测试版)"
+    ]
+    Libs = [
+            'multidex'                       : 'androidx.multidex:multidex:2.0.0'//分包处理
+//            , 'PermissionsKt'                : 'com.github.sembozdemir:PermissionsKt:1.0.0'
+            , 'BaseRecyclerViewAdapterHelper': 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta10'//一个强大并且灵活的RecyclerViewAdapter
+            , 'lifecycle-viewmodel'          : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+            , 'autosize'                     : 'me.jessyan:autosize:1.2.1'//头条适配方案
+//            , 'dfu'                          : 'no.nordicsemi.android:dfu:1.8.1'//dfu升级
+//            , 'hawk'                         : 'com.github.orhanobut:hawk:2.0.1'//
+            //  , 'MPAndroidChart'               : 'com.github.PhilJay:MPAndroidChart:v3.1.0'//官方的一个k线图
+            , 'SmartRefreshLayout'           : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2',
+            //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+            'SmartRefreshHeader'             : 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'  //没有使用特殊Header，可以不加这行
+            , 'immersionbar'                 : 'com.gyf.immersionbar:immersionbar:2.3.3'//头布局无heand
+            , 'Dialog'                       : 'com.github.q876625596:GenjiDialogV2:1.3.8' //基于kotlin的通用dialog
+            , 'PickerView'                   : 'com.contrarywind:Android-PickerView:4.1.9' //时间选择器
+            , 'switchbutton'                 : 'com.github.iielse:switchbutton:1.0.4' //仿ios开关
+            , 'eventbus'                     : 'org.greenrobot:eventbus:3.1.1'
+            , 'bugly'                        : 'com.tencent.bugly:crashreport:latest.release' //bug查询
+            , 'MagicIndicator'               : 'com.github.hackware1993:MagicIndicator:1.7.0'//指示器库
+            , 'glide'                        : 'com.github.bumptech.glide:glide:4.9.0'
+            , 'glide-transformations'        : 'jp.wasabeef:glide-transformations:2.0.1'
+            , 'FlycoTabLayout_Lib'           : 'com.github.li-xiaojun:FlycoTabLayout:2.0.6'
+//            , 'imagepicker'                  : 'com.lcw.library:imagepicker:2.2.1'//图片选择器
+            , 'advancedluban'                : 'me.shaohui.advancedluban:library:1.3.5'//图片压缩
+            // , 'pictureselector'              : 'io.github.lucksiege:pictureselector:v2.7.3-rc07'//最新的图片选择器
+            , 'pictureselector'              : 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'//最新的图片选择器
+            , 'navigation-ui'                : 'android.arch.navigation:navigation-ui-ktx:2.3.5'
+            , 'xxpermissions'                : 'com.github.getActivity:XXPermissions:13.2'//一个请求
+
+            //  , 'progressview'                             : 'com.hi-dhl:progressview:1.0.2' //自定义进度条
+//            , 'countrypicker'                : 'com.sahooz.library:countrypicker:2.0'//手机区号选择
+//            , 'room-runtime'                 : 'androidx.room:room-runtime:2.2.6'//room数据库
+//            , 'room-compiler'                : 'androidx.room:room-compiler:2.2.6'
+//            , 'room-ktx'                     : 'androidx.room:room-ktx:2.2.6'
+//            ,'navigation': 'androidx.navigation:navigation-runtime:2.3.0'            //navigation
+//            ,'navigation-fragment': "android.arch.navigation:navigation-fragment-ktx:2.3.0-alpha04"
+            //'navigation-ui' :"android.arch.navigation:navigation-ui-ktx:1.0.0-alpha04"
+//
+
+//            'rxeasyhttp'                   : 'com.zhouyou:rxeasyhttp:2.1.5'
+//            , 'autosize'                   : 'me.jessyan:autosize:1.1.2'//头条适配方案
+//            , 'advancedluban'              : 'me.shaohui.advancedluban:library:1.3.5'//图片压缩
+//            , 'glide'                      : 'com.github.bumptech.glide:glide:4.9.0'
+//            , 'glide-transformations'      : 'jp.wasabeef:glide-transformations:2.0.1'
+
+//            , 'PermissionsKt'              : 'com.github.sembozdemir:PermissionsKt:1.0.0'
+//            , 'material'                   : 'com.google.android.material:material:1.0.0',
+////            , 'rxandroid'          :  'io.reactivex.rxjava2:rxandroid:2.1.1'
+////            , 'rxbinding2'        :  'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+//            'networking'                   : 'com.amitshekhar.android:android-networking:1.0.2',
+//            'wechat'                       : 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+',//微信三方登录
+//            'hawk'                         : 'com.github.orhanobut:hawk:2.0.1',
+//            'databinding'                  : 'com.android.databinding:compiler:3.1.2',
+//            'multidex'                     : 'androidx.multidex:multidex:2.0.0',//分包处理
+//            'BaseRecyclerViewAdapterHelper': 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta10',//一个强大并且灵活的RecyclerViewAdapter
+//            'NiceImageView'                : 'com.github.SheHuan:NiceImageView:1.0.5',//图片圆角设置
+//            'Dialog'                       : 'com.github.q876625596:GenjiDialogV2:1.3.8', //基于kotlin的通用dialog
+//            'viewpager2'                   : 'androidx.viewpager2:viewpager2:1.0.0-alpha02',
+//            'FlycoTabLayout_Lib'           : 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar',
+//            'SmartRefreshLayout'           : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2',  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+//            'SmartRefreshHeader'           : 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'  //没有使用特殊Header，可以不加这行
+    ]
+
+    customLibs = Libs.values()
+}

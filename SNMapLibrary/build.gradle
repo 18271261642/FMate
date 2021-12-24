@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
+
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+
+
+    buildTypes {
+        release {
+            debuggable true
+            minifyEnabled false
+
+            manifestPlaceholders = [
+                    "apiKeyGaodeMap" : rootProject.ext.mapApiKey.apiKeyGaodeMap,
+                    "apiKeyGoogleMap": rootProject.ext.mapApiKey.apiKeyGoogleMap
+            ]
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            manifestPlaceholders = [
+                    "apiKeyGaodeMap" : rootProject.ext.mapApiKey.apiKeyGaodeMap,
+                    "apiKeyGoogleMap": rootProject.ext.mapApiKey.apiKeyGoogleMap
+            ]
+        }
+    }
+
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    //下面的本地jar包和这个是一体的
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    //谷歌地图(不包括定位)
+    api 'com.google.android.gms:play-services-maps:16.0.0'
+    api 'com.google.android.gms:play-services-location:16.0.0'
+    //高德地图
+//    api 'com.amap.api:3dmap:latest.integration'
+//    api 'com.amap.api:location:latest.integration'
+//    api 'com.amap.api:search:latest.integration'
+    api files('libs/AMap_Location_V4.7.1_20190803.jar')
+    api files('libs/AMap_Search_V6.9.3_20190722.jar')
+    api files('libs/Android_Map3D_SDK_V6.9.3_20191018.jar')
+}

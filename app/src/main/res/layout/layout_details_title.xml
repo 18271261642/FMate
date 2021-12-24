@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_height"
+    android:background="?attr/titleBackgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivDetailsTitleLeftIcon"
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/widget_size_5"
+            android:src="@mipmap/icon_arrow_left"
+            android:tint="?attr/titleIconColor"
+            tools:ignore="UseAppTint" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rbDetailsTitleZero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rectangle_white"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:padding="@dimen/widget_size_2"
+                android:paddingStart="@dimen/widget_size_10"
+                android:paddingEnd="@dimen/widget_size_10"
+                android:textColor="@color/text_radio_button_bg"
+                android:textSize="@dimen/text_size_14"
+                tools:text="日" />
+            <RadioButton
+                android:id="@+id/rbDetailsTitleFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rectangle_white"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:padding="@dimen/widget_size_2"
+                android:paddingStart="@dimen/widget_size_10"
+                android:paddingEnd="@dimen/widget_size_10"
+                android:textColor="@color/text_radio_button_bg"
+                android:textSize="@dimen/text_size_14"
+                tools:text="周" />
+
+            <RadioButton
+                android:id="@+id/rbDetailsTitleSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rectangle_white"
+                android:button="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:padding="@dimen/widget_size_2"
+                android:paddingStart="@dimen/widget_size_10"
+                android:paddingEnd="@dimen/widget_size_10"
+                android:textColor="@color/text_radio_button_bg"
+                android:textSize="@dimen/text_size_14"
+
+                tools:text="月" />
+
+            <RadioButton
+                android:id="@+id/rbDetailsTitleThird"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rectangle_white"
+                android:button="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:padding="@dimen/widget_size_2"
+                android:paddingStart="@dimen/widget_size_10"
+                android:paddingEnd="@dimen/widget_size_10"
+                android:textColor="@color/text_radio_button_bg"
+                android:textSize="@dimen/text_size_14"
+                tools:text="年" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+
+    </LinearLayout>
+
+</com.google.android.material.appbar.AppBarLayout>

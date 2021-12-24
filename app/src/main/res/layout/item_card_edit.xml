@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/imgDeleteAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:src="@mipmap/icon_card_dele"
+        />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/main_text_color"
+        android:drawablePadding="12dp"
+        android:text="运动记录"
+        android:padding="12dp"
+        />
+    <ImageView
+        android:id="@+id/imgDrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_card_press"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        />
+</LinearLayout>
+    <View
+        android:id="@+id/viewColor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_view"
+        android:layout_marginLeft="16dp"
+        />
+</LinearLayout>

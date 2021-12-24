@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.xingliansdk">
+
+    <dist:module dist:instant="true" /> <!-- 计歩 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" /> <!-- 读取联系人 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- 打电话|OV挂电话 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 读取电话状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 上架google play请移除 -->
+    <!-- 自动应答/android p 挂电话/接电话 -->
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" /> <!-- 读取短信 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" /> <!-- 允许修改网络状态的权限 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 允许修改wifi状态的权限 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 后台获取位置信息，若需后台定位则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 用于申请调用A-GPS模块,卫星定位加速 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- &lt;!&ndash;允许写设备缓存，用于问题排查&ndash;&gt; -->
+<!--    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"-->
+<!--        tools:ignore="ProtectedPermissions"-->
+<!--        />-->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" /> <!-- 允许写入扩展存储，用于写入缓存定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许读设备等信息，用于问题排查 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Declare features -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+<!--    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"-->
+<!--        tools:ignore="ProtectedPermissions" />-->
+    <uses-feature android:name="android.hardware.camera" /> <!-- Declare permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <queries>
+        <package android:name="com.tencent.mobileqq" />
+        <package android:name="com.tencent.mm" />
+        <package android:name="com.sina.weibo" />
+    </queries>
+    <!-- 表示当前项目已经适配了分区存储特性 -->
+    <meta-data
+        android:name="ScopedStorage"
+        android:value="true" />
+    <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
+
+    <application
+        android:name=".XingLianApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:maxAspectRatio="2.4"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.XinglianSDK">
+        <activity android:name=".AppStart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.fragment.map.share.ImgShareActivity"/>
+        <activity android:name=".ui.dial.DialIndexActivity" />
+        <activity android:name=".ui.dial.DialDetailsActivity" />
+        <activity android:name=".ui.dial.CustomizeDialActivity" />
+        <activity android:name=".ui.dial.DialMarketActivity" />
+        <activity android:name=".ui.setting.account.FindPhoneMainActivity" />
+        <activity android:name=".ui.setting.account.UpPasswordActivity" />
+        <activity android:name=".ui.setting.account.AccountActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
+        <activity
+            android:name=".ui.problemsFeedback.ProblemsFeedbackActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.web.WebActivity" />
+        <activity android:name=".ui.login.SureLogOutActivity" />
+        <activity android:name=".ui.login.LogOutCodeActivity" />
+        <activity android:name=".ui.login.LogOutActivity" />
+        <activity android:name=".ui.login.PasswordActivity" />
+        <activity android:name=".ui.setting.heartRateAlarm.HeartRateAlarmActivity" />
+        <activity android:name=".ui.setting.flash.FlashActivity" />
+        <activity android:name=".ui.camera.CameraActivity" />
+        <activity android:name=".ui.setting.DoNotDisturbActivity" />
+        <activity android:name=".ui.setting.FeedbackActivity" />
+        <activity android:name=".ui.setting.AboutActivity" />
+        <activity android:name=".ui.setting.InfRemindActivity" />
+        <activity android:name=".ui.sleep.details.SleepNightActivity" />
+        <activity android:name=".ui.deviceSport.DeviceSportChartActivity" />
+        <activity android:name=".ui.exerciseRecord.ExerciseRecordActivity" />
+        <activity android:name=".ui.fragment.home.CardEditActivity" />
+        <activity android:name=".ui.fragment.map.ExerciseTypeActivity" />
+        <activity android:name=".ui.setting.SportsGoalActivity" />
+        <activity android:name=".ui.setting.UnitActivity" />
+        <activity android:name=".ui.setting.takeMedicine.TakeMedicineRepeatActivity" />
+        <activity android:name=".ui.setting.takeMedicine.TakeMedicineActivity" />
+        <activity android:name=".ui.setting.takeMedicine.TakeMedicineIndexActivity" /> <!-- <activity android:name=".ui.setting.MyDeviceActivity"></activity> -->
+        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.heartrate.RealTimeHeartRateActivity" />
+        <activity android:name=".ui.device.OtherSettingActivity" />
+        <activity android:name=".ui.device.BigDataIntervalActivity" />
+        <activity android:name=".ui.device.ModuleMeasurementListActivity" />
+        <activity android:name=".ui.setting.SettingWeatherActivity" />
+        <activity android:name=".ui.setting.schedule.ScheduleListActivity" />
+        <activity android:name=".ui.setting.alarmClock.AlarmClockListActivity" />
+        <activity android:name=".ui.setting.alarmClock.AlarmClockActivity" />
+        <activity android:name=".ui.setting.DeviceInformationActivity" />
+        <activity android:name=".ui.sleep.SleepDetailsActivity" />
+        <activity android:name=".ui.bloodOxygen.BloodOxygenActivity" />
+        <activity android:name=".ui.pressure.PressureActivity" />
+        <activity android:name=".ui.weight.WeightActivity" />
+        <activity android:name=".ui.login.ForgetPasswordActivity" />
+        <activity android:name=".ui.setting.account.BindNewPhoneActivity" />
+        <activity android:name=".ui.setting.account.PasswordCheckActivity" />
+        <activity android:name=".ui.setting.account.AppealActivity" />
+        <activity
+            android:name=".ui.heartrate.HeartRateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="ef2698e05ff8170fbd76f27721772f22" />
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.BloodPressureActivity" />
+        <activity android:name=".ui.MotionActivity" />
+        <activity android:name=".ui.Ble5Activity" />
+        <activity android:name=".ui.TemperatureActivity" />
+        <activity android:name=".ui.fragment.map.RunningActivity" /> <!-- <activity android:name=".WriteRedActivity" /> -->
+        <!-- <activity android:name=".MainActivity2" />&lt;!&ndash;测试俩个心率用的&ndash;&gt; -->
+        <!-- <activity android:name=".dfu.Notification.NotificationActivity" /> -->
+        <activity android:name=".dfu.DFUActivity" /> <!-- <activity android:name=".MainHomeActivity" /> -->
+        <!-- <activity android:name=".TestActivity" /> -->
+        <activity android:name=".ui.setting.MyDeviceActivity" /> <!-- <activity android:name=".ui.setting.SportsGoalActivity"> -->
+        <activity android:name=".ui.setting.SleepGoalActivity" />
+        <activity android:name=".ui.setting.schedule.ScheduleActivity" />
+        <activity android:name=".ui.login.GoalActivity" />
+        <activity
+            android:name=".MainHomeActivity"
+            android:launchMode="singleTop" /> <!-- <activity android:name=".MapJavaActivity" /> -->
+        <activity android:name=".ui.temp.TempActivity" />
+
+        <activity android:name=".ui.BleConnectActivity" /> <!-- 地图运动记录 -->
+        <activity android:name=".ui.fragment.map.newmap.AmapHistorySportActivity" /> <!-- 展示轨迹 -->
+        <activity android:name=".ui.fragment.map.newmap.AmapSportRecordActivity" />
+
+        <receiver
+            android:name=".broadcast.BleBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".broadcast.BluetoothMonitorReceiver"
+            android:enabled="true"
+            android:exported="true"
+            />
+        <!-- <receiver android:name=".service.NetworkStateReceive" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" -->
+        <!-- /> -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <provider
+            android:name=".base.Ktx"
+            android:authorities="${applicationId}.service.NetworkStateReceive"
+            android:exported="false" />
+
+        <service
+            android:name=".service.AppService"
+            android:configChanges="locale" />
+        <service
+            android:name=".service.WriteLogIntentService"
+            android:configChanges="locale" />
+        <service
+            android:name=".service.SNAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service> <!-- 各大三方app 通知 -->
+        <service
+            android:name=".service.reminder.SNNotificationService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service> <!-- 来电提醒 -->
+        <!-- 步数传感器 -->
+        <service
+            android:name=".ui.fragment.service.StepService"
+            android:priority="1000">
+            <intent-filter>
+
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_TIME_TICK" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".broadcast.CallReminderReceive">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver> <!-- 短信提醒 -->
+        <receiver
+            android:name=".broadcast.SmsReminderReceive"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_camerx_paths" />
+        </provider>
+        <!--三方分享-->
+        <activity android:name=".wxapi.WXEntryActivity"
+            />
+        <!--QQ三方分享-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1112057867" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+    </application>
+
+</manifest>

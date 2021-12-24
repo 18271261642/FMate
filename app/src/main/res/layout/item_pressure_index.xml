@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="压力参考值"
+        android:padding="16dp"
+        android:textColor="@color/main_text_color"
+        />
+    <com.example.xingliansdk.widget.IndexItemLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentText_index="1-29"
+        app:tvTypeText_index="放松"
+        app:contentTextSize_index="18px"
+        app:TextSize_index="14px"
+        app:styleImage_index="@drawable/round_bloodpressure_low"
+        app:tvTypeColor_index="@color/color_blood_pressure_low"
+        />
+    <com.example.xingliansdk.widget.IndexItemLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentText_index="30-59"
+        app:tvTypeText_index="正常"
+        app:contentTextSize_index="18px"
+        app:TextSize_index="14px"
+        app:styleImage_index="@drawable/round_bloodpressure_normal"
+        app:tvTypeColor_index="@color/color_blood_pressure_normal"
+        />
+    <com.example.xingliansdk.widget.IndexItemLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentText_index="60-79"
+        app:tvTypeText_index="中等"
+        app:contentTextSize_index="18px"
+        app:TextSize_index="14px"
+        app:tvTypeColor_index="@color/color_blood_pressure_one"
+        app:styleImage_index="@drawable/round_bloodpressure_one_level"
+        />
+
+    <com.example.xingliansdk.widget.IndexItemLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentText_index="80-99"
+        app:tvTypeText_index="偏高"
+        app:contentTextSize_index="18px"
+        app:TextSize_index="14px"
+        app:styleImage_index="@drawable/round_bloodpressure_three_level"
+        app:tvTypeColor_index="@color/color_blood_pressure_three"
+        />
+
+</LinearLayout>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.heartrate.HeartRateActivity">
+
+<!--    <include-->
+<!--        android:id="@+id/include_title"-->
+<!--        layout="@layout/title_bar_two" />-->
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:homeBackClick="true"
+        app:iconActionImage="@mipmap/icon_calender"
+        app:midtitle="心率"
+        app:showActionImage="true"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:overScrollMode="never"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_marginLeft="32dp"
+                android:id="@+id/img_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:src="@mipmap/icon_arrow_right"
+                android:rotation="180"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTypeTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                android:text=""
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/img_left"
+                app:layout_constraintRight_toLeftOf="@+id/img_right"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_marginRight="32dp"
+                android:id="@+id/img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:src="@mipmap/icon_arrow_right"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/llType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/ConsTitle">
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/main_text_color"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tvHeart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:textColor="@color/main_text_color"
+                android:textSize="36sp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llType">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/harts_hrr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_view" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="1dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvMax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="最大值"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvMin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="最小值"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvAvg"
+            app:layout_constraintStart_toEndOf="@+id/tvMax"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAvg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="平均值"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvMin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMaxNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="0次/分钟"
+            android:textSize="24sp"
+            android:textColor="@color/main_text_color"
+            app:layout_constraintEnd_toStartOf="@+id/tvMin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMax" />
+
+        <TextView
+            android:id="@+id/tvMinNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="0次/分钟"
+            android:textColor="@color/main_text_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvAvgNum"
+            app:layout_constraintStart_toEndOf="@+id/tvMaxNum"
+            app:layout_constraintTop_toBottomOf="@+id/tvMin" />
+
+        <TextView
+
+            android:id="@+id/tvAvgNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="0次/分钟"
+            android:textColor="@color/main_text_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvMin"
+            app:layout_constraintTop_toBottomOf="@+id/tvAvg" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tvMax"
+            app:layout_constraintRight_toRightOf="@+id/tvMin"
+            app:layout_constraintTop_toTopOf="@+id/tvMax"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMinNum"
+            android:background="@color/color_view"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tvMin"
+            app:layout_constraintRight_toRightOf="@+id/tvAvg"
+            app:layout_constraintTop_toTopOf="@+id/tvMax"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMinNum"
+            android:background="@color/color_view"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/item_heart_index"
+        android:layout_marginBottom="32dp"
+        />
+        <TextView
+            android:id="@+id/tvYouKnow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="你知道吗?"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ryPopularScience"
+            android:overScrollMode="never"
+            android:background="@drawable/device_alarm_clock_background"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            />
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

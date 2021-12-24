@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_all"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:background="#CCCCCC" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#50CCCCCC"
+        android:padding="@dimen/dp_10"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:id="@+id/ll_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_launcher"
+                android:gravity="center"
+                android:text="睡眠"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最近18:00:"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="119/79mmHg"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_chart"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_below="@+id/ll_top"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="#FF9912"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="230"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31.5dp"
+                    android:text="180"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31.5dp"
+                    android:text="130"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31.5dp"
+                    android:text="80"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31.5dp"
+                    android:text="30"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </LinearLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_no"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:text="无数据"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_below="@+id/ll_top"
+            android:orientation="horizontal"/>
+    </RelativeLayout>
+</LinearLayout>

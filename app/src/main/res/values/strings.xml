@@ -1,0 +1,121 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_release">ai Health</string>
+    <string name="app_name_debug">ai Health(测试版)</string>
+    <string name="text_sure">确定</string>
+    <string name="text_set">设置</string>
+    <string name="text_cancel">取消</string>
+    <string name="fill_in_the_reason_for_the_inability_to_serve">填写无法服务原因</string>
+    <string name="lack_of_necessary_permissions">缺少必要权限\n将导致部分功能无法正常使用</string>
+    <string name="i_know">我知道了</string>
+    <string name="go_to_set">去设置</string>
+    <string name="unit_steps">步</string>
+    <string name="target_step">目标步数</string>
+    <string name="course">里程 </string>
+    <string name="big_calories">卡路</string>
+    <string name="content_total_number_of_steps">总步数: %02d</string>
+    <string name="title_today">今天</string>
+    <string name="content_exit">退出</string>
+    <string name="content_confirm">确定</string>
+    <string name="content_cancel">取消</string>
+    <string name="content_dialog_title_moving_target">运动目标</string>
+    <string name="content_training">建议您走8000步<!--根据世界卫生组织建议，成人需要每天进行中等强度训练40分钟，相当于快走8000步--></string>
+    <string name="step">步</string>
+    <string name="content_step_format">%d 步</string>
+    <string name="content_permission_notification">[通知栏读取权限] 用于推送内容到手环上</string>
+    <string name="content_authorized_to_use">请必须允许授权这些权限才能继续使用:</string>
+    <string name="content_authorized">授权</string>
+    <string name="content_approve">允许</string>
+    <string name="content_want_reset">我们即将清除你手环的所有设置与数据，且无法恢复，确定恢复设备的出厂设置？</string>
+    <string name="content_delete_device">我们即将清除你APP与手环的所有设置与数据，并删除配对设备,是否删除设备?</string>
+    <string name="content_clean_cache">是否清除缓存数据?</string>
+    <string name="content_want_disconnect">是否断开app与蓝牙的链接并关机设备</string>
+    <string name="content_band_call_phone">手环正在寻找本手机…</string>
+    <string name="content_find_phone">找手机</string>
+    <string name="content_use_for_find_phone">用于[手环寻找手机]功能</string>
+    <string name="content_use_for_sport">用于[运动等信息查看]功能</string>
+    <string name="content_notify">用于[运动等信息查看]功能</string>
+    <string name="content_unknown_number">陌生号码</string>
+    <string name="content_permission_notification_enable">[通知推送] 权限已被关闭, 请开启, 否则会导致 查找手环 、通知栏显示运动数据等功能无法正常工作</string>
+    <string name="content_permission_location">[位置访问] 用于查找手环的位置并连接</string>
+    <string-array name="weather_type">
+        <item>晴</item>
+        <item>多云</item>
+        <item>阴 </item>
+        <item>雨</item>
+        <item>雪</item>
+        <item>晴天</item>
+    </string-array>
+    <string name="content_description">消息推送监听服务：\n监听QQ、微信、微博、Facebook、Twitter、Line、Linkedln、GooglePlus推送到通知栏的信息，并发送给手环</string>
+    <string name="Incoming_call">来电</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string-array name="hour_format">
+        <item>24小时制式</item>
+        <item>12小时制式</item>
+    </string-array>
+    <string-array name="unit_format">
+        <item>公制</item>
+        <item>英制</item>
+    </string-array>
+    <string-array name="wear_hand_array">
+        <item>左手</item>
+        <item>右手</item>
+    </string-array>
+    <string-array name="temperature_array">
+        <item>摄氏度</item>
+        <item>华摄氏度</item>
+    </string-array>
+    <string name="twenty_four_hour">24小时制式</string>
+    <string name="twelve_hour">12小时制式</string>
+    <string name="metric_system">公制</string>
+    <string name="Imperial">英制</string>
+    <string name="left_hand">左手</string>
+    <string name="right_hand">右手</string>
+    <string name="Celsius">摄氏度</string>
+    <string name="fahrenheit">华摄氏度</string>
+    <string name="set_successfully">设置成功</string>
+
+
+    <string name="unit_cal">kcal</string>
+    <string name="unit_km">km</string>
+    <string name="unit_km_h">km/h</string>
+    <string name="unit_mile">mile</string>
+    <string name="unit_mile_h">mile/h</string>
+    <string name="unit_C">℃</string>
+    <string name="unit_F">℉</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_pounds">pound</string>
+    <string name="unit_version">V %1$s</string>
+    <string name="unit_cm">cm</string>
+    <string name="temp_low"><![CDATA[体温<36.0°C]]></string>
+    <string name="temp_normal"><![CDATA[36.0°C≤体温<37.3°C]]></string>
+    <string name="temp_low_fever">37.3°C≤体温≤38.0°C</string>
+    <string name="temp_moderate_fever"><![CDATA[38.0°C<体温≤39.0°C]]></string>
+    <string name="temp_high_fever"><![CDATA[39.0°C<体温≤41.0°C]]></string>
+    <string name="temp_ultrahigh_fever"><![CDATA[体温>41.0°C]]></string>
+
+    <string name="weight_low"><![CDATA[BMI<18.5]]></string>
+    <string name="weight_normal"><![CDATA[18.5≤BMI<24.0]]></string>
+    <string name="weight_low_fever"><![CDATA[24.0≤BMI<28]]></string>
+    <string name="weight_level">BMI≥28</string>
+    <string name="mean_resting_heart_rate">静息心率平均值：60-80次/分钟</string>
+    <string name="light_sleep_55"><![CDATA[<55%]]></string>
+    <string name="blood_oxygen_90">SpO2≥90%</string>
+    <string name="blood_oxygen_70_90"><![CDATA[70%≤SpO2<90%]]></string>
+    <string name="blood_oxygen_70"><![CDATA[SpO2<70%]]></string>
+    <string name="blood_oxygen_index_title">血氧饱和度（SpO2）参考值</string>
+    <string name="diastolic_pressure_85"><![CDATA[舒张压<85mmHg]]></string>
+    <string name="systolic_pressure_130"><![CDATA[收缩压<130mmHg]]></string>
+    <string name="systolic_pressure_130_139">收缩压130～139mmHg</string>
+    <string name="edt_password_number_text">密码为6-12位数字及字母任意组合</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="bind_fail">绑定失败</string>
+    <string name="err_network_delete">网络出问题了，暂时无法删除哦～</string>
+    <string name="cood_2001">你的账号已在其他设备登录，如非本人操作，请尽快修改密码。</string>
+
+    <!--拍照的-->
+    <string name="app_file">CameraX_fill</string>
+    <string name="share_hint">Share using</string>
+    <string name="delete_dialog">Delete current photo?</string>
+    <string name="delete_title">Confirm</string>
+</resources>

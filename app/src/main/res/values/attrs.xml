@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="titleBackgroundColor" format="reference|color" />
+    <attr name="titleIconColor" format="reference|color" />
+    <attr name="lineColor" format="reference|color" />
+    <declare-styleable name="NumberPicker">
+        <attr name="np_width" format="dimension" />
+        <attr name="np_height" format="dimension" />
+        <attr name="np_dividerColor" format="color" />
+        <attr name="np_dividerDistance" format="dimension" />
+        <attr name="np_dividerThickness" format="dimension" />
+        <attr name="np_formatter" format="string" />
+        <attr name="np_max" format="integer" />
+        <attr name="np_min" format="integer" />
+        <attr name="np_order" format="enum">
+            <enum name="ascending" value="0" />
+            <enum name="descending" value="1" />
+        </attr>
+        <attr name="np_orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="np_selectedTextColor" format="color" />
+        <attr name="np_selectedTextSize" format="dimension" />
+        <attr name="np_textColor" format="color" />
+        <attr name="np_textSize" format="dimension" />
+        <attr name="np_typeface" format="string" />
+        <attr name="np_value" format="integer" />
+        <attr name="np_wheelItemCount" format="integer" />
+        <attr name="np_wrapSelectorWheel" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SleepCartogramView">
+        <attr name="sc_textColor" format="color" />
+        <attr name="sc_textSize" format="dimension" />
+        <attr name="sc_spacing" format="dimension" />
+        <attr name="sc_xLineColor" format="color" />
+        <attr name="sc_xLineHeight" format="dimension" />
+        <attr name="sc_bodyColor" format="color" />
+        <attr name="sc_chooseColor" format="color" />
+        <attr name="sc_textMarginTop" format="dimension" />
+        <attr name="sc_textMarginBottom" format="dimension" />
+        <attr name="sc_paddingTop" format="dimension" />
+    </declare-styleable>
+
+    <!--睡眠质量分布-->
+    <declare-styleable name="SleepQualityView">
+        <!--线条宽度百分比-->
+        <attr name="sq_widthRatio" format="float" />
+        <!--线条圆角百分比-->
+        <attr name="sq_vwidthRatio" format="float" />
+        <!--线条距离y轴的距离-->
+        <attr name="sq_marginYRatio" format="float" />
+        <!--x轴文字的大小百分比-->
+        <attr name="sq_xTextRatio" format="float" />
+        <!--y轴文字的大小百分比-->
+        <attr name="sq_yTextRatio" format="float" />
+        <!--画板右边距百分比-->
+        <attr name="sq_marginRightRatio" format="float" />
+        <!--画板左边距百分比-->
+        <attr name="sq_marginLeftRatio" format="float" />
+        <!--画板上边距百分比-->
+        <attr name="sq_marginTopRatio" format="float" />
+        <!--画板下边距百分比-->
+        <attr name="sq_marginBottomRatio" format="float" />
+        <!--进度动画持续时间-->
+        <attr name="sq_animationTime" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="swipeEnable" format="boolean"/>
+        <attr name="ios" format="boolean"/>
+        <attr name="leftSwipe" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="customRefreshHeader">
+        <!--  下拉文字设置-->
+        <attr name="cus_pullText" format="string" />
+        <!--  释放状态文字设置-->
+        <attr name="cus_ReleaseText" format="string" />
+        <!--  刷新文字设置-->
+        <attr name="cus_RefreshText" format="string" />
+        <!--  文字颜色设置-->
+        <attr name="cus_TextColor" format="color" />
+        <!--  文字字体大小-->
+        <attr name="cus_TextSize" format="dimension" />
+        <!--  是否显示文本-->
+        <attr name="cus_isDisplayText" format="boolean" />
+        <!--  图标宽-->
+        <attr name="cus_iconWidth" format="dimension" />
+        <!--  图标高-->
+        <attr name="cus_iconHeight" format="dimension" />
+    </declare-styleable>
+        <declare-styleable name="DialProgressBar">
+            <attr name="dial_progress" format="integer"/>
+            <attr name="dial_max" format="integer"/>
+            <attr name="dial_type">
+                <enum name="NORMAL_TYPE" value="1"/>
+                <enum name="ALERT_TYPE" value="2"/>
+            </attr>
+        </declare-styleable>
+
+
+    <declare-styleable name="TasksCompletedView">    
+        <attr name="radius" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="circleColor" format="color" /> 
+        <attr name="ringColor" format="color" />   
+        <attr name="certreIcon" format="reference" />   
+        <attr name="completedview_lock" format="boolean" />
+        <attr name="taskView_txt_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="PressView">   
+        <attr name="AnimSporisShowProgress" format="boolean" />
+        <attr name="AnimSporShowStarttext" format="reference|string" />               
+        <attr name="AnimSporShowEndText" format="reference|string" />
+        <attr name="AnimSporShowEndTextTip" format="reference|string" />               
+        <attr name="progressColor" format="color" />
+         <attr name="start_txt_color" format="color"/>       
+         <attr name="status_circle_color" format="color"/>   
+    </declare-styleable>
+    <!--一个滑动-->
+    <declare-styleable name="SlideUnlockView">
+        <attr name="trackBgColor" format="color" />
+        <attr name="trackRoundCorner" format="dimension" />
+        <attr name="thumbBgColor" format="color" />
+        <attr name="thumbPadding" format="dimension" />
+        <attr name="thumbTint" format="color" />
+        <attr name="thumbDrawable" format="reference" />
+        <attr name="thumbWidth" format="dimension" />
+        <attr name="thumbText" format="string" />
+        <attr name="thumbTextStyle" format="enum">
+            <enum name="DEFAULT" value="0" />
+            <enum name="BOLD" value="1" />
+        </attr>
+        <attr name="thumbType" format="enum">
+            <enum name="TEXT" value="0" />
+            <enum name="DRAWABLE" value="1" />
+        </attr>
+        <attr name="thumbShape">
+            <enum name="CIRCLE" value="0" />
+            <enum name="SQUARE" value="1" />
+        </attr>
+        <attr name="resilienceDuration" format="integer" />
+        <attr name="unlockLockText" format="string" />
+        <attr name="unlockLockTextSize" format="dimension" />
+        <attr name="unlockLockTextColor" format="color" />
+        <attr name="unlockLockTextShineColor" format="color" />
+        <attr name="unlockLockTextStyle" format="enum">
+            <enum name="DEFAULT" value="0" />
+            <enum name="BOLD" value="1" />
+        </attr>
+        <attr name="shineDuration" format="integer" />
+        <attr name="shineEffect" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="DownloadProgressButton">
+        <attr name="download_radius" format="float"/>
+        <attr name="backgroud_color" format="color"/>
+        <attr name="backgroud_second_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="text_covercolor" format="color"/>
+        <attr name="backgroud_strokeWidth" format="dimension"/>
+        <attr name="text_normal" format="string"/>
+        <attr name="text_downing" format="string"/>
+        <attr name="text_pause" format="string"/>
+        <attr name="text_finish" format="string"/>
+        <attr name="animation_duration" format="integer"/>
+    </declare-styleable>
+</resources>

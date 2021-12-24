@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_alignParentBottom="true"
+    tools:context=".ui.setting.alarmClock.AlarmClockWeekActivity">
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionText="保存"
+        app:actionTextColor="@color/color_main_green"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="重复"
+        app:showAction="true"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/device_alarm_clock_background"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="@dimen/dp_10">
+       
+            <RadioButton
+                android:id="@+id/rad_sunday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:text="每周日" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                android:layout_marginLeft="16dp"
+                />
+            <RadioButton
+                android:id="@+id/rad_monday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:drawableRight="@mipmap/right_back"
+                android:button="@null"
+                android:checked="true"
+                android:text="每周一" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_view"
+                    android:layout_marginLeft="16dp"
+                    />
+            <RadioButton
+                android:id="@+id/rad_tuesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:text="每周二" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                android:layout_marginLeft="16dp"
+                />
+            <RadioButton
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:id="@+id/rad_wednesday"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="每周三" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                android:layout_marginLeft="16dp"
+                />
+            <RadioButton
+                android:id="@+id/rad_thursday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:text="每周四" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                android:layout_marginLeft="16dp"
+                />
+            <RadioButton
+                android:id="@+id/rad_friday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:text="每周五" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_view"
+                android:layout_marginLeft="16dp"
+                />
+            <RadioButton
+                android:id="@+id/rad_saturday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layoutDirection="rtl"
+                android:textDirection="ltr"
+                android:padding="12dp"
+                android:textColor="@color/sub_text_color"
+                android:text="每周六" />
+     
+
+
+        </LinearLayout>
+
+</LinearLayout>

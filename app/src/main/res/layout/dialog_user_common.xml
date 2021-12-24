@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="250dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center">
+
+        <TextView
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/tvUserCommonExit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_height"
+            android:paddingStart="@dimen/widget_size_20"
+            android:paddingEnd="@dimen/widget_size_20"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:text="@string/content_cancel"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/tvUserCommonConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_height"
+            android:paddingStart="@dimen/widget_size_20"
+            android:paddingEnd="@dimen/widget_size_20"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/content_confirm"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_size_1"
+        android:background="@color/grey"/>
+
+    <TextView
+        android:id="@+id/tvUserCommonTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/widget_size_10"
+        android:text="@string/content_dialog_title_moving_target"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/grey"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvUserCommonContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/widget_size_10"
+        android:text="@string/content_training"
+        android:textSize="@dimen/text_size_10"
+        android:textColor="@color/grey"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/widget_size_20"
+        android:orientation="horizontal">
+
+        <com.example.xingliansdk.view.NumberPicker
+            android:id="@+id/npUserCommonPicker"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            app:np_dividerThickness="0dp"
+            app:np_formatter="%03d"
+            app:np_max="1024"
+            app:np_min="0000"
+            app:np_selectedTextColor="#000000"
+            app:np_selectedTextSize="25dp"
+            app:np_textColor="#8F8F8F"
+            app:np_textSize="20dp"
+            app:np_value="0"
+            app:np_wrapSelectorWheel="true" />
+
+        <TextView
+            android:id="@+id/tvUserCommonUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/npUserCommonPicker"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/text_size_20"
+            android:text="@string/unit_cm"
+            android:textSize="@dimen/text_size_25" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,187 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.example.xingliansdk"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 15
+        versionName "1.5.1"
+
+        rootProject.ext.supports.each{
+            buildConfigField "boolean", String.valueOf(it.key) ,   ""+it.value+""
+        }
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi"
+        }
+
+        buildConfigField "boolean", "isGooglePlayVersion" ,   ""+rootProject.ext.android.isGooglePlayVersion+""
+        buildConfigField "String", "baseUrl" , "\"${rootProject.ext.HTTP.HttpServer}\""
+        buildConfigField "String", "baseUrlDev" , "\"${rootProject.ext.HTTP.HttpServerDev}\""
+        buildConfigField "String", "baseUrlChangSang" , "\"${rootProject.ext.HTTP.HttpServerChangSang}\""
+
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../SDK.jks")
+            storePassword "526520"
+            keyAlias "sdk"
+            keyPassword "526520"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+
+            storeFile file("../SDK.jks")
+            storePassword "526520"
+            keyAlias 'sdk'
+            keyPassword "526520"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            //添加buildConfig文件变量，根据编译成不同的版本不同值
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            signingConfig signingConfigs.release
+            minifyEnabled false
+         //   proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources false
+
+            resValue "string", "app_name", "\"${rootProject.ext.HTTP.appName}\""
+        }
+
+        debug {
+            resValue "string", "app_name", "\"${rootProject.ext.HTTP.appNameDebug}\""
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+//    dataBinding {
+//        enabled = true
+//    }
+//    buildFeatures {
+//        enabled = true
+//    }
+    //使用Kotlin实验特性
+    androidExtensions {
+        experimental = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/QWeather_Public_Android_V4.4.jar')
+    implementation project(path: ':MPChartLib')
+    implementation project(path: ':SNMapLibrary')
+    implementation files('libs\\open_sdk_3.5.7.4_r1bc9afe_lite.jar')
+//    implementation files('libs\\AMapTrack_1.4.0_AMapLocation_5.2.0_20210222.jar')
+    def room_version = "2.2.6"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation files('libs/jxl-2.6.12.jar')
+    implementation 'androidx.room:room-runtime:2.2.5'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    //3D地图so及jar
+//    implementation 'com.amap.api:3dmap:latest.integration'
+////    //定位功能
+//    implementation 'com.amap.api:location:latest.integration'
+//    //搜索功能
+//    implementation 'com.amap.api:search:latest.integration'
+    // 或者直接引用最新版本
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    // 某个版本的高德地图由于Android11会崩溃
+//    implementation 'com.amap.api:3dmap:7.7.0'
+//    implementation 'com.amap.api:location:7.7.0'
+//    implementation 'com.amap.api:search:5.2.0'
+    //room数据库
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt  "androidx.room:room-compiler:$room_version"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+    def paging_version = "2.1.2"
+    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+    // alternatively - without Android dependencies for testing
+    testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+    // optional - RxJava support
+    implementation "androidx.paging:paging-rxjava2:$paging_version" // For Kotlin use paging-rxjava2-ktx
+    implementation 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    def nav_version = "2.3.5"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    def camerax_version = '1.1.0-alpha04'
+//    implementation "androidx.camera:camera-core:$camerax_version"
+    // CameraX Camera2 extensions
+//    implementation "androidx.camera:camera-camera2:$camerax_version"
+    // CameraX Lifecycle library
+//    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    // CameraX View class
+//    implementation 'androidx.camera:camera-view:1.0.0-alpha24'
+    //WindowManager
+    implementation 'androidx.window:window:1.0.0-alpha06'
+    implementation 'androidx.camera:camera-view:1.0.0-alpha23'
+    implementation "androidx.camera:camera-lifecycle:1.1.0-alpha03"
+    implementation "androidx.camera:camera-core:1.1.0-alpha03"
+    implementation "androidx.camera:camera-camera2:1.1.0-alpha03"
+    //微博分享
+    implementation 'io.github.sinaweibosdk:core:11.11.1@aar'
+
+    implementation project(path: ':bluetooth') //ble框架
+    implementation project(path: ':JetpackMvvm') //一个三方的kt项目框架
+    implementation project(path: ':net')//网络框架
+    implementation project(path:':otalib')//dfu
+    implementation project(path:':PhoneAreaCodelibrary')
+    implementation customLibs
+    //annotationProcessor 'androidx.room:room-compiler:2.2.5'
+
+}
+
+ 
