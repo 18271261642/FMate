@@ -7,6 +7,8 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.ui.login.LoginActivity
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
@@ -39,7 +41,7 @@ fun <T> ViewModel.requestCustomWeight(
                     success.invoke(it.data)
                 }
                 2001 -> {
-                    ShowToast.showToastLong(context.getString(R.string.cood_2001))
+                    ShowToast.showToastLong(context.getString(R.string.cood_2001),5 * 1000)
                     if(Hawk.get<LoginBean>(Config.database.USER_INFO)==null)
                         Hawk.put(Config.database.USER_INFO,LoginBean())
                     else {
@@ -49,7 +51,10 @@ fun <T> ViewModel.requestCustomWeight(
                     }
                     BLEManager.getInstance().disconnectDevice(Hawk.get("address"))
                     BLEManager.getInstance().dataDispatcher.clearAll()
+                   // JumpUtil.startLoginActivity(XingLianApplication.getXingLianApplication())
                     JumpUtil.startLoginActivity(XingLianApplication.getXingLianApplication())
+                    AppActivityManager.getInstance()
+                        .popAllActivityExceptOne(LoginActivity::class.java)
                 }
                 0->
                 {

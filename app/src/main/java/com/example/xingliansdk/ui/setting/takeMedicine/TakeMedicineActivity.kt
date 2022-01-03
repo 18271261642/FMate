@@ -41,6 +41,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+/**
+ * 吃药提醒编辑页面
+ */
 class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
     private lateinit var mTimesPerDayAdapter: TimesPerDayAdapter
     var mBean: RemindTakeMedicineBean = RemindTakeMedicineBean()
@@ -113,7 +116,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             if (mBean.ReminderPeriod == 0)
                 settingRepeat.setContentText("每天")
             else
-                settingRepeat.setContentText("${mBean.ReminderPeriod}次")
+                settingRepeat.setContentText("间隔${mBean.ReminderPeriod}天")
 
             if (mBean.startTime <= 100)
                 settingStartTime.setContentText(
@@ -191,9 +194,10 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
     }
 
     var mList: MutableList<RemindTakeMedicineBean.ReminderGroup> = arrayListOf()
-    fun setAdapter(mList: MutableList<RemindTakeMedicineBean.ReminderGroup>) {
-        this.mList = mList
-        mBean.setGroupList(mList)
+    fun setAdapter(mTakeList: MutableList<RemindTakeMedicineBean.ReminderGroup>) {
+        mList.clear()
+        this.mList.addAll(mTakeList)
+        mBean.setGroupList(mTakeList)
         ryIndex.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -220,10 +224,13 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
     private var pvTime: TimePickerView? = null
     private fun initTimePicker(pos: Int) { //Dialog 模式下，在底部弹出
+        val timeCalendar = Calendar.getInstance()
+        timeCalendar.set(Calendar.MINUTE,mList[pos].groupMM)
+        timeCalendar.set(Calendar.HOUR_OF_DAY,mList[pos].groupHH)
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
 
-                mList[pos].groupHH = DateUtil.getHour(date)
+                mList[pos].groupHH =  DateUtil.getHour(date)
                 mList[pos].groupMM = DateUtil.getMinute(date)
                 mBean.setGroupList(mList)
                 mTimesPerDayAdapter.notifyItemChanged(pos)
@@ -234,6 +241,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
             .setLineSpacingMultiplier(2.0f)
             .isAlphaGradient(true)
+            .setDate(timeCalendar)
             .isCyclic(true)
             .build()
         val mDialog: Dialog = pvTime?.dialog!!
@@ -384,7 +392,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 if (type <= 0) {
                     settingRepeat.setContentText("每天")
                 } else
-                    settingRepeat.setContentText("${type}天")
+                    settingRepeat.setContentText("间隔${type}天")
             }
         }
     }

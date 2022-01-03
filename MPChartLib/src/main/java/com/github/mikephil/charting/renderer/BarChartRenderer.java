@@ -436,6 +436,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         }
     }
 
+    //点击效果柱子圆角
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
 
@@ -487,7 +488,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
             setHighlightDrawPos(high, mBarRect);
 
-            c.drawRect(mBarRect, mHighlightPaint);
+            c.drawRoundRect(mBarRect,25f,25f, mHighlightPaint);
         }
     }
 

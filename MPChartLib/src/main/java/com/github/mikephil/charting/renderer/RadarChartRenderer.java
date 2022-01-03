@@ -252,6 +252,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
         mWebPaint.setColor(mChart.getWebColor());
         mWebPaint.setAlpha(mChart.getWebAlpha());
 
+        mWebPaint.setStrokeCap(Paint.Cap.ROUND);
+
         final int xIncrements = 1 + mChart.getSkipWebLineCount();
         int maxEntryCount = mChart.getData().getMaxEntryCountSet().getEntryCount();
 

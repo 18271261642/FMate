@@ -38,6 +38,9 @@ import kotlinx.android.synthetic.main.fragment_me.imgHead
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+/**
+ * 我的页面
+ */
 class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     BleWrite.DevicePropertiesInterface,
     BleWrite.FlashGetDialInterface {
@@ -73,9 +76,9 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         getBleStatus()
         if (userInfo != null && userInfo.user != null)
             tvEdtData.text = "我的ID:" + userInfo.user.userId
-        setting_step.setContentText(mDeviceInformationBean.exerciseSteps.toString())
+       // setting_step.setContentText(mDeviceInformationBean.exerciseSteps.toString())
         if (Hawk.get<Int>(SLEEP_GOAL) != null)
-            setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
+           // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
 
         setImgHead()
         setAdapter()
@@ -149,8 +152,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             if (it == null || it.user == null)
                 return@observe
 //            TLog.error("is=="+it)
-            setting_step.setContentText(it.userConfig.movingTarget)
-            setting_sleep.setContentText(DateUtil.getTextTime(it.userConfig.sleepTarget.toLong()))
+//            setting_step.setContentText(it.userConfig.movingTarget)
+//            setting_sleep.setContentText(DateUtil.getTextTime(it.userConfig.sleepTarget.toLong()))
             tvEdtData.text = "我的ID:" + it.user.userId
             setImgHead()
         }
@@ -353,7 +356,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             SPORTS_GOAL_EXERCISE_STEPS -> {
                 val step: String = event.data.toString()
-                setting_step.setContentText(step)
+               // setting_step.setContentText(step)
             }
             EVENT_BUS_IMG_HEAD -> {
                 setImgHead()

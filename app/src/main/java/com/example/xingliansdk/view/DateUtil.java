@@ -594,9 +594,30 @@ public class DateUtil {
 
     }
 
+    public static long getTodayMills() {
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
+
+    }
+
     //获取当前的秒
     public static long getCurrentSecond(){
         return System.currentTimeMillis();
+    }
+
+    public static int getCurrHour(){
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public static int getCurrMinute(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MINUTE);
     }
 
     public static String getCurrentTime(){

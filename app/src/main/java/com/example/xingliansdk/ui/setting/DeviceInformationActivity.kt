@@ -19,6 +19,7 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.CardBean
+import com.example.xingliansdk.bean.CardWeightBean
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.pictureselector.GlideEngine
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel
@@ -41,7 +42,11 @@ import okhttp3.RequestBody
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
+/**
+ * 个人资料页面
+ */
 open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnClickListener,
     BleWrite.DeviceInformationCallInterface {
 
@@ -501,4 +506,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
             }
         }
     }
+
+
+
 }

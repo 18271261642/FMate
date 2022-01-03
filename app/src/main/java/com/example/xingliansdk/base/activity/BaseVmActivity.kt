@@ -194,33 +194,35 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
     open fun initDataBind() {}
     fun Permissions() {
         if (Build.VERSION.SDK_INT >= 23) {
-            XXPermissions.with(this)
-                .permission(
-                    arrayOf(
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-//                        Manifest.permission.MEDIA_CONTENT_CONTROL,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE,
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                        Manifest.permission.BLUETOOTH_PRIVILEGED,
-                        Manifest.permission.ACCESS_FINE_LOCATION, //定位权限
-                        Manifest.permission.ACCESS_COARSE_LOCATION
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                XXPermissions.with(this)
+                    .permission(
+                        arrayOf(
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+    //                        Manifest.permission.MEDIA_CONTENT_CONTROL,
+    //                        Manifest.permission.READ_EXTERNAL_STORAGE,
+    //                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    //                        Manifest.permission.BLUETOOTH_PRIVILEGED,
+                            Manifest.permission.ACCESS_FINE_LOCATION, //定位权限
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
                     )
-                )
-                .request(object : OnPermissionCallback {
-                    override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
-                        if (!all) {
-                            ShowToast.showToastLong("定位权限未开启,请打开设置开启权限")
+                    .request(object : OnPermissionCallback {
+                        override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+                            if (!all) {
+                                ShowToast.showToastLong("定位权限未开启,请打开设置开启权限")
+                            }
                         }
-                    }
-                    override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+                        override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
 
-                        if (never) {
-                            ShowToast.showToastLong("被永久拒绝授权，请手动授予权限")
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            showPermissionSettingsDialog()
+                            if (never) {
+                                ShowToast.showToastLong("被永久拒绝授权，请手动授予权限")
+                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                showPermissionSettingsDialog()
+                            }
                         }
-                    }
-                })
+                    })
+            }
         }
     }
 

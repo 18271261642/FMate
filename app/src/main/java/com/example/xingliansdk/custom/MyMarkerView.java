@@ -14,6 +14,9 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.shon.connector.utils.TLog;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 
 /**
  * Custom implementation of the MarkerView.
@@ -24,6 +27,7 @@ import com.shon.connector.utils.TLog;
 public class MyMarkerView extends MarkerView {
 
     private final TextView tvContent;
+    private final NumberFormat numberFormat = new DecimalFormat("#,###");
 
     public MyMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
@@ -37,10 +41,10 @@ public class MyMarkerView extends MarkerView {
         if (e instanceof CandleEntry) {
             CandleEntry ce = (CandleEntry) e;
             int step=(int)ce.getHigh();
-            tvContent.setText(""+step);
+            tvContent.setText(""+numberFormat.format(step));
         } else {
             int step=(int)e.getY();
-            tvContent.setText(""+step);
+            tvContent.setText(""+numberFormat.format(step));
         }
 
         super.refreshContent(e, highlight);

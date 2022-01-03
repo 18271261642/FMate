@@ -11,6 +11,7 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.setAllClock.SetAllClockViewModel
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
+import com.example.xingliansdk.view.DateUtil
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_take_medicine_index.*
  */
 class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
 
+    private val tags = "TakeMedicineIndexActivity"
 
     lateinit var mList: ArrayList<RemindTakeMedicineBean>
     private lateinit var mTakeMedicineAdapter: TakeMedicineAdapter
@@ -54,6 +56,8 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
             }
         }
         )
+
+
     }
 
     var time = 0L
@@ -61,6 +65,12 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
         super.onResume()
         TLog.error("onResume变更")
         time = Hawk.get(Config.database.TAKE_MEDICINE_CREATE_TIME, 0L)
+
+        TLog.error(
+            tags,
+            "-------吃药修改时间=" + time + " " + DateUtil.getDate("yyyy-MM-dd HH:mm:ss", time)
+        )
+
         setAdapter()
         mViewModel.getRemind("3")
     }
@@ -76,7 +86,7 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
         mTakeMedicineAdapter = TakeMedicineAdapter(mList)
         recyclerview.adapter = mTakeMedicineAdapter
         setVisible()
-        mTakeMedicineAdapter.setOnDelListener(object : TakeMedicineAdapter.onSwipeListener {
+        mTakeMedicineAdapter!!.setOnDelListener(object : TakeMedicineAdapter.onSwipeListener {
             override fun onDel(pos: Int) {
                 if (pos >= 0 && pos < mList.size) {
                     TLog.error("mlist=+${Gson().toJson(mList)}")
@@ -93,15 +103,15 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                         mTimeBean.switch = 0
                         BleWrite.writeRemindTakeMedicineCall(mTimeBean, false)
                     }
+
                     TLog.error("数据流++${Gson().toJson(mList)}")
                     setVisible()
                     Hawk.put(Config.database.REMIND_TAKE_MEDICINE, mList)
                     var deleteTime = System.currentTimeMillis() / 1000
                     Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, deleteTime)
                     saveTakeMedicine(deleteTime)
-
-                    mTakeMedicineAdapter.notifyDataSetChanged()
                 }
+                mTakeMedicineAdapter.notifyDataSetChanged()
             }
 
             override fun onClick(pos: Int) {
@@ -142,7 +152,14 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                 mList.forEach {
                     BleWrite.writeRemindTakeMedicineCall(it, true)
                 }
+
+                TLog.error(tags, "-------1111-list=" + Gson().toJson(mList))
+
+                mList.clear()
+                mTakeMedicineAdapter.notifyDataSetChanged()
                 mList = it.takeMedicine.list as ArrayList<RemindTakeMedicineBean>
+
+                TLog.error(tags, "-------222-list=" + Gson().toJson(mList))
                 Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, it.takeMedicine.createTime)
                 TLog.error("吃药==修改本地")
             }

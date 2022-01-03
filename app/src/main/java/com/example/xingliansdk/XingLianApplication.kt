@@ -4,10 +4,12 @@ import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.multidex.MultiDex
 import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
+import com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.DynamicTimeFormat
@@ -79,6 +81,14 @@ class XingLianApplication : BaseApp() {
         const val TIME_START = 946656000
         private var context: WeakReference<Context>? = null
         var ifStartedOrStopped = true
+
+
+        //监听时间变化的广播
+        private var timeBroadcastReceiver : SystemTimeBroadcastReceiver ? = null
+
+
+
+
         fun getSelectedCalendar(): Calendar? {
             return mSelectedCalendar
         }
@@ -173,6 +183,13 @@ class XingLianApplication : BaseApp() {
             TLog.DEBUG=false
             BuildConfig.baseUrl
         }
+
+
+        timeBroadcastReceiver = SystemTimeBroadcastReceiver()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_TIME_CHANGED)
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
+        registerReceiver(timeBroadcastReceiver,intentFilter)
 
     }
 

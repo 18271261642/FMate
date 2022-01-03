@@ -1,11 +1,16 @@
 package com.example.xingliansdk.network
 
+import android.app.AlertDialog
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.ui.login.LoginActivity
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
@@ -22,6 +27,8 @@ fun <T> ViewModel.requestCustom(
     success: (T) -> Unit,
     error: (code: Int, message: String?) -> Unit
 ) {
+
+
     if(!HelpUtil.netWorkCheck(XingLianApplication.getXingLianApplication()))
     {
         TLog.error("无网络拦截")
@@ -39,7 +46,7 @@ fun <T> ViewModel.requestCustom(
                     success.invoke(it.data)
                 }
                 2001 -> {
-                    ShowToast.showToastLong(XingLianApplication.getXingLianApplication().getString(R.string.cood_2001))
+                    ShowToast.showToastLong(XingLianApplication.getXingLianApplication().getString(R.string.cood_2001),5 * 1000)
                     if(Hawk.get<LoginBean>(Config.database.USER_INFO)==null)
                     Hawk.put(Config.database.USER_INFO,LoginBean())
                     else {
@@ -51,8 +58,10 @@ fun <T> ViewModel.requestCustom(
                         BLEManager.getInstance().disconnectDevice(Hawk.get("address"))
                         BLEManager.getInstance().dataDispatcher.clearAll()
                     }
-
                     JumpUtil.startLoginActivity(XingLianApplication.getXingLianApplication())
+                    AppActivityManager.getInstance()
+                        .popAllActivityExceptOne(LoginActivity::class.java)
+
                 }
                 0->
                 {

@@ -21,32 +21,121 @@ public class MusicControlUtil {
      * @param keyCode 按键码
      */
     public static void sendKeyEvents(Context context, int keyCode) {
-        AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        long eventTime = SystemClock.uptimeMillis();
-        TLog.Companion.error("mAudioManager+="+mAudioManager);
-        if (mAudioManager != null) {
-            KeyEvent downEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, keyCode, 0);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                mAudioManager.dispatchMediaKeyEvent(downEvent);
-            }else {
-                Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-                downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-                context.sendBroadcast(downIntent, null);
+        try {
+            if(!fastClick())
+                return;
+            if(audioManager == null)
+                audioManager =  (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            long eventTime = SystemClock.uptimeMillis();
+            TLog.Companion.error("mAudioManager+="+audioManager.isMusicActive());
+            if (audioManager != null) {
+                KeyEvent downEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, keyCode, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    audioManager.dispatchMediaKeyEvent(downEvent);
+                }else {
+                    Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                    downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
+                    context.sendBroadcast(downIntent, null);
+                }
+                KeyEvent upEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_UP, keyCode, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    audioManager.dispatchMediaKeyEvent(upEvent);
+                }else {
+                    Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                    upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+                    context.sendBroadcast(upIntent, null);
+                }
             }
-            KeyEvent upEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_UP, keyCode, 0);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                mAudioManager.dispatchMediaKeyEvent(upEvent);
-            }else {
-                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-                context.sendBroadcast(upIntent, null);
+            else
+            {
+                TLog.Companion.error("傻逼 开音乐播放器强开");
+                Intent intent = new Intent("android.intent.action.MUSIC_PLAYER");
+                context.startActivity(intent);
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else
-        {
-            TLog.Companion.error("傻逼 开音乐播放器强开");
-            Intent intent = new Intent("android.intent.action.MUSIC_PLAYER");
-            context.startActivity(intent);
+
+    }
+
+    private static AudioManager audioManager;
+
+
+    public static void playOrPauseMusic(Context context){
+        if(!fastClick())
+            return;
+        try {
+            if(audioManager == null)
+                audioManager =  (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            assert audioManager != null;
+            int resultCode = audioManager.requestAudioFocus(onAudioFocusChangeListener,AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
+            if(audioManager.isMusicActive()){
+                pauseMusic(context);
+            }else{
+                playMusic(context);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    //暂停音乐
+    private static void pauseMusic(Context context){
+        try {
+            if(audioManager != null){
+                long eventTime2 = SystemClock.uptimeMillis() - 1;
+                KeyEvent downEvent2 = new KeyEvent(eventTime2,eventTime2,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+                audioManager.dispatchMediaKeyEvent(downEvent2);
+
+                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                KeyEvent upEvent = new KeyEvent(eventTime2, eventTime2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+                context.sendOrderedBroadcast(upIntent, null);
+                audioManager.dispatchMediaKeyEvent(upEvent);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
+
+
+
+    //播放音乐
+    private static void playMusic(Context context){
+        try {
+            if(audioManager != null){
+                long eventTime2 = SystemClock.uptimeMillis() - 1;
+                KeyEvent downEvent2 = new KeyEvent(eventTime2,eventTime2,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_MEDIA_PLAY, 0);
+                audioManager.dispatchMediaKeyEvent(downEvent2);
+
+                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                KeyEvent upEvent = new KeyEvent(eventTime2, eventTime2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY, 0);
+                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+                context.sendOrderedBroadcast(upIntent, null);
+                audioManager.dispatchMediaKeyEvent(upEvent);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static final AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int i) {
+        }
+    };
+
+
+    public static boolean fastClick() {
+        long lastClick = 0;
+        if (System.currentTimeMillis() - lastClick <= 1000) {
+            return false;
+        }
+        lastClick = System.currentTimeMillis();
+        return true;
+    }
+
 }

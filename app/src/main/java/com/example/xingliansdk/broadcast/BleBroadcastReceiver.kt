@@ -121,15 +121,19 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
             }
             Config.ActiveUpload.DEVICE_MUSIC_CONTROL_KEY -> //音乐控制
             {
+                if(!MusicControlUtil.fastClick())
+                    return
                 TLog.error("音乐 NotifyCallResult type+$type")
                 if (type == 1) {
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_NEXT)//下一首
                 }
                 if (type == 2) {
-                    MusicControlUtil.sendKeyEvents(
-                        mContext,
-                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
-                    )//播放/暂停
+                    MusicControlUtil.playOrPauseMusic(mContext)
+
+//                    MusicControlUtil.sendKeyEvents(
+//                        mContext,
+//                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+//                    )//播放/暂停
                 }
                 if (type == 3) {
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_PREVIOUS)//上一首

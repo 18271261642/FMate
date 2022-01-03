@@ -16,6 +16,7 @@ class TimesPerDayAdapter(data: MutableList<RemindTakeMedicineBean.ReminderGroup>
         if (item == null) {
             return
         }
+        val settingTime = helper.getView<SettingItemLayout>(R.id.settingTime)
         val hours: String = if (item.groupHH < 10)
             "0" + item.groupHH
         else
@@ -24,7 +25,7 @@ class TimesPerDayAdapter(data: MutableList<RemindTakeMedicineBean.ReminderGroup>
             "0" + item.groupMM
         else
             item.groupMM.toString()
-        val settingTime = helper.getView<SettingItemLayout>(R.id.settingTime)
+
         settingTime.setContentText("$hours:$min")
         settingTime.setTitleText("第${helper.adapterPosition+1}次")
 

@@ -297,7 +297,7 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             tvLightSleep.text ="--"// HelpUtil.getSpan("--", "%", 11)
             tvEyeSleep.text ="--"// HelpUtil.getSpan("--", "%", 11)
             tvWideAwake.text ="--" //HelpUtil.getSpan("--", "次", 11)
-            tvSleepTime.text = "--"
+            tvSleepTime.text = ""
 
             return
         } else {
@@ -611,8 +611,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             }
 
         } else {
+            sleepDetailStatusTv.text = ""
             tvSleepTimeType.text = ""
-            tvSleepTime.text = "--"
+            tvSleepTime.text = ""
         }
     }
 }

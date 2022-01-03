@@ -349,7 +349,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             }
             com.shon.connector.Config.ActiveUpload.DEVICE_REAL_TIME_OTHER.toInt() -> {
                 var data: DataBean = event.data as DataBean
-                tvPace.text = data.heartRate.toString()
+                tvPace.text = if(data.heartRate == 0) "--" else data.heartRate.toString()
                 heartList.add(data.heartRate)
             }
             Config.eventBus.MAP_MOVEMENT_STEP -> {

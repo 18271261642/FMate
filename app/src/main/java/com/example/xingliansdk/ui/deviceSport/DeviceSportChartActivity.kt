@@ -44,11 +44,19 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.shon.connector.Config
 import kotlinx.android.synthetic.main.activity_device_sport_chart.*
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * 计步详细数据页面
+ */
 class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickListener,
     OnChartValueSelectedListener {
+
+
+    private val numberFormat: NumberFormat = DecimalFormat("#,###")
     override fun layoutId() = R.layout.activity_device_sport_chart
     private val mTitles = arrayOf("日", "周", "月", "年")
     private lateinit var chart: BarChart
@@ -195,9 +203,12 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         chart.viewPortHandler.setMinMaxScaleX(1.0f, 3.0f)
      //   chart.viewPortHandler.setMinMaxScaleY(1.0f, 3.0f)
         chart.isScaleYEnabled = false
+        chart.extraBottomOffset = 5f
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.axisLineColor =  resources.getColor(R.color.color_view)
+        xAxis.axisLineWidth = 1.5f
+
         lateinit var timeMatter: IAxisValueFormatter
         when (position) {
             0 -> {
@@ -393,11 +404,12 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 TLog.error("values" + Gson().toJson(values))
             }
         }
-        tvTotalStep.text = HelpUtil.getSpan(totalStep.toLong().toString(), "步", 11)
+        tvTotalStep.text = HelpUtil.getSpan(totalStep.toLong().toString(), "步", 13)
         if (mListSize <= 0)
             mListSize = 1
         tvStep.text = HelpUtil.getSpan(
-            (totalStep / mListSize).toLong().toString(), "步", 11
+            (totalStep / mListSize).toLong().toString()
+            , "步", 13
         )
         //        if (chart.data != null &&
 //            chart.data.dataSetCount > 0

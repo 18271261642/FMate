@@ -22,7 +22,9 @@ import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock_list.*
 
-
+/**
+ * 闹钟页面
+ */
 class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
     private lateinit var mAlarmClockAdapter: AlarmClockAdapter
     var type = 1//默认闹钟

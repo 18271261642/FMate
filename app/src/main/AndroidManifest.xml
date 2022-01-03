@@ -116,7 +116,8 @@
         <activity android:name=".ui.setting.takeMedicine.TakeMedicineRepeatActivity" />
         <activity android:name=".ui.setting.takeMedicine.TakeMedicineActivity" />
         <activity android:name=".ui.setting.takeMedicine.TakeMedicineIndexActivity" /> <!-- <activity android:name=".ui.setting.MyDeviceActivity"></activity> -->
-        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.login.LoginActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.heartrate.RealTimeHeartRateActivity" />
         <activity android:name=".ui.device.OtherSettingActivity" />
         <activity android:name=".ui.device.BigDataIntervalActivity" />

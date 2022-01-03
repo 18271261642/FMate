@@ -16,6 +16,10 @@ object ShowToast {
         mContext?.let { showToast(it, msg, Toast.LENGTH_SHORT) }
     }
 
+    fun showToastLong(msg: String,time : Long) {
+        mContext?.let { showToast(it, msg, Toast.LENGTH_SHORT) }
+    }
+
     fun showToastShort(msg: String) {
         mContext?.let { showToast(it, msg, Toast.LENGTH_SHORT) }
     }

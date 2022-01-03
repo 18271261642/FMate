@@ -57,7 +57,9 @@ import kotlin.collections.HashMap
 import kotlin.math.abs
 import kotlin.math.pow
 
-
+/**
+ * 体重管理页面
+ */
 class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedListener,
     View.OnClickListener, OnTabSelectListener {
     override fun layoutId() = R.layout.activity_weight
@@ -1070,8 +1072,8 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             ).setScale(1, BigDecimal.ROUND_HALF_DOWN)
             setBmi = bmi.toString()
         }
-        tvBMI.text = setBmi
-        tvWeight.text = HelpUtil.getSpan(weight, "kg")
+        tvBMI.text = if(setBmi == "0") "--" else setBmi
+        tvWeight.text = HelpUtil.getSpan(if(weight == "0") "--" else weight, "kg")
         var lastWeight = 0.0
         sDao.insert(
             WeightBean(

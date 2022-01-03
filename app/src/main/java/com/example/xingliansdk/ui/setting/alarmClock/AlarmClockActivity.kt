@@ -32,12 +32,15 @@ import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock.*
 
+/**
+ * 添加 编辑闹钟页面
+ */
 class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
     var mTimeBean: TimeBean = TimeBean()
     lateinit var mTimeList: ArrayList<TimeBean>
     var mAlarmClockList: ArrayList<AlarmClockBean> = ArrayList()
     var position = -1
-    var time = DateUtil.getCurrentSecond()  //默认早晨8:00
+    var time = DateUtil.getTodayMills()  //默认早晨8:00
     override fun layoutId(): Int = R.layout.activity_alarm_clock
     override fun initView(savedInstanceState: Bundle?) {
 
@@ -145,8 +148,8 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
             Setting_alarm_clock.setContentText(mTimeBean.getSpecifiedTimeDescription())
         } else {
             mTimeBean.characteristic = type//特征
-            mTimeBean.hours = 8
-            mTimeBean.min = 0
+            mTimeBean.hours = DateUtil.getCurrHour()
+            mTimeBean.min = DateUtil.getCurrMinute()
         }
         initTimePicker()
     }

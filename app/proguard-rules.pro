@@ -107,3 +107,6 @@
 
      -keep public class com.sina.weibo.sdk.**{*;}
      -keep public class com.example.xingliansdk.listeners.**{*;}
+
+     -keep public class com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
+      -keep public class com.example.xingliansdk.broadcast.**{*;}
