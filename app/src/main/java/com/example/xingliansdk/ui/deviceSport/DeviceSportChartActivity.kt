@@ -37,6 +37,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.utils.Fill
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -188,6 +189,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
     var mv: MyMarkerView? = null
     private fun chartInitView() {
         TLog.error("chartInitView")
+        chart.isNeedRoundBar = true
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
         chart.setScaleEnabled(true)//设置比列启动
@@ -419,20 +421,59 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
 //            chart.data.notifyDataChanged()
 //            chart.notifyDataSetChanged()
 //        } else {
-        val set1: BarDataSet = BarDataSet(values, "")
-        set1.color = resources.getColor(R.color.color_marker)
-        set1.setDrawValues(false)
-        set1.highLightColor = resources.getColor(R.color.color_marker)
+
+        var barData : BarDataSet ?= null
+        if(chart.data != null && chart.data.dataSetCount>0){
+            barData = chart.data.getDataSetByIndex(0) as BarDataSet?
+            barData?.entries = values
+            chart.data.notifyDataChanged()
+            chart.notifyDataSetChanged()
+
+        }else{
+            barData = BarDataSet(values,"")
+            barData.setDrawValues(false)
+            barData.highLightColor= resources.getColor(R.color.color_marker)
+            val colorsV : List<Int> = listOf(Color.parseColor("#95BFFE"),Color.parseColor("#9AF7FF"),Color.parseColor("#1D78FF"))
+//            barData.color = Color.parseColor("#9AF7FF")
+//            barData.color = Color.parseColor("#95BFFE")
+            barData.colors = colorsV
+
+            val fill1 = Fill(Color.parseColor("#9AF7FF"))
+            val fill2 = Fill(Color.parseColor("#95BFFE"))
+            val fill3 = Fill(Color.parseColor("#1D78FF"))
+            val arrayFills : List<Fill> = listOf(fill1,fill2,fill3)
+            barData.fills = arrayFills
+
+        }
+       // val set1: BarDataSet = BarDataSet(values, "")
+       // set1.color = resources.getColor(R.color.color_marker)
+       // set1.setDrawValues(false)
+       // set1.highLightColor = resources.getColor(R.color.color_marker)
+
+//        val colorsV : List<Int> = listOf(Color.parseColor("#9AF7FF"),Color.parseColor("#95BFFE"),Color.parseColor("#1D78FF"))
+//        set1.colors = colorsV
+
+        val fill1 = Fill(Color.parseColor("#9AF7FF"))
+        val fill2 = Fill(Color.parseColor("#95BFFE"))
+        val fill3 = Fill(Color.parseColor("#1D78FF"))
+        val arrayFills : List<Fill> = listOf(fill1,fill2,fill3)
+//        set1.fills = arrayFills
+//        set1.setGradientColors(arrayFills)
+
         val dataSets = ArrayList<IBarDataSet>()
-        dataSets.add(set1)
+        if (barData != null) {
+            dataSets.add(barData)
+        }
         val data =
             BarData(dataSets)
+
         if (position == 1 || position == 3) {
             data.barWidth = 0.3f
         }
         chart.data = data
         chart.setFitBars(true)
 //        }
+
         chart.invalidate()
     }
 

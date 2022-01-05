@@ -13,6 +13,15 @@ import java.util.Locale;
  */
 public class Utils {
 
+    private static double miV = 0.6213;
+
+    //公制转英制 1km = 0.6213英里
+    public static double kmToMile(double kmValue){
+        return mul(kmValue,miV,2);
+    }
+
+
+
     /**
      * 两个double相乘
      *

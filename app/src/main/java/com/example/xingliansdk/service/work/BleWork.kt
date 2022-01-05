@@ -131,7 +131,7 @@ class BleWork : IWork, OnCountTimerListener,
         BleWrite.writeForGetDeviceProperties(this, false)
         var mDeviceInformation = Hawk.get(
             PERSONAL_INFORMATION,
-            DeviceInformationBean(2, 18, 160, 50, 0, 0, 1, 0, 0, 0, 10000)
+            DeviceInformationBean(2, 18, 160, 50f, 0, 0, 1, 0, 0, 0, 10000)
         )
         BleWrite.writeDeviceInformationCall(mDeviceInformation, false)
         BleWrite.writeForGetDeviceMotion(this, false)

@@ -108,7 +108,7 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
         mDeviceInformationBean = Hawk.get(
             Config.database.PERSONAL_INFORMATION,
-            DeviceInformationBean(2, 0, 160, 50, 0, 0, 0, 0, 0, 0, 10000, birth)
+            DeviceInformationBean(2, 0, 160, 50f, 0, 0, 0, 0, 0, 0, 10000, birth)
         )
 //        TLog.error("走了==mDeviceInformationBean")
         mDeviceFirmwareBean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())

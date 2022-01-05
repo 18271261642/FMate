@@ -313,7 +313,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                 it.user.sex.toInt(),
                 it.user.age.toInt(),
                 it.user.height.toInt(),
-                it.user.weight.toDouble().toInt(),
+                it.user.weight.toFloat(),
                 mDeviceInformationBean.language.toInt(),
                 it.userConfig.timeFormat,
                 1,

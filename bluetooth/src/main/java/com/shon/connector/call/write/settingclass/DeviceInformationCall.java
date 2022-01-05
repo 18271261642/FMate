@@ -43,7 +43,7 @@ public class DeviceInformationCall extends WriteCallback {
                 (byte) mDeviceInformationBean.getSex()
                 , (byte) mDeviceInformationBean.getAge()
                 , (byte) mDeviceInformationBean.getHeight()
-                , mDeviceInformationBean.getWeight()
+                , (byte) mDeviceInformationBean.getWeight()
                 , mDeviceInformationBean.getLanguage()
                 , mDeviceInformationBean.getTimeSystem()
                 , mDeviceInformationBean.getUnitSystem()

@@ -92,7 +92,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : SimpleImmersionFragment() {
         userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
         mDeviceInformationBean = Hawk.get(
             Config.database.PERSONAL_INFORMATION,
-            DeviceInformationBean(2, 0, 160, 50, 0, 0, 0, 0, 0, 0, 10000, birth)
+            DeviceInformationBean(2, 0, 160, 50f, 0, 0, 0, 0, 0, 0, 10000, birth)
         )
         mViewModel = createViewModel()
         initView(savedInstanceState)

@@ -21,6 +21,10 @@ import com.github.mikephil.charting.renderer.BarChartRenderer;
  */
 public class BarChart extends BarLineChartBase<BarData> implements BarDataProvider {
 
+    //是否需要圆角柱子
+    private boolean isNeedRoundBar = false;
+
+
     /**
      * flag that indicates whether the highlight should be full-bar oriented, or single-value?
      */
@@ -54,7 +58,7 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
     protected void init() {
         super.init();
 
-        mRenderer = new BarChartRenderer(this, mAnimator, mViewPortHandler);
+        mRenderer = new BarChartRenderer(this, mAnimator, mViewPortHandler,isNeedRoundBar);
 
         setHighlighter(new BarHighlighter(this));
 
@@ -254,5 +258,14 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
             getBarData().groupBars(fromX, groupSpace, barSpace);
             notifyDataSetChanged();
         }
+    }
+
+
+    public boolean isNeedRoundBar() {
+        return isNeedRoundBar;
+    }
+
+    public void setNeedRoundBar(boolean needRoundBar) {
+        isNeedRoundBar = needRoundBar;
     }
 }

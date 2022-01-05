@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_device_information.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.apache.commons.lang.StringUtils
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
@@ -49,6 +51,10 @@ import kotlin.math.abs
  */
 open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnClickListener,
     BleWrite.DeviceInformationCallInterface {
+
+
+    private val tags = "DeviceInformationActivity"
+
 
     override fun layoutId() = R.layout.activity_device_information
     private var mImagePaths: String = ""//这里解释一下为啥设置俩个 如果为一个的话怎为选择并有选择记录的模式,俩个的话为重新创建
@@ -145,7 +151,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
             )
         )
         setting_height.setContentText(mDeviceInformationBean.height.toString() + "cm")
-        setting_weight.setContentText(mDeviceInformationBean.weight.toInt().toString() + "kg")
+        setting_weight.setContentText(mDeviceInformationBean.weight.toString() + "kg")
         if (!register)
             edtName.setText(mDeviceInformationBean.name)
 
@@ -199,7 +205,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
                 it.user.sex.toInt(),
                 it.user.age.toInt(),
                 it.user.height.toInt(),
-                it.user.weight.toDouble().toInt(),
+                it.user.weight.toFloat(),
                 mDeviceInformationBean.language.toInt(),
                 it.userConfig.timeFormat,
                 1,
@@ -232,10 +238,16 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
     private var pvWeightCustomOptions: OptionsPickerView<Any>? = null
     private var cardSexItem: ArrayList<CardBean> = ArrayList()
     private var cardHeightItem: ArrayList<CardBean> = ArrayList()
-    private var cardWeightItem: ArrayList<CardBean> = ArrayList()
+   // private var cardWeightItem: ArrayList<CardBean> = ArrayList()
     private var indexSex = 0
     var indexHeight = 0
     var indexWeight = 0
+
+    private var pvCustomOptions :OptionsPickerView<Any>? = null
+
+    private var cardWeightItem: ArrayList<CardWeightBean> = ArrayList()
+    private val options2Items = ArrayList<ArrayList<String>>()
+
     private fun initCustomOptionPicker() { //条件选择器初始化，自定义布局
         indexSex = if (mDeviceInformationBean.sex == 1) 0 else 1
         if (pvSexCustomOptions?.isShowing == true)
@@ -303,47 +315,129 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
             .build()
         pvHeightCustomOptions?.setPicker(cardHeightItem as List<Any>?) //添加数据
 
-        indexWeight = if (mDeviceInformationBean.weight <= 3) 0 else mDeviceInformationBean.weight-3
-        TLog.error("mDeviceInformationBean.height+="+mDeviceInformationBean.weight)
-        if (pvWeightCustomOptions?.isShowing == true)
-            pvWeightCustomOptions?.dismiss()
-        pvWeightCustomOptions = OptionsPickerBuilder(
+        indexWeight = if (mDeviceInformationBean.weight <= 30) 0 else (mDeviceInformationBean.weight-30).toInt()
+        TLog.error("mDeviceInformationBean.height+="+mDeviceInformationBean.weight.toFloat()+"下标="+indexWeight)
+
+//
+//        if (pvWeightCustomOptions?.isShowing == true)
+//            pvWeightCustomOptions?.dismiss()
+//        pvWeightCustomOptions = OptionsPickerBuilder(
+//            this
+//        ) { options1, _, _, _ -> //返回的分别是三个级别的选中位置
+//            mDeviceInformationBean.setWeight( cardWeightItem[options1].pickerViewText.toInt())
+//            setting_weight.setContentText(cardWeightItem[options1].pickerViewText+"kg")
+//        }
+//            .setLayoutRes(R.layout.pickerview_custom_options
+//            ) { v ->
+//                val tvSubmit =
+//                    v.findViewById<View>(R.id.tv_finish) as TextView
+//                val ivCancel =
+//                    v.findViewById<View>(R.id.iv_cancel) as ImageView
+//                tvSubmit.setOnClickListener {
+//                    pvWeightCustomOptions?.returnData()
+//                    pvWeightCustomOptions?.dismiss()
+//                }
+//                ivCancel.setOnClickListener { pvWeightCustomOptions?.dismiss() }
+//            }
+//            .isDialog(true)
+//            .setCyclic(true, false, false)
+//            .isRestoreItem(true)
+//            .setSelectOptions(indexWeight)
+//            .setOutSideCancelable(false)
+//            .build()
+//        pvWeightCustomOptions?.setPicker(cardWeightItem as List<Any>?) //添加数据
+
+
+        //当前的体重，转换为小数点前和后
+        var currWeight = mDeviceInformationBean.weight;
+        //小数点前
+        val beforeWeight = StringUtils.substringBefore(currWeight.toString(),".")
+        val afterWeight = StringUtils.substringAfter(currWeight.toString(),".")
+        //体重选择
+        pvCustomOptions = OptionsPickerBuilder(
             this
-        ) { options1, _, _, _ -> //返回的分别是三个级别的选中位置
-            mDeviceInformationBean.setWeight( cardWeightItem[options1].pickerViewText.toInt())
-            setting_weight.setContentText(cardWeightItem[options1].pickerViewText+"kg")
+        ) { options1, option2, options3, v -> //返回的分别是三个级别的选中位置
+          //  timeDialog = System.currentTimeMillis() //重置时间戳
+            val item = cardWeightItem[options1]
+            val weight = item.pickerViewText + options2Items[options1][option2]
+            TLog.error("weight.toDouble()+" + weight.toFloat())
+            setting_weight.setContentText(weight+"kg")
+            mDeviceInformationBean.weight = weight.toFloat()
+//            if (!mAllList.isNullOrEmpty() && abs(mAllList[0].weight.toDouble() - weight.toDouble()) > 5) {
+//                TLog.error("mAllList[0].weight.toDouble()+" + mAllList[0].weight.toDouble())
+//
+//                TLog.error("===" + weight)
+//                //sureDialog(weight)
+//                return@OptionsPickerBuilder
+//            }
+            //setWeight(weight)
+//            sureUpdate(weight)
         }
-            .setLayoutRes(R.layout.pickerview_custom_options
+            .setLayoutRes(
+                R.layout.pickerview_custom_options_weight
             ) { v ->
                 val tvSubmit =
-                    v.findViewById<View>(R.id.tv_finish) as TextView
+                    v.findViewById<TextView>(R.id.tv_finish)
                 val ivCancel =
-                    v.findViewById<View>(R.id.iv_cancel) as ImageView
+                    v.findViewById<TextView>(R.id.iv_cancel)
                 tvSubmit.setOnClickListener {
-                    pvWeightCustomOptions?.returnData()
-                    pvWeightCustomOptions?.dismiss()
+                    pvCustomOptions?.returnData()
+                    pvCustomOptions?.dismiss()
                 }
-                ivCancel.setOnClickListener { pvWeightCustomOptions?.dismiss() }
+                ivCancel.setOnClickListener { pvCustomOptions?.dismiss() }
             }
             .isDialog(true)
-            .setCyclic(true, false, false)
-            .isRestoreItem(true)
-            .setSelectOptions(indexWeight)
+            .setCyclic(cardWeightItem.size > 2, false, false)
+            .isRestoreItem(false)
+            .setSelectOptions(indexWeight, afterWeight.toInt())
+            .setTextColorCenter(resources.getColor(R.color.color_main_green))
             .setOutSideCancelable(false)
+            .setContentTextSize(18)
             .build()
-        pvWeightCustomOptions?.setPicker(cardWeightItem as List<Any>?) //添加数据
+        pvCustomOptions?.setPicker(
+            cardWeightItem as List<Any>?,
+            options2Items as List<MutableList<Any>>?
+        )
+
+        val mDialog: Dialog = pvCustomOptions?.dialog!!
+        val params =
+            FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM
+            )
+        params.leftMargin = 0
+        params.rightMargin = 0
+        pvCustomOptions?.let { it.dialogContainerLayout.layoutParams = params }
+        val dialogWindow = mDialog.window
+        if (dialogWindow != null) {
+            dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim) //修改动画样式
+            dialogWindow.setGravity(Gravity.BOTTOM) //改成Bottom,底部显示
+            dialogWindow.setDimAmount(0.3f)
+        }
 
     }
 
     private fun getCardData() {
         cardSexItem.add(CardBean(0, getString(R.string.man)))
         cardSexItem.add(CardBean(1, getString(R.string.woman)))
-                for (i in 50..250) {
-                    cardHeightItem.add(CardBean(i, i.toString()))
-                }
-                for (i in 3..250) {
-                    cardWeightItem.add(CardBean(i, i.toString()))
-                }
+        for (i in 50..250) {
+            cardHeightItem.add(CardBean(i, i.toString()))
+        }
+
+        for (i in 30..255) {
+            cardWeightItem.add(CardWeightBean(i, i.toString()))
+        }
+        for (j in 0..cardWeightItem.size) {
+            val cityList = ArrayList<String>()
+            for (i in 0..9)
+                cityList.add(".$i")
+            options2Items.add(cityList)
+        }
+
+//                for (i in 3..255) {
+//                    cardWeightItem.add(CardBean(i, i.toString()))
+//                }
     }
 
 
@@ -401,7 +495,10 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
                pvHeightCustomOptions?.show()
             }
             R.id.setting_weight -> {
-                pvWeightCustomOptions?.show()
+               // pvWeightCustomOptions?.show()
+
+
+                pvCustomOptions?.show()
             }
 
         }

@@ -114,6 +114,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 
     @Override
     public void initDefaultValue() {
+
         String distances;
         String hourSpeed;
         //  UnitConfig unitConfig = AppUnitUtil.getUnitConfig();
@@ -122,6 +123,10 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 //            distances = (ResUtil.format("%.2f %s", UnitConversion.kmToMiles((float) 0), ResUtil.getString(R.string.unit_mile)));
 //            hourSpeed = (ResUtil.format("%.2f %s", UnitConversion.kmToMiles((float) 0), ResUtil.getString(R.string.unit_mile_h)));
 //        } else {
+
+
+
+
         distances = (ResUtil.format("%.2f", 0.0));
         hourSpeed = (ResUtil.format("%.2f %s", 0.0, "km/h"));
 //        }
@@ -323,6 +328,15 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
     //运动类型
     int sportType = Hawk.get(Config.database.AMAP_SPORT_TYPE,1);
     private void updateSportMessage(final LinkedList<SNLocation> locations) {
+        LoginBean userInfo = Hawk.get(Config.database.USER_INFO, new LoginBean());
+        boolean isUnit = (userInfo==null||userInfo.getUserConfig().getDistanceUnit()==1);
+        if(isUnit){     //英制
+
+        }else{  //公制
+
+        }
+
+
         SNAsyncTask.execute(new SNVTaskCallBack() {
             private List<LatLng> latLngs = new ArrayList<>();
             private String distances;
@@ -333,7 +347,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
             @Override
             public void run() throws Throwable {
                 RunningSportDataUtil.SportData sportData = RunningSportDataUtil.calculateSportData(RunningSportDataUtil.calculateBaseSportData(mMapHelper, locations),sportType);
-                distances = (ResUtil.format("%.2f", sportData.distances));
+                distances = (ResUtil.format("%.2f", isUnit ? Utils.kmToMile(sportData.distances) : sportData.distances));
                 hourSpeed = (ResUtil.format("%.2f%s", sportData.hourSpeed, ResUtil.getString(R.string.unit_km_h)));
                 calories = (ResUtil.format("%.2f", sportData.calories));
                 kcalcanstanc=sportData.calories;

@@ -27,6 +27,16 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     protected BarDataProvider mChart;
 
+    private boolean isNeedBar = false;
+
+    public boolean isNeedBar() {
+        return isNeedBar;
+    }
+
+    public void setNeedBar(boolean needBar) {
+        isNeedBar = needBar;
+    }
+
     /**
      * the rect object that is used for drawing the bars
      */
@@ -54,6 +64,28 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         mBarBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBarBorderPaint.setStyle(Paint.Style.STROKE);
     }
+
+
+
+    public BarChartRenderer(BarDataProvider chart, ChartAnimator animator,
+                            ViewPortHandler viewPortHandler,boolean isNeedBar) {
+        super(animator, viewPortHandler);
+        this.isNeedBar = isNeedBar;
+        this.mChart = chart;
+
+        mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mHighlightPaint.setStyle(Paint.Style.FILL);
+        mHighlightPaint.setColor(Color.rgb(0, 0, 0));
+        // set alpha after color
+        mHighlightPaint.setAlpha(120);
+
+        mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mShadowPaint.setStyle(Paint.Style.FILL);
+
+        mBarBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBarBorderPaint.setStyle(Paint.Style.STROKE);
+    }
+
 
     @Override
     public void initBuffers() {
@@ -180,17 +212,21 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                                 isInverted ? Fill.Direction.DOWN : Fill.Direction.UP);
             }
             else {
-                c.drawRoundRect(rectF,25f,25f,mRenderPaint);
-//                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-//                        buffer.buffer[j + 3], mRenderPaint);
+                if(isNeedBar){
+                    c.drawRoundRect(rectF,25f,25f,mRenderPaint);
+                }else{
+                    c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                            buffer.buffer[j + 3], mRenderPaint);
+                }
             }
 
             if (drawBorder) {
-
-                c.drawRoundRect(rectF,25f,25f,mBarBorderPaint);
-
-//                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-//                        buffer.buffer[j + 3], mBarBorderPaint);
+                if(isNeedBar){
+                    c.drawRoundRect(rectF,25f,25f,mBarBorderPaint);
+                }else{
+                    c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                            buffer.buffer[j + 3], mBarBorderPaint);
+                }
             }
         }
     }

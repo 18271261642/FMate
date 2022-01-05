@@ -7,7 +7,7 @@ public class DeviceInformationBean {
     /***
      * 体重
      * */
-    int weight;
+    float weight;
     /**
      * 系统语言
      */
@@ -84,11 +84,11 @@ public class DeviceInformationBean {
         this.height = height;
     }
 
-    public byte getWeight() {
-        return (byte) weight;
+    public float getWeight() {
+        return  weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -148,7 +148,7 @@ public class DeviceInformationBean {
         this.exerciseSteps = exerciseSteps;
     }
     public DeviceInformationBean(){}
-    public DeviceInformationBean(int sex, int age, int height, int weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps) {
+    public DeviceInformationBean(int sex, int age, int height, float weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps) {
         this.sex = sex;
         this.age = age;
         this.height = height;
@@ -161,7 +161,7 @@ public class DeviceInformationBean {
         this.temperatureSystem = temperatureSystem;
         this.exerciseSteps = exerciseSteps;
     }
-    public DeviceInformationBean(int sex, int age, int height, int weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps,long birth) {
+    public DeviceInformationBean(int sex, int age, int height, float weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps,long birth) {
         this.sex = sex;
         this.age = age;
         this.height = height;
@@ -176,7 +176,7 @@ public class DeviceInformationBean {
         this.birth=birth;
     }
 
-    public DeviceInformationBean(int sex, int age, int height, int weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps, long birth, String name) {
+    public DeviceInformationBean(int sex, int age, int height, float weight, int language, int timeSystem, int android, int unitSystem, int wearHands, int temperatureSystem, long exerciseSteps, long birth, String name) {
         this.sex = sex;
         this.age = age;
         this.height = height;

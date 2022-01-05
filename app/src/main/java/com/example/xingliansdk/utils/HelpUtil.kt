@@ -236,8 +236,9 @@ object HelpUtil {
     }
     fun getSpan(value: String, value1: String = "", size: Int = 14): SpannableString
     {
+        var rStr =(value+value1)
       var  mStr =
-            SpannableString(value + value1)
+            SpannableString(rStr)
         mStr.setSpan(
             AbsoluteSizeSpan(size, true),
             value.length,
@@ -274,7 +275,7 @@ object HelpUtil {
     fun getSpan(start: String, value: String, value1: String = "", size: Int = 14): SpannableString
     {
         var  mStr =
-            SpannableString(start + value + value1)
+            SpannableString(start +  value+ value1)
         mStr.setSpan(
             AbsoluteSizeSpan(size, true),
             0,

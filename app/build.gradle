@@ -110,6 +110,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/QWeather_Public_Android_V4.4.jar')
+    //StringUtils工具类
+    implementation files('libs/commons-lang-2.5.jar')
     implementation project(path: ':MPChartLib')
     implementation project(path: ':SNMapLibrary')
     implementation files('libs\\open_sdk_3.5.7.4_r1bc9afe_lite.jar')
