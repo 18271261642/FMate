@@ -1,6 +1,9 @@
 package com.example.xingliansdk.ui.dial
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.KeyEvent
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
@@ -13,8 +16,10 @@ import com.example.xingliansdk.ui.setting.flash.FlashCall
 import com.example.xingliansdk.ui.setting.flash.FlashWriteAssignInterface
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
 import com.example.xingliansdk.utils.*
+import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.luck.picture.lib.tools.ToastUtils
 import com.shon.bluetooth.DataDispatcher
 import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
@@ -35,6 +40,11 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
     var bean: RecommendDialBean.ListDTO.TypeListDTO? = null
     var position=-1
     var progressStatus=false
+
+    private val instant by lazy { this }
+
+    private var alertDialog : AlertDialog.Builder ?=null
+
     override fun onDestroy() {
         super.onDestroy()
         SNEventBus.unregister(this)
@@ -43,6 +53,27 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
+
+
+        titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener{
+            override fun onBackClick() {
+                if(progressStatus){
+                    backAlert()
+                }else{
+                    finish()
+                }
+            }
+
+            override fun onActionImageClick() {
+
+            }
+
+            override fun onActionClick() {
+
+            }
+
+        })
+
         SNEventBus.register(this)
         download.maxProgress=100
         showWaitDialog("页面加载中...")
@@ -203,5 +234,33 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
                 }
             }
         }
+    }
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(progressStatus){
+                backAlert()
+            }else{
+                finish()
+            }
+        }
+        return true
+    }
+
+
+    private fun backAlert(){
+        alertDialog = AlertDialog.Builder(instant)
+        alertDialog!!.setTitle("提醒")
+        alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
+        alertDialog!!.setPositiveButton("确定"
+        ) { p0, p1 ->
+            p0.dismiss()
+            finish()
+        }.setNegativeButton("取消"
+        ) { p0, p1 ->
+            p0.dismiss()
+        }
+        alertDialog!!.create().show()
     }
 }

@@ -57,6 +57,7 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
             )
         }
         if (ryTime.adapter == null) {
+            item.groupList.sortBy { it.countHM }
             val nestAdapter = TakeMedicineTimeAdapter(item.groupList)
             nestAdapter.setOnItemClickListener(null)
             nestAdapter.setOnItemChildClickListener(null)

@@ -132,6 +132,11 @@ public class RemindTakeMedicineBean {
             this.groupMM = groupMM;
 
         }
+
+
+        public int getCountHM(){
+            return this.groupHH+this.groupMM;
+        }
     }
 
 }

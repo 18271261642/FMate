@@ -177,8 +177,8 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     weightViewModel.weightModelList[0].stampCreateTime * 1000
                 )
             tvWeight.text = HelpUtil.getSpan(weightViewModel.weight, "kg")
-            tvBMI.text = weightViewModel.bmi
-            tvNowWeight.text = HelpUtil.getSpan(weightViewModel.changeWeight, "kg")
+            tvBMI.text = if(weightViewModel.bmi.equals("0")) "--" else weightViewModel.bmi
+            tvNowWeight.text = if(weightViewModel.changeWeight.equals("0.0")) "--" else HelpUtil.getSpan(weightViewModel.changeWeight, "kg")
             tvLastWeight.text = HelpUtil.getSpan(weightViewModel.lastWeight, "kg")
             if (position == 0) {
                 chart1.visibility = View.GONE
@@ -220,6 +220,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             TLog.error("mList+="+Gson().toJson(mList))
             if (mList.isNullOrEmpty()) {
                 tvWeightRecord.visibility = View.GONE
+                ryWeight.visibility = View.GONE
                 tvTime.text = ""
                 tvWeight.text = "--"
                 tvBMI.text = "--"
@@ -227,6 +228,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 tvNowWeight.text = "--"
             } else {
                 tvWeightRecord.visibility = View.VISIBLE
+                ryWeight.visibility = View.VISIBLE
                 if (statusGetWeight) {
 
                 } else {
@@ -245,7 +247,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                         var nowWeight =
                             (BigDecimal(mWeightInfo.weight.toDouble()).subtract(BigDecimal(userInfo.user.weight.toDouble()))
                                     ).setScale(1, BigDecimal.ROUND_HALF_DOWN)
-                        tvNowWeight.text = HelpUtil.getSpan(nowWeight.toString(), "kg")
+                        tvNowWeight.text = if(nowWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan(nowWeight.toString(), "kg")
                         TLog.error("直接不走")
                     } else {
                         //mAllList为整个数据库的数据
@@ -264,7 +266,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                                             )
                                         )
                                                 ).setScale(1, BigDecimal.ROUND_HALF_DOWN)
-                                    tvNowWeight.text = HelpUtil.getSpan(nowWeight.toString(), "kg")
+                                    tvNowWeight.text = if(nowWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan(nowWeight.toString(), "kg")
                                 } else {
                                     TLog.error("走 else")
                                     tvLastWeight.text = userInfo.user.weight
@@ -275,7 +277,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                                             )
                                         )
                                                 ).setScale(1, BigDecimal.ROUND_HALF_DOWN)
-                                    tvNowWeight.text = HelpUtil.getSpan(nowWeight.toString(), "kg")
+                                    tvNowWeight.text = if(nowWeight.toDouble() == 0.0) "--" else  HelpUtil.getSpan(nowWeight.toString(), "kg")
                                     //  tvLastWeight.text = "--"
                                 }
                             }
@@ -322,14 +324,14 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             var lastWeek = setNumber(weightCount / weekCount, 1)?.subtract(
                 setNumber(lastCount / weekLastCount, 1)
             )
-            TLog.error("weightCount / weekCount+" + weightCount / weekCount)
+            TLog.error("weightCount / weekCount+" + weightCount / weekCount+ " "+(weightCount == 0.0))
             TLog.error("lastCount / weekLastCount+" + lastCount / weekLastCount)
-            tvBMI.text = setNumber(bmiCount / weekCount, 1).toString()  //对得上
+            tvBMI.text = if(bmiCount == 0.0) "--" else setNumber(bmiCount / weekCount, 1).toString()  //对得上
             //  tvWeight.text = HelpUtil.setNumber(weightCount / weekCount, 1).toString()  //对得上
             if (lastWeekList.isNotEmpty())
-                tvNowWeight.text = if(weightCount == 0.0) "--kg" else HelpUtil.getSpan(lastWeek.toString(), "kg")
+                tvNowWeight.text = if(weightCount == 0.0) "--" else HelpUtil.getSpan(lastWeek.toString(), "kg")
             tvLastWeight.text =
-               if(weightCount == 0.0) "--kg" else HelpUtil.getSpan(setNumber(weightCount / weekCount, 1).toString(),"kg")
+               if(weightCount == 0.0) "--" else HelpUtil.getSpan(setNumber(weightCount / weekCount, 1).toString(),"kg")
 
         } else if (position == 2) {
             tvNowWeightTitle.text = "与上月相比"
@@ -374,10 +376,12 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             var lastWeek = setNumber(weightCount / weekCount, 1)?.subtract(
                 setNumber(lastCount / weekLastCount, 1)
             )
-            tvBMI.text = setNumber(bmiCount / weekCount, 1).toString()  //对得上
+            tvBMI.text = if(bmiCount == 0.0) "--" else setNumber(bmiCount / weekCount, 1).toString()  //对得上
             if (lastWeekList.isNotEmpty())
-                tvNowWeight.text = HelpUtil.getSpan(lastWeek.toString(), "kg")
-            tvLastWeight.text = HelpUtil.getSpan(
+                if (lastWeek != null) {
+                    tvNowWeight.text = if(lastWeek.toDouble() == 0.0) "--" else HelpUtil.getSpan(lastWeek.toString(), "kg")
+                }
+            tvLastWeight.text = if(weightCount / weekCount == 0.0) "--" else  HelpUtil.getSpan(
                 setNumber(weightCount / weekCount, 1).toString(),
                 "kg"
             )
@@ -420,13 +424,12 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             var lastWeek = setNumber(weightCount / weekCount, 1)?.subtract(
                 setNumber(lastCount / weekLastCount, 1)
             )
-            tvBMI.text = setNumber(bmiCount / weekCount, 1).toString()  //对得上
+            tvBMI.text = if(bmiCount == 0.0) "--" else setNumber(bmiCount / weekCount, 1).toString()  //对得上
             if (lastWeekList.isNotEmpty())
-                tvNowWeight.text = HelpUtil.getSpan(lastWeek.toString(), "kg")
-            tvLastWeight.text = HelpUtil.getSpan(
-                setNumber(weightCount / weekCount, 1).toString(),
-                "kg"
-            )
+                if (lastWeek != null) {
+                    tvNowWeight.text = if(lastWeek.toDouble() == 0.0) "--" else HelpUtil.getSpan(lastWeek.toString(), "kg")
+                }
+            tvLastWeight.text =if(weightCount == 0.0) "--" else  HelpUtil.getSpan(setNumber(weightCount / weekCount, 1).toString(), "kg" )
         }
         mWeightAdapter.data.clear()
         mWeightAdapter.addData(mList)
@@ -548,12 +551,17 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     }
 
                 }
-                TLog.error("==weight==" + weight)
+                TLog.error("==weight==" + weight+" 是否未0="+(weight.toString() == "0.0"))
                 tvTime.text = DateUtil.getDate(
                     DateUtil.MM_AND_DD_STRING,
                     DateUtil.getWeekFirstDate(weekCalendar).timeInMillis + (size) * 86400000L
                 )
-                tvWeight.text = if(weight.toString() == "0.0")"日均--kg" else  HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
+                if(weight.toString() == "0.0"){
+                    tvWeight.text = "--"
+                }else{
+                    tvWeight.text =  HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
+                }
+
                 // update()
             }
             2 -> {
@@ -598,8 +606,11 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     DateUtil.MM_AND_DD_STRING,
                     DateUtil.getMonthFirstDate(monthCalendar).timeInMillis + (size) * 86400000L
                 )
+
+                Log.e(tags,"----日剧="+(( weight.toString() == "0.0")))
+
                 tvWeight.text =
-                   if( weight.toString() == "0.0")"日均--kg" else HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
+                   if( weight.toString() == "0.0")"--" else HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
 
             }
             3 -> {
@@ -646,7 +657,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     values.add(BarEntry(time, weight))
                 }
                 tvTime.text = "${month + 1}月"
-                tvWeight.text = HelpUtil.getSpan("月均", setNumber(weight, 1).toString(), "kg")
+                tvWeight.text = if(weight == 0.0) "--" else HelpUtil.getSpan("月均", setNumber(weight, 1).toString(), "kg")
             }
         }
         update()
@@ -997,7 +1008,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 val avgWeight: BigDecimal =
                     BigDecimal(h.y.toDouble()).setScale(1, BigDecimal.ROUND_HALF_DOWN)
                 Log.e(tags, "------1---avgWeight=$avgWeight")
-                tvWeight.text = if( avgWeight.toString() == "0.0")"日均--kg" else HelpUtil.getSpan("日均", avgWeight.toString(), "kg")
+                tvWeight.text = if( avgWeight.toString() == "0.0")"--" else HelpUtil.getSpan("日均", avgWeight.toString(), "kg")
             } else
                 tvWeight.text = "--"
         } else if (position == 2) {
@@ -1018,7 +1029,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 val avgWeight: BigDecimal =
                     BigDecimal(h.y.toDouble()).setScale(1, BigDecimal.ROUND_HALF_DOWN)
                 Log.e(tags, "---3------avgWeight=$avgWeight")
-                tvWeight.text = HelpUtil.getSpan("月均", avgWeight.toString(), "kg")
+                tvWeight.text = if(avgWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan("月均", avgWeight.toString(), "kg")
             } else
                 tvWeight.text = "--"
         }
@@ -1104,7 +1115,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     if ((mAllList.size - 1) > index) {
                         lastWeight = mAllList[index + 1].weight.toDouble()
 
-                        tvLastWeight.text = HelpUtil.getSpan(lastWeight.toString(), "kg")
+                        tvLastWeight.text = if(lastWeight == 0.0) "--" else HelpUtil.getSpan(lastWeight.toString(), "kg")
                     } else {
                         tvLastWeight.text = "--"
                     }

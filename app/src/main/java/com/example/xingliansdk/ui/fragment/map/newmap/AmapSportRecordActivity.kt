@@ -244,7 +244,7 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
                 amapRecordBean.sportCount = tmAL.size
                 resultList.add(amapRecordBean)
             }
-
+            resultList.sortByDescending { it.monthStr }
             amapRecordAdapter!!.setType(sportType)
             // amapRecordAdapter!!.notifyDataSetChanged()
         } catch (e: Exception) {

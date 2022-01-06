@@ -13,7 +13,7 @@
         android:layout_height="?actionBarSize"
         app:actionTextSize="24sp"
         app:backcolor="@color/white"
-        app:homeBackClick="true"
+        app:homeBackClick="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:midtitle="表盘详情"

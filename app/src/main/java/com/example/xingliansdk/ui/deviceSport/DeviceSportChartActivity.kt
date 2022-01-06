@@ -406,11 +406,10 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 TLog.error("values" + Gson().toJson(values))
             }
         }
-        tvTotalStep.text = HelpUtil.getSpan(totalStep.toLong().toString(), "步", 13)
+        tvTotalStep.text = HelpUtil.getSpan(numberFormat.format(totalStep.toLong()).toString(), "步", 13)
         if (mListSize <= 0)
             mListSize = 1
-        tvStep.text = HelpUtil.getSpan(
-            (totalStep / mListSize).toLong().toString()
+        tvStep.text = HelpUtil.getSpan(numberFormat.format((totalStep / mListSize).toLong()).toString()
             , "步", 13
         )
         //        if (chart.data != null &&
@@ -436,13 +435,13 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             val colorsV : List<Int> = listOf(Color.parseColor("#95BFFE"),Color.parseColor("#9AF7FF"),Color.parseColor("#1D78FF"))
 //            barData.color = Color.parseColor("#9AF7FF")
 //            barData.color = Color.parseColor("#95BFFE")
-            barData.colors = colorsV
+          //  barData.colors = colorsV
 
             val fill1 = Fill(Color.parseColor("#9AF7FF"))
             val fill2 = Fill(Color.parseColor("#95BFFE"))
             val fill3 = Fill(Color.parseColor("#1D78FF"))
             val arrayFills : List<Fill> = listOf(fill1,fill2,fill3)
-            barData.fills = arrayFills
+         //   barData.fills = arrayFills
 
         }
        // val set1: BarDataSet = BarDataSet(values, "")
