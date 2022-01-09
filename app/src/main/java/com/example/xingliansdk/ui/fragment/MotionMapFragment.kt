@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.fragment.BaseFragment
@@ -14,6 +15,9 @@ import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.motion_map_viewpager.*
 
 class MotionMapFragment : BaseFragment<BaseViewModel>() {
+
+    private val tags = "MotionMapFragment"
+
     //fragment集合
     var fragments: ArrayList<Fragment> = arrayListOf()
     //标题集合
@@ -26,6 +30,27 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
     override fun layoutId(): Int = R.layout.fragment_motion_map
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.setTitleBar(activity, viewpager_linear)
+//        //初始化viewpager2
+//        if (!Hawk.get<ArrayList<MapMotionBean>>("DistanceList").isNullOrEmpty())
+//            for (i in 0 until mDataList.size) {
+//                mDistanceList=Hawk.get("DistanceList")
+//            }
+//        view_pager?.init(this, fragments)
+//        view_pager?.offscreenPageLimit=3
+//        //初始化 magic_indicator
+//        magic_indicator.bindViewPager2(view_pager, mDataList)
+    }
+
+    override fun createObserver() {
+        for (i in 0 until mDataList.size) {
+            fragments.add(MapFragment.newInstance(i,mDistanceList[i]))
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(tags,"------onResume---------")
         //初始化viewpager2
         if (!Hawk.get<ArrayList<MapMotionBean>>("DistanceList").isNullOrEmpty())
             for (i in 0 until mDataList.size) {
@@ -35,12 +60,5 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
         view_pager?.offscreenPageLimit=3
         //初始化 magic_indicator
         magic_indicator.bindViewPager2(view_pager, mDataList)
-    }
-
-    override fun createObserver() {
-        for (i in 0 until mDataList.size) {
-            fragments.add(MapFragment.newInstance(i,mDistanceList[i]))
-        }
-
     }
 }

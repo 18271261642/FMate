@@ -112,10 +112,19 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         TLog.error("回来触发 onResume")
-        TLog.error("-----mMapMotionBean=" + Gson().toJson(mMapMotionBean))
+        TLog.error("---111--mMapMotionBean=" + Gson().toJson(mMapMotionBean))
         mMapMotionBean?.let { it ->
             mViewModel.getMotionDistance(it.type)
         }
+        TLog.error("---222--mMapMotionBean=" + Gson().toJson(mMapMotionBean))
+
+
+        mViewModel.msg.observe(this)
+        {
+            //累计里程
+            mMapMotionBean?.let { it1 -> typeSportDistance(it1.type) }
+        }
+
         //文字显示
         homeSportTypeTv.text = "累计" + mMapMotionBean?.let { it1 -> typeSport(it1.type) } + "距离>"
 //        //文字显示
@@ -128,7 +137,7 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         super.createObserver()
         mViewModel.result.observe(this)
         {
-            TLog.error("===+" + Gson().toJson(it))
+            TLog.error("--------" + Gson().toJson(it))
             var motionBean: MotionBean = Gson().fromJson(Gson().toJson(it), MotionBean::class.java)
             unitSport(motionBean.distance.toDouble())
         }
