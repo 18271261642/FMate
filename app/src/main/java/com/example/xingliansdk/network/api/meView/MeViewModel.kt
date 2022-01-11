@@ -13,9 +13,9 @@ import com.shon.connector.utils.TLog
 class MeViewModel : BaseViewModel() {
     val result: MutableLiveData<Any> = MutableLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
-    fun getDialImg( ) {
+    fun getDialImg(pNumber : String ) {
         requestCustom({
-            mMeViewApi.getDialImg( )
+            mMeViewApi.getDialImg(pNumber)
         }, {
             result.postValue(it)
         }

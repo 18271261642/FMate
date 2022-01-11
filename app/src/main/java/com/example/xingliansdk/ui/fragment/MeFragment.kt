@@ -15,6 +15,7 @@ import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.R
 import com.example.xingliansdk.adapter.MeImgAdapter
 import com.example.xingliansdk.base.fragment.BaseFragment
+import com.example.xingliansdk.bean.DeviceFirmwareBean
 import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
@@ -323,7 +324,9 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     imgDevice.setImageResource(R.mipmap.img_product_connect)
                     ll_connect_status.visibility = View.GONE
                     tvDeviceElectricity.visibility = View.VISIBLE
-                    mViewModel.getDialImg()
+                    var bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
+                    if(bean!=null)
+                    mViewModel.getDialImg(bean.productNumber)
                 }
                 Hawk.put("type", DEVICE_ELECTRICITY)
             }

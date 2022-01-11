@@ -41,6 +41,14 @@ public class Utils {
     }
 
 
+    public static String matchPace(double speed){
+        double pace = divi(1,speed,2);
+        pace = mul(pace,Double.valueOf(60));
+        int minute = (int) (pace / 60);
+        int second = (int) (pace % 60);
+        return minute+"'"+second+"''";
+    }
+
     /**
      * 小数相加
      * @param v1

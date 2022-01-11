@@ -260,12 +260,18 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             var dis=Utils.divi(amapSportBean.distance.toDouble(),1000.0,2)
             var unit="公里"
             var pace=amapSportBean.pace.toDouble()
+            var paceStr = "--"
             var  averageSpeed=  amapSportBean.averageSpeed.toDouble() * 3600 / 1000
             if(userInfo.userConfig.distanceUnit==1) {
                 dis = Utils.mul(dis, MILE, 2)
                 unit="英里"
-                pace=Utils.mul(pace, MILE)
+               // pace=Utils.mul(pace, MILE)
+
                 averageSpeed=   Utils.mul(averageSpeed, MILE, 2)
+
+                paceStr = Utils.matchPace(averageSpeed);
+            }else{
+                paceStr = Utils.matchPace(averageSpeed);
             }
             itemSportDetailDistanceTv!!.text =
                 HelpUtil.getSpan(
@@ -284,11 +290,15 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
                 11
             )
             TLog.error("pace++"+pace)
-            itemAmapSportDetailPeisuTv!!.text = HelpUtil.getSpan(
-                getPaceStr(pace.toInt().toString()),
-                "/$unit",
-                11
-            )
+//            itemAmapSportDetailPeisuTv!!.text = HelpUtil.getSpan(
+//                getPaceStr(pace.toInt().toString()),
+//                "/$unit",
+//                11
+//            )
+
+            itemAmapSportDetailPeisuTv!!.text = HelpUtil.getSpan(paceStr,"/$unit",
+                11)
+
             itemAmapSportSpeedTv!!.text =
                 HelpUtil.getSpan(
                     String.format("%.2f", averageSpeed),

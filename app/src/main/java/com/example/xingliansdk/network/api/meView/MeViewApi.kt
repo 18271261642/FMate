@@ -9,9 +9,9 @@ class MeViewApi private constructor() : AppApi<MeViewInterface>() {
     companion object {
         val mMeViewApi: MeViewApi by lazy { MeViewApi() }
     }
-     suspend fun getDialImg( ):BaseResult<Any>
+     suspend fun getDialImg(nNumber : String ):BaseResult<Any>
     {
-      return  apiInterface?.getDialImg()!!
+      return  apiInterface?.getDialImg(nNumber)!!
     }
 
 }
