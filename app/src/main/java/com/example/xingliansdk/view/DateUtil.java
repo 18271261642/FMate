@@ -1310,6 +1310,20 @@ public class DateUtil {
         return dateTime;
     }
 
+    public static String getTextTimeHour(long time){
+        String dateTime;
+        dateTime = String.valueOf(time / 3600);
+        return dateTime;
+    }
+
+
+    public static String getTextTimeMinute(long time){
+        String dateTime;
+        dateTime = String.valueOf(time % 3600 / 60);
+        return dateTime;
+    }
+
+
     static long TIME_START = 946656000;
 
     /**

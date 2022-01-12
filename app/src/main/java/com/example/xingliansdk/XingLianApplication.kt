@@ -76,7 +76,7 @@ class XingLianApplication : BaseApp() {
         const val readCharacter5 = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
         //bugly错误信息
-        const val bugly_appId = "c6e1f7ad2c"
+        const val bugly_appId = "d242b786b4"
         const val appKey = "b3f98779-a899-466b-b2bd-c3e2690c406e"
         const val TIME_START = 946656000
         private var context: WeakReference<Context>? = null

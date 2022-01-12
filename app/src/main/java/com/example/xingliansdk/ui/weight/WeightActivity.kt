@@ -113,7 +113,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
         setAdapter()
         setTitleDateData()
         update()
-        for (i in 30..255) {
+        for (i in 3..255) {
             cardWeightItem.add(CardWeightBean(i, i.toString()))
         }
         for (j in 0..cardWeightItem.size) {
@@ -965,7 +965,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             .isDialog(true)
             .setCyclic(cardWeightItem.size > 2, false, false)
             .isRestoreItem(false)
-            .setSelectOptions(cardWeightItem.size / 11, 1)
+            .setSelectOptions(cardWeightItem.size / 21, 1)
             .setTextColorCenter(resources.getColor(R.color.color_main_green))
             .setOutSideCancelable(false)
             .setContentTextSize(18)

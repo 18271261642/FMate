@@ -53,7 +53,10 @@ class SleepGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChange
 
         TLog.error("sleepGoal=="+sleepGoal)
         seekBarSports.progress = (sleepGoal/1800)
-        tvSport.text = DateUtil.getTextTime(sleepGoal.toLong())
+        //tvSport.text = DateUtil.getTextTime(sleepGoal.toLong())
+
+        tvSport.text = DateUtil.getTextTimeHour(sleepGoal.toLong()) //DateUtil.getTextTime((progress*1800).toLong())
+        tvSportMinute.text = DateUtil.getTextTimeMinute(sleepGoal.toLong())
     }
     override fun createObserver() {
         super.createObserver()
@@ -68,7 +71,10 @@ class SleepGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChange
 
         sleepGoal=progress*1800
         TLog.error("progress==$progress  sleepGoal++$sleepGoal")
-        tvSport.text = DateUtil.getTextTime((progress*1800).toLong())
+        tvSport.text = DateUtil.getTextTimeHour((progress*1800).toLong()) //DateUtil.getTextTime((progress*1800).toLong())
+        tvSportMinute.text = DateUtil.getTextTimeMinute((progress*1800).toLong())
+
+
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {

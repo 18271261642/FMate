@@ -1,5 +1,7 @@
 package com.example.xingliansdk.utils;
 
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,8 @@ import java.util.Locale;
  * Date 2021/9/11
  */
 public class Utils {
+
+    private static final String TAG = "Utils";
 
     private static double miV = 0.6213;
 
@@ -44,6 +48,7 @@ public class Utils {
     public static String matchPace(double speed){
         double pace = divi(1,speed,2);
         pace = mul(pace,Double.valueOf(60));
+        Log.e(TAG,"-------计算配速="+pace);
         int minute = (int) (pace / 60);
         int second = (int) (pace % 60);
         return minute+"'"+second+"''";

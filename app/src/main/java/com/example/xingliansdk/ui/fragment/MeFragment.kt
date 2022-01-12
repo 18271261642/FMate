@@ -325,7 +325,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     ll_connect_status.visibility = View.GONE
                     tvDeviceElectricity.visibility = View.VISIBLE
                     var bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
-                    if(bean!=null)
+                    if(bean!=null && bean.productNumber!=null)
                     mViewModel.getDialImg(bean.productNumber)
                 }
                 Hawk.put("type", DEVICE_ELECTRICITY)
@@ -355,7 +355,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 Hawk.put("type", DEVICE_DELETE_DEVICE)
             }
             SPORTS_GOAL_SLEEP -> {
-                setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
+               // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
             }
             SPORTS_GOAL_EXERCISE_STEPS -> {
                 val step: String = event.data.toString()
