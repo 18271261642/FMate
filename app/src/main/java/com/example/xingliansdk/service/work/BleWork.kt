@@ -838,10 +838,11 @@ class BleWork : IWork, OnCountTimerListener,
                         }
                         if (it.data.takeMedicine == null || takeMedicineCreateTime > it.data.takeMedicine.createTime) {
                             saveTakeMedicine(takeMedicineCreateTime)
+                            Hawk.put(TAKE_MEDICINE_CREATE_TIME, it.data.takeMedicine.createTime)
                         } else {
                             remindTakeList= it.data.takeMedicine.list as ArrayList<RemindTakeMedicineBean>?
                             Hawk.put(REMIND_TAKE_MEDICINE,remindTakeList)
-                            Hawk.put(TAKE_MEDICINE_CREATE_TIME, it.data.takeMedicine.createTime)
+                           // Hawk.put(TAKE_MEDICINE_CREATE_TIME, it.data.takeMedicine.createTime)
                         }
                     }
                 }.onFailure {

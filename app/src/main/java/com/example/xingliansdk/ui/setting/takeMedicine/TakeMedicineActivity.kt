@@ -196,6 +196,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
     var mList: MutableList<RemindTakeMedicineBean.ReminderGroup> = arrayListOf()
     fun setAdapter(mTakeList: MutableList<RemindTakeMedicineBean.ReminderGroup>) {
         mList.clear()
+        mTakeList.sortBy { it.countHM }
         this.mList.addAll(mTakeList)
         mBean.setGroupList(mTakeList)
         ryIndex.layoutManager = LinearLayoutManager(

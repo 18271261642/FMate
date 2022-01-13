@@ -156,12 +156,12 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                 TLog.error(tags, "-------1111-list=" + Gson().toJson(mList))
 
                 mList.clear()
-                mTakeMedicineAdapter.notifyDataSetChanged()
                 mList = it.takeMedicine.list as ArrayList<RemindTakeMedicineBean>
 
                 TLog.error(tags, "-------222-list=" + Gson().toJson(mList))
                 Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, it.takeMedicine.createTime)
                 TLog.error("吃药==修改本地")
+                mTakeMedicineAdapter = TakeMedicineAdapter(mList)
             }
             setVisible()
             mTakeMedicineAdapter.notifyDataSetChanged()
