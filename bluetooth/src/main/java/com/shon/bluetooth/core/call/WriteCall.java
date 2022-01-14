@@ -37,11 +37,11 @@ public final class WriteCall extends BaseCall<WriteCallback, WriteCall> {
 
 
         byte[] sendData = callBack.getSendData();
-        BleLog.d("writeInfo byte[] = " + ByteUtil.getHexString(sendData));
+        BleLog.e("writeInfo byte[] = " + ByteUtil.getHexString(sendData));
         boolean setValue = characteristic.setValue(sendData);
         if (setValue) {
             boolean writeCharacteristic = gatt.writeCharacteristic(characteristic);
-            BleLog.d("Writer write()   writeCharacteristic  " + writeCharacteristic);
+            BleLog.e("Writer write()   writeCharacteristic  " + writeCharacteristic);
             if (writeCharacteristic){
 //                TLog.Companion.error("WriteCall writeCharacteristic++"+writeCharacteristic);
                 startTimer();

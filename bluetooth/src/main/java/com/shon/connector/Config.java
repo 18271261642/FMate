@@ -9,7 +9,7 @@ public class Config {
     /**
      * 硬件方是 2000年起步 和我们的不同所以要加一个时间
      */
-    public static final int TIME_START = 946656000;
+    public static final long TIME_START = 946656000L;
 
 
     /**

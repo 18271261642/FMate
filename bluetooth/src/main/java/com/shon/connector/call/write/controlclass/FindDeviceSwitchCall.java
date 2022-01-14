@@ -7,6 +7,8 @@ import com.shon.connector.call.CmdUtil;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.connector.utils.TLog;
 
+import java.util.Arrays;
+
 /**
  * 3.3.8
  * App寻找设备功能开关
@@ -26,7 +28,7 @@ public class FindDeviceSwitchCall extends WriteCallback {
     @Override
     public byte[] getSendData() {
         byte payload[] = {0x01,0x08,keyValue};//由 command(1byte) key(1byte) keyValueLeng(2byte)以及keyValue(长度不定)
-        TLog.Companion.error("="+CmdUtil.getFullPackage(payload));
+        TLog.Companion.error("查找手表="+ Arrays.toString(CmdUtil.getFullPackage(payload)));
         return CmdUtil.getFullPackage(payload);
     }
 

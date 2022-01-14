@@ -143,6 +143,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 )
             edtTitle.setText(mBean.unicodeTitle)
         } else {
+            val calendar = Calendar.getInstance()
             settingStartTime.setContentText(
                 DateUtil.getDate(
                     DateUtil.YYYY_MM_DD,
@@ -150,7 +151,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 )
             )
             var mReminderGroup: MutableList<RemindTakeMedicineBean.ReminderGroup> = arrayListOf()
-            mReminderGroup.add(mBean.ReminderGroup(0, 0))
+            mReminderGroup.add(mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
             setAdapter(mReminderGroup)
         }
         initDatePicker()
@@ -264,7 +265,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
     private var dateTime: TimePickerView? = null
     private fun initDatePicker() { //Dialog 模式下，在底部弹出
-        var ca: Calendar = Calendar.getInstance()
+        val ca: Calendar = Calendar.getInstance()
         TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000))
         if (startEndType && mBean.startTime > 1000)
             ca.timeInMillis = mBean.startTime * 1000
@@ -344,33 +345,38 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 var tvTwo = holder.getView<TextView>(R.id.tvTwo)
                 var tvThree = holder.getView<TextView>(R.id.tvThree)
                 var tvFour = holder.getView<TextView>(R.id.tvFour)
-
+                val calendar = Calendar.getInstance()
                 tvOne?.setOnClickListener {
-                    mList.add(mBean.ReminderGroup(0, 0))
+                    if(mList.size>0){
+                        mList.add(mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM))
+                    }else{
+                        mList.add(mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    }
+
                     settingNumber.setContentText("1次")
                     setAdapter(mList)
                     dialog.dismiss()
                 }
                 tvTwo?.setOnClickListener {
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
+                    mList.add(if(mList.size>0) mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>1)mBean.ReminderGroup(mList[1].groupHH, mList[1].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     settingNumber.setContentText("2次")
                     setAdapter(mList)
                     dialog.dismiss()
                 }
                 tvThree?.setOnClickListener {
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
+                    mList.add(if(mList.size>0) mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>1)mBean.ReminderGroup(mList[1].groupHH, mList[1].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>2) mBean.ReminderGroup(mList[2].groupHH, mList[2].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     settingNumber.setContentText("3次")
                     setAdapter(mList)
                     dialog.dismiss()
                 }
                 tvFour?.setOnClickListener {
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
-                    mList.add(mBean.ReminderGroup(0, 0))
+                    mList.add(if(mList.size>0) mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>1)mBean.ReminderGroup(mList[1].groupHH, mList[1].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>2) mBean.ReminderGroup(mList[2].groupHH, mList[2].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
+                    mList.add(if(mList.size>3) mBean.ReminderGroup(mList[3].groupHH, mList[3].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
 
                     settingNumber.setContentText("4次")
                     setAdapter(mList)

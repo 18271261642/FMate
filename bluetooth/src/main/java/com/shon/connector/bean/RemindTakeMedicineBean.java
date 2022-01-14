@@ -139,4 +139,18 @@ public class RemindTakeMedicineBean {
         }
     }
 
+
+    @Override
+    public String toString() {
+        return "RemindTakeMedicineBean{" +
+                "number=" + number +
+                ", mSwitch=" + mSwitch +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", ReminderPeriod=" + ReminderPeriod +
+                ", groupList=" + groupList +
+                ", unicodeTitle='" + unicodeTitle + '\'' +
+                ", unicodeContent='" + unicodeContent + '\'' +
+                '}';
+    }
 }

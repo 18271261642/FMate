@@ -122,7 +122,7 @@
                 android:textSize="14sp"
                 android:inputType="number"
                 android:singleLine="true"
-                android:maxLength="2"
+                android:maxLength="3"
                 android:imeOptions="actionDone"
                 android:layout_marginRight="16dp"/>
         </LinearLayout>

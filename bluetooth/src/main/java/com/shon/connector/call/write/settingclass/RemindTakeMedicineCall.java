@@ -1,5 +1,7 @@
 package com.shon.connector.call.write.settingclass;
 
+import android.util.Log;
+
 import com.example.xingliansdk.utils.ShowToast;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.callback.WriteCallback;
@@ -15,6 +17,9 @@ import com.shon.connector.utils.HexDump;
  * APP 设置吃药提醒
  */
 public class RemindTakeMedicineCall extends WriteCallback {
+
+    private static final String TAG = "RemindTakeMedicineCall";
+
     RemindTakeMedicineBean mTimeBean;
 
     public RemindTakeMedicineCall(String address, RemindTakeMedicineBean mTimeBean) {
@@ -24,7 +29,7 @@ public class RemindTakeMedicineCall extends WriteCallback {
 
     @Override
     public byte[] getSendData() {
-//        TLog.Companion.error("==" + ByteUtil.getHexString(send()));
+        TLog.Companion.error("吃药提醒指令=" + ByteUtil.getHexString(send()));
         return send();
     }
 
@@ -60,8 +65,16 @@ public class RemindTakeMedicineCall extends WriteCallback {
     private byte[] send() {
         byte[] unicodeTitle = new byte[0];
         byte[] unicodeContent = new byte[0];
-        byte[] startTime = HexDump.toByteArray((mTimeBean.getStartTime()/1000-Config.TIME_START));
-        byte[] endTime = HexDump.toByteArray((mTimeBean.getEndTime()/1000-Config.TIME_START));
+//        byte[] startTime = HexDump.toByteArray((mTimeBean.getStartTime()/1000-Config.TIME_START));
+//        byte[] endTime = HexDump.toByteArray((mTimeBean.getEndTime()/1000-Config.TIME_START));
+
+        long startDate = mTimeBean.getStartTime();
+
+
+        byte[] startTime = new byte[]{0x00,0x00,0x00,0x00};
+        byte[] endTime =  new byte[]{0x00,0x00,0x00,0x00};
+
+        Log.e(TAG,"------开始结束时间="+ByteUtil.getHexString(startTime)+"\n"+ByteUtil.getHexString(endTime));
         //下面是数据解析
         byte[] bytes = new byte[]{(byte) mTimeBean.getNumber(),
                 (byte) mTimeBean.getSwitch(),

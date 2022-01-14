@@ -42,10 +42,11 @@
                 android:layout_width="188dp"
                 android:layout_height="188dp"
                 android:layout_gravity="center"
-                android:src="@drawable/round_green"
+                android:src="@drawable/icon_cus_dial_bg"
                 android:gravity="center"
                 android:orientation="vertical"
                 />
+
             <LinearLayout
                 android:id="@+id/llDial"
                 android:layout_width="188dp"
@@ -54,6 +55,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="24dp">
+
                 <TextView
                     android:id="@+id/tvTime"
                     android:layout_width="match_parent"
@@ -62,17 +64,19 @@
                     android:text="10:28"
                     android:textColor="@color/white"
                     android:textSize="30sp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content">
+                    android:gravity="center">
+
                     <ImageView
+                        android:id="@+id/imgDialType"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
-                        android:src="@mipmap/icon_walk"
-                        android:id="@+id/imgDialType"
-                        />
+                        android:src="@mipmap/icon_walk" />
+
                     <TextView
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"

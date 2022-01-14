@@ -94,7 +94,7 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun NotifyCallResult(key: Byte, type: Int, Status: Int) {
-        TLog.error(" NotifyCallResult ")
+        TLog.error("广播","NotifyCallResult ="+key+" "+type +" "+Status)
         when (key) {
             Config.ActiveUpload.DEVICE_FIND_PHONE -> //寻找手机
             {
@@ -169,8 +169,11 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     {
                         kotlin.runCatching {
                             var hashMap=HashMap<String,String>()
+                            val userHashMap = HashMap<String,String>()
+                            userHashMap["dialId"]= type.toString()
                             hashMap["type"]="1"
                             hashMap["dialId"]=type.toString()
+                            DetailDialViewApi.mDetailDialViewApi.updateUserDial(userHashMap)
                             RecommendDialViewApi.mRecommendDialViewApi.checkDialSate(Gson().toJson(hashMap))
                         }.onSuccess {
                             TLog.error("BLEBROAD  效验id+"+type)
