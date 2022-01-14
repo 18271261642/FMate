@@ -2,7 +2,10 @@ package com.example.xingliansdk.utils;
 
 import android.util.Log;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +21,8 @@ public class Utils {
     private static final String TAG = "Utils";
 
     private static double miV = 0.6213;
+
+    private static final DecimalFormat deci = new DecimalFormat("##");
 
     //公制转英制 1km = 0.6213英里
     public static double kmToMile(double kmValue){
@@ -48,10 +53,20 @@ public class Utils {
     public static String matchPace(double speed){
         double pace = divi(1,speed,2);
         pace = mul(pace,Double.valueOf(60));
-        Log.e(TAG,"-------计算配速="+pace);
-        int minute = (int) (pace / 60);
-        int second = (int) (pace % 60);
-        return minute+"'"+second+"''";
+        pace = divi(pace,1,2); //保留两位小数
+        if(String.valueOf(pace).contains(".")){
+            String secondStr = StringUtils.substringAfter(String.valueOf(pace),".");
+            int secondInt = Integer.parseInt(secondStr.trim());
+            int secondS = secondInt * 60/10;
+
+            String minuteStr = StringUtils.substringBefore(String.valueOf(pace),".");
+            return minuteStr+"'"+secondS+"''";
+        }
+//        int minute = (int) (pace / 60);
+//        int second = (int) (pace % 60);
+//        return minute+"'"+second+"''";
+
+        return "--";
     }
 
     /**
