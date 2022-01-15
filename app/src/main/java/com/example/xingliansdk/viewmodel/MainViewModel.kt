@@ -3,8 +3,12 @@ package com.example.xingliansdk.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.callback.UnPeekLiveData
+import com.example.xingliansdk.network.api.UIUpdate.UIUpdateApi
+import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mainView.MainApi
+import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
+import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.requestCustom
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
@@ -20,6 +24,9 @@ class MainViewModel : BaseViewModel() {
     val result: UnPeekLiveData<LoginBean> = UnPeekLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
     var userInfo= UnPeekLiveData<LoginBean>()
+
+    val resultOta: MutableLiveData<OTAUpdateBean> = MutableLiveData()
+
     init {
         textValue.value = Hawk.get<Int>("step")
         address.value = Hawk.get<String>("address")
@@ -70,5 +77,23 @@ class MainViewModel : BaseViewModel() {
 
     open fun getText(): Int {
         return textValue.value ?: 0
+    }
+
+
+    fun findUpdate(number:String,code:Int) {
+//        request(
+//            otaInterface.findUpdate("",0),
+//            {result},false
+//        )
+        requestCustom({
+            OTAUpdateApi.otaUpdateApi.getUpdateZipFll(number,code)
+        }, {
+            resultOta.postValue(it)
+            TLog.error("res++"+Gson().toJson(it))
+        }
+        ) { code, message ->
+            TLog.error("res++" + message)
+            msg.postValue(message)
+        }
     }
 }

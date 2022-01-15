@@ -54,14 +54,14 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
             //   tvItemStatusSubTitle.text =DateUtil.getDate(DateUtil.MM_AND_DD,item.time*1000)
             //    tvItemStatusSubTitle.text = item.data
             if (item.type == 2) {
-                tvItemStatusData.text = HelpUtil.getSpan(
-                    item.data.substring(0, 2),
-                    item.data.substring(2, 4),
-                    item.data.substring(4, 6),
-                    item.data.substring(6, 8),
-                    R.color.sub_text_color,
-                    12
-                )
+//                tvItemStatusData.text = HelpUtil.getSpan(
+//                    item.data.substring(0, 2),
+//                    item.data.substring(2, 4),
+//                    item.data.substring(4, 6),
+//                    item.data.substring(6, 8),
+//                    R.color.sub_text_color,
+//                    12
+//                )
                 img.setImageResource(R.mipmap.icon_home_sleep_data)
             } else {
                 if (item.data.isNullOrEmpty())

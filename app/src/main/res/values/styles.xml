@@ -152,4 +152,44 @@
         <!-- 刷新成功文字设置-->
         <item name="srlTextFinish">数据刷新成功</item>
     </style>
+
+
+    <!--权限说明页面控件style-->
+    <style name="PermissionCommParentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="background">@drawable/comm_shap_layout</item>
+    </style>
+    <!--左侧图片-->
+    <style name="PermissionCommLeftImgStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+    <!--上方标题-->
+    <style name="PermissionCommTopTitleStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:padding">3dp</item>
+    </style>
+    <!--下方描述-->
+    <style name="PermissionCommBotDescStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:padding">3dp</item>
+    </style>
+    <!--右侧图片-->
+    <style name="PermissionCommRightImgStyle">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
 </resources>

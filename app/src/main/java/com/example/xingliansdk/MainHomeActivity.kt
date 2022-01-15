@@ -12,15 +12,22 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
+import com.example.xingliansdk.dfu.DFUActivity
+import com.example.xingliansdk.eventbus.SNEvent
+import com.example.xingliansdk.eventbus.SNEventBus
+import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
+import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
+import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.PermissionUtils
@@ -29,7 +36,13 @@ import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
+import com.shon.bluetooth.util.ByteUtil
+import com.shon.connector.BleWrite
+import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
+import kotlinx.android.synthetic.main.activity_update_zip.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
 
@@ -41,7 +54,14 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
     var bluetoothMonitorReceiver: BluetoothMonitorReceiver? = null
     override fun layoutId() = R.layout.activity_main_home
 
+    lateinit var otaBean: OTAUpdateBean
+
+    val instance by lazy{this}
+
+    private var otaAlert : AlertDialog.Builder ?= null
+
     override fun initView(savedInstanceState: Bundle?) {
+        SNEventBus.register(this)
         Permissions()
 
         bindBle()
@@ -74,9 +94,48 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
 
     override fun createObserver() {
         super.createObserver()
+        mViewModel.resultOta.observe(this){
+            TLog.error("IT==" + Gson().toJson(it))
+            otaBean = it
+            if (otaBean?.ota.isNullOrEmpty())
+            {
+//                tvBegan.visibility= View.GONE
+//                tvUpdateCode.text = "已是最新版本"
+            }
+            else {
+                val focusUpdate = otaBean.isForceUpdate;
 
+
+
+                //  tvUpdateCode.text = otaBean?.version
+                var version = otaBean?.versionCode!!
+                var code = otaBean?.versionCode?.toString(16)
+                var codeName = ByteUtil.hexStringToByte(code)
+
+                if (BleConnection.startOTAActivity && focusUpdate) {
+                    //  showWaitDialog("下载ota升级包中")
+                    showOtaAlert()
+                }
+            }
+        }
 
     }
+
+    private fun showOtaAlert(){
+        otaAlert = AlertDialog.Builder(instance)
+            .setTitle("提醒")
+            .setMessage("有最新固件，是否升级?")
+            .setPositiveButton("升级") { p0, p1 ->
+                p0?.dismiss()
+                startActivity(Intent(instance, DFUActivity::class.java))
+            }.setNegativeButton("取消"
+            ) { p0, p1 -> p0?.dismiss() }
+        otaAlert?.create()?.show()
+    }
+
+
+
+
     /**
      * 某些手机会杀掉下面的服务
      */
@@ -242,6 +301,33 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
 //        bleListener1?.registerReceiver(bluetoothMonitorReceiver!!, intentFilter)
 
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventContent(event: SNEvent<Any>){
+        when (event.code){
+            Config.eventBus.DEVICE_CONNECT_HOME -> {  //绑定成功
+                ShowToast.showToastLong(getString(R.string.bind_success))
+                TLog.error("HomeFragment BleConnectActivity==${BleConnectActivity.connect}")
+
+                if(baseDialog.isShowing)
+                    hideWaitDialog()
+                getLastOta()
+            }
+        }
+    }
+
+    private fun getLastOta(){
+        BleWrite.writeFlashErasureAssignCall {
+            var uuid = it
+            TLog.error(" uuid.toString()==${uuid.toString()}")
+            TLog.error(" uuid.toString()==${mDeviceFirmwareBean.productNumber}")
+            mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
+            // mViewModel.findUpdate(""+8002,""+251658241)
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

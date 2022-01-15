@@ -91,6 +91,7 @@
         <activity android:name=".ui.setting.account.UpPasswordActivity" />
         <activity android:name=".ui.setting.account.AccountActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
+        <activity android:name=".ui.ShowPermissionActivity"/>
         <activity
             android:name=".ui.problemsFeedback.ProblemsFeedbackActivity"
             android:windowSoftInputMode="adjustResize" />

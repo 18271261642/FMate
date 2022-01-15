@@ -33,4 +33,14 @@
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
         app:titleText="单位设置" />
+
+    <com.example.xingliansdk.widget.SettingItemLayout
+        android:id="@+id/privacyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:TextSize="18px"
+        app:layoutType="1"
+        app:mtitleTextColor="@color/sub_text_color"
+        app:titleText="权限使用说明" />
 </LinearLayout>

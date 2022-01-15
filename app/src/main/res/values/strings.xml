@@ -1,6 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
+
+
+
+    <string name="string_permiss_title">ai Health权限使用说明</string>
+    <string name="string_permiss_desc">为保证APP的正常使用,请开启以下权限</string>
+    <string name="string_permiss_ble">使用蓝牙功能</string>
+    <string name="string_permiss_ble_desc">需要使用手机蓝牙功能连接蓝牙手表</string>
+    <string name="string_permiss_gps">使用GPS功能</string>
+    <string name="string_permiss_gps_desc">地图跑步轨迹记录和搜索蓝牙手表需要打开手机GPS开关</string>
+    <string name="string_permiss_local">位置权限使用</string>
+    <string name="string_permiss_local_desc">跑步运动获取高精度位置信息</string>
+    <string name="string_permiss_camera">相机权限使用</string>
+    <string name="string_permiss_camera_desc">使用相机拍摄图片作为头像</string>
+    <string name="string_permiss_file">文件读写权限使用</string>
+    <string name="string_permiss_file_desc">相机拍照保存从相册选择图片作为头像</string>
+    <string name="string_permiss_phone">电话权限的使用</string>
+    <string name="string_permiss_phone_desc">消息提醒功能来电提醒手表查看当前来电状态</string>
+    <string name="string_permiss_contact">联系人、通讯录权限的使用</string>
+    <string name="string_permiss_contact_desc">来电时，手表可以显示姓名和手机号</string>
+
+
+
+
     <string name="text_sure">确定</string>
     <string name="text_set">设置</string>
     <string name="text_cancel">取消</string>

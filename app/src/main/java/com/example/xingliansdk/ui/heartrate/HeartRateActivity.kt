@@ -336,7 +336,7 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             if (it <= 0) {
 
                 if (values.isNotEmpty()) {
-                    val set1 = LineDataSet(values, Math.random().toString())
+                    val set1 = LineDataSet(values, "")
                     set1.color = resources.getColor(R.color.color_heart)
                     set1.fillColor = resources.getColor(R.color.color_heart_view)
                     set1.fillFormatter =
@@ -383,6 +383,7 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             set1.setDrawFilled(true)//填充下面的颜色
             set1.setDrawCircles(false)//设置画圆点
             set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
+            set1.lineWidth = 1.3f  //设置折线粗细
             data.addDataSet(set1)//正确操作
             //data=LineData(set1)//错误 操作
         }
