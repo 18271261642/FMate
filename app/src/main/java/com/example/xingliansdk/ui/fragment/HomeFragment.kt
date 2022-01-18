@@ -4,6 +4,7 @@ package com.example.xingliansdk.ui.fragment
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -87,6 +88,19 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     private lateinit var mPressureListDao: PressureListDao
     lateinit var mPopularScienceAdapter: PopularScienceAdapter
     private lateinit var mPopularList: MutableList<PopularScienceBean.ListDTO>
+
+
+
+    private val handler = object : Handler(Looper.myLooper()!!){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if(activity!=null && !activity!!.isFinishing){
+                mSwipeRefreshLayout.finishRefresh()
+            }
+        }
+    }
+
+
 
     //    private var isRefresh = false
     private fun getRoomList() {
@@ -270,6 +284,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 //            TLog.error("进行刷新")
         TLog.error("mHomeCardVoBean====+" + Gson().toJson(mHomeCardVoBean))
 //        mSwipeRefreshLayout.finishRefresh(60000)
+        handler.sendEmptyMessageDelayed(0x00,10 * 1000)
         setPopularAdapter()
         homeBleWrite()
 //        }

@@ -31,6 +31,9 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * 添加 编辑闹钟页面
@@ -259,7 +262,15 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
     }
 
     private var pvTime: TimePickerView? = null
+
     private fun initTimePicker() { //Dialog 模式下，在底部弹出
+        val calendar = Calendar.getInstance()
+        if(position != -1){
+            calendar.set(Calendar.HOUR_OF_DAY,mTimeBean.hours)
+            calendar.set(Calendar.MINUTE,mTimeBean.min)
+        }
+
+
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
                 tvTime.text = DateUtil.getDate(DateUtil.HH_MM, date)
@@ -272,7 +283,7 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
             .setType(booleanArrayOf(false, false, false, true, true, false))
             .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。
             .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
-            .setLineSpacingMultiplier(2.0f)
+            .setLineSpacingMultiplier(2.0f).setDate(calendar)
             .isAlphaGradient(true)
             .isCyclic(true)
             .build()

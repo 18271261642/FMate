@@ -128,12 +128,12 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_NEXT)//下一首
                 }
                 if (type == 2) {
-                    MusicControlUtil.playOrPauseMusic(mContext)
+                   // MusicControlUtil.playOrPauseMusic(mContext)
 
-//                    MusicControlUtil.sendKeyEvents(
-//                        mContext,
-//                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
-//                    )//播放/暂停
+                    MusicControlUtil.sendKeyEvents(
+                        mContext,
+                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                    )//播放/暂停
                 }
                 if (type == 3) {
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_PREVIOUS)//上一首

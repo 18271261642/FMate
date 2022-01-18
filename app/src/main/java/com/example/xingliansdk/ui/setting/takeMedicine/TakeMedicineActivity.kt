@@ -2,6 +2,7 @@ package com.example.xingliansdk.ui.setting.takeMedicine
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,9 @@ import kotlin.collections.HashMap
  * 吃药提醒编辑页面
  */
 class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
+
+    private val tags = "TakeMedicineActivity"
+
     private lateinit var mTimesPerDayAdapter: TimesPerDayAdapter
     var mBean: RemindTakeMedicineBean = RemindTakeMedicineBean()
     lateinit var mRemindTakeMedicineList: MutableList<RemindTakeMedicineBean>
@@ -154,7 +158,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             mReminderGroup.add(mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
             setAdapter(mReminderGroup)
         }
-        initDatePicker()
+        initDatePicker(0)
     }
 
     var startEndType = false
@@ -167,19 +171,19 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 TLog.error("mBean.ReminderPeriod+" + mBean.ReminderPeriod)
                 JumpUtil.startTakeMedicineRepeatActivity(this, mBean.ReminderPeriod)
             }
-            R.id.settingStartTime -> {
+            R.id.settingStartTime -> { //开始时间
                 TLog.error("dianji")
                 startEndType = true
-                initDatePicker() //为啥再次初始化 因为要判断和改变 setdate
+                initDatePicker(0) //为啥再次初始化 因为要判断和改变 setdate
                 dateTime?.let {
                     if (it.isShowing)
                         it.dismiss()
                     dateTime?.show()
                 }
             }
-            R.id.settingEndTime -> {
+            R.id.settingEndTime -> { //结束时间
                 startEndType = false
-                initDatePicker()
+                initDatePicker(1)
                 dateTime?.let {
                     if (it.isShowing)
                         it.dismiss()
@@ -265,44 +269,87 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
     }
 
     private var dateTime: TimePickerView? = null
-    private fun initDatePicker() { //Dialog 模式下，在底部弹出
+    private fun initDatePicker(code : Int) { //Dialog 模式下，在底部弹出
         val ca: Calendar = Calendar.getInstance()
         TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000))
-        if (startEndType && mBean.startTime > 1000)
-            ca.timeInMillis = mBean.startTime * 1000
-        else if (mBean.endTime > 1000) {
-            ca.timeInMillis = mBean.endTime * 1000
-        }
+//        if (startEndType && mBean.startTime > 1000)
+//            ca.timeInMillis = mBean.startTime * 1000
+//        else if (mBean.endTime > 1000) {
+//            ca.timeInMillis = mBean.endTime * 1000
+//        }
+        //当天的long
+        val currDayLong = DateUtil.getCurrDayToLongLast();
+//        if(mBean.endTime<currDayLong){
+//            mBean.endTime = currDayLong
+//        }
+
+
         dateTime = TimePickerBuilder(
             this
         ) { date, v ->
-            if (startEndType) {
-                if(date.time < System.currentTimeMillis())
-                {
+            //选择的时间
+            val selectDate = DateUtil.getDate(DateUtil.YYYY_MM_DD, date);
+            //转换成long类型
+            var selectLongDate = DateUtil.getCurrDayToLongLast(selectDate)
+            //开始时间，不能小于当天，可以等于当天
+            if(code == 0){
+
+                Log.e(tags,"--------选择的时间="+selectDate+" 转换后="+selectLongDate+" "+(selectLongDate < currDayLong))
+                if(selectLongDate < currDayLong){
                     ShowToast.showToastLong("开始时间不能小于当前时间")
                     return@TimePickerBuilder
                 }
-                TLog.error("开始时间=="+DateUtil.getDateToLongLast(date) / 1000)
-                mBean.startTime = DateUtil.convertDateToLong(date) / 1000
-                settingStartTime.setContentText(
-                    DateUtil.getDate(
-                        DateUtil.YYYY_MM_DD,
-                        date
-                    )
-                )
-            } else {
-                TLog.error("date.time+=" + date.time)
-                TLog.error("System.currentTimeMillis()+=" + System.currentTimeMillis())
-                if (date.time < System.currentTimeMillis()) {
+                if(mBean.endTime>100){
+                    if(selectLongDate>mBean.endTime){
+                        ShowToast.showToastLong("开始时间不能大于结束时间")
+                        return@TimePickerBuilder
+                    }
+                }
+
+
+                mBean.startTime =selectLongDate
+                settingStartTime.setContentText(selectDate)
+            }else{  //结束时间
+                //结束时间可以登录开始时间，但是不能不开始时间小
+                if(selectLongDate < mBean.startTime){
                     ShowToast.showToastLong("结束时间不能小于当前时间")
                     return@TimePickerBuilder
-                } else if ((mBean.startTime * 1000) > date.time) {
-                    ShowToast.showToastLong("开始时间不能大于结束时间")
-                    return@TimePickerBuilder
+
                 }
-                mBean.endTime = DateUtil.getDateToLongLast(date) / 1000
-                settingEndTime.setContentText(DateUtil.getDate(DateUtil.YYYY_MM_DD, date))
+                mBean.endTime =selectLongDate
+                settingEndTime.setContentText(selectDate)
             }
+
+
+
+
+//            if (startEndType) {
+//                if(date.time < System.currentTimeMillis())
+//                {
+//                    ShowToast.showToastLong("开始时间不能小于当前时间")
+//                    return@TimePickerBuilder
+//                }
+//                TLog.error("开始时间=="+DateUtil.getDateToLongLast(date) / 1000)
+//                mBean.startTime = DateUtil.convertDateToLong(date) / 1000
+//                settingStartTime.setContentText(
+//                    DateUtil.getDate(
+//                        DateUtil.YYYY_MM_DD,
+//                        date
+//                    )
+//                )
+//            } else {
+//                TLog.error("date.time+=" + date.time)
+//                TLog.error("System.currentTimeMillis()+=" + System.currentTimeMillis())
+//                if (date.time < System.currentTimeMillis()) {
+//                    ShowToast.showToastLong("结束时间不能小于当前时间")
+//                    return@TimePickerBuilder
+//                } else if ((mBean.startTime * 1000) > date.time) {
+//                    ShowToast.showToastLong("开始时间不能大于结束时间")
+//                    return@TimePickerBuilder
+//                }
+//                mBean.endTime = DateUtil.getDateToLongLast(date) / 1000
+//                settingEndTime.setContentText(DateUtil.getDate(DateUtil.YYYY_MM_DD, date))
+//            }
             TLog.error("+++" + mBean.startTime + "  时++" + DateUtil.getDateToLongLast(date) + " endTime===" + mBean.endTime)
         }
             .setType(booleanArrayOf(true, true, true, false, false, false))

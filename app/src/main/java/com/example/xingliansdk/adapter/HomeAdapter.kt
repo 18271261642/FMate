@@ -1,5 +1,6 @@
 package com.example.xingliansdk.adapter
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,134 +30,139 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
         R.mipmap.icon_home_temperature,
         R.mipmap.icon_home_weight
     )
-
+    var decimalFormat = DecimalFormat("#.##")
     override fun convert(helper: BaseViewHolder, item: HomeCardVoBean.ListDTO?) {
-        if (item == null) {
-            return
-        }
-        var decimalFormat = DecimalFormat("#.##")
-        val img = helper.getView<ImageView>(R.id.imgIcon)
-        if (item.type >= 8)
-            img.setImageResource(imgList[0])
-        else
-            img.setImageResource(imgList[item.type])
-        //  ImgUtil.loadHomeCard(img, item.image)
-//        TLog.error("卡片展示++" + item.image)
-        //  helper.setImageResource(R.id.imgIcon, item.img)
-        // helper.setText(R.id.tvItemStatusTitle,"记录")
-        helper.setText(R.id.tvItemStatusTitle, item.name)
-        val tvItemStatusData = helper.getView<TextView>(R.id.tvItemStatusData)
-        val tvItemStatusSubTitle = helper.getView<TextView>(R.id.tvItemStatusSubTitle)
-        tvItemStatusSubTitle.text = item.describe
-//        TLog.error("item.dayContent=="+item.dayContent)
-        if (!item.data.isNullOrEmpty() || HelpUtil.isNumericNotSize(item.data)) {
-            tvItemStatusData.visibility = View.VISIBLE
-            //   tvItemStatusSubTitle.text =DateUtil.getDate(DateUtil.MM_AND_DD,item.time*1000)
-            //    tvItemStatusSubTitle.text = item.data
-            if (item.type == 2) {
-//                tvItemStatusData.text = HelpUtil.getSpan(
-//                    item.data.substring(0, 2),
-//                    item.data.substring(2, 4),
-//                    item.data.substring(4, 6),
-//                    item.data.substring(6, 8),
-//                    R.color.sub_text_color,
-//                    12
-//                )
-                img.setImageResource(R.mipmap.icon_home_sleep_data)
-            } else {
-                if (item.data.isNullOrEmpty())
-                    item.data = "0"
-                when (item.type) {
-                    0 -> {
-                        if (HelpUtil.isNumericNotSize(item.data)) {
-                            var userInfoBean = Hawk.get(Config.database.USER_INFO, LoginBean())
-                            var dis = decimalFormat.format(item.data.toString().toDouble() / 1000)
-                            var unit = "公里"
-                            if (userInfoBean == null || userInfoBean.userConfig.distanceUnit == 1) {
-                                dis = decimalFormat.format(
-                                    item.data.toString().toDouble() / 1000 * MILE
-                                )
-                                unit = "英里"
-                            }
-                            tvItemStatusData.text =
-                                HelpUtil.getSpan(
-                                    dis, unit, 14, R.color.sub_text_color
-                                )
-                            img.setImageResource(R.mipmap.icon_home_sport_data)
-                        }
-                    }
-                    1 -> {
-                        if (HelpUtil.isNumericNotSize(item.data)) {
-                            tvItemStatusData.text =
-                                HelpUtil.getSpan(item.data, "次/分钟", 14, R.color.sub_text_color)
-                            img.setImageResource(R.mipmap.icon_home_heart_rate_data)
-                        }
-                    }
-                    3 -> {
-                        var contentString = ""
-                        if (HelpUtil.isNumericNotSize(item.data)) {
-                            var num = item.data.toInt()
-                            when (num) {
-                                in 1 until 30 -> {
-                                    contentString = "放松"
-                                }
-                                in 30 until 60 -> {
-                                    contentString = "正常"
-                                }
-                                in 60 until 80 -> {
-                                    contentString = "中等"
-                                }
-                                in 80 until 100 -> {
-                                    contentString = "偏高"
-                                }
-                            }
-                            tvItemStatusData.text =
-                                HelpUtil.getSpan(
-                                    item.data,
-                                    contentString,
-                                    14,
-                                    R.color.sub_text_color
-                                )
-                            img.setImageResource(R.mipmap.icon_home_pressure_data)
-                        }
-                    }
-                    4 -> {
-                        if (HelpUtil.isNumeric(item.data))
-                            if (item.data.toInt() > 0) {
-                                tvItemStatusData.text =
-                                    HelpUtil.getSpan(item.data, "%", 14, R.color.sub_text_color)
-                                img.setImageResource(R.mipmap.icon_home_blodoxygen_data)
-                            }
-                    }
-                    5 -> {
-//                        if (HelpUtil.isNumeric(item.data))
-                        if (item.data.isNotEmpty()) {
-                            tvItemStatusData.text =
-                                HelpUtil.getSpan(item.data, "")
-                            img.setImageResource(R.mipmap.icon_home_bloodpressure_data)
+        try {
+            if (item == null) {
+                return
+            }
 
+            val img = helper.getView<ImageView>(R.id.imgIcon)
+            if (item.type >= 8)
+                img.setImageResource(imgList[0])
+            else
+                img.setImageResource(imgList[item.type])
+            //  ImgUtil.loadHomeCard(img, item.image)
+//        TLog.error("卡片展示++" + item.image)
+            //  helper.setImageResource(R.id.imgIcon, item.img)
+            // helper.setText(R.id.tvItemStatusTitle,"记录")
+            helper.setText(R.id.tvItemStatusTitle, item.name)
+            val tvItemStatusData = helper.getView<TextView>(R.id.tvItemStatusData)
+            val tvItemStatusSubTitle = helper.getView<TextView>(R.id.tvItemStatusSubTitle)
+            tvItemStatusSubTitle.text = item.describe
+            //Log.e("ADAPTER","------itemData="+item.data)
+//        TLog.error("item.dayContent=="+item.dayContent)
+            if (!item.data.isNullOrEmpty() || HelpUtil.isNumericNotSize(item.data)) {
+                tvItemStatusData.visibility = View.VISIBLE
+                //   tvItemStatusSubTitle.text =DateUtil.getDate(DateUtil.MM_AND_DD,item.time*1000)
+                //    tvItemStatusSubTitle.text = item.data
+                if (item.type == 2) {
+                    tvItemStatusData.text = HelpUtil.getSpan(
+                        item.data.substring(0, 2),
+                        item.data.substring(2, 4),
+                        item.data.substring(4, 6),
+                        item.data.substring(6, 8),
+                        R.color.sub_text_color,
+                        12
+                    )
+                    img.setImageResource(R.mipmap.icon_home_sleep_data)
+                } else {
+                    if (item.data.isNullOrEmpty())
+                        item.data = "0"
+                    when (item.type) {
+                        0 -> {
+                            if (HelpUtil.isNumericNotSize(item.data)) {
+                                var userInfoBean = Hawk.get(Config.database.USER_INFO, LoginBean())
+                                var dis = decimalFormat.format(item.data.toString().toDouble() / 1000)
+                                var unit = "公里"
+                                if (userInfoBean == null || userInfoBean.userConfig.distanceUnit == 1) {
+                                    dis = decimalFormat.format(
+                                        item.data.toString().toDouble() / 1000 * MILE
+                                    )
+                                    unit = "英里"
+                                }
+                                tvItemStatusData.text =
+                                    HelpUtil.getSpan(
+                                        dis, unit, 14, R.color.sub_text_color
+                                    )
+                                img.setImageResource(R.mipmap.icon_home_sport_data)
+                            }
                         }
-                    }
-                    6 -> {
-                        if (HelpUtil.isNumerEX(item.data))
-                            if (item.data.toDouble() > 0) {
+                        1 -> {
+                            if (HelpUtil.isNumericNotSize(item.data)) {
                                 tvItemStatusData.text =
-                                    HelpUtil.getSpan(item.data, "℃", 14, R.color.sub_text_color)
-                                img.setImageResource(R.mipmap.icon_home_temperature_data)
+                                    HelpUtil.getSpan(item.data, "次/分钟", 14, R.color.sub_text_color)
+                                img.setImageResource(R.mipmap.icon_home_heart_rate_data)
                             }
-                    }
-                    7 -> {
-                        if (HelpUtil.isNumerEX(item.data))
-                            if (item.data.toDouble() > 0) {
+                        }
+                        3 -> {
+                            var contentString = ""
+                            if (HelpUtil.isNumericNotSize(item.data)) {
+                                var num = item.data.toInt()
+                                when (num) {
+                                    in 1 until 30 -> {
+                                        contentString = "放松"
+                                    }
+                                    in 30 until 60 -> {
+                                        contentString = "正常"
+                                    }
+                                    in 60 until 80 -> {
+                                        contentString = "中等"
+                                    }
+                                    in 80 until 100 -> {
+                                        contentString = "偏高"
+                                    }
+                                }
                                 tvItemStatusData.text =
-                                    HelpUtil.getSpan(item.data, "公斤", 14, R.color.sub_text_color)
-                                img.setImageResource(R.mipmap.icon_home_weight_data)
+                                    HelpUtil.getSpan(
+                                        item.data,
+                                        contentString,
+                                        14,
+                                        R.color.sub_text_color
+                                    )
+                                img.setImageResource(R.mipmap.icon_home_pressure_data)
                             }
+                        }
+                        4 -> {
+                            if (HelpUtil.isNumeric(item.data))
+                                if (item.data.toInt() > 0) {
+                                    tvItemStatusData.text =
+                                        HelpUtil.getSpan(item.data, "%", 14, R.color.sub_text_color)
+                                    img.setImageResource(R.mipmap.icon_home_blodoxygen_data)
+                                }
+                        }
+                        5 -> {
+//                        if (HelpUtil.isNumeric(item.data))
+                            if (item.data.isNotEmpty()) {
+                                tvItemStatusData.text =
+                                    HelpUtil.getSpan(item.data, "")
+                                img.setImageResource(R.mipmap.icon_home_bloodpressure_data)
+
+                            }
+                        }
+                        6 -> {
+                            if (HelpUtil.isNumerEX(item.data))
+                                if (item.data.toDouble() > 0) {
+                                    tvItemStatusData.text =
+                                        HelpUtil.getSpan(item.data, "℃", 14, R.color.sub_text_color)
+                                    img.setImageResource(R.mipmap.icon_home_temperature_data)
+                                }
+                        }
+                        7 -> {
+                            if (HelpUtil.isNumerEX(item.data))
+                                if (item.data.toDouble() > 0) {
+                                    tvItemStatusData.text =
+                                        HelpUtil.getSpan(item.data, "公斤", 14, R.color.sub_text_color)
+                                    img.setImageResource(R.mipmap.icon_home_weight_data)
+                                }
+                        }
                     }
                 }
-            }
-        } else
-            tvItemStatusData.visibility = View.GONE
+            } else
+                tvItemStatusData.visibility = View.GONE
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
     }
 
 }

@@ -663,6 +663,33 @@ public class DateUtil {
         ca.set(Calendar.SECOND, 59);
         return ca.getTimeInMillis();
     }
+
+    //获取指定天的long类型
+    public static long getCurrDayToLongLast( String dayStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+            return sdf.parse(dayStr).getTime()/1000;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    //获取指定天的long类型
+    public static long getCurrDayToLongLast() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+            return sdf.parse(getDate("yyyy-MM-dd",new Date())).getTime()/1000;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+
+
     public static long getYearLastDate(long time) {
         Calendar ca = Calendar.getInstance();
         ca.setTimeInMillis(time);

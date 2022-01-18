@@ -49,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="无数据"
+        android:gravity="center"
         android:textSize="@dimen/text_size_20"
         android:padding="5dp"
         app:drawableTopCompat="@mipmap/icon_no_record" />

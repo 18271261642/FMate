@@ -425,7 +425,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
             cardHeightItem.add(CardBean(i, i.toString()))
         }
 
-        for (i in 30..255) {
+        for (i in 3..255) {
             cardWeightItem.add(CardWeightBean(i, i.toString()))
         }
         for (j in 0..cardWeightItem.size) {

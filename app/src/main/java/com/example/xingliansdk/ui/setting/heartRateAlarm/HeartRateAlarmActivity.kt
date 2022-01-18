@@ -65,6 +65,13 @@ class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
             //    Hawk.put(Config.database.HEART_RATE_ALARM, data)
                TLog.error("===value=="+ value["heartRateThreshold"])
                 TLog.error("===value=="+value["heartRateAlarm"])
+
+                if(value["heartRateThreshold"] == null || value["heartRateThreshold"] =="0"){
+                    ShowToast.showToastLong("心率值不能为空!")
+                    return
+                }
+
+
                 if(value["heartRateThreshold"]!!.toInt()>250||value["heartRateThreshold"]!!.toInt()<100)
                 {
                     ShowToast.showToastLong("心率报警不可超过250低于100")

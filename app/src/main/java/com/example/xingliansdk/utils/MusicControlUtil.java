@@ -26,6 +26,8 @@ public class MusicControlUtil {
                 return;
             if(audioManager == null)
                 audioManager =  (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            int resultCode = audioManager.requestAudioFocus(onAudioFocusChangeListener,AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
             long eventTime = SystemClock.uptimeMillis();
             TLog.Companion.error("mAudioManager+="+audioManager.isMusicActive());
             if (audioManager != null) {

@@ -222,6 +222,7 @@ object BleConnection {
                         Hawk.put("Unbind","BleConnection Unbind=false")
                         Hawk.put("address", address)
                         BleWrite.address = address
+                        SNEventBus.sendEvent(DEVICE_CONNECT_HOME)
                         timer?.cancel()
                         if (BleConnectActivity.connect) {
                             TLog.error("没进吗")

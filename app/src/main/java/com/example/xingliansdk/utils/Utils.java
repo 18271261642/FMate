@@ -51,22 +51,31 @@ public class Utils {
 
 
     public static String matchPace(double speed){
-        double pace = divi(1,speed,2);
-        pace = mul(pace,Double.valueOf(60));
-        pace = divi(pace,1,2); //保留两位小数
-        if(String.valueOf(pace).contains(".")){
-            String secondStr = StringUtils.substringAfter(String.valueOf(pace),".");
-            int secondInt = Integer.parseInt(secondStr.trim());
-            int secondS = secondInt * 60/10;
+        try {
+            if(speed == 0.0){
+                return "--";
+            }
+            double pace = divi(1,speed,2);
+            pace = mul(pace,Double.valueOf(60));
+            pace = divi(pace,1,2); //保留两位小数
+            if(String.valueOf(pace).contains(".")){
+                String secondStr = StringUtils.substringAfter(String.valueOf(pace),".");
+                int secondInt = Integer.parseInt(secondStr.trim());
+                int secondS = secondInt * 60/10;
 
-            String minuteStr = StringUtils.substringBefore(String.valueOf(pace),".");
-            return minuteStr+"'"+secondS+"''";
-        }
+                String minuteStr = StringUtils.substringBefore(String.valueOf(pace),".");
+                return minuteStr+"'"+secondS+"''";
+            }
 //        int minute = (int) (pace / 60);
 //        int second = (int) (pace % 60);
 //        return minute+"'"+second+"''";
 
-        return "--";
+            return "--";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "--";
+        }
+
     }
 
     /**

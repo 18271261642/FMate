@@ -96,27 +96,34 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
         super.createObserver()
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
-            otaBean = it
-            if (otaBean?.ota.isNullOrEmpty())
-            {
-//                tvBegan.visibility= View.GONE
-//                tvUpdateCode.text = "已是最新版本"
+            if (!it.isForceUpdate) {
+                //  showWaitDialog("下载ota升级包中")
+                showOtaAlert()
             }
-            else {
-                val focusUpdate = otaBean.isForceUpdate;
 
 
 
-                //  tvUpdateCode.text = otaBean?.version
-                var version = otaBean?.versionCode!!
-                var code = otaBean?.versionCode?.toString(16)
-                var codeName = ByteUtil.hexStringToByte(code)
-
-                if (BleConnection.startOTAActivity && focusUpdate) {
-                    //  showWaitDialog("下载ota升级包中")
-                    showOtaAlert()
-                }
-            }
+//            otaBean = it
+//            if (otaBean?.ota.isNullOrEmpty())
+//            {
+////                tvBegan.visibility= View.GONE
+////                tvUpdateCode.text = "已是最新版本"
+//            }
+//            else {
+//                val focusUpdate = otaBean.isForceUpdate;
+//
+//
+//
+//                //  tvUpdateCode.text = otaBean?.version
+//                var version = otaBean?.versionCode!!
+//                var code = otaBean?.versionCode?.toString(16)
+//                var codeName = ByteUtil.hexStringToByte(code)
+//
+//                if (!focusUpdate) {
+//                    //  showWaitDialog("下载ota升级包中")
+//                    showOtaAlert()
+//                }
+//            }
         }
 
     }
@@ -310,8 +317,8 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
                 ShowToast.showToastLong(getString(R.string.bind_success))
                 TLog.error("HomeFragment BleConnectActivity==${BleConnectActivity.connect}")
 
-                if(baseDialog.isShowing)
-                    hideWaitDialog()
+//                if(baseDialog.isShowing)
+//                    hideWaitDialog()
                 getLastOta()
             }
         }

@@ -64,7 +64,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                 return@addTextChangedListener
             }
             val day=it.toString().toInt()
-            if (day>256)
+            if (day>255)
             {
                 ShowToast.showToastLong("周期天数不大于255天")
                 edtCustom.setText("1")
