@@ -28,10 +28,7 @@ import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.ui.BleConnectActivity
-import com.example.xingliansdk.utils.AppActivityManager
-import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.PermissionUtils
-import com.example.xingliansdk.utils.ShowToast
+import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
@@ -96,7 +93,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
         super.createObserver()
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
-            if (!it.isForceUpdate) {
+            if (it.isForceUpdate) {
                 //  showWaitDialog("下载ota升级包中")
                 showOtaAlert()
             }
@@ -134,7 +131,15 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
             .setMessage("有最新固件，是否升级?")
             .setPositiveButton("升级") { p0, p1 ->
                 p0?.dismiss()
-                startActivity(Intent(instance, DFUActivity::class.java))
+                //startActivity(Intent(instance, DFUActivity::class.java))
+
+                JumpUtil.startOTAActivity(this,Hawk.get("address")
+                    ,Hawk.get("name")
+                    ,mDeviceFirmwareBean.productNumber
+                    ,mDeviceFirmwareBean.version
+                    ,true
+                )
+
             }.setNegativeButton("取消"
             ) { p0, p1 -> p0?.dismiss() }
         otaAlert?.create()?.show()
@@ -325,13 +330,21 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun getLastOta(){
-        BleWrite.writeFlashErasureAssignCall {
-            var uuid = it
-            TLog.error(" uuid.toString()==${uuid.toString()}")
-            TLog.error(" uuid.toString()==${mDeviceFirmwareBean.productNumber}")
-            mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
-            // mViewModel.findUpdate(""+8002,""+251658241)
+        try {
+            BleWrite.writeFlashErasureAssignCall {
+                if(mDeviceFirmwareBean.productNumber!=null){
+                    var uuid = it
+                    TLog.error(" uuid.toString()==${uuid.toString()}")
+                    TLog.error(" uuid.toString()==${mDeviceFirmwareBean.productNumber}")
+                    mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
+                }
+
+                // mViewModel.findUpdate(""+8002,""+251658241)
+            }
+        }catch (e : Exception){
+            e.printStackTrace()
         }
+
     }
 
 

@@ -420,7 +420,7 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         val calendar: Calendar? = XingLianApplication.getSelectedCalendar()
         timeDialog = calendar?.timeInMillis
         date = DateUtil.getDate(DateUtil.YYYY_MM_DD, calendar)
-        tvType.text = "00:00"
+        tvType.text = ""
         tvHeart.text = "--"
         if (DateUtil.equalsToday(date)) {
             img_right.visibility = View.INVISIBLE

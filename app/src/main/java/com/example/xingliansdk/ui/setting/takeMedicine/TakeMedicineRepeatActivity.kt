@@ -67,7 +67,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
             if (day>255)
             {
                 ShowToast.showToastLong("周期天数不大于255天")
-                edtCustom.setText("1")
+                edtCustom.hint = "自定义"
                 return@addTextChangedListener
             }
             type=day
