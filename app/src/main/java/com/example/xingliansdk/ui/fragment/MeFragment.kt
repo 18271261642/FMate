@@ -161,7 +161,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         mainViewModel.result.observe(this)
         {
             if (it.user.nickname.isNullOrEmpty())
-                tvPhone.text = it.user.phone
+                tvPhone.text = "--"
             else
                 tvPhone.text = it.user.nickname
         }

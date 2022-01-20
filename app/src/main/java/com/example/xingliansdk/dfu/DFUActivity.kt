@@ -63,7 +63,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                 tvUpdateCode.text = "更新版本: " + name
                 if (BleConnection.startOTAActivity) {
                   //  showWaitDialog("下载ota升级包中")
-                    otaBean?.let { mViewModel.downLoadZIP(it, this) }
+                   // otaBean?.let { mViewModel.downLoadZIP(it, this) }
                 }
             }
         }
@@ -112,7 +112,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
             airUpgradeTv.visibility = View.VISIBLE
             proBar.visibility = View.VISIBLE
         }
-
+        status = false
         //version = 1  //测试用的
         TLog.error(
             "来了 吧" + productNumber
@@ -186,6 +186,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tvBegan -> {
+                status = true
                 tvBegan.visibility = View.GONE
                 airUpgradeTv.visibility = View.VISIBLE
                 proBar.visibility = View.VISIBLE

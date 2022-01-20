@@ -478,6 +478,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
 
     var calendarType: Calendar? = null
     private fun setTitleDateData() {
+        chartInitView()
         // var calendar: Calendar? = null
         when (position) {
             0 -> {

@@ -1,6 +1,9 @@
 package com.shon.connector.call.write.deviceclass;
 
 
+import android.content.Intent;
+import android.util.Log;
+
 import com.example.xingliansdk.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
@@ -10,21 +13,33 @@ import com.shon.connector.call.CmdUtil;
 import com.shon.connector.utils.HexDump;
 import com.shon.connector.utils.TLog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 3.2.1-3.2.2
  * 获取设备固件信息
  */
 public class DeviceFirmwareCall extends WriteCallback {
+
+    private static final String TAG = "DeviceFirmwareCall";
+
     private BleWrite.FirmwareInformationInterface mFirmwareInformationInterface;
     int num = 0;
     boolean isFinishFlag=false;
     int test= 16777215;
+
+
     /**
      * @param address
      * @param mFirmwareInformationInterface
      */
     public DeviceFirmwareCall(String address, BleWrite.FirmwareInformationInterface mFirmwareInformationInterface) {
         super(address);
+        this.mFirmwareInformationInterface = mFirmwareInformationInterface;
+    }
+
+    public void setmFirmwareInformationInterface(BleWrite.FirmwareInformationInterface mFirmwareInformationInterface) {
         this.mFirmwareInformationInterface = mFirmwareInformationInterface;
     }
 
@@ -72,6 +87,8 @@ public class DeviceFirmwareCall extends WriteCallback {
                 version= (ByteUtil.cbyte2Int(result[12])<<16) + (ByteUtil.cbyte2Int(result[13])<<8)  + ByteUtil.cbyte2Int(result[14]);
                 nowMaC = ByteUtil.getHexString(result[15])+":"+ByteUtil.getHexString(result[16])+":"+ByteUtil.getHexString(result[17])+":"
                         +ByteUtil.getHexString(result[18])+":"+ByteUtil.getHexString(result[19])+":"+ByteUtil.getHexString(result[20]);
+
+                Log.e(TAG,"--------手表获取的固件信息="+productNumber+" "+versionName+" "+nowMaC +" "+version);
                 mFirmwareInformationInterface.onResult(productNumber,versionName, version, nowMaC, mac);
                 return true;
             }

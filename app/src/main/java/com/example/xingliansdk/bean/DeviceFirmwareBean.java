@@ -62,4 +62,15 @@ public class DeviceFirmwareBean {
         this.mac = mac;
 
     }
+
+    @Override
+    public String toString() {
+        return "DeviceFirmwareBean{" +
+                "productNumber='" + productNumber + '\'' +
+                ", version=" + version +
+                ", versionName='" + versionName + '\'' +
+                ", nowMaC='" + nowMaC + '\'' +
+                ", mac='" + mac + '\'' +
+                '}';
+    }
 }

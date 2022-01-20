@@ -6,6 +6,8 @@ import com.shon.bluetooth.util.ByteUtil;
 
 public class CmdUtil {
 
+    public static String GET_DEVICE_INFO_ACTION = "com.shon.connector.call.device_info";
+
     private static String product_id = "88";// 这里替换你的产品id
 
 

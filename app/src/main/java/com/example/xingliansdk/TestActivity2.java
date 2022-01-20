@@ -1,5 +1,8 @@
 package com.example.xingliansdk;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -407,4 +410,11 @@ public class TestActivity2 extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
 }

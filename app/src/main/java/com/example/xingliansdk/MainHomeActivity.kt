@@ -3,20 +3,21 @@ package com.example.xingliansdk
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.bean.DeviceFirmwareBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
 import com.example.xingliansdk.dfu.DFUActivity
@@ -35,6 +36,8 @@ import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
+import com.shon.connector.call.CmdUtil
+import com.shon.connector.call.write.deviceclass.DeviceFirmwareCall
 import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_update_zip.*
@@ -43,7 +46,7 @@ import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
 
-class MainHomeActivity : BaseActivity<MainViewModel>() {
+class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface {
     var exitTime = 0L
     var bleListener:BluetoothMonitorReceiver?=null
 
@@ -93,7 +96,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
         super.createObserver()
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
-            if (it.isForceUpdate) {
+            if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
                 showOtaAlert()
             }
@@ -303,6 +306,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
         // 注册广播
         registerReceiver(bleListener, intentFilter);
 
+
 //        bleListener1 = LocalBroadcastManager.getInstance(this)
 //        bluetoothMonitorReceiver = BluetoothMonitorReceiver()
 //        val intentFilter1 = IntentFilter()
@@ -321,10 +325,18 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
             Config.eventBus.DEVICE_CONNECT_HOME -> {  //绑定成功
                 ShowToast.showToastLong(getString(R.string.bind_success))
                 TLog.error("HomeFragment BleConnectActivity==${BleConnectActivity.connect}")
-
+                val bindAddress = Hawk.get<String>("address", "")
+                Log.e("主页","------绑定成功后获取的mac="+bindAddress)
 //                if(baseDialog.isShowing)
 //                    hideWaitDialog()
-                getLastOta()
+//                getLastOta()
+            }
+            Config.eventBus.DEVICE_FIRMWARE->{
+                var tmpDeviceBean = event.data as DeviceFirmwareBean
+                Log.e("主页","------设备备案="+tmpDeviceBean.toString())
+                if(tmpDeviceBean.productNumber != null){
+                    mViewModel.findUpdate(tmpDeviceBean.productNumber, tmpDeviceBean.version)
+                }
             }
         }
     }
@@ -334,9 +346,9 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
             BleWrite.writeFlashErasureAssignCall {
                 if(mDeviceFirmwareBean.productNumber!=null){
                     var uuid = it
-                    TLog.error(" uuid.toString()==${uuid.toString()}")
-                    TLog.error(" uuid.toString()==${mDeviceFirmwareBean.productNumber}")
-                    mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
+                    TLog.error("主页","uuid.toString()==${uuid.toString()}")
+                    TLog.error("主页"," uuid.toString()==${mDeviceFirmwareBean.productNumber}")
+                  //  mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
                 }
 
                 // mViewModel.findUpdate(""+8002,""+251658241)
@@ -354,4 +366,44 @@ class MainHomeActivity : BaseActivity<MainViewModel>() {
         unregisterReceiver(bleListener)
         bleListener1?.unregisterReceiver(bluetoothMonitorReceiver!!)
     }
+
+
+    //手表连接成功后的固件信息回调
+    override fun onResult(
+        productNumber: String?,
+        versionName: String?,
+        version: Int,
+        nowMaC: String?,
+        mac: String?
+    ) {
+       Log.e("主页","-------手表连接成功后主页的固件信息回调="+productNumber+" "+versionName+" "+version)
+    }
+
+
+    //    private void setMtu(int setMtu) {
+    //        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+    //        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+    //        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
+    //            @Override
+    //            public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+    //                device.connectGatt(TestActivity2.this, true, new BluetoothGattCallback() {
+    //                    @Override
+    //                    public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+    //                        super.onServicesDiscovered(gatt, status);
+    //                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    //                            if (setMtu > 23 && setMtu < 512) {
+    //                                gatt.requestMtu(setMtu);
+    //                            }
+    //                        }
+    //                    }
+    //
+    //                    @Override
+    //                    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+    //                        super.onMtuChanged(gatt, mtu, status);
+    //                    }
+    //                });
+    //            }
+    //        });
+    //    }
+
 }

@@ -105,7 +105,7 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
             }
             else if(progressStatus)
             {
-                ShowToast.showToastLong("安装中")
+                ShowToast.showToastLong("已有其他表盘在安装，请稍后再试")
                 return@setOnClickListener
             }
             progressStatus=true
