@@ -103,6 +103,8 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     + "    version+=" + version
         )
         TLog.error("fileName==" + fileName)
+
+
         if (status) {
             tvBegan.visibility = View.VISIBLE
             airUpgradeTv.visibility = View.GONE

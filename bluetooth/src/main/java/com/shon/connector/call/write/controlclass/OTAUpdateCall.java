@@ -1,5 +1,7 @@
 package com.shon.connector.call.write.controlclass;
 
+import android.util.Log;
+
 import com.example.xingliansdk.utils.ShowToast;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.callback.WriteCallback;
@@ -27,7 +29,10 @@ public class OTAUpdateCall extends WriteCallback {
     @Override
     public byte[] getSendData() {
         byte payload[] = {0x01, 0x02, 0x00};
-        return CmdUtil.getFullPackage(payload);
+
+        byte[] intoDuf = CmdUtil.getFullPackage(payload);
+        Log.e("OTA","------进入OTA模式="+ByteUtil.getHexString(intoDuf));
+        return intoDuf;
     }
 
     @Override
