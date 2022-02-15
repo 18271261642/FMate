@@ -220,7 +220,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             TLog.error("mList+="+Gson().toJson(mList))
             if (mList.isNullOrEmpty()) {
                 tvWeightRecord.visibility = View.GONE
-                ryWeight.visibility = View.GONE
+               // ryWeight.visibility = View.GONE
                 tvTime.text = ""
                 tvWeight.text = "--"
                 tvBMI.text = "--"
@@ -352,7 +352,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 tvWeightRecord.visibility = View.VISIBLE
             else
                 tvWeightRecord.visibility = View.GONE
-            var lastWeekList: List<WeightBean> = sDao.getTimeList(
+            val lastWeekList: List<WeightBean> = sDao.getTimeList(
                 (monthCalendar.timeInMillis - (86400000 * lastDay.toLong())) / 1000,
                 (monthCalendar.timeInMillis - 1000) / 1000
             )
@@ -373,7 +373,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 weekCount = mList.size
             if (lastWeekList.isNotEmpty())
                 weekLastCount = lastWeekList.size
-            var lastWeek = setNumber(weightCount / weekCount, 1)?.subtract(
+            val lastWeek = setNumber(weightCount / weekCount, 1)?.subtract(
                 setNumber(lastCount / weekLastCount, 1)
             )
             tvBMI.text = if(bmiCount == 0.0) "--" else setNumber(bmiCount / weekCount, 1).toString()  //对得上
@@ -431,6 +431,9 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 }
             tvLastWeight.text =if(weightCount == 0.0) "--" else  HelpUtil.getSpan(setNumber(weightCount / weekCount, 1).toString(), "kg" )
         }
+
+
+
         mWeightAdapter.data.clear()
         mWeightAdapter.addData(mList)
         mWeightAdapter.notifyDataSetChanged()

@@ -352,6 +352,17 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             } else {
                 TLog.error("it=="+it)
                 values.add(Entry(index.toFloat(), it.toFloat()))
+//                val set1 = LineDataSet(values, "")
+//                //set1.color = resources.getColor(R.color.color_heart)
+////                set1.fillColor = resources.getColor(R.color.color_heart_view)
+//                set1.fillFormatter =
+//                    IFillFormatter { _, _ -> hartsHrr.axisLeft.axisMinimum }
+//                set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+//                set1.setDrawFilled(false) //画下面的彩色图
+//                set1.setDrawCircles(false)//设置画圆点
+//                set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
+//                set1.lineWidth = 1.3f  //设置折线粗细
+//                data.addDataSet(set1)
             }
         }
         if (avgNotZero <= 0)
@@ -386,6 +397,18 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             set1.lineWidth = 1.3f  //设置折线粗细
             data.addDataSet(set1)//正确操作
             //data=LineData(set1)//错误 操作
+        }else{
+            var set1 = LineDataSet(values, "")
+           // set1.color = resources.getColor(R.color.color_heart)
+           // set1.fillColor = resources.getColor(R.color.color_heart_view)
+//            set1.fillFormatter =
+//                IFillFormatter { _, _ -> hartsHrr.axisLeft.axisMinimum }
+//            set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+//          //  set1.setDrawFilled(true)//填充下面的颜色
+//            set1.setDrawCircles(false)//设置画圆点
+//            set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
+//            set1.lineWidth = 1.3f  //设置折线粗细
+//            data.addDataSet(set1)//正确操作
         }
         hartsHrr.data = data
         hartsHrr.invalidate()

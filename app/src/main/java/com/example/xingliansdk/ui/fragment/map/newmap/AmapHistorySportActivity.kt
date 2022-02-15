@@ -286,7 +286,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             itemAmapSportDurationTv!!.text = HelpUtil.getSpan(amapSportBean.calories, "千卡", 11)
             itemAmapSportStepTv?.text = HelpUtil.getSpan(
                 amapSportBean.currentSteps.toString(),
-                "步",
+                " 步",
                 11
             )
             TLog.error("pace++"+pace)
@@ -536,6 +536,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
     }
 
     private fun pieView() {
+        pieChart.setNoDataText("没有有效数据")
         pieChart.setUsePercentValues(true)//设置百分比
         pieChart.description.isEnabled = false
         pieChart.legend.form = Legend.LegendForm.CIRCLE

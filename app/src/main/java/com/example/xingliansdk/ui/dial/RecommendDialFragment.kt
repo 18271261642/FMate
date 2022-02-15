@@ -1,12 +1,14 @@
 package com.example.xingliansdk.ui.dial
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.eventBus.DEVICE_BLE_OFF
+import com.example.xingliansdk.Constant
 import com.example.xingliansdk.R
 import com.example.xingliansdk.adapter.RecommendDialAdapter
 import com.example.xingliansdk.base.fragment.BaseFragment
@@ -21,6 +23,7 @@ import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
+import com.shon.bluetooth.Constants
 import com.shon.connector.utils.TLog
 
 import kotlinx.android.synthetic.main.fragment_recommend_dial.*
@@ -33,6 +36,10 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnClickListener {
+
+    private val tags = "RecommendDialFragment"
+
+
     override fun layoutId() = R.layout.fragment_recommend_dial
     private lateinit var mRecommendDialAdapter: RecommendDialAdapter
     private lateinit var mList: MutableList<RecommendDialBean.ListDTO>
@@ -169,7 +176,9 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
 
             }
             Config.eventBus.DIAL_IMG_RECOMMEND_INDEX -> {
-                var data = event.data as FlashBean
+
+                Log.e(tags,"-----更新表盘下载状态="+Config.eventBus.DIAL_IMG_RECOMMEND_INDEX)
+                val data = event.data as FlashBean
 //                TLog.error("data==" + data.toString())
 //                data.id
                 downStatus = true //正在下载
@@ -183,8 +192,11 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
                 {
                     downStatus = false
                 }
+                if(Constants.isDialSync){
+                    mRecommendDialAdapter.updateProgress(data)
+                }
 //                TLog.error("downStatus++"+downStatus)
-                mRecommendDialAdapter.updateProgress(data)
+
             }
             DEVICE_BLE_OFF,
             Config.eventBus.DEVICE_DISCONNECT -> {

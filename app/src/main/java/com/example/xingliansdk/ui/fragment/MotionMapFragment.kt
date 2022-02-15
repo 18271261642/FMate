@@ -50,7 +50,11 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        Log.e(tags,"------onResume---------")
+        val mapType = Hawk.get(
+            com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
+            1
+        )
+        //Log.e(tags,"------onResume---------="+mapType)
         //初始化viewpager2
         if (!Hawk.get<ArrayList<MapMotionBean>>("DistanceList").isNullOrEmpty())
             for (i in 0 until mDataList.size) {
@@ -58,6 +62,11 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
             }
         view_pager?.init(this, fragments)
         view_pager?.offscreenPageLimit=3
+        view_pager.setCurrentItem(mapType-1,true)
+//        Hawk.put(
+//            com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
+//            1
+//        )
         //初始化 magic_indicator
         magic_indicator.bindViewPager2(view_pager, mDataList)
     }

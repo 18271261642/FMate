@@ -32,11 +32,13 @@ import com.gyf.barlibrary.ImmersionBar
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.tools.ToastUtils
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DeviceInformationBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_device_information.*
+import me.hgj.jetpackmvvm.network.NetworkUtil
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -61,6 +63,11 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
     private var register = false
     private var weightStatus = false
     private var time = System.currentTimeMillis()
+
+
+    private val instant by lazy { this }
+
+
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
             .titleBar(titleBar)
@@ -98,6 +105,12 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
                     ShowToast.showToastLong("请输入昵称")
                     return
                 }
+
+                if(!NetworkUtil.isNetworkAvailable(instant)){
+                    ToastUtils.s(instant,"当前无网络连接！")
+                    return
+                }
+
                 setHeadImg()
                 if (!imgCheck)
                     setUserInfo()//没改变图片的情况还是要 改变个人信息
@@ -580,6 +593,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
                     mImagePaths = selectList[0].cutPath.toString()
                     //     Hawk.put(Config.database.IMG_HEAD, mImagePaths?.get(0))
                     imgCheck = true
+
 
                 }
             }

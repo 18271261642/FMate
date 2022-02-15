@@ -271,7 +271,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
     private var dateTime: TimePickerView? = null
     private fun initDatePicker(code : Int) { //Dialog 模式下，在底部弹出
         val ca: Calendar = Calendar.getInstance()
-        TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000))
+
 //        if (startEndType && mBean.startTime > 1000)
 //            ca.timeInMillis = mBean.startTime * 1000
 //        else if (mBean.endTime > 1000) {
@@ -279,10 +279,22 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 //        }
         //当天的long
         val currDayLong = DateUtil.getCurrDayToLongLast();
+        TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000)+" "+currDayLong)
 //        if(mBean.endTime<currDayLong){
 //            mBean.endTime = currDayLong
 //        }
 
+        if(code == 0){
+//            ca.set(Calendar.YEAR,DateUtil.getYear(mBean.startTime*1000));
+//            ca.set(Calendar.MONTH,DateUtil.getMonth(mBean.startTime*1000))
+//            ca.set(Calendar.DAY_OF_MONTH,DateUtil.getDay(mBean.startTime*1000))
+            ca.timeInMillis = if(mBean.startTime * 1000 <currDayLong * 1000) currDayLong* 1000 else mBean.startTime * 1000 ;
+        }else{
+            ca.timeInMillis = if(mBean.endTime <currDayLong) currDayLong * 1000 else mBean.endTime * 1000;
+//            ca.set(Calendar.YEAR,DateUtil.getYear(mBean.endTime*1000));
+//            ca.set(Calendar.MONTH,DateUtil.getMonth(mBean.endTime*1000))
+//            ca.set(Calendar.DAY_OF_MONTH,DateUtil.getDay(mBean.endTime*1000))
+        }
 
         dateTime = TimePickerBuilder(
             this
@@ -309,6 +321,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
                 mBean.startTime =selectLongDate
                 settingStartTime.setContentText(selectDate)
+
             }else{  //结束时间
                 //结束时间可以登录开始时间，但是不能不开始时间小
                 if(selectLongDate < mBean.startTime){
@@ -318,40 +331,12 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 }
                 mBean.endTime =selectLongDate
                 settingEndTime.setContentText(selectDate)
+
             }
 
-
-
-
-//            if (startEndType) {
-//                if(date.time < System.currentTimeMillis())
-//                {
-//                    ShowToast.showToastLong("开始时间不能小于当前时间")
-//                    return@TimePickerBuilder
-//                }
-//                TLog.error("开始时间=="+DateUtil.getDateToLongLast(date) / 1000)
-//                mBean.startTime = DateUtil.convertDateToLong(date) / 1000
-//                settingStartTime.setContentText(
-//                    DateUtil.getDate(
-//                        DateUtil.YYYY_MM_DD,
-//                        date
-//                    )
-//                )
-//            } else {
-//                TLog.error("date.time+=" + date.time)
-//                TLog.error("System.currentTimeMillis()+=" + System.currentTimeMillis())
-//                if (date.time < System.currentTimeMillis()) {
-//                    ShowToast.showToastLong("结束时间不能小于当前时间")
-//                    return@TimePickerBuilder
-//                } else if ((mBean.startTime * 1000) > date.time) {
-//                    ShowToast.showToastLong("开始时间不能大于结束时间")
-//                    return@TimePickerBuilder
-//                }
-//                mBean.endTime = DateUtil.getDateToLongLast(date) / 1000
-//                settingEndTime.setContentText(DateUtil.getDate(DateUtil.YYYY_MM_DD, date))
-//            }
             TLog.error("+++" + mBean.startTime + "  时++" + DateUtil.getDateToLongLast(date) + " endTime===" + mBean.endTime)
         }
+
             .setType(booleanArrayOf(true, true, true, false, false, false))
             .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。
             .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）

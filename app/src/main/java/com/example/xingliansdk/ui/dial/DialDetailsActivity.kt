@@ -97,6 +97,9 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
         }
         tvSize.text = AppUtils.getFormatSize(bean?.binSize!!.toDouble())
         tvNumber.text = "${NumUtils.formatBigNum(bean?.downloads!!)}人安装"
+
+        tvName.text = bean!!.name
+
         circleProgressView.setOnClickListener {
             if (bean?.isCurrent!!)
             {
@@ -237,16 +240,16 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
     }
 
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if(progressStatus){
-                backAlert()
-            }else{
-                finish()
-            }
-        }
-        return true
-    }
+//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            if(progressStatus){
+//                backAlert()
+//            }else{
+//                finish()
+//            }
+//        }
+//        return true
+//    }
 
 
     private fun backAlert(){

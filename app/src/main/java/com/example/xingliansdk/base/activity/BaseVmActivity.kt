@@ -3,6 +3,7 @@ package com.example.xingliansdk.base.activity
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -13,6 +14,8 @@ import android.provider.Settings
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -367,7 +370,20 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
             if (checkDoubleClick()) {
                 return true
             }
-        }
+
+            val v = currentFocus
+            if (isShouldHideInput(v, ev)) {
+                val imm: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v!!.windowToken, 0)
+                }
+            }
+        } // 必不可少，否则所有的组件都不会有TouchEvent了
+        return if (window.superDispatchTouchEvent(ev)) {
+            true
+        } else onTouchEvent(ev)
+
         return super.dispatchTouchEvent(ev)
     }
 
@@ -385,4 +401,21 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         lastClickTime = clickTime
         return false
     }
+
+
+
+    open fun isShouldHideInput(v: View?, event: MotionEvent): Boolean {
+        if (v != null && v is EditText) {
+            val leftTop = intArrayOf(0, 0)
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop)
+            val left = leftTop[0]
+            val top = leftTop[1]
+            val bottom = top + v.height
+            val right = left + v.width
+            return !(event.x > left && event.x < right && event.y > top && event.y < bottom)
+        }
+        return false
+    }
+
 }

@@ -2,19 +2,15 @@ package com.example.xingliansdk
 
 import android.R
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
+import android.os.IBinder
 import androidx.multidex.MultiDex
 import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
 import com.example.xingliansdk.service.AppService
-import com.example.xingliansdk.utils.AppActivityManager
-import com.example.xingliansdk.utils.DynamicTimeFormat
-import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
@@ -34,6 +30,8 @@ import me.jessyan.autosize.AutoSizeConfig
 import me.jessyan.autosize.unit.Subunits
 import java.lang.ref.WeakReference
 import java.util.*
+import com.example.xingliansdk.utils.RemoteControlService
+import com.example.xingliansdk.utils.RemoteControlService.RCBinder
 
 
 class XingLianApplication : BaseApp() {
@@ -83,11 +81,14 @@ class XingLianApplication : BaseApp() {
         var ifStartedOrStopped = true
 
 
+        //用于判断是否正在同步表盘
+
+
         //监听时间变化的广播
         private var timeBroadcastReceiver : SystemTimeBroadcastReceiver ? = null
 
 
-
+        private var musicControlService : RemoteControlService ?= null
 
         fun getSelectedCalendar(): Calendar? {
             return mSelectedCalendar
@@ -191,7 +192,35 @@ class XingLianApplication : BaseApp() {
         intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
         registerReceiver(timeBroadcastReceiver,intentFilter)
 
+        val musicIntent = Intent(this,RemoteControlService::class.java)
+        bindService(musicIntent,serviceConnect(),Context.BIND_ABOVE_CLIENT)
+
     }
+
+
+    fun getRemoteMusic(): RemoteControlService? {
+        return musicControlService
+    }
+
+
+
+    private fun serviceConnect() = object : ServiceConnection{
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+            try {
+                val binders = p1 as RCBinder
+                musicControlService = binders.service
+            }catch (e : Exception){
+                e.printStackTrace()
+            }
+
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+           musicControlService = null
+        }
+
+    }
+
 
     //弱引用
     fun getContext(): Context? {

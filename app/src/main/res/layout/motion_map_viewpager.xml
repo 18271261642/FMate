@@ -17,7 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:contentInsetStart="0dp"
-            ></androidx.appcompat.widget.Toolbar>
+            />
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magic_indicator"

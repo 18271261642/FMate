@@ -1,9 +1,11 @@
 package com.example.xingliansdk.ui.dial
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -30,6 +32,7 @@ import com.example.xingliansdk.ui.setting.flash.FlashCall
 import com.example.xingliansdk.ui.setting.flash.FlashWriteAssignInterface
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
+import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.luck.picture.lib.PictureSelector
@@ -42,6 +45,7 @@ import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_customize_dial.*
 import kotlinx.android.synthetic.main.activity_customize_dial.titleBar
+import kotlinx.android.synthetic.main.activity_dial_market.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
@@ -63,6 +67,14 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
     var mCustomizePlacementDialList = arrayListOf<CustomizePlacementBean>()
     var time = System.currentTimeMillis()
     var mCustomizeDialBean: CustomizeDialBean = CustomizeDialBean()
+
+       private val instant by lazy { this }
+
+    //是否正在同步表盘中
+    var isSyncDial = false
+
+       private var alertDialog : AlertDialog.Builder ?=null
+
     private var colorList = arrayListOf(
         R.color.white,
         R.color.black,
@@ -82,6 +94,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
     override fun onDestroy() {
         super.onDestroy()
         SNEventBus.unregister(this)
+        isSyncDial = false
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -111,7 +124,59 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
         setColorAdapter()
         setFunctionAdapter()
         setPlacementAdapter()
+
+
+
+        titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener{
+            override fun onBackClick() {
+                if(isSyncDial){
+                    backAlert()
+                }else{
+                    finish()
+                }
+            }
+
+            override fun onActionImageClick() {
+
+            }
+
+            override fun onActionClick() {
+
+            }
+
+        })
     }
+
+
+       override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+           if(keyCode == KeyEvent.KEYCODE_BACK){
+               if(isSyncDial){
+                   backAlert()
+               }else{
+                   finish()
+               }
+           }
+           return true
+       }
+
+
+       private fun backAlert(){
+           alertDialog = AlertDialog.Builder(instant)
+           alertDialog!!.setTitle("提醒")
+           alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
+           alertDialog!!.setPositiveButton("确定"
+           ) { p0, p1 ->
+               p0.dismiss()
+               finish()
+           }.setNegativeButton("取消"
+           ) { p0, p1 ->
+               p0.dismiss()
+           }
+           alertDialog!!.create().show()
+       }
+
+
+
 
     private fun setPlacementAdapter() {
         mCustomizePlacementDialList = ArrayList()
@@ -302,12 +367,14 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                         mCustomizeDialBean.locationType
                     )
                 ) {
+                    isSyncDial = true
                     TLog.error("it==" + it)
                     when (it) {
 
                         1 -> {
                             hideWaitDialog()
                             ShowToast.showToastLong("传入非法值")
+                            isSyncDial = false
                         }
                         2 -> {
                             val startByte = byteArrayOf(
@@ -319,13 +386,17 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                                 16777215, 16777215
                             ) { key ->
                                 if (key == 2) {
+                                    isSyncDial = true
                                     TLog.error("开始擦写++" + grbByte.size)
                                     FlashCall().writeFlashCall(
                                         startByte, startByte, grbByte,
                                         Config.eventBus.DIAL_CUSTOMIZE, -100, 0
                                     )
-                                } else
+                                } else{
                                     ShowToast.showToastLong("不支持擦写FLASH数据")
+                                    isSyncDial = false;
+                                }
+
                             }
 
                         }
@@ -337,10 +408,12 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                             // finish()
                             // ShowToast.showToastLong("设备已经有存储这个表盘")
                             //给后台一个 更改表盘的指令
+                            isSyncDial = false
                         }
                         4 -> {
                             hideWaitDialog()
                             ShowToast.showToastLong("设备已经有存储这个表盘")
+                            isSyncDial = false
                         }
                     }
                 }

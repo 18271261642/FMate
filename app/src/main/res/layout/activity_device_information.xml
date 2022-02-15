@@ -97,27 +97,27 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
+
                 <EditText
-                    android:layout_toLeftOf="@+id/img_right"
-                    android:layout_centerVertical="true"
                     android:id="@+id/edtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/img_right"
                     android:background="@color/white"
-                    android:hint="请输入昵称"
-                    android:textSize="14sp"
                     android:gravity="right"
+                    android:hint="请输入昵称"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1"
                     android:maxLength="16"
                     android:maxLines="1"
-                    android:lines="1"
-                    android:inputType="text"
                     android:singleLine="true"
-                    android:textColor="@color/sub_text_color"
-                    android:imeOptions="actionDone"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/bottom_nav_icon_dim"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/img_right"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
                 <ImageView
                     android:layout_alignParentRight="true"
                     android:id="@+id/img_right"

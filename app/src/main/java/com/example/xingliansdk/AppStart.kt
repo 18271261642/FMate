@@ -3,6 +3,7 @@ package com.example.xingliansdk
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -86,9 +87,16 @@ class AppStart : BaseActivity<AppStartViewModel>() {
             return
         }
         else {
-            TLog.error("userInfo.token+="+userInfo.token)
-            if(userInfo?.user?.mac?.isNotEmpty()!!)
-                Hawk.put("address",userInfo.user.mac)
+            TLog.error("userInfo.token+="+userInfo.token+" "+Gson().toJson(userInfo))
+            if(userInfo?.user?.mac?.isNotEmpty()!!){
+                var  savedMac = Hawk.get<String>("address")
+                if(!TextUtils.isEmpty(savedMac)){
+                    Hawk.put("address",userInfo.user.mac)
+                }
+            }
+
+
+
           //  mViewModel.appLoginTest()
             startMainHomeActivity(this@AppStart)
             finish()

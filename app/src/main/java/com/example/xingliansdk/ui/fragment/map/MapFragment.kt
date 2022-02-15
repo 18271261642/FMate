@@ -34,10 +34,6 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
     lateinit var mStr: SpannableString
     var mMapMotionBean: MapMotionBean? = null
 
-    //    private var mListener: LocationSource.OnLocationChangedListener? = null
-//    private var mlocationClient: AMapLocationClient? = null
-//    private var mLocationOption: AMapLocationClientOption? = null
-//    private var tempStatus=false
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
         arguments?.let {
@@ -111,14 +107,9 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        TLog.error("回来触发 onResume")
-        TLog.error("---111--mMapMotionBean=" + Gson().toJson(mMapMotionBean))
         mMapMotionBean?.let { it ->
             mViewModel.getMotionDistance(it.type)
         }
-        TLog.error("---222--mMapMotionBean=" + Gson().toJson(mMapMotionBean))
-
-
         mViewModel.msg.observe(this)
         {
             //累计里程

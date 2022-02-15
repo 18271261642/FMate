@@ -3,10 +3,13 @@ package com.example.xingliansdk.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.RemoteController;
 import android.os.Build;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
+import com.example.xingliansdk.XingLianApplication;
+import com.example.xingliansdk.base.BaseApp;
 import com.shon.connector.utils.TLog;
 
 /**
@@ -24,6 +27,12 @@ public class MusicControlUtil {
         try {
             if(!fastClick())
                 return;
+
+//            RemoteControlService remoteControlService = XingLianApplication.mXingLianApplication.getRemoteMusic();
+//            if(remoteControlService != null)
+//                remoteControlService.sendMusicKeyEvent(keyCode);
+
+
             if(audioManager == null)
                 audioManager =  (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int resultCode = audioManager.requestAudioFocus(onAudioFocusChangeListener,AudioManager.STREAM_MUSIC,
@@ -87,17 +96,23 @@ public class MusicControlUtil {
     //暂停音乐
     private static void pauseMusic(Context context){
         try {
-            if(audioManager != null){
-                long eventTime2 = SystemClock.uptimeMillis() - 1;
-                KeyEvent downEvent2 = new KeyEvent(eventTime2,eventTime2,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
-                audioManager.dispatchMediaKeyEvent(downEvent2);
 
-                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-                KeyEvent upEvent = new KeyEvent(eventTime2, eventTime2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
-                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-                context.sendOrderedBroadcast(upIntent, null);
-                audioManager.dispatchMediaKeyEvent(upEvent);
-            }
+           RemoteControlService remoteControlService = XingLianApplication.mXingLianApplication.getRemoteMusic();
+           if(remoteControlService != null)
+               remoteControlService.sendMusicKeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+//
+//            if(audioManager != null){
+//                long eventTime2 = SystemClock.uptimeMillis() - 1;
+//                KeyEvent downEvent2 = new KeyEvent(eventTime2,eventTime2,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+//                audioManager.dispatchMediaKeyEvent(downEvent2);
+//
+//                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+//                KeyEvent upEvent = new KeyEvent(eventTime2, eventTime2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+//                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+//                context.sendOrderedBroadcast(upIntent, null);
+//                audioManager.dispatchMediaKeyEvent(upEvent);
+//
+//            }
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -1120,8 +1120,21 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.setPriority(true);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.setWriteType(1);
         write.enqueue(new DialWriteAssignCall(address,mDialCustomBean,mInterface));
     }
+
+
+    public static void writeDialWriteAssignCall(DialCustomBean mDialCustomBean, DialWriteInterface mInterface,int type) {
+        WriteCall write = new WriteCall(address);
+        write.setPriority(true);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.setWriteType(type);
+        write.enqueue(new DialWriteAssignCall(address,mDialCustomBean,mInterface));
+    }
+
+
     public interface DialWriteInterface {
         void onResultDialWrite(int key);
     }

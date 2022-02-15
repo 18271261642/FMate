@@ -104,6 +104,11 @@ public class DataDispatcher {
             startSendNext(false);
             return;
         }
+
+
+//        if(!Constants.isDialSync)
+//            return;
+
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {

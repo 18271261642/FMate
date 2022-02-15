@@ -61,7 +61,7 @@
                         android:maxLines="1"
                         android:paddingLeft="16dp"
                         android:paddingBottom="2dp"
-                        android:text="--"
+                        android:text=""
                         android:textColor="@color/main_text_color"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@+id/viewCen"

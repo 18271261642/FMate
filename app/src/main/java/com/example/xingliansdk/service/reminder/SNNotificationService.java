@@ -50,20 +50,29 @@ public class SNNotificationService extends NotificationListenerService implement
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        if (sbn == null) return;
-        LoginBean userInfo=Hawk.get(Config.database.USER_INFO,new LoginBean());
 
-        if(userInfo==null||userInfo.getUserConfig()==null||userInfo.getUserConfig().getOrderReminder().isEmpty())
-            other=  Hawk.get(Config.database.OTHER,2);
-        else
-            other=Integer.parseInt(userInfo.getUserConfig().getOrderReminder());
-//        TLog.Companion.error("other+="+other);
-        if (other == 1)
-            return;
-        Notification notification = sbn.getNotification();
-        TLog.Companion.error("notification=="+notification.toString());
-        if (notification == null) return;
+
         try {
+
+            if (sbn == null) return;
+            LoginBean userInfo=Hawk.get(Config.database.USER_INFO,new LoginBean());
+
+            if(userInfo == null){
+                return;
+            }
+
+            if(userInfo.getUserConfig()==null||userInfo.getUserConfig().getOrderReminder().isEmpty())
+                other=  Hawk.get(Config.database.OTHER,2);
+            else
+                other=Integer.parseInt(userInfo.getUserConfig().getOrderReminder());
+//        TLog.Companion.error("other+="+other);
+            if (other == 1)
+                return;
+            Notification notification = sbn.getNotification();
+            TLog.Companion.error("notification=="+notification.toString());
+            if (notification == null) return;
+
+
             String packName = sbn.getPackageName();
             String title = null;
             String content = null;

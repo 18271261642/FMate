@@ -24,7 +24,9 @@ import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock_list.*
 
-
+/**
+ * 日程提醒页面
+ */
 class ScheduleListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
     lateinit var mScheduleAdapter: ScheduleAdapter
     lateinit var mScheduleList: ArrayList<TimeBean>

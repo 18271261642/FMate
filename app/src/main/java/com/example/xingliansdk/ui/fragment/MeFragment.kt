@@ -78,7 +78,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         if (userInfo != null && userInfo.user != null)
             tvEdtData.text = "我的ID:" + userInfo.user.userId
        // setting_step.setContentText(mDeviceInformationBean.exerciseSteps.toString())
-        if (Hawk.get<Int>(SLEEP_GOAL) != null)
+       // if (Hawk.get<Int>(SLEEP_GOAL) != null)
            // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
 
         setImgHead()
@@ -100,7 +100,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         mDeviceInformationBean = Hawk.get(
             PERSONAL_INFORMATION, DeviceInformationBean()
         )
-        var userInfo = Hawk.get(USER_INFO, LoginBean())
+        val userInfo = Hawk.get(USER_INFO, LoginBean())
         TLog.error("userInfo+=" + Gson().toJson(userInfo))
         var img = Hawk.get<String>(IMG_HEAD)
         if (userInfo.user == null)
@@ -108,7 +108,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         tvPhone?.text = userInfo.user.nickname
         if (userInfo.user.headPortrait.isNotEmpty() && context?.let { HelpUtil.netWorkCheck(it) }!!) {
             TLog.error("头像==" + userInfo.user.headPortrait)
-            ImgUtil.loadCircle(imgHead, userInfo.user.headPortrait)
+            ImgUtil.loadCircle(imgHead, userInfo.user.headPortrait,userInfo.user.sex == "1")
             return
         }
         if (FileUtil.isFileExists(img)) {  //显示本地图片

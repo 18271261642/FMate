@@ -25,30 +25,45 @@
         android:id="@+id/llNoAlarmClock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_title"
-            android:text="当前无闹钟"
-            android:textSize="18sp"
-            android:padding="32dp"
-            android:textColor="@color/sub_text_color"
-            />
-        <TextView
-            android:id="@+id/tvSettingAlarmClock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/device_setting_btn"
-           android:text="设置"
-            android:textColor="@color/color_main_green"
-            android:gravity="right"
-            android:layout_marginRight="16dp"
-            />
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        android:orientation="vertical">
 
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_title"
+                android:text="当前无闹钟"
+                android:textSize="18sp"
+                android:padding="32dp"
+                android:textColor="@color/sub_text_color"
+                />
+            <TextView
+                android:id="@+id/tvSettingAlarmClock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/device_setting_btn"
+                android:text="设置"
+                android:textColor="@color/color_main_green"
+                android:gravity="right"
+                android:layout_marginRight="16dp"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="3dp"
+            android:background="#F6F7F8"/>
     </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

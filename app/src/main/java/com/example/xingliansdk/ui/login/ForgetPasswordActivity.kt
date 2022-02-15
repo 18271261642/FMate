@@ -3,6 +3,7 @@ package com.example.xingliansdk.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
@@ -35,6 +36,12 @@ class ForgetPasswordActivity : BaseActivity<LoginViewModel>(), View.OnClickListe
     override fun layoutId() = R.layout.activity_login
     var areaCode = "86"
     override fun initView(savedInstanceState: Bundle?) {
+
+        var phoneCodeStr = intent.getStringExtra("phoneCode")
+        if(!TextUtils.isEmpty(phoneCodeStr)){
+            edt_mobile.setText(phoneCodeStr)
+        }
+
         tv_login.setOnClickListener(this)
         tvPhoneCode.setOnClickListener(this)
         tv_getcode.setOnClickListener(this)

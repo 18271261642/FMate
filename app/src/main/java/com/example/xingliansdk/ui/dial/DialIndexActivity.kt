@@ -30,6 +30,10 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
     private lateinit var mList: MutableList<RecommendDialBean.ListDTO.TypeListDTO>
     var type = 0
     var productNumber = ""
+
+    //是否在同步表盘中
+    var isSyncDial = false
+
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
         ImmersionBar.with(this)
@@ -119,6 +123,8 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
                         var currentProcess =
                             (data.currentProgress.toDouble() / data.maxProgress * 100).toInt()
                         typeListDTO.progress=currentProcess.toString()
+
+
                         mMeDialImgAdapter.notifyItemChanged(index,typeListDTO)
                     }
                 }

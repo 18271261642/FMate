@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    app:TextSize="14px"
+                    app:TextSize="16px"
                     app:contentText="1次"
                     app:contentTextSize="14px"
                     app:layoutType="1"

@@ -2,15 +2,15 @@ package com.example.xingliansdk.ui.fragment.map
 
 import android.Manifest
 import android.app.Activity
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.*
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -31,6 +31,7 @@ import com.example.xingliansdk.ui.fragment.map.view.IRunningContract
 import com.example.xingliansdk.ui.fragment.map.view.RunningPresenterImpl
 import com.example.xingliansdk.utils.CountTimerUtil
 import com.example.xingliansdk.utils.HelpUtil
+import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.view.OnSlideUnlockCallback
@@ -69,6 +70,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     //计算卡里路常量
     var kcalcanstanc = 65.4 //计算卡路里常量
+
+
+    private var stopAlert : AlertDialog.Builder ?= null
 
     //是否是暂停状态
     private var isStopStatus = false
@@ -193,8 +197,31 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     private fun clickSaveData() {
         //  if(!HelpUtil.isApkInDebug(XingLianApplication.mXingLianApplication))
         if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
-            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
-            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
+//            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
+//            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
+
+            stopAlert = AlertDialog.Builder(this)
+                .setTitle("提醒")
+                .setMessage("本次运动距离过短,将不会记录数据,是否退出?")
+                .setPositiveButton("是") { p0, p1 ->
+                    p0?.dismiss()
+                    //startActivity(Intent(instance, DFUActivity::class.java))
+
+                    SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
+                   // ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
+
+                }.setNegativeButton("否"
+                ) { p0, p1 -> p0?.dismiss()
+                    statusAmapOperateLayout.visibility = View.GONE
+                    tvStatus.visibility = View.VISIBLE
+//                    amapDestoryPressView.visibility = View.VISIBLE
+//                    amapStatusDoubleLayout.visibility = View.GONE
+                    operateContinue()
+                    mPresenter?.requestStartSport()
+                }
+
+            stopAlert?.create()?.show()
+
             return
         }
         //ShowToast.showToastLong("最终保留的步数++$stepCount")

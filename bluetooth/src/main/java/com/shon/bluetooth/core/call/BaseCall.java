@@ -27,6 +27,8 @@ public abstract class BaseCall<T extends ICallback, C> implements ICall<T> {
     private UUID serviceUUid;
     protected UUID characteristicUUID;
     protected boolean priority = false;
+    protected int writeType = 0;
+
 
     public BaseCall(String address) {
         this.address = address;
@@ -43,6 +45,12 @@ public abstract class BaseCall<T extends ICallback, C> implements ICall<T> {
         this.characteristicUUID = UUID.fromString(characteristicUUID);
         return (C) this;
     }
+
+    public C setWriteType(int type){
+        this.writeType = type;
+        return (C) this;
+    }
+
 
     public C setTimeout(long delayTime){
         this.delayTime = delayTime;

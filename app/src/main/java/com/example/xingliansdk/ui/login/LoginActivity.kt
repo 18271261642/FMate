@@ -1,9 +1,11 @@
 package com.example.xingliansdk.ui.login
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.Settings
+import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
@@ -20,6 +22,7 @@ import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.service.AppService
+import com.example.xingliansdk.ui.ShowPermissionActivity
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
@@ -111,7 +114,11 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                 dialogOK?.setOnClickListener {
                     Hawk.put("privacyPolicyn", 1)
                     dialog.dismiss()
-                    Permissions()
+
+                    val intent = Intent(this@LoginActivity,ShowPermissionActivity::class.java)
+                    startActivityForResult(intent,0x02)
+
+
                 }
             }
         }
@@ -329,6 +336,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                 }
             }
             R.id.tvForgotPassword -> {
+                if(!TextUtils.isEmpty(edt_mobile.text)) JumpUtil.startForgetPasswordActivity(this,edt_mobile.text.toString()) else
                 JumpUtil.startForgetPasswordActivity(this)
             }
             R.id.imgPassword -> {
@@ -377,6 +385,10 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0x02 && resultCode == Activity.RESULT_OK){
+            Permissions()
+        }
+
         if (resultCode == PhoneAreaCodeActivity.resultCode) {
             if (data != null) {
                 val model: AreaCodeModel =

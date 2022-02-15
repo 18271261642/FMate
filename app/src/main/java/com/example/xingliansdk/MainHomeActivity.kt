@@ -96,6 +96,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
         super.createObserver()
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
+            //&& it.versionCode>mDeviceFirmwareBean.version
             if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
                 showOtaAlert()
@@ -332,9 +333,10 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 //                getLastOta()
             }
             Config.eventBus.DEVICE_FIRMWARE->{
-                var tmpDeviceBean = event.data as DeviceFirmwareBean
-                Log.e("主页","------设备备案="+tmpDeviceBean.toString())
+                val tmpDeviceBean = event.data as DeviceFirmwareBean
+                Log.e("主页","------设备固件信息="+tmpDeviceBean.toString())
                 if(tmpDeviceBean.productNumber != null){
+                    mDeviceFirmwareBean = tmpDeviceBean
                     mViewModel.findUpdate(tmpDeviceBean.productNumber, tmpDeviceBean.version)
                 }
             }

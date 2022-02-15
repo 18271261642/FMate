@@ -284,7 +284,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 //            TLog.error("进行刷新")
         TLog.error("mHomeCardVoBean====+" + Gson().toJson(mHomeCardVoBean))
 //        mSwipeRefreshLayout.finishRefresh(60000)
-        handler.sendEmptyMessageDelayed(0x00,10 * 1000)
+        handler.sendEmptyMessageDelayed(0x00,15 * 1000)
         setPopularAdapter()
         homeBleWrite()
 //        }

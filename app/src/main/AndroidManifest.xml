@@ -4,7 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.xingliansdk">
 
+
     <dist:module dist:instant="true" /> <!-- 计歩 -->
+
+
+    <uses-permission android:name="android.permission.INJECT_EVENTS"
+        tools:ignore="ProtectedPermissions" />
+
+
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
@@ -62,7 +69,7 @@
         android:name="ScopedStorage"
         android:value="true" />
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
-
+    <meta-data android:name="ScopedStorage" android:value="true" />
     <application
         android:name=".XingLianApplication"
         android:allowBackup="true"
@@ -291,6 +298,8 @@
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+
+        <service android:name=".utils.RemoteControlService"/>
     </application>
 
 </manifest>

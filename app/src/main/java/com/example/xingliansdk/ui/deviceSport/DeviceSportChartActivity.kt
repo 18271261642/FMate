@@ -45,6 +45,7 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.shon.connector.Config
 import kotlinx.android.synthetic.main.activity_device_sport_chart.*
+import me.hgj.jetpackmvvm.network.NetworkUtil
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -67,6 +68,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
+        chart = chart1
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -84,7 +86,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         TLog.error("数据+" + Gson().toJson(motionListDao.getAllRoomMotionList()))
         onClickListener()
         setTitleDateData()
-        chart = chart1
+
         chartInitView()
     }
 
@@ -186,6 +188,46 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         })
     }
 
+    private fun showEmptyChartView(){
+
+        val emptyValues = ArrayList<BarEntry>()
+        chart.setNoDataText("")
+        var barData : BarDataSet ?= null
+        if(chart.data != null && chart.data.dataSetCount>0){
+            barData = chart.data.getDataSetByIndex(0) as BarDataSet?
+            barData?.entries = emptyValues
+            chart.data.notifyDataChanged()
+            chart.notifyDataSetChanged()
+
+        }else{
+            barData = BarDataSet(emptyValues,"")
+            barData.setDrawValues(false)
+            barData.highLightColor= resources.getColor(R.color.color_marker)
+        }
+        val dataSets = ArrayList<IBarDataSet>()
+        if (barData != null) {
+            dataSets.add(barData)
+        }
+        val data =
+            BarData(dataSets)
+
+        if (position == 1 || position == 3) {
+            data.barWidth = 0.3f
+        }
+        chart.data = data
+        chart.setFitBars(true)
+//        }
+        chart.invalidate()
+        tvTotalStep.text = "--"
+        tvStep.text = "--"
+        return
+    }
+
+
+
+
+
+
     var mv: MyMarkerView? = null
     private fun chartInitView() {
         TLog.error("chartInitView")
@@ -215,6 +257,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         when (position) {
             0 -> {
                 tvHours.visibility = View.VISIBLE
+                tvHours.text = "24"
                 TLog.error("value==" + position)
                 timeMatter = DeviceSportAxisValueFormatter(chart, position)
                 xAxis.granularity = 12f
@@ -478,7 +521,6 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
 
     var calendarType: Calendar? = null
     private fun setTitleDateData() {
-        chartInitView()
         // var calendar: Calendar? = null
         when (position) {
             0 -> {
@@ -497,13 +539,18 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         }
         TLog.error("calendar++${calendarType?.timeInMillis}")
         //   timeDialog = calendar?.timeInMillis
+
+
+
+
+
         mViewModel.getDailyActive(
             position.toString(), DateUtil.getDate(
                 DateUtil.YYYY_MM_DD,
                 calendarType
             )
         )
-        var date = DateUtil.getDate(DateUtil.YYYY_MM_DD_AND, calendarType)
+        var date =  DateUtil.getDate(if(calendarType == yearCalendar) DateUtil.YYYY_AND_MM else DateUtil.YYYY_MM_DD_AND, calendarType)
         when (position) {
             1 -> {
                 date += "-" + calendarType?.timeInMillis?.plus(86400 * 6 * 1000L)?.let {
@@ -527,7 +574,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             }
             3 -> {
                 date += "-" + DateUtil.getDate(
-                    DateUtil.YYYY_MM_DD_AND,
+                    DateUtil.YYYY_AND_MM,
                     DateUtil.getYearLastDate(calendarType)
                 )
             }
@@ -573,6 +620,12 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             }
         }
         tvTypeTime.text = date
+
+        if(!NetworkUtil.isNetworkAvailable(this)){
+            showEmptyChartView()
+            return
+        }
+
     }
 
     private fun refreshCurrentSelectedDateData() {

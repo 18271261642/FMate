@@ -32,7 +32,6 @@ class ConnectDispatcher internal constructor() {
      */
     fun onDeviceError(address: String?, status: Int) {
         stopTime()
-
         if (connectedDevices.getDevice(address!!) != null) {
             handlerConnectError(connectedDevices.getDevice(address!!)!!.connect, address, status)
         } else {

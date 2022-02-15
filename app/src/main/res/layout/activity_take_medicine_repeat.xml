@@ -49,7 +49,7 @@
                 android:paddingBottom="12dp"
                 android:checked="true"
                 android:button="@drawable/circle_radio_button_bg"
-                android:text="重复"
+                android:text="每天"
                 android:textColor="@color/sub_text_color"
                 android:textDirection="ltr"
                 android:textSize="18sp" />

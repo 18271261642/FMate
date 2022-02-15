@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.dial
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -35,6 +36,10 @@ import org.greenrobot.eventbus.ThreadMode
 
 class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
     BleWrite.DialDesignatedInterface {
+
+
+    private val tags = "MeDialFragment"
+
     override fun layoutId() = R.layout.fragment_me_dial
     private lateinit var mList: MutableList<RecommendDialBean.ListDTO.TypeListDTO>
     private lateinit var mDownList: MutableList<DownDialModel.ListDTO>
@@ -48,6 +53,11 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
     var bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
     var longOnclick = false
     var longCustOnclick = false
+
+    //是否在同步表盘中
+    var isSyncDial = false
+
+
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
         imgDownload.setOnClickListener(this)
@@ -91,7 +101,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     BleWrite.writeDialDesignatedCall(id, this)
                     hasMapMeUpdate = HashMap()
                     hasMapMeUpdate["dialId"] = mList[position].dialId.toString()
-                    hasMapMeUpdate["stateCode"] = mList[position].stateCode.toString()
+                    hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else mList[position].stateCode.toString()
+
+                    isSyncDial = true
+
                 }
             }
         }
@@ -325,7 +338,13 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         var currentProcess =
                             (data.currentProgress.toDouble() / data.maxProgress * 100).toInt()
                         typeListDTO.progress = currentProcess.toString()
-                        downAdapter.notifyItemChanged(index, typeListDTO)
+
+                        Log.e(tags,"---------更新状态="+isSyncDial)
+
+                        if(isSyncDial){
+                            downAdapter.notifyItemChanged(index, typeListDTO)
+                        }
+
                     }
                 }
             }

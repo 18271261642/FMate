@@ -74,8 +74,8 @@ class AllGenJIDialog {
                     isFullHorizontal = true
                     animStyle = R.style.AlphaEnterExitAnimation
                     convertListenerFun { holder, dialog ->
-                        var dialogCancel = holder.getView<TextView>(R.id.dialog_cancel)
-                        var dialogSet = holder.getView<TextView>(R.id.dialog_confirm)
+                        val dialogCancel = holder.getView<TextView>(R.id.dialog_cancel)
+                        val dialogSet = holder.getView<TextView>(R.id.dialog_confirm)
                         dialogSet?.setOnClickListener {
                             TLog.error("address==" + Hawk.get("address"))
                             var address = Hawk.get<String>("address")
@@ -83,7 +83,12 @@ class AllGenJIDialog {
                                 BLEManager.getInstance().disconnectDevice(address)
                                 BLEManager.getInstance().dataDispatcher.clearAll()
                             }
+
+
                             var value = HashMap<String, String>()
+
+                            var  userInfoBean: LoginBean? = Hawk.get<LoginBean>(Config.database.USER_INFO)
+
                             value["mac"] =""
                             GlobalScope.launch(Dispatchers.IO)
                             {
@@ -92,7 +97,9 @@ class AllGenJIDialog {
                                 }.onSuccess {loginBean->
                                   var  userInfoBean: LoginBean? = Hawk.get<LoginBean>(Config.database.USER_INFO)
                                         userInfoBean?.user=loginBean.data.user
-                                    TLog.error("正常删除设备"+Gson().toJson(loginBean.data))
+                                    Hawk.put("address", "")
+                                    Hawk.put("name", "")
+                                    TLog.error("正常删除设备"+Gson().toJson(loginBean.data)+"\n"+Hawk.get<String>("address"))
                                 }.onFailure {
                                     TLog.error("异常删除设备")
                                 }

@@ -1,4 +1,5 @@
 package com.example.xingliansdk.ui.setting.heartRateAlarm
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
@@ -19,6 +20,9 @@ import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_heart_rate_alarm.*
 import kotlinx.android.synthetic.main.item_switch.*
 
+/**
+ * 心率报警页面
+ */
 class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
     var num = 0
 //    var data: HeartRateAlarmBean? = null
@@ -34,6 +38,9 @@ class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
         value["heartRateThreshold"]=userInfo.userConfig.heartRateThreshold.toString()
         tv_name.text = "心率报警"
         mSwitch= userInfo.userConfig.heartRateAlarm.toInt()
+
+
+
      //   data = Hawk.get(Config.database.HEART_RATE_ALARM, HeartRateAlarmBean(0, 0))
      //   num = data?.heartNum!!
             num=userInfo.userConfig.heartRateThreshold
@@ -41,16 +48,32 @@ class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
             edtHeartRate.setText(num.toString())
 //        Switch.isOpened=data?.getmSwitch()==2
         Switch.isOpened=mSwitch==2
+
+        edtHeartRate.isEnabled = Switch.isOpened
+        if(Switch.isOpened){
+            edtHeartRate.setTextColor(resources.getColor(R.color.color_heart))
+            edtHeartRate.setBackgroundColor(Color.WHITE)
+        }else{
+
+            edtHeartRate.setTextColor(resources.getColor(R.color.gray1))
+        }
+
+
         TLog.error("num==$num")
         Switch.setOnStateChangedListener(object : SwitchView.OnStateChangedListener {
             override fun toggleToOn(view: SwitchView?) {
                 Switch.isOpened = true
                 value["heartRateAlarm"] ="2"
+                edtHeartRate.isEnabled = true
+                edtHeartRate.setTextColor(resources.getColor(R.color.color_heart))
+                edtHeartRate.setBackgroundColor(Color.WHITE)
             }
 
             override fun toggleToOff(view: SwitchView?) {
                 Switch.isOpened = false
                 value["heartRateAlarm"] ="1"
+                edtHeartRate.isEnabled = false
+                edtHeartRate.setTextColor(resources.getColor(R.color.gray1))
             }
         })
         titleBar.setTitleBarListener(object :TitleBarLayout.TitleBarListener{

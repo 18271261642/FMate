@@ -31,6 +31,10 @@ import no.nordicsemi.android.dfu.DfuProgressListener
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+
+/**
+ * DFU页面
+ */
 class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, DownLoadCallback,
     View.OnClickListener, BleWrite.BleInterface {
     private lateinit var dfuViewModel: DFUViewModel

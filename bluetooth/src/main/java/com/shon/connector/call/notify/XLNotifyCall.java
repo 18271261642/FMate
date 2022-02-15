@@ -46,7 +46,7 @@ public class XLNotifyCall extends NotifyCallback {
 //                TLog.Companion.error("uuid=="+uuid);
                 if(!Config.readCharacter.equalsIgnoreCase(uuid))
                     return false;
-//               TLog.Companion.error("广播值++"+ ByteUtil.getHexString(result));
+               TLog.Companion.error("广播值++"+ ByteUtil.getHexString(result));
                 if (result[0] == Config.PRODUCT_CODE && result[8] == Config.ActiveUpload.COMMAND
                 ) {
                     switch (result[9])

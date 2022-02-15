@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.KeyEvent
 import androidx.annotation.RequiresApi
 import com.example.xingliansdk.Config.eventBus.*
@@ -124,19 +125,20 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                 if(!MusicControlUtil.fastClick())
                     return
                 TLog.error("音乐 NotifyCallResult type+$type")
-                if (type == 1) {
+                if (type == 1) {  //下一首
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_NEXT)//下一首
                 }
-                if (type == 2) {
-                   // MusicControlUtil.playOrPauseMusic(mContext)
-
-                    MusicControlUtil.sendKeyEvents(
-                        mContext,
-                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
-                    )//播放/暂停
+                if (type == 2) {  //播放/暂停
+                    MusicControlUtil.playOrPauseMusic(mContext)
+//
+//                    MusicControlUtil.sendKeyEvents(
+//                        mContext,
+//                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+//                    )//播放/暂停
                 }
-                if (type == 3) {
+                if (type == 3) {   //上一首
                     MusicControlUtil.sendKeyEvents(mContext, KeyEvent.KEYCODE_MEDIA_PREVIOUS)//上一首
+
                 }
                 if (type == 4) {
                     VolumeControlUtil.setVolumeUp(mContext)
@@ -168,13 +170,26 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     GlobalScope.launch(Dispatchers.IO)
                     {
                         kotlin.runCatching {
-                            var hashMap=HashMap<String,String>()
+                            val hashMap=HashMap<String,String>()
+                            val setList = mutableSetOf<HashMap<String,String>>()
                             val userHashMap = HashMap<String,String>()
-                            userHashMap["dialId"]= type.toString()
-                            hashMap["type"]="1"
-                            hashMap["dialId"]=type.toString()
+                            userHashMap["dialId"]= if(type == 65533) "0" else type.toString()
+                            if(type == 17 || type == 18 || type == 19){
+                                userHashMap["stateCode"] = "2"
+                            }
+                            else if(type == 65533){
+                                userHashMap["stateCode"] = "3"
+                            }else{
+                               // userHashMap["stateCode"] = "1"
+                            }
+
+                            hashMap["type"]=  if(type == 65533) "3" else "2"
+                            hashMap["dialId"]= if(type == 65533) "0" else type.toString()
+                            setList.add(hashMap)
+                            Log.e("广播","-------校验表盘="+Gson().toJson(setList))
+
                             DetailDialViewApi.mDetailDialViewApi.updateUserDial(userHashMap)
-                            RecommendDialViewApi.mRecommendDialViewApi.checkDialSate(Gson().toJson(hashMap))
+                            RecommendDialViewApi.mRecommendDialViewApi.checkDialSate(Gson().toJson(setList))
                         }.onSuccess {
                             TLog.error("BLEBROAD  效验id+"+type)
                             SNEventBus.sendEvent(DEVICE_DIAL_ID, type)

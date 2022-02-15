@@ -28,11 +28,19 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
     var mDataList: ArrayList<String> = arrayListOf("推荐", "我的")
     companion object {
         var downStatus=false
+        //是否在同步表盘中
+        var isSyncDial = false
     }
 
     private val instant by lazy { this }
 
     private var alertDialog : AlertDialog.Builder ?=null
+
+
+
+
+
+
 
     override fun layoutId()=R.layout.activity_dial_market
     override fun initView(savedInstanceState: Bundle?) {
@@ -67,6 +75,12 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
         super.createObserver()
         fragments.add(RecommendDialFragment())
         fragments.add(MeDialFragment())
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isSyncDial = false
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

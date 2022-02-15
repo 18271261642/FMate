@@ -96,6 +96,18 @@ object ImgUtil {
             .into(ivHead)
     }
 
+
+    fun loadCircle(ivHead: ImageView, url: Any,isMain : Boolean) {
+        Glide.with(ivHead.context).load(url).circleCrop()
+            .placeholder(if(isMain) R.mipmap.icon_head_man else R.mipmap.icon_head_woman)
+            //.skipMemoryCache(true)
+//            .override(  Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//加载原始图大小
+            //  .format(DecodeFormat.PREFER_RGB_565)//设置通道减少内存
+            // .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(ivHead)
+    }
+
+
     fun loadHead(ivHead: ImageView, url: Any) {
         Glide.with(ivHead.context).load(url)
             .circleCrop()

@@ -22,6 +22,7 @@ import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DialProgressBar
 import com.example.xingliansdk.view.DownloadProgressButton
 import com.google.gson.Gson
+import com.shon.bluetooth.Constants
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
@@ -133,6 +134,8 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                 TLog.error("urlFile+="+urlFile)
             if(urlFile == item.fileName)
                 return@runOnUiThread
+                Constants.isDialSync = true
+
                 urlFile = item.fileName
                 DownLoadRequest(item.ota).startDownLoad(
                 "${ExcelUtil.dialPath}/${item.fileName}", object : DownLoadCallback {
@@ -149,8 +152,12 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                     }
 
                     override fun onDownLoadSuccess() {
-                        itemDownload?.currentText = "更新中..."
+                        itemDownload?.currentText = "" +
+                                "" +
+                                "更新中..."
                         TLog.error("完成")
+
+
                         BleWrite.writeDialWriteAssignCall(
                             item?.let { it ->
                                 DialCustomBean(
@@ -201,6 +208,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                 }
                             }
                         }
+
                     }
 
                     override fun onDownLoadError() {

@@ -538,6 +538,14 @@ public class JumpUtil {
     }
 
     /**
+     * 忘记密码
+     */
+    public static void startForgetPasswordActivity(Context context,String phoneCode) {
+        context.startActivity(new Intent(context, ForgetPasswordActivity.class).putExtra("phoneCode",phoneCode)
+        );
+    }
+
+    /**
      * 注销账号
      */
     public static void startLogOutActivity(Context context) {
