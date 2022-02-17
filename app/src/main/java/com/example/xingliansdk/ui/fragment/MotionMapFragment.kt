@@ -12,6 +12,7 @@ import com.example.xingliansdk.ext.init
 import com.example.xingliansdk.ui.fragment.map.MapFragment
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
+import kotlinx.android.synthetic.main.dialog_find.view.*
 import kotlinx.android.synthetic.main.motion_map_viewpager.*
 
 class MotionMapFragment : BaseFragment<BaseViewModel>() {
@@ -41,6 +42,14 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
 //        magic_indicator.bindViewPager2(view_pager, mDataList)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Hawk.put(
+            com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
+            1
+        )
+    }
+
     override fun createObserver() {
         for (i in 0 until mDataList.size) {
             fragments.add(MapFragment.newInstance(i,mDistanceList[i]))
@@ -54,7 +63,7 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
             com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
             1
         )
-        //Log.e(tags,"------onResume---------="+mapType)
+        Log.e(tags,"------onResume---------="+mapType)
         //初始化viewpager2
         if (!Hawk.get<ArrayList<MapMotionBean>>("DistanceList").isNullOrEmpty())
             for (i in 0 until mDataList.size) {
@@ -62,12 +71,14 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
             }
         view_pager?.init(this, fragments)
         view_pager?.offscreenPageLimit=3
-        view_pager.setCurrentItem(mapType-1,true)
+        view_pager.currentItem = mapType-1
+        view_pager.setCurrentItem(mapType-1,false)
 //        Hawk.put(
 //            com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
 //            1
 //        )
         //初始化 magic_indicator
-        magic_indicator.bindViewPager2(view_pager, mDataList)
+        magic_indicator.bindViewPager2(view_pager, mDataList,)
+        magic_indicator.onPageSelected(mapType-1)
     }
 }

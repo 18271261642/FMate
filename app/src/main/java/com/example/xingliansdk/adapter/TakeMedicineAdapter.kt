@@ -49,6 +49,10 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
         val btnDelete = helper.getView<Button>(R.id.btnDelete)
         val constAll = helper.getView<ConstraintLayout>(R.id.constAll)
         ryTime.setHasFixedSize(true)
+
+        //判断间隔
+
+
         if (ryTime.layoutManager == null) {
             ryTime.layoutManager = LinearLayoutManager(
                 context,

@@ -61,7 +61,7 @@ public class AmapItemDetailAdapter extends RecyclerView.Adapter<AmapItemDetailAd
 
             if(userInfo==null||userInfo.getUserConfig().getDistanceUnit()==1) {
                 unit = "英里";
-                dis=  Utils.mul(dis,MILE,2);
+                dis= Double.valueOf(decimalFormat.format( Utils.mul(dis,MILE,3)));
 
             }
             holder.typeImg.setImageResource(mapSportTypeImg(sportType));

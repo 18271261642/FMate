@@ -172,6 +172,9 @@ fun MagicIndicator.bindViewPager2(
         override fun getCount(): Int {
             return  mStringList.size
         }
+
+
+
         override fun getTitleView(context: Context, index: Int): IPagerTitleView {
             return ScaleTransitionPagerTitleView(appContext).apply {
                 //设置文本
@@ -189,6 +192,9 @@ fun MagicIndicator.bindViewPager2(
                 }
             }
         }
+
+
+
         override fun getIndicator(context: Context): IPagerIndicator {
             return LinePagerIndicator(context).apply {
                 mode = LinePagerIndicator.MODE_EXACTLY

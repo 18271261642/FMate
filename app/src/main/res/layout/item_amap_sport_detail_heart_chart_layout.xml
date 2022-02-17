@@ -141,5 +141,5 @@
         android:background="@color/white"
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="150dp" />
 </LinearLayout>

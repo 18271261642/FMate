@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import android.util.Log
 import android.widget.SeekBar
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
@@ -17,8 +18,12 @@ import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import kotlinx.android.synthetic.main.activity_sports_goal.*
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class SportsGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeListener {
+
+    private val numberFormat: NumberFormat = DecimalFormat("#,###")
     lateinit var mStr: SpannableString
     override fun layoutId() = R.layout.activity_sports_goal
 
@@ -50,7 +55,8 @@ class SportsGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChang
             mStr.length - 1,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvSport.text = mStr
+        val progressValue = seekBarSports.progress * 1000
+        tvSport.text = if(progressValue >=1000) numberFormat.format (progressValue.toLong()).toString() else progressValue.toString()//mStr
     }
 
     override fun createObserver() {
@@ -71,7 +77,8 @@ class SportsGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChang
             mStr.length - 1,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvSport.text = mStr
+        val progressValue = progress * 1000
+        tvSport.text = if(progressValue >=1000) numberFormat.format (progressValue.toLong()).toString() else progressValue.toString()// mStr
         mDeviceInformationBean.exerciseSteps = (progress * 1000).toLong()
     }
 

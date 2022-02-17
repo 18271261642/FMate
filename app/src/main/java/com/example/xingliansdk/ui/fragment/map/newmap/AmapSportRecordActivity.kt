@@ -245,6 +245,10 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
                 resultList.add(amapRecordBean)
             }
             resultList.sortByDescending { it.monthStr }
+            resultList.forEach {
+                it.isShow = false
+            }
+            resultList[0].isShow = true
             amapRecordAdapter!!.setType(sportType)
             // amapRecordAdapter!!.notifyDataSetChanged()
         } catch (e: Exception) {

@@ -220,6 +220,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         chart.invalidate()
         tvTotalStep.text = "--"
         tvStep.text = "--"
+        chartInitView()
         return
     }
 
@@ -257,7 +258,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         when (position) {
             0 -> {
                 tvHours.visibility = View.VISIBLE
-                tvHours.text = "24"
+                tvHours.text = "24:00"
                 TLog.error("value==" + position)
                 timeMatter = DeviceSportAxisValueFormatter(chart, position)
                 xAxis.granularity = 12f
@@ -552,6 +553,9 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         )
         var date =  DateUtil.getDate(if(calendarType == yearCalendar) DateUtil.YYYY_AND_MM else DateUtil.YYYY_MM_DD_AND, calendarType)
         when (position) {
+            0 ->{
+                date = DateUtil.getDate(DateUtil.YYYY_MM_DD_AND,dayCalendar)
+            }
             1 -> {
                 date += "-" + calendarType?.timeInMillis?.plus(86400 * 6 * 1000L)?.let {
                     DateUtil.getDate(

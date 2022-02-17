@@ -160,6 +160,8 @@
     <View
         android:id="@+id/view_2"
         android:layout_width="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_height="match_parent"
         android:background="@color/color_view"
           />
