@@ -40,6 +40,7 @@ import com.shon.net.callback.DownLoadCallback
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_my_device.*
 import kotlinx.android.synthetic.main.activity_my_device.titleBar
+import kotlinx.android.synthetic.main.item_menu_duf_layout.*
 import kotlinx.android.synthetic.main.item_switch.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -61,6 +62,10 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         initOnclick()
         settingCleanRoom.setContentText(AppUtils.getTotalCacheSize(this))
         settingUpdate.setContentText(mDeviceFirmwareBean.versionName)
+        dfuMenuContentTv.text = mDeviceFirmwareBean.versionName
+
+        //查询是否有固件更新
+        mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
     }
     override  fun createObserver(){
         mViewModel.resultUserInfo.observe(this)
@@ -71,6 +76,11 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
             userInfo.userConfig = it.userConfig
            // userInfo.permission = it.permission
             Hawk.put(Config.database.USER_INFO, userInfo)
+        }
+
+        mViewModel.result.observe(this){
+            val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
+            dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
         }
    }
 
@@ -87,6 +97,9 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         settingCamera.setOnClickListener(this)
         settingWatch.setOnClickListener(this)
         settingUpdate.setOnClickListener(this)
+
+        deviceMenuDfuLayout.setOnClickListener(this)
+
         settingCleanRoom.setOnClickListener(this)
         settingReset.setOnClickListener(this)
         tvDeviceDelete.setOnClickListener(this)
@@ -271,6 +284,44 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 JumpUtil.startCameraActivity(this)
             }
             R.id.settingWatch -> {
+            }
+            R.id.deviceMenuDfuLayout->{
+                var batteryManager:BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
+                var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+                TLog.error("电量++"+battery)
+                if(!HelpUtil.netWorkCheck(this))
+                {
+                    ShowToast.showToastLong("网络出问题了，快去检查一下吧～")
+                    return
+                }
+                var status = Hawk.get("ELECTRICITY_STATUS",0)
+                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
+                {
+                    ShowToast.showToastLong("手表电量低于40%,请充电")
+                    return
+                }
+                else
+                {
+                    if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
+                    {
+                        ShowToast.showToastLong("手机电量低于20%,请充电")
+                        return
+                    }
+                    else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
+                    {
+                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+                        return
+                    }
+                }
+
+                BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
+                JumpUtil.startOTAActivity(this,Hawk.get("address")
+                    ,Hawk.get("name")
+                    ,mDeviceFirmwareBean.productNumber
+                    ,mDeviceFirmwareBean.version
+                    ,true
+                )
+
             }
             R.id.settingUpdate -> {
              //   mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
@@ -468,6 +519,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
             {
                 mDeviceFirmwareBean=event.data as DeviceFirmwareBean
                 settingUpdate.setContentText(mDeviceFirmwareBean.versionName)
+                dfuMenuContentTv.text = mDeviceFirmwareBean.versionName
             }
 //            Config.eventBus.DEVICE_OTA_UPDATE->
 //            {

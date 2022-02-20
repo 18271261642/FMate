@@ -366,6 +366,14 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
         //小数点前
         val beforeWeight = StringUtils.substringBefore(currWeight.toString(),".")
         val afterWeight = StringUtils.substringAfter(currWeight.toString(),".")
+
+
+        val cardWeightBean = cardWeightItem.findLast { it.kgInteger == beforeWeight }
+
+        if (cardWeightBean != null) {
+            //Log.e("体重","-------体重=="+cardWeightBean.kgInteger+" "+cardWeightBean.id)
+            indexWeight = cardWeightBean.id -3
+        }
         //体重选择
         pvCustomOptions = OptionsPickerBuilder(
             this

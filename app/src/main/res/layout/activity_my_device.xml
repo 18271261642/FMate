@@ -261,10 +261,15 @@
                 app:styleImage="@mipmap/icon_device_watch"
                 app:titleText="表盘设置" />
 
+
+            <include
+                layout="@layout/item_menu_duf_layout"/>
+
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
                 app:contentText="0"
@@ -272,6 +277,8 @@
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_update"
                 app:titleText="固件更新" />
+
+
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingUIUpdate"
                 android:layout_width="match_parent"

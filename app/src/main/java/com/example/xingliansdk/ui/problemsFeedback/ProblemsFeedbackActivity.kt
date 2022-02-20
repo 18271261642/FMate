@@ -14,6 +14,9 @@ import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_problems_feedback.*
 
+/**
+ * 问题与反馈
+ */
 class ProblemsFeedbackActivity : BaseActivity<HelpViewModel>(),View.OnClickListener {
     override fun layoutId()=R.layout.activity_problems_feedback
     var type =1

@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.setting.takeMedicine
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -176,6 +177,9 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
         var data = HashMap<String, String>()
         data["takeMedicine"] = bean
         data["createTime"] = (time).toString()
+
+        Log.e("保存吃药", "-------saveTakeMedicine=$data")
+
         mViewModel.saveTakeMedicine(data)
     }
 }

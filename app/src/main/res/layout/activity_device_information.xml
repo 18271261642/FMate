@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/color_fe"
     tools:context=".ui.setting.DeviceInformationActivity">
 
     <com.example.xingliansdk.widget.TitleBarLayout
@@ -145,7 +145,7 @@
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
                 app:layoutType="1"
-                app:contentTextColor="@color/sub_text_color"
+                app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:titleText="性别" />
             <View
                 android:layout_width="match_parent"
@@ -158,6 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
+                app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:layoutType="1"
                 app:titleText="出生日期" />
             <View
@@ -172,6 +173,7 @@
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
                 app:layoutType="1"
+                app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:titleText="身高" />
             <View
                 android:layout_width="match_parent"
@@ -184,6 +186,7 @@
                 android:layout_height="wrap_content"
                 app:TextSize="18px"
                 app:layoutType="1"
+                app:contentTextColor="@color/bottom_nav_icon_dim"
                 android:layout_marginTop="1dp"
                 app:titleText="体重" />
 

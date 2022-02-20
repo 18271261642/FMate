@@ -85,7 +85,7 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
             walkCount=  Utils.mul(Double.parseDouble(walkCount),MILE,2).toString();
             runCount=  Utils.mul(Double.parseDouble(runCount),MILE,2).toString();
             cycleCount=  Utils.mul(Double.parseDouble(cycleCount),MILE,2).toString();
-            distanceCount=  Utils.mul(Double.parseDouble(distanceCount),MILE,2).toString();
+            distanceCount=  Utils.mul(Double.parseDouble(distanceCount),MILE,3).toString();
         }
         if (type == 0) {
             holder.walkCountTvName.setText("步行("+unit+")");

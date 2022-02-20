@@ -1,5 +1,6 @@
 package com.example.xingliansdk.wxapi
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
 import android.net.Uri
@@ -21,12 +22,13 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import java.io.File
 
-
+@SuppressLint("StaticFieldLeak")
 object LoginOrShareUtils {
 //    private var listener: QQLoginListener? = null
     private var mContext: Activity? = null
 //    private var mInfo: UserInfo? = null
     private  var  loginUtil:LoginOrShareUtils?=null
+
 
     fun WXshare(mTargetScene: Int, myBitmap: Bitmap) { //初始化一个WXWebpageObject，填写url
         if (!mwxAPI.isWXAppInstalled) { //提醒用户没有按照微信
@@ -38,7 +40,7 @@ object LoginOrShareUtils {
         val msg = WXMediaMessage()
         msg.mediaObject=imgObj
         //设置缩略图
-        val thumbBmp = Bitmap.createScaledBitmap(myBitmap, 40, 40, true)
+        val thumbBmp = Bitmap.createScaledBitmap(myBitmap, 280, 480, true)
       //  myBitmap.recycle()
         msg.thumbData = FileUtils.bmpToByteArray(thumbBmp, true)
         //构造一个Req

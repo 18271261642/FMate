@@ -16,12 +16,15 @@ class CustomizePlacementDialAdapter(data: MutableList<CustomizePlacementBean>) :
         val tvName = helper.getView<TextView>(R.id.tvName)
         tvName.text = item.name
         if (item.ismSelected()) {
-            tvName.setBackgroundResource(R.drawable.bg_dial_green)
-            tvName.setTextColor(context.resources.getColor(R.color.color_main_green))
-        }
-        else {
             tvName.setBackgroundResource(R.drawable.bg_dial_gray)
             tvName.setTextColor(context.resources.getColor(R.color.bottom_nav_icon_dim))
+        }
+        else {
+//            tvName.setBackgroundResource(R.drawable.bg_dial_gray)
+//            tvName.setTextColor(context.resources.getColor(R.color.bottom_nav_icon_dim))
+
+            tvName.setBackgroundResource(R.drawable.bg_dial_green)
+            tvName.setTextColor(context.resources.getColor(R.color.color_main_green))
         }
     }
 

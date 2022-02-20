@@ -96,8 +96,7 @@
                         android:hint="请说明建议，我们将不断改进～～"
                         android:maxHeight="200dp"
                         android:maxLength="200"
-                        android:minHeight="80dp"
-                        android:textSize="11sp" />
+                        android:minHeight="80dp" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -139,8 +138,7 @@
                 android:background="@drawable/device_alarm_clock_background"
                 android:hint="请输入手机号方便联系"
                 android:inputType="number|numberDecimal"
-                android:padding="16dp"
-                android:textSize="11sp" />
+                android:padding="16dp" />
 
             <View
                 android:layout_width="match_parent"

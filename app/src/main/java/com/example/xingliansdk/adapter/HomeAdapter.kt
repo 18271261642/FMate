@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.example.xingliansdk.Config
+import com.example.xingliansdk.Config.exercise
 import com.example.xingliansdk.Config.exercise.MILE
 import com.example.xingliansdk.R
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
@@ -14,6 +15,7 @@ import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HawkUtil
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.ImgUtil
+import com.example.xingliansdk.utils.Utils
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import java.text.DecimalFormat
@@ -73,17 +75,21 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                         0 -> {
                             if (HelpUtil.isNumericNotSize(item.data)) {
                                 var userInfoBean = Hawk.get(Config.database.USER_INFO, LoginBean())
-                                var dis = decimalFormat.format(item.data.toString().toDouble() / 1000)
+                               // var dis = decimalFormat.format(item.data.toString().toDouble() / 1000)
+                                var dis = Utils.divi(item.data.toString().toDouble(), 1000.0, 2)
+
                                 var unit = "公里"
                                 if (userInfoBean == null || userInfoBean.userConfig.distanceUnit == 1) {
-                                    dis = decimalFormat.format(
-                                        item.data.toString().toDouble() / 1000 * MILE
-                                    )
+//                                    dis = decimalFormat.format(
+//                                        item.data.toString().toDouble() / 1000 * MILE
+//                                    )
+
+                                    dis = decimalFormat.format(Utils.mul(dis, MILE, 3)).toDouble()
                                     unit = "英里"
                                 }
                                 tvItemStatusData.text =
                                     HelpUtil.getSpan(
-                                        dis, unit, 14, R.color.sub_text_color
+                                        dis.toString(), unit, 14, R.color.sub_text_color
                                     )
                                 img.setImageResource(R.mipmap.icon_home_sport_data)
                             }

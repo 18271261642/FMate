@@ -3,6 +3,7 @@ package com.example.xingliansdk.adapter.map;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ import static com.example.xingliansdk.Config.exercise.MILE;
  */
 public class AmapItemDetailAdapter extends RecyclerView.Adapter<AmapItemDetailAdapter.ItemDetailViewHolder> {
 
+    private static final String TAG = "AmapItemDetailAdapter";
+    
     private List<AmapSportBean> list;
     private Context mContext;
     private LoginBean userInfo = Hawk.get(Config.database.USER_INFO, new LoginBean());
@@ -54,6 +57,7 @@ public class AmapItemDetailAdapter extends RecyclerView.Adapter<AmapItemDetailAd
     @Override
     public void onBindViewHolder(@NonNull ItemDetailViewHolder holder, @SuppressLint("RecyclerView") int position) {
         AmapSportBean amapSportBean = list.get(position);
+        Log.e(TAG,"------单个item="+amapSportBean.toString());
         try {
             int sportType = amapSportBean.getSportType();
             String unit="公里";

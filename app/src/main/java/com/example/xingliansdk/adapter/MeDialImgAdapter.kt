@@ -141,10 +141,13 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                 "${ExcelUtil.dialPath}/${item.fileName}", object : DownLoadCallback {
                     var fileName: String? = null
                     override fun onDownLoadStart(fileName: String?) {
-                        itemDownload?.currentText = "下载中..."
+                        if(!item.isCurrent && !item.state.equals("安装")){
+                            itemDownload?.currentText = "下载中..."
+                        }
+
                         this.fileName = fileName
 //                        TLog.error("开始")
-                        DialMarketActivity.downStatus =true
+
                     }
 
                     override fun onDownLoading(totalSize: Long, currentSize: Long, progress: Int) {
@@ -157,7 +160,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                 "更新中..."
                         TLog.error("完成")
 
-
+                        DialMarketActivity.downStatus =true
                         BleWrite.writeDialWriteAssignCall(
                             item?.let { it ->
                                 DialCustomBean(
@@ -213,6 +216,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
 
                     override fun onDownLoadError() {
                         itemDownload?.currentText = "下载失败"
+                        DialMarketActivity.downStatus = false
                     }
                 })
             }

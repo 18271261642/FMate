@@ -181,7 +181,7 @@ class XingLianApplication : BaseApp() {
         } else {
             //bugly错误信息
             CrashReport.initCrashReport(applicationContext, bugly_appId, true)
-            TLog.DEBUG=false
+            TLog.DEBUG=true
             BuildConfig.baseUrl
         }
 

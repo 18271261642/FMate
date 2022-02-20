@@ -292,14 +292,14 @@ class TempActivity : BaseActivity<TempViewModel>(), View.OnClickListener,
             BigDecimal(avgHeart.toDouble() / (avgNotZero * 10)).setScale(1, BigDecimal.ROUND_DOWN)
         TLog.error("avgNum++" + avgNum)
         if (avgNum > BigDecimal.ZERO || minHeart > 0) {
-            tvAvgNum.text = HelpUtil.getSpan(avgNum.toString(), tempUnit, 16)
+            tvAvgNum.text = HelpUtil.getSpan(avgNum.toString(), tempUnit, 11)
             tvMaxNum.text = HelpUtil.getSpan(
                 ResUtil.format("%.1f", Collections.max(setList).toDouble() / 10),
                 tempUnit,
                 11
             )
             tvMinNum.text =
-                HelpUtil.getSpan(ResUtil.format("%.1f", (minHeart.toFloat() / 10)), tempUnit, 16)
+                HelpUtil.getSpan(ResUtil.format("%.1f", (minHeart.toFloat() / 10)), tempUnit, 11)
         } else {
             tvAvgNum.text = "--"
             tvMaxNum.text = "--"
