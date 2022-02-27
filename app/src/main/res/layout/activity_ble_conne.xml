@@ -21,9 +21,9 @@
         />
     <ImageView
         android:layout_marginTop="80dp"
-        android:layout_width="168dp"
-        android:layout_height="255dp"
-        android:src="@mipmap/img_product_connect"
+        android:layout_width="268dp"
+        android:layout_height="355dp"
+        android:src="@drawable/icon_search_img"
         android:layout_gravity="center"
         />
     <TextView

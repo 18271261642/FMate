@@ -64,9 +64,17 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         settingUpdate.setContentText(mDeviceFirmwareBean.versionName)
         dfuMenuContentTv.text = mDeviceFirmwareBean.versionName
 
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         //查询是否有固件更新
         mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
     }
+
+
     override  fun createObserver(){
         mViewModel.resultUserInfo.observe(this)
         {

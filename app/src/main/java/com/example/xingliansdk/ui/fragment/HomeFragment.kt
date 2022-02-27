@@ -362,7 +362,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             //   TLog.error("===" + Gson().toJson(it))
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
-            //    TLog.error("首页卡片数据++" + Gson().toJson(it))
+                TLog.error("首页卡片数据++" + Gson().toJson(it))
             mCardList = it.list
             mHomeAdapter.data = it.list
             mHomeAdapter.notifyDataSetChanged()

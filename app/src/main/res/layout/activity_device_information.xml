@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/color_fe"
+    android:background="@color/color_background"
     tools:context=".ui.setting.DeviceInformationActivity">
 
     <com.example.xingliansdk.widget.TitleBarLayout
@@ -26,6 +26,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:background="@color/color_background"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true"
@@ -33,22 +34,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imgHead"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+            <LinearLayout
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="28dp"
-                android:src="@mipmap/icon_head" />
+                android:paddingTop="32dp"
+                android:paddingBottom="28dp"
+                android:background="@color/color_fe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgHead"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                 android:layout_gravity="center"
+                    android:src="@mipmap/icon_head" />
+
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:layout_marginTop="1dp"
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:background="@color/color_fe"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content">
                 <TextView
@@ -85,7 +97,7 @@
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:background="@color/color_fe"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,6 +154,7 @@
                 android:id="@+id/setting_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/color_fe"
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
                 app:layoutType="1"
@@ -157,6 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:background="@color/color_fe"
                 app:TextSize="18px"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:layoutType="1"
@@ -172,6 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
+                android:background="@color/color_fe"
                 app:layoutType="1"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:titleText="身高" />

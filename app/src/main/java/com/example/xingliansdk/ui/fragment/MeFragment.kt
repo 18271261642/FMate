@@ -322,6 +322,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     tvDeviceStatus.text = "已连接"
                     tvDeviceName.text = Hawk.get("name")
                     imgDevice.setImageResource(R.mipmap.img_product_connect)
+                    imgDevice.alpha = 1f
                     ll_connect_status.visibility = View.GONE
                     tvDeviceElectricity.visibility = View.VISIBLE
                     var bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
@@ -337,7 +338,11 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 tvDeviceElectricity?.visibility = View.GONE
                 tvReconnection?.text = "重新连接"
                 tvDele?.visibility = View.VISIBLE
-                imgDevice?.setImageResource(R.mipmap.img_product_disconnect)
+               // imgDevice?.setImageResource(R.mipmap.img_product_disconnect)
+
+                imgDevice.setImageResource(R.mipmap.img_product_connect)
+                imgDevice?.alpha = 0.5f
+
                 mList.clear()
                 mList.add("")
                 mList.add("")
