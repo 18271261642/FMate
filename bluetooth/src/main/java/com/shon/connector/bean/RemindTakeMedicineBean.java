@@ -22,7 +22,7 @@ public class RemindTakeMedicineBean {
     /**
      * 提醒周期
      */
-    public int ReminderPeriod;
+    public int reminderPeriod;
 
     public List<ReminderGroup> groupList;
     /**
@@ -67,11 +67,11 @@ public class RemindTakeMedicineBean {
     }
 
     public int getReminderPeriod() {
-        return ReminderPeriod;
+        return reminderPeriod;
     }
 
     public void setReminderPeriod(int reminderPeriod) {
-        ReminderPeriod = reminderPeriod;
+        reminderPeriod = reminderPeriod;
     }
 
     public List<ReminderGroup> getGroupList() {
@@ -147,7 +147,7 @@ public class RemindTakeMedicineBean {
                 ", mSwitch=" + mSwitch +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", ReminderPeriod=" + ReminderPeriod +
+                ", reminderPeriod=" + reminderPeriod +
                 ", groupList=" + groupList +
                 ", unicodeTitle='" + unicodeTitle + '\'' +
                 ", unicodeContent='" + unicodeContent + '\'' +

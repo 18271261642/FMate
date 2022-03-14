@@ -142,7 +142,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         amapStopPressView.setCircleColor(Color.parseColor("#F43232"))
         amapStopPressView.setCircleTextColor(R.color.white)
         amapStopPressView.setShowProgress(true)
-        amapStopPressView.setStartText("结束")
+        amapStopPressView.setStartText("停止")
 
         //长按暂停
         amapStopPressView.setOnSportEndViewOnclick(object :

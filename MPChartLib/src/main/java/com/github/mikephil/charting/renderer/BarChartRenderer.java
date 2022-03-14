@@ -4,7 +4,9 @@ package com.github.mikephil.charting.renderer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
@@ -15,6 +17,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.highlight.Range;
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.Fill;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
@@ -182,6 +185,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
         if (isSingleColor) {
             mRenderPaint.setColor(dataSet.getColor());
+            //coloringLine(dataSet,mRenderPaint,1,1,5f);
         }
 
         for (int j = 0, pos = 0; j < buffer.size(); j += 4, pos++) {
@@ -196,10 +200,11 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 // Set the color for the currently drawn value. If the index
                 // is out of bounds, reuse colors.
                 mRenderPaint.setColor(dataSet.getColor(pos));
+              //  coloringLine(dataSet,mRenderPaint,1,1,5f);
             }
-
-            RectF rectF = new RectF(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                    buffer.buffer[j + 3]);
+//
+//            RectF rectF = new RectF(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+//                    buffer.buffer[j + 3]);
 
             if (isCustomFill) {
                 dataSet.getFill(pos)
@@ -212,21 +217,17 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                                 isInverted ? Fill.Direction.DOWN : Fill.Direction.UP);
             }
             else {
-                if(isNeedBar){
-                    c.drawRoundRect(rectF,25f,25f,mRenderPaint);
-                }else{
-                    c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                            buffer.buffer[j + 3], mRenderPaint);
-                }
+                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                        buffer.buffer[j + 3], mRenderPaint);
+
+//                c.drawRoundRect(rectF,25f,25f,mRenderPaint);
             }
 
             if (drawBorder) {
-                if(isNeedBar){
-                    c.drawRoundRect(rectF,25f,25f,mBarBorderPaint);
-                }else{
-                    c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                            buffer.buffer[j + 3], mBarBorderPaint);
-                }
+
+                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                        buffer.buffer[j + 3], mBarBorderPaint);
+                //c.drawRoundRect(rectF,25f,25f,mBarBorderPaint);
             }
         }
     }
@@ -523,7 +524,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
             prepareBarHighlight(e.getX(), y1, y2, barData.getBarWidth() / 2f, trans);
 
             setHighlightDrawPos(high, mBarRect);
-
+            //c.drawRect(mBarRect,mHighlightPaint);
             c.drawRoundRect(mBarRect,25f,25f, mHighlightPaint);
         }
     }
@@ -539,4 +540,51 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
     @Override
     public void drawExtras(Canvas c) {
     }
+
+
+    private void coloringLine(IBarDataSet dataSet, Paint renderer, float pointX, float pointY, float radious) {
+        coloringLine(dataSet, renderer,pointX,pointY,radious,null);
+    }
+
+    private void coloringLine(IBarDataSet dataSet, Paint renderer, float pointX, float pointY, float radious, Integer color) {
+
+        try {
+            if(dataSet.getColors().size() == 1){
+                //mRenderPaint.setShader(new LinearGradient(0,0,0,canvasHeight,color,Color.WHITE, Shader.TileMode.CLAMP));
+                mRenderPaint.setShader(new RadialGradient(pointX,pointY,radious,Color.WHITE,color, Shader.TileMode.CLAMP));
+            }else{
+                //mRenderPaint.setShader(new SweepGradient(canvasWidth,canvasHeight,preparePrimitiveColors(dataSet),null));
+                mRenderPaint.setShader(new RadialGradient(
+                        pointX,
+                        pointY,
+                        radious,preparePrimitiveColors(dataSet),
+                        null,
+                        Shader.TileMode.CLAMP
+                ));
+                /*mRenderPaint.setShader(new LinearGradient(
+                        0,
+                        0,
+                        canvasWidth,
+                        canvasHeight,
+                        preparePrimitiveColors(dataSet),
+                        null,
+                        Shader.TileMode.CLAMP
+                ));*/
+            }
+        } catch (NullPointerException | IndexOutOfBoundsException ex) {
+            renderer.setColor(dataSet.getColor());
+            ex.printStackTrace();
+        }
+    }
+
+    private int[] preparePrimitiveColors(IBarDataSet dataSet) {
+        int[] colors = new int[dataSet.getColors().size()];
+        int i = 0;
+        for (int color : dataSet.getColors()) {
+            colors[i] = color;
+            i++;
+        }
+        return colors;
+    }
+
 }

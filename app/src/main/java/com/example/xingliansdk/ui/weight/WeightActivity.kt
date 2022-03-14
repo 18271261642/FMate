@@ -247,7 +247,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                         var nowWeight =
                             (BigDecimal(mWeightInfo.weight.toDouble()).subtract(BigDecimal(userInfo.user.weight.toDouble()))
                                     ).setScale(1, BigDecimal.ROUND_HALF_DOWN)
-                        tvNowWeight.text = if(nowWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan(nowWeight.toString(), "kg")
+                        tvNowWeight.text =  HelpUtil.getSpan(nowWeight.toString(), "kg")
                         TLog.error("直接不走")
                     } else {
                         //mAllList为整个数据库的数据
@@ -392,7 +392,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     tvNowWeight.text = HelpUtil.getSpan(lastWeek.toString(), "kg")
                 }
             }else{
-                tvNowWeight.text = if(tvNowWeight.text.equals("--") && tvBMI.text.equals("--")) "--" else HelpUtil.getSpan("0.0", "kg")
+                tvNowWeight.text = if(lastWeek.toString() == "0") "--" else HelpUtil.getSpan(lastWeek.toString(), "kg")
             }
 
 

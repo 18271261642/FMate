@@ -3,12 +3,12 @@ package com.example.xingliansdk.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.callback.UnPeekLiveData
-import com.example.xingliansdk.network.api.UIUpdate.UIUpdateApi
-import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mainView.MainApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
+import com.example.xingliansdk.network.api.weather.ServerWeatherApi
+import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.requestCustom
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
@@ -24,6 +24,8 @@ class MainViewModel : BaseViewModel() {
     val result: UnPeekLiveData<LoginBean> = UnPeekLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
     var userInfo= UnPeekLiveData<LoginBean>()
+
+    val serverWeatherData : MutableLiveData<ServerWeatherBean> = MutableLiveData()
 
     val resultOta: MutableLiveData<OTAUpdateBean> = MutableLiveData()
 
@@ -95,5 +97,23 @@ class MainViewModel : BaseViewModel() {
             TLog.error("res++" + message)
             msg.postValue(message)
         }
+    }
+
+
+    fun getWeatherServer(locationStr : String){
+
+        requestCustom({
+            ServerWeatherApi.serverWeatherApi.getServerWeatherData(locationStr)
+        },
+            {
+                serverWeatherData.postValue(it)
+            }) { code, message ->
+            message?.let {
+                TLog.error("it=" + it)
+                msg.postValue(it)
+                ShowToast.showToastLong(it)
+            }
+        }
+
     }
 }

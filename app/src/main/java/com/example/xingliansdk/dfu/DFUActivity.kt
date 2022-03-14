@@ -2,6 +2,8 @@ package com.example.xingliansdk.dfu
 
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Color
+import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -16,7 +18,9 @@ import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
+import com.example.xingliansdk.ui.setting.MyDeviceActivity
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
+import com.example.xingliansdk.utils.InonePowerSaveUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -109,6 +113,43 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
         TLog.error("fileName==" + fileName)
 
 
+
+
+        val electricity =  Hawk.get<Int>("d_battery",0)
+        var batteryManager: BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
+        var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        var DeviceStatus = Hawk.get("ELECTRICITY_STATUS",0)
+
+
+        tvBegan.isClickable = false
+        tvBegan.visibility = View.VISIBLE
+        tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
+        noUpdateTv.visibility = View.VISIBLE
+        if(electricity <40&&DeviceStatus<=0) //40电量 小于说的  2021 -11-17 19.08
+        {
+            ShowToast.showToastLong("手表电量低于40%,请充电")
+            return
+        }
+        else
+        {
+            if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
+            {
+                ShowToast.showToastLong("手机电量低于20%,请充电")
+                return
+            }
+            else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
+            {
+                ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+                return
+            }
+        }
+
+        tvBegan.isClickable = true
+        tvBegan.background = resources.getDrawable(R.drawable.device_repeat_true_green)
+        noUpdateTv.visibility = View.GONE
+
+
+
         if (status) {
             tvBegan.visibility = View.VISIBLE
             airUpgradeTv.visibility = View.GONE
@@ -124,6 +165,8 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
             "来了 吧" + productNumber
                     + "===+" + version
         )
+
+
         mViewModel.findUpdate(productNumber, version)  //更新下载
 //        }
         dfuViewModel.attachView(this, this)
@@ -192,6 +235,8 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tvBegan -> {
+
+
                 status = true
                 tvBegan.visibility = View.GONE
                 airUpgradeTv.visibility = View.VISIBLE

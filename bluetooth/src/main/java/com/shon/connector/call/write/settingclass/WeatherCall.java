@@ -1,5 +1,7 @@
 package com.shon.connector.call.write.settingclass;
 
+import android.util.Log;
+
 import com.example.xingliansdk.utils.ShowToast;
 import com.google.gson.Gson;
 import com.shon.connector.BleWrite;
@@ -13,6 +15,7 @@ import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 /**
  * 3.6.7
@@ -38,6 +41,8 @@ public class WeatherCall extends WriteCallback {
         dataBean.getSunriseMin();//日出分
         dataBean.getSunsetHours();//日落时
         dataBean.getSunsetMin();//日落分
+
+        TLog.Companion.error("ttt"+dataBean.getTime());
 //        TLog.Companion.error("dataBean.getTemperature()+="+dataBean.getTemperature());
         BigDecimal temper = new BigDecimal(dataBean.getTemperature()).multiply(new BigDecimal(10));
         if(dataBean.getTemperature().equals("65535"))
@@ -79,6 +84,7 @@ public class WeatherCall extends WriteCallback {
         key = CmdUtil.getPlayer(Config.SettingDevice.command, Config.SettingDevice.APP_WEATHER,
                 ByteUtil.hexStringToByte(keyValue(HexDump.toByteArray(dataBean.getTime()), (byte) dataBean.getWeatherType(), send, playerEnd, unicodeContent)));
 
+        TLog.Companion.error("天气key==" + ByteUtil.getHexString(key));
     }
 
     @Override
@@ -114,7 +120,7 @@ public class WeatherCall extends WriteCallback {
 
     @Override
     public void onTimeout() {
-        BleWrite.writeWeatherCall(dataBean,false);
+       // BleWrite.writeWeatherCall(dataBean,false);
     }
 
     private String keyValue(byte[] key, byte key1, byte[] key2, byte[] key3, byte[] key4) {//时间,类型,温度,end,UNcode

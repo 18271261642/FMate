@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +11,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.test.TestNetActivity
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.R
@@ -195,8 +197,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //        }
         when (v.id) {
             R.id.constInfo -> {
-
-                JumpUtil.startDeviceInformationActivity(activity, false)
+                startActivity(Intent(activity,TestNetActivity::class.java))
+//                JumpUtil.startDeviceInformationActivity(activity, false)
             }
             R.id.setting_step -> {
                 JumpUtil.startSportsGoalActivity(activity)

@@ -3,6 +3,7 @@ package com.example.xingliansdk.ui.deviceSport
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import androidx.annotation.RequiresApi
@@ -326,6 +327,9 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 if (list != null && !list.stepList.isNullOrEmpty()) {
                     var stepList =
                         Gson().fromJson<ArrayList<Int>>(list.stepList, ArrayList::class.java)
+
+                    Log.e("计步图表","-------日="+Gson().toJson(stepList))
+
                     stepList.forEachIndexed { index, any ->
                         values.add(BarEntry(index.toFloat(), any.toString().toFloat()))
                         totalStep += any
@@ -340,6 +344,10 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                     minusTime(weekCalendar.timeInMillis),
                     (minusTime(weekCalendar.timeInMillis) + 86400 * 6)
                 )
+
+                Log.e("计步图表","-------周="+Gson().toJson(weekList))
+
+
                 weekList.forEach {
                     if (it.totalSteps > 0)
                         mListSize++
@@ -469,6 +477,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
         if(chart.data != null && chart.data.dataSetCount>0){
             barData = chart.data.getDataSetByIndex(0) as BarDataSet?
             barData?.entries = values
+
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
 
@@ -476,32 +485,14 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             barData = BarDataSet(values,"")
             barData.setDrawValues(false)
             barData.highLightColor= resources.getColor(R.color.color_marker)
-            val colorsV : List<Int> = listOf(Color.parseColor("#95BFFE"),Color.parseColor("#9AF7FF"),Color.parseColor("#1D78FF"))
-//            barData.color = Color.parseColor("#9AF7FF")
-//            barData.color = Color.parseColor("#95BFFE")
-          //  barData.colors = colorsV
 
-            val fill1 = Fill(Color.parseColor("#9AF7FF"))
-            val fill2 = Fill(Color.parseColor("#95BFFE"))
-            val fill3 = Fill(Color.parseColor("#1D78FF"))
-            val arrayFills : List<Fill> = listOf(fill1,fill2,fill3)
-         //   barData.fills = arrayFills
-
+            val clor = intArrayOf(Color.parseColor("#9AF7FF"),Color.parseColor("#95BFFE"),Color.parseColor("#1D78FF"))
+            val fill1 = Fill(clor)
+            val arrayFills : List<Fill> = listOf(fill1)
+            barData.fills = arrayFills
         }
-       // val set1: BarDataSet = BarDataSet(values, "")
-       // set1.color = resources.getColor(R.color.color_marker)
-       // set1.setDrawValues(false)
-       // set1.highLightColor = resources.getColor(R.color.color_marker)
 
-//        val colorsV : List<Int> = listOf(Color.parseColor("#9AF7FF"),Color.parseColor("#95BFFE"),Color.parseColor("#1D78FF"))
-//        set1.colors = colorsV
 
-        val fill1 = Fill(Color.parseColor("#9AF7FF"))
-        val fill2 = Fill(Color.parseColor("#95BFFE"))
-        val fill3 = Fill(Color.parseColor("#1D78FF"))
-        val arrayFills : List<Fill> = listOf(fill1,fill2,fill3)
-//        set1.fills = arrayFills
-//        set1.setGradientColors(arrayFills)
 
         val dataSets = ArrayList<IBarDataSet>()
         if (barData != null) {

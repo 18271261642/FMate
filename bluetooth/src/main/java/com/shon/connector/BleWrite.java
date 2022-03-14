@@ -64,11 +64,13 @@ import com.shon.connector.call.write.flash.FlashWriteAssignCall;
 import com.shon.connector.call.write.messagereminder.MessageCall;
 import com.shon.connector.call.write.settingclass.AlarmClockScheduleCall;
 import com.shon.connector.call.write.settingclass.BloodPressureCalibrationCall;
+import com.shon.connector.call.write.settingclass.CommonWriteCall;
 import com.shon.connector.call.write.settingclass.DeviceInformationCall;
 import com.shon.connector.call.write.settingclass.RemindTakeMedicineCall;
 import com.shon.connector.call.write.settingclass.SettingUIDCall;
 import com.shon.connector.call.write.settingclass.SportsUploadModeCall;
 import com.shon.connector.call.write.settingclass.StorageIntervalCall;
+import com.shon.connector.call.write.settingclass.TestWeatherCall;
 import com.shon.connector.call.write.settingclass.TimeCall;
 import com.shon.connector.call.write.settingclass.WeatherCall;
 
@@ -990,11 +992,28 @@ public class BleWrite {
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new WeatherCall(address, mData));
+
 //        new WriteCall(address)
 //                .setServiceUUid(Config.serviceUUID)
 //                .setCharacteristicUUID(Config.mWriteCharacter)
 //                .enqueue(new WeatherCall(address, mData));
     }
+
+
+    public static void writeWeatherCall(byte[] weatherByte, Boolean tempStatus) {
+        WriteCall write = new WriteCall(address);
+        write.setPriority(tempStatus);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new TestWeatherCall(address,weatherByte));
+
+//        new WriteCall(address)
+//                .setServiceUUid(Config.serviceUUID)
+//                .setCharacteristicUUID(Config.mWriteCharacter)
+//                .enqueue(new WeatherCall(address, mData));
+    }
+
+
 
     /**
      * 3.6.8吃药提醒
@@ -1179,6 +1198,16 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
             write.setCharacteristicUUID(Config.mWriteCharacter);
             write.enqueue(new EffectiveBloodPressureCall(address,position,mInterface));
 //        }, 200);
+    }
+
+
+    public static void writeCommByteArray(byte[] writeArray,boolean status){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        write.setTimeout(30000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new CommonWriteCall(address,writeArray));
     }
 
     public interface EffectiveBloodPressureInterface {

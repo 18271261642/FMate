@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
@@ -133,6 +134,11 @@ class BleWork : IWork, OnCountTimerListener,
             PERSONAL_INFORMATION,
             DeviceInformationBean(2, 18, 160, 50f, 0, 0, 1, 0, 0, 0, 10000)
         )
+
+
+        Log.e("连接成功设置设备信息", "-------mDeviceInformation=$mDeviceInformation")
+
+
         BleWrite.writeDeviceInformationCall(mDeviceInformation, false)
         BleWrite.writeForGetDeviceMotion(this, false)
         BleWrite.writeUUIDBind(HelpUtil.getAndroidId(context), this@BleWork)

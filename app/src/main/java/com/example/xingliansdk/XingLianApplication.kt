@@ -81,6 +81,7 @@ class XingLianApplication : BaseApp() {
         var ifStartedOrStopped = true
 
 
+
         //用于判断是否正在同步表盘
 
 

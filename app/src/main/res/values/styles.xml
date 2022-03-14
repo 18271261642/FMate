@@ -192,4 +192,21 @@
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
+
+
+
+    <style name="edit_AlertDialog_style" parent="@android:style/Theme.Dialog">
+        <!--浮动-->
+        <item name="android:windowIsFloating">true</item>
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--系统背景颜色-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--当前背景颜色-->
+        <item name="android:background">@android:color/transparent</item>
+        <!--对话框背景色-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>

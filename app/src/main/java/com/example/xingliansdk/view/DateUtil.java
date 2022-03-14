@@ -2,10 +2,14 @@ package com.example.xingliansdk.view;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.util.Log;
 
 import com.shon.connector.Config;
 import com.shon.connector.utils.TLog;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -1337,17 +1341,49 @@ public class DateUtil {
         return dateTime;
     }
 
+
+    private static final DecimalFormat decimalFormat = new DecimalFormat("##");
+
+    /**
+     * HH:mm时间获取小时
+     * @param time
+     * @return
+     */
+    public static int getHHmmForHour(String time){
+        String hourStr = StringUtils.substringBefore(time,":");
+        return Integer.parseInt(hourStr.trim());
+    }
+
+
+    /**
+     * HH:mm时间获取小分钟
+     * @param time
+     * @return
+     */
+    public static int getHHmmForMinute(String time){
+        String minuteStr = StringUtils.substringAfter(time,":");
+        return Integer.parseInt(minuteStr.trim());
+    }
+
+
     public static String getTextTimeHour(long time){
-        String dateTime;
-        dateTime = String.valueOf(time / 3600);
-        return dateTime;
+        if(time == 0L)
+            return "00";
+        long v = time / 3600;
+
+        return v <10 ? "0"+v :v+"";
+
     }
 
 
     public static String getTextTimeMinute(long time){
-        String dateTime;
-        dateTime = String.valueOf(time % 3600 / 60);
-        return dateTime;
+        if(time == 0L)
+            return "00";
+        long v = time % 3600 / 60;
+        return v <10 ? "0"+v :v+"";
+//        String dateTime;
+//        dateTime = String.valueOf(time % 3600 / 60);
+//        return String.format("%02d",dateTime);
     }
 
 

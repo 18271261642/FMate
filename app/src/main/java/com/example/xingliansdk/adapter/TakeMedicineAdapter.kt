@@ -36,15 +36,15 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
         if (item == null) {
             return
         }
-        TLog.error("item="+item.ReminderPeriod)
+        TLog.error("item="+item.reminderPeriod)
         if (item.getUnicodeTitle().isNullOrEmpty())
             helper.setText(R.id.tv_name, "吃药")
         else
             helper.setText(R.id.tv_name, item.getUnicodeTitle())
-        if (item.ReminderPeriod == 0)
+        if (item.reminderPeriod == 0)
             helper.setText(R.id.tv_sub, "每天")
         else
-            helper.setText(R.id.tv_sub, "间隔${item.ReminderPeriod}天")
+            helper.setText(R.id.tv_sub, "间隔${item.reminderPeriod}天")
         val ryTime = helper.getView<RecyclerView>(R.id.ryTime)
         val btnDelete = helper.getView<Button>(R.id.btnDelete)
         val constAll = helper.getView<ConstraintLayout>(R.id.constAll)

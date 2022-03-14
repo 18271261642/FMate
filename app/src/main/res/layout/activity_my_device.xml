@@ -286,7 +286,6 @@
                 android:layout_marginTop="1dp"
                 app:TextSize="18px"
                 app:layoutType="3"
-                android:visibility="gone"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_update"
                 app:titleText="flash更新操作" />

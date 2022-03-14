@@ -324,7 +324,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
             }
             R.id.imgRecall -> {
                 mCustomizeDialBean.imgPath = ""
-                imgDialBackground.setImageResource(R.drawable.round_green)
+                imgDialBackground.setImageResource(R.drawable.icon_cus_dial_bg)
             }
             R.id.JPSave -> {
                 showWaitDialog("更换表盘中,请稍后...")

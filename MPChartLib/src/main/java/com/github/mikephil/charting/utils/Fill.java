@@ -230,7 +230,9 @@ public class Fill
 
                 paint.setShader(gradient);
 
-                c.drawRect(left, top, right, bottom, paint);
+               // c.drawRect(left, top, right, bottom, paint);
+                //绘制自定义渐变色圆角
+                c.drawRoundRect(left, top, right, bottom, 25f,25f,paint);
             }
             break;
 

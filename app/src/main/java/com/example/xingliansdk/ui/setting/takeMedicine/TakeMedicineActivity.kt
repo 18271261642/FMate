@@ -117,10 +117,10 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             settingNumber.setContentText("${mBean.getGroupList().size}次")
             TLog.error("==数据+" + Gson().toJson(mBean.getGroupList()))
             setAdapter(mBean.getGroupList())
-            if (mBean.ReminderPeriod == 0)
+            if (mBean.reminderPeriod == 0)
                 settingRepeat.setContentText("每天")
             else
-                settingRepeat.setContentText("间隔${mBean.ReminderPeriod}天")
+                settingRepeat.setContentText("间隔${mBean.reminderPeriod}天")
 
             if (mBean.startTime <= 100)
                 settingStartTime.setContentText(
@@ -168,8 +168,8 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 dialog()
             }
             R.id.settingRepeat -> {
-                TLog.error("mBean.ReminderPeriod+" + mBean.ReminderPeriod)
-                JumpUtil.startTakeMedicineRepeatActivity(this, mBean.ReminderPeriod)
+                TLog.error("mBean.ReminderPeriod+" + mBean.reminderPeriod)
+                JumpUtil.startTakeMedicineRepeatActivity(this, mBean.reminderPeriod)
             }
             R.id.settingStartTime -> { //开始时间
                 TLog.error("dianji")

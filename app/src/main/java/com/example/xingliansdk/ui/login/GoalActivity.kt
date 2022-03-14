@@ -78,14 +78,18 @@ class GoalActivity :  BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeList
                 mStr.length - 1,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            tvSport.text = mStr
+           // tvSport.text = mStr
+
+            tvSport.text = (progress * 1000).toString()
             mDeviceInformationBean.exerciseSteps = (progress * 1000).toLong()
         }
         else if(seekBar.id==R.id.seekBarSleepTime)
         {
             sleepGoal=progress*1800
             TLog.error("progress==$progress  sleepGoal++$sleepGoal")
-            tvSleepTime.text = DateUtil.getTextTime((progress*1800).toLong())
+            //tvSleepTime.text = DateUtil.getTextTime((progress*1800).toLong())
+            tvSleepHourTv.text = DateUtil.getTextTimeHour(sleepGoal.toLong());
+            tvSleepMinute.text = DateUtil.getTextTimeMinute(sleepGoal.toLong())
         }
     }
 

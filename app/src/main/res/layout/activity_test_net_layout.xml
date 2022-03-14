@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/testNetBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取数据"/>
+
+
+    <Button
+        android:id="@+id/getBtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取睡眠大数据缓存数据"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设备端同步睡眠大数据缓存数据数据记录"
+        android:id="@+id/getBtn2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="APP 端获取指定的睡眠大数据缓存数据"
+        android:id="@+id/getBtn3"/>
+
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="设备端同步指定的睡眠数据缓存数据"
+       android:id="@+id/getBtn4"/>
+
+
+</LinearLayout>

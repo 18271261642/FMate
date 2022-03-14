@@ -191,4 +191,24 @@ public class DeviceInformationBean {
         this.birth = birth;
         this.name = name;
     }
+
+
+    @Override
+    public String toString() {
+        return "DeviceInformationBean{" +
+                "sex=" + sex +
+                ", age=" + age +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", language=" + language +
+                ", timeSystem=" + timeSystem +
+                ", android=" + android +
+                ", unitSystem=" + unitSystem +
+                ", wearHands=" + wearHands +
+                ", temperatureSystem=" + temperatureSystem +
+                ", exerciseSteps=" + exerciseSteps +
+                ", birth=" + birth +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

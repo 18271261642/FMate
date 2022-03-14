@@ -3,10 +3,9 @@ package com.example.xingliansdk.wxapi
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.content.FileProvider
-import com.example.xingliansdk.BuildConfig
 import com.example.xingliansdk.XingLianApplication.Companion.mTencent
 import com.example.xingliansdk.XingLianApplication.Companion.mWBAPI
 import com.example.xingliansdk.XingLianApplication.Companion.mwxAPI
@@ -14,13 +13,11 @@ import com.example.xingliansdk.utils.FileUtils
 import com.example.xingliansdk.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.sina.weibo.sdk.api.ImageObject
-import com.sina.weibo.sdk.api.TextObject
 import com.sina.weibo.sdk.api.WeiboMultiMessage
 import com.tencent.connect.share.QQShare
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXImageObject
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
-import java.io.File
 
 @SuppressLint("StaticFieldLeak")
 object LoginOrShareUtils {
@@ -35,12 +32,23 @@ object LoginOrShareUtils {
             ShowToast.showToastLong("您还没安装微信,请下载微信后再试!")
             return
         }
+
+        val matrix = Matrix()
+        val height = myBitmap.height
+        val width = myBitmap.width
+
+        matrix.preScale(1f,1f)
+
+
         val imgObj = WXImageObject(myBitmap)
         //用 WXWebpageObject 对象初始化一个 WXMediaMessage 对象
         val msg = WXMediaMessage()
         msg.mediaObject=imgObj
         //设置缩略图
-        val thumbBmp = Bitmap.createScaledBitmap(myBitmap, 280, 480, true)
+//        val thumbBmp = Bitmap.createScaledBitmap(myBitmap, 280, 480, true)
+
+        val thumbBmp = scaleBitmap(myBitmap,0.2f)
+
       //  myBitmap.recycle()
         msg.thumbData = FileUtils.bmpToByteArray(thumbBmp, true)
         //构造一个Req
@@ -53,8 +61,35 @@ object LoginOrShareUtils {
 //                req.userOpenId = openid
         //调用api接口，发送数据到微信
         mwxAPI.sendReq(req)
+        thumbBmp?.recycle()
 
     }
+
+
+    /**
+     * 按比例缩放图片
+     *
+     * @param origin 原图
+     * @param ratio  比例
+     * @return 新的bitmap
+     */
+    private fun scaleBitmap(origin: Bitmap?, ratio: Float): Bitmap? {
+        if (origin == null) {
+            return null
+        }
+        val width = origin.width
+        val height = origin.height
+        val matrix = Matrix()
+        matrix.preScale(ratio, ratio)
+        val newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false)
+        if (newBM == origin) {
+            return newBM
+        }
+       // origin.recycle()
+        return newBM
+    }
+
+
 
     private fun buildTransaction(type: String?): String? {
         return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()

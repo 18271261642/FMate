@@ -44,15 +44,15 @@ class WeatherWork : IWork {
 //        TLog.error("Message.code =="+eMessage.code)
         if (eMessage.code == Config.eventBus.DEVICE_CONNECT_WEATHER_SERVICE && dataList.size > 0) {
             TLog.error("dataList==${Gson().toJson(dataList)}")
-            for (i in 0 until dataList.size) {
-                TLog.error("天气发送+=" + dataList[i].temperature+"   dataList.size=="+ dataList.size)
-                if(i==0) {
-                    BleWrite.writeWeatherCall(dataList[i], true)
-                }
-                else
-                    BleWrite.writeWeatherCall(dataList[i],false)
-
-            }
+//            for (i in 0 until dataList.size) {
+//                TLog.error("天气发送+=" + dataList[i].temperature+"   dataList.size=="+ dataList.size)
+//                if(i==0) {
+//                    BleWrite.writeWeatherCall(dataList[i], true)
+//                }
+//                else
+//                    BleWrite.writeWeatherCall(dataList[i],false)
+//
+//            }
             dataList = arrayListOf()
             Hawk.get("weatherList", dataList)
             return

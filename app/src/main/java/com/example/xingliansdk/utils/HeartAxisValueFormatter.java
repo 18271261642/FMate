@@ -15,6 +15,9 @@ public class HeartAxisValueFormatter implements IAxisValueFormatter {
         this.chart = chart;
     }
 
+
+
+
 //    @Override
 //    public String getFormattedValue(float value) {
 //        switch ((int) value) {
@@ -45,8 +48,12 @@ public class HeartAxisValueFormatter implements IAxisValueFormatter {
 //        return "";
 //    }
 
+
+
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
+
+
 //        TLog.Companion.error("heart value+"+value);
         switch ((int) value) {
             case 0:

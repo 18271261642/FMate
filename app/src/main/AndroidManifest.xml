@@ -300,6 +300,9 @@
 
 
         <service android:name=".utils.RemoteControlService"/>
+
+
+        <activity android:name="com.example.test.TestNetActivity"/>
     </application>
 
 </manifest>

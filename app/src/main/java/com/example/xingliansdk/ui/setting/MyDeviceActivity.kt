@@ -47,9 +47,11 @@ import org.greenrobot.eventbus.ThreadMode
 
 //手表设置页面
 class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener {
+
+
     object FlashBean
     { var  UIFlash=true }
-    var electricity=0
+    private var electricity=0
     override fun layoutId() = R.layout.activity_my_device
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
@@ -302,27 +304,9 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                     ShowToast.showToastLong("网络出问题了，快去检查一下吧～")
                     return
                 }
-                var status = Hawk.get("ELECTRICITY_STATUS",0)
-                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
-                {
-                    ShowToast.showToastLong("手表电量低于40%,请充电")
-                    return
-                }
-                else
-                {
-                    if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
-                    {
-                        ShowToast.showToastLong("手机电量低于20%,请充电")
-                        return
-                    }
-                    else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
-                    {
-                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
-                        return
-                    }
-                }
 
                 BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
+                Hawk.put("d_battery",electricity)
                 JumpUtil.startOTAActivity(this,Hawk.get("address")
                     ,Hawk.get("name")
                     ,mDeviceFirmwareBean.productNumber
@@ -330,8 +314,39 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                     ,true
                 )
 
+
+//                var status = Hawk.get("ELECTRICITY_STATUS",0)
+//                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
+//                {
+//                    ShowToast.showToastLong("手表电量低于40%,请充电")
+//                    return
+//                }
+//                else
+//                {
+//                    if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
+//                    {
+//                        ShowToast.showToastLong("手机电量低于20%,请充电")
+//                        return
+//                    }
+//                    else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
+//                    {
+//                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+//                        return
+//                    }
+//                }
+//
+//                BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
+//                JumpUtil.startOTAActivity(this,Hawk.get("address")
+//                    ,Hawk.get("name")
+//                    ,mDeviceFirmwareBean.productNumber
+//                    ,mDeviceFirmwareBean.version
+//                    ,true
+//                )
+
             }
             R.id.settingUpdate -> {
+
+
              //   mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
                 var batteryManager:BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
                 var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
@@ -341,25 +356,6 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                     ShowToast.showToastLong("网络出问题了，快去检查一下吧～")
                     return
                 }
-                var status = Hawk.get("ELECTRICITY_STATUS",0)
-                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
-                {
-                        ShowToast.showToastLong("手表电量低于40%,请充电")
-                        return
-                }
-                else
-                {
-                    if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
-                    {
-                        ShowToast.showToastLong("手机电量低于20%,请充电")
-                        return
-                    }
-                    else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
-                    {
-                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
-                        return
-                    }
-                }
 
                 BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
                 JumpUtil.startOTAActivity(this,Hawk.get("address")
@@ -368,6 +364,34 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                     ,mDeviceFirmwareBean.version
                     ,true
                 )
+
+//                var status = Hawk.get("ELECTRICITY_STATUS",0)
+//                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
+//                {
+//                        ShowToast.showToastLong("手表电量低于40%,请充电")
+//                        return
+//                }
+//                else
+//                {
+//                    if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
+//                    {
+//                        ShowToast.showToastLong("手机电量低于20%,请充电")
+//                        return
+//                    }
+//                    else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
+//                    {
+//                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+//                        return
+//                    }
+//                }
+//
+//                BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
+//                JumpUtil.startOTAActivity(this,Hawk.get("address")
+//                    ,Hawk.get("name")
+//                    ,mDeviceFirmwareBean.productNumber
+//                    ,mDeviceFirmwareBean.version
+//                    ,true
+//                )
 //                AllGenJIDialog.updateDialog(supportFragmentManager,this
 //                        ,mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
             }
@@ -548,5 +572,6 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         }
 
     }
+
 
 }

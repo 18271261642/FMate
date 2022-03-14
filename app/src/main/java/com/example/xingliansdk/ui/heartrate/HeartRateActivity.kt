@@ -225,6 +225,9 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         hartsHrr.viewPortHandler.setMaximumScaleX(10f)
         var xAxis: XAxis
         val timeMatter: IAxisValueFormatter = HeartAxisValueFormatter(hartsHrr)
+        val heartMarkView = CusHeartMarkView(this,R.layout.custom_marker_view)
+        heartMarkView.chartView = hartsHrr
+        hartsHrr.marker = heartMarkView
         run {
             xAxis = hartsHrr.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -347,6 +350,7 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
                     set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
                     set1.lineWidth = 1.3f  //设置折线粗细
                     data.addDataSet(set1)
+
                 }
                 values = ArrayList()
             } else {

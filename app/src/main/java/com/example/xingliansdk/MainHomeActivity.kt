@@ -5,13 +5,13 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.*
 import android.graphics.Color
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -25,11 +25,14 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
+import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.*
+import com.example.xingliansdk.view.CusDfuAlertDialog
+import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
@@ -59,6 +62,22 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
     val instance by lazy{this}
 
     private var otaAlert : AlertDialog.Builder ?= null
+
+    private var cusDufAlert : CusDfuAlertDialog ? = null
+
+
+    val handler : Handler =  object : Handler(Looper.myLooper()!!){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+
+            if(msg.what == 0x00){
+                val holidayWeatherList = msg.obj;
+                analysisWeather(holidayWeatherList as MutableList<ServerWeatherBean.Hourly>)
+            }
+        }
+    }
+
+
 
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
@@ -97,6 +116,10 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
             //&& it.versionCode>mDeviceFirmwareBean.version
+
+
+            mViewModel.getWeatherServer("116.41,39.92")
+
             if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
                 showOtaAlert()
@@ -127,26 +150,62 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 //            }
         }
 
+
+        mViewModel.serverWeatherData.observe(this){
+            Log.e("天气",Gson().toJson(it))
+
+            Log.e("天气bean=","结果="+it.hourly.toString())
+
+            val holidayWeatherList = it.hourly
+
+            val message = handler.obtainMessage()
+            message.what = 0x00
+            message.obj = holidayWeatherList
+            handler.sendMessage(message)
+
+        }
+
     }
 
     private fun showOtaAlert(){
-        otaAlert = AlertDialog.Builder(instance)
-            .setTitle("提醒")
-            .setMessage("有最新固件，是否升级?")
-            .setPositiveButton("升级") { p0, p1 ->
-                p0?.dismiss()
-                //startActivity(Intent(instance, DFUActivity::class.java))
 
-                JumpUtil.startOTAActivity(this,Hawk.get("address")
+        cusDufAlert = CusDfuAlertDialog(instance)
+        cusDufAlert!!.show()
+        cusDufAlert!!.setCancelable(false)
+        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
+            override fun onCancelClick() {
+                cusDufAlert!!.dismiss()
+            }
+
+            override fun onSUreClick() {
+                cusDufAlert!!.dismiss()
+                JumpUtil.startOTAActivity(instance,Hawk.get("address")
                     ,Hawk.get("name")
                     ,mDeviceFirmwareBean.productNumber
                     ,mDeviceFirmwareBean.version
                     ,true
                 )
+            }
 
-            }.setNegativeButton("取消"
-            ) { p0, p1 -> p0?.dismiss() }
-        otaAlert?.create()?.show()
+        })
+//
+//        otaAlert = AlertDialog.Builder(instance)
+//            .setTitle("提醒")
+//            .setMessage("有最新固件，是否升级?")
+//            .setPositiveButton("升级") { p0, p1 ->
+//                p0?.dismiss()
+//                //startActivity(Intent(instance, DFUActivity::class.java))
+//
+//                JumpUtil.startOTAActivity(this,Hawk.get("address")
+//                    ,Hawk.get("name")
+//                    ,mDeviceFirmwareBean.productNumber
+//                    ,mDeviceFirmwareBean.version
+//                    ,true
+//                )
+//
+//            }.setNegativeButton("取消"
+//            ) { p0, p1 -> p0?.dismiss() }
+//        otaAlert?.create()?.show()
     }
 
 
@@ -408,4 +467,77 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
     //        });
     //    }
 
+
+    //
+    //    @Override
+    //    public void onBackPressed() {
+    //        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+    //            mExitTime = System.currentTimeMillis();
+    //            ToastUtils.showToast(context, R.string.press_again_exit);
+    //        } else {
+    //            ISportAgent.getInstance().disConDevice(false);
+    //            ISportAgent.getInstance().exit();
+    //            finish();
+    //        }
+    //    }
+    override fun onBackPressed() {
+        moveTaskToBack(true)
+        super.onBackPressed()
+    }
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        // 过滤按键动作
+        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true)
+        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
+            moveTaskToBack(true)
+        } else if (keyCode == KeyEvent.KEYCODE_HOME) {
+            moveTaskToBack(true)
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    val stringBuffer = StringBuffer()
+    private  fun analysisWeather(hourList : MutableList<ServerWeatherBean.Hourly>){
+//        val type = object : TypeToken<List<ServerWeatherBean.HourlyItem>>(){}.type
+//        val hourList : List<ServerWeatherBean.HourlyItem> = Gson().fromJson(hourListStr,type)
+        stringBuffer.delete(0,stringBuffer.length)
+        //时间戳
+        val currTime = DateUtil.getTodayMills();
+        val timeByte = HexDump.toByteArray(currTime)
+
+        val tiemByteStr = HexDump.bytesToString(timeByte)
+
+
+
+
+
+        stringBuffer.append("02"+tiemByteStr+"1803")
+
+        hourList.forEach {
+            //类型
+            val type = it.statusCode
+            //温度
+            val temputerV = it.temp
+            //温度两个byte
+            val byteTem = HexDump.toByteArrayTwo(temputerV)
+
+            val typeStr = String.format("%02d",(if(type<8)type else 0xff))
+            val tmpStr = HexDump.bytesToString(byteTem)
+
+            //TLog.error("t","------="+typeStr+tmpStr)
+            stringBuffer.append(typeStr+tmpStr)
+        }
+
+
+        val byte = CmdUtil.getPlayer(
+            com.shon.connector.Config.SettingDevice.command, com.shon.connector.Config.SettingDevice.APP_WEATHER,HexDump.stringToByte(stringBuffer.toString()))
+
+        val resultByte = CmdUtil.getFullPackage(byte)
+        TLog.error("天气", ByteUtil.getHexString(byte)+"\n"+ByteUtil.getHexString(resultByte))
+
+
+        BleWrite.writeWeatherCall(resultByte,false)
+    }
 }
