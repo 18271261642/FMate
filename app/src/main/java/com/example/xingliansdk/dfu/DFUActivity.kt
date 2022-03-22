@@ -12,15 +12,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.otalib.DFUViewModel
 import com.example.otalib.service.DfuService
 import com.example.xingliansdk.Config
+import com.example.xingliansdk.MainHomeActivity
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
+import com.example.xingliansdk.ui.login.LoginActivity
 import com.example.xingliansdk.ui.setting.MyDeviceActivity
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.InonePowerSaveUtil
+import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -50,6 +54,9 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
     var status = false
     var version = 0
     var errorNum=0
+
+    var isOtaInto = false
+
     override fun createObserver() {
         mViewModel.result.observe(this) {
             TLog.error("IT==" + Gson().toJson(it))
@@ -60,6 +67,45 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                 tvUpdateCode.text = "已是最新版本"
             }
             else {
+
+                //ota搜索进入不限制电量限制
+                if(!isOtaInto){
+                    val electricity =  Hawk.get<Int>("d_battery",0)
+                    var batteryManager: BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
+                    var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+                    var DeviceStatus = Hawk.get("ELECTRICITY_STATUS",0)
+
+
+                    tvBegan.isClickable = false
+                    tvBegan.visibility = View.VISIBLE
+                    tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
+                    if(electricity <40&&DeviceStatus<=0) //40电量 小于说的  2021 -11-17 19.08
+                    {                     noUpdateTv.visibility = View.VISIBLE
+                        ShowToast.showToastLong("手表电量低于40%,请充电")
+                        return@observe
+                    }
+                    else
+                    {
+                        if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
+                        {
+                            ShowToast.showToastLong("手机电量低于20%,请充电")
+                            return@observe
+                        }
+                        else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
+                        {
+                            noUpdateTv.visibility = View.VISIBLE
+                            ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+                            return@observe
+                        }
+                    }
+
+                    tvBegan.isClickable = true
+                    tvBegan.background = resources.getDrawable(R.drawable.device_repeat_true_green)
+                    noUpdateTv.visibility = View.GONE
+                }
+
+
+
                 //  tvUpdateCode.text = otaBean?.version
                 this.version = otaBean?.versionCode!!
                 var code = otaBean?.versionCode?.toString(16)
@@ -101,6 +147,10 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
         productNumber = intent.getStringExtra("productNumber").toString()
         status = intent.getBooleanExtra("writeOTAUpdate", false)
         version = intent.getIntExtra("version", 0)
+
+
+        isOtaInto = intent.getBooleanExtra("is_ota_into",false)
+
         tvBegan.setOnClickListener(this)
         fileName = Hawk.get<String>("OTAFile")
         Hawk.put("dfuAddress", address)
@@ -111,43 +161,6 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     + "    version+=" + version
         )
         TLog.error("fileName==" + fileName)
-
-
-
-
-        val electricity =  Hawk.get<Int>("d_battery",0)
-        var batteryManager: BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
-        var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-        var DeviceStatus = Hawk.get("ELECTRICITY_STATUS",0)
-
-
-        tvBegan.isClickable = false
-        tvBegan.visibility = View.VISIBLE
-        tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
-        noUpdateTv.visibility = View.VISIBLE
-        if(electricity <40&&DeviceStatus<=0) //40电量 小于说的  2021 -11-17 19.08
-        {
-            ShowToast.showToastLong("手表电量低于40%,请充电")
-            return
-        }
-        else
-        {
-            if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
-            {
-                ShowToast.showToastLong("手机电量低于20%,请充电")
-                return
-            }
-            else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
-            {
-                ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
-                return
-            }
-        }
-
-        tvBegan.isClickable = true
-        tvBegan.background = resources.getDrawable(R.drawable.device_repeat_true_green)
-        noUpdateTv.visibility = View.GONE
-
 
 
         if (status) {
@@ -165,8 +178,6 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
             "来了 吧" + productNumber
                     + "===+" + version
         )
-
-
         mViewModel.findUpdate(productNumber, version)  //更新下载
 //        }
         dfuViewModel.attachView(this, this)
@@ -188,11 +199,18 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
         if (status) //需要时去不需要时另外操作
         {
             TLog.error("status==" + status)
+
+            if(isOtaInto){
+                dfuViewModel.startDFU(address, name, "$fileName", this)
+                return
+            }
+
             BleWrite.writeOTAUpdateCall(this)
             Handler().postDelayed({ // 如果此活动仍处于打开状态并且上传过程已完成，请取消通知
 //                TLog.error("5秒")
                 updateMac()
             }, 5000)
+
 
         } else {
             dfuViewModel.startDFU(address, name, "$fileName", this)
@@ -235,8 +253,6 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tvBegan -> {
-
-
                 status = true
                 tvBegan.visibility = View.GONE
                 airUpgradeTv.visibility = View.VISIBLE
@@ -344,6 +360,13 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
         //  JumpUtil.restartApp(this)
          BleConnection.initStart(false) //走重连
         // JumpUtil.startBleConnectActivity(this)
+        if(isOtaInto){
+
+            finish()
+            AppActivityManager.getInstance()
+                .popAllActivityExceptOne(MainHomeActivity::class.java)
+            return
+        }
         finish()
     }
 

@@ -25,6 +25,7 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
+import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
@@ -39,6 +40,7 @@ import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
+import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.write.deviceclass.DeviceFirmwareCall
 import com.shon.connector.utils.HexDump
@@ -46,16 +48,19 @@ import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_update_zip.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.text.DecimalFormat
 import kotlin.system.exitProcess
 
 
-class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface {
+public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,BleWrite.SpecifySleepSourceInterface{
     var exitTime = 0L
     var bleListener:BluetoothMonitorReceiver?=null
 
     var bleListener1: LocalBroadcastManager? = null
     var bluetoothMonitorReceiver: BluetoothMonitorReceiver? = null
     override fun layoutId() = R.layout.activity_main_home
+
+    public var isBigComplete : Boolean ?=null
 
     lateinit var otaBean: OTAUpdateBean
 
@@ -71,8 +76,13 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
             super.handleMessage(msg)
 
             if(msg.what == 0x00){
-                val holidayWeatherList = msg.obj;
-                analysisWeather(holidayWeatherList as MutableList<ServerWeatherBean.Hourly>)
+                val weatherBean = msg.obj;
+                analysisWeather(weatherBean as ServerWeatherBean)
+            }
+
+            if(msg.what == 88){
+
+
             }
         }
     }
@@ -117,12 +127,9 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
             TLog.error("IT==" + Gson().toJson(it))
             //&& it.versionCode>mDeviceFirmwareBean.version
 
-
-            mViewModel.getWeatherServer("116.41,39.92")
-
-            if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
+            if (it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
-                showOtaAlert()
+                showOtaAlert(it.isForceUpdate)
             }
 
 
@@ -156,7 +163,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 
             Log.e("天气bean=","结果="+it.hourly.toString())
 
-            val holidayWeatherList = it.hourly
+            val holidayWeatherList = it
 
             val message = handler.obtainMessage()
             message.what = 0x00
@@ -167,11 +174,12 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 
     }
 
-    private fun showOtaAlert(){
+    private fun showOtaAlert(isFocus : Boolean){
 
         cusDufAlert = CusDfuAlertDialog(instance)
         cusDufAlert!!.show()
         cusDufAlert!!.setCancelable(false)
+        cusDufAlert!!.setNormalShow(isFocus)
         cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
             override fun onCancelClick() {
                 cusDufAlert!!.dismiss()
@@ -359,6 +367,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 
     private fun bindBle()
     {
+
         bleListener= BluetoothMonitorReceiver()
         val intentFilter = IntentFilter()
         // 监视蓝牙关闭和打开的状态
@@ -366,6 +375,9 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
         // 注册广播
         registerReceiver(bleListener, intentFilter);
 
+        val weatherIntentFilter = IntentFilter()
+        weatherIntentFilter.addAction("com.example.xingliansdk.location")
+        registerReceiver(broadcastReceiver,weatherIntentFilter)
 
 //        bleListener1 = LocalBroadcastManager.getInstance(this)
 //        bluetoothMonitorReceiver = BluetoothMonitorReceiver()
@@ -381,6 +393,8 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventContent(event: SNEvent<Any>){
+
+
         when (event.code){
             Config.eventBus.DEVICE_CONNECT_HOME -> {  //绑定成功
                 ShowToast.showToastLong(getString(R.string.bind_success))
@@ -390,15 +404,23 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
 //                if(baseDialog.isShowing)
 //                    hideWaitDialog()
 //                getLastOta()
+                //113.887092,22.554868
+
             }
             Config.eventBus.DEVICE_FIRMWARE->{
                 val tmpDeviceBean = event.data as DeviceFirmwareBean
                 Log.e("主页","------设备固件信息="+tmpDeviceBean.toString())
                 if(tmpDeviceBean.productNumber != null){
                     mDeviceFirmwareBean = tmpDeviceBean
-                    mViewModel.findUpdate(tmpDeviceBean.productNumber, tmpDeviceBean.version)
+                    getLastOta()
                 }
             }
+
+
+            Config.eventBus.LOCATION_INFO->{
+                Log.e("主页","-------定位成功="+Hawk.get("city"))
+            }
+
         }
     }
 
@@ -409,7 +431,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
                     var uuid = it
                     TLog.error("主页","uuid.toString()==${uuid.toString()}")
                     TLog.error("主页"," uuid.toString()==${mDeviceFirmwareBean.productNumber}")
-                  //  mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
+                    mViewModel.findUpdate(mDeviceFirmwareBean.productNumber, mDeviceFirmwareBean.version)
                 }
 
                 // mViewModel.findUpdate(""+8002,""+251658241)
@@ -426,6 +448,7 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
         super.onDestroy()
         unregisterReceiver(bleListener)
         bleListener1?.unregisterReceiver(bluetoothMonitorReceiver!!)
+        unregisterReceiver(broadcastReceiver)
     }
 
 
@@ -498,46 +521,67 @@ class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformat
         return super.onKeyDown(keyCode, event)
     }
 
-    val stringBuffer = StringBuffer()
-    private  fun analysisWeather(hourList : MutableList<ServerWeatherBean.Hourly>){
-//        val type = object : TypeToken<List<ServerWeatherBean.HourlyItem>>(){}.type
-//        val hourList : List<ServerWeatherBean.HourlyItem> = Gson().fromJson(hourListStr,type)
-        stringBuffer.delete(0,stringBuffer.length)
-        //时间戳
-        val currTime = DateUtil.getTodayMills();
-        val timeByte = HexDump.toByteArray(currTime)
 
-        val tiemByteStr = HexDump.bytesToString(timeByte)
+    private  fun analysisWeather(weatherBean: ServerWeatherBean){
+
+        val weatherService = XingLianApplication.getXingLianApplication().getWeatherService()
+        val cityStr = Hawk.get<String>("city")
+        weatherService?.setWeatherData(weatherBean,cityStr)
+    }
+
+    public fun setSyncComplete(isSync : Boolean){
+        handler.postDelayed(Runnable {
+            Log.e("三生三世","----isSYnc="+isSync)
+            val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
+            BleWrite.writeCommByteArray(resultByte,false,this)
+        },5000)
+
+    }
 
 
+    override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+        if(specifySleepSourceBean != null){
+            val constanceMils = 946656000L
+            val startTime = specifySleepSourceBean.startTime + constanceMils
+            val endTime = specifySleepSourceBean.endTime + constanceMils
+            ServerWeatherViewModel().postSleepSourceServer(specifySleepSourceBean.remark,startTime,endTime,specifySleepSourceBean.avgActive,specifySleepSourceBean.avgHeartRate)
+        }
+    }
+
+    override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+        Log.e("睡眠缓存","-----时间戳="+startTime)
+        handler.postDelayed(Runnable {
+            val btArray = startTime?.get(0)?.let {
+                byteArrayOf(0x02,0x3F, it, startTime[1],
+                    startTime[2], startTime[3]
+                )
+            }
+
+            val resultByte = CmdUtil.getFullPackage(btArray)
+            val startLongTime = startTime?.get(0)?.let { HexDump.getIntFromBytes(it,startTime[1],startTime[2],startTime[3]) }
+            val endLongTime =
+                endTime?.get(0)?.let { HexDump.getIntFromBytes(it,endTime[1],endTime[2],endTime[3]) }
+
+            if (startLongTime != null && endLongTime != null) {
+                BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)
+            }
+        },1000)
+    }
+
+    private val decimalFormat = DecimalFormat("#.##")
 
 
+    private  val broadcastReceiver = object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+           val action = intent?.action ?: return
+            if(action == "com.example.xingliansdk.location"){
+                val longitude = intent.getDoubleExtra("longitude",0.0)
+                val latitude = intent.getDoubleExtra("latitude",0.0)
+                mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
+            }
 
-        stringBuffer.append("02"+tiemByteStr+"1803")
 
-        hourList.forEach {
-            //类型
-            val type = it.statusCode
-            //温度
-            val temputerV = it.temp
-            //温度两个byte
-            val byteTem = HexDump.toByteArrayTwo(temputerV)
-
-            val typeStr = String.format("%02d",(if(type<8)type else 0xff))
-            val tmpStr = HexDump.bytesToString(byteTem)
-
-            //TLog.error("t","------="+typeStr+tmpStr)
-            stringBuffer.append(typeStr+tmpStr)
         }
 
-
-        val byte = CmdUtil.getPlayer(
-            com.shon.connector.Config.SettingDevice.command, com.shon.connector.Config.SettingDevice.APP_WEATHER,HexDump.stringToByte(stringBuffer.toString()))
-
-        val resultByte = CmdUtil.getFullPackage(byte)
-        TLog.error("天气", ByteUtil.getHexString(byte)+"\n"+ByteUtil.getHexString(resultByte))
-
-
-        BleWrite.writeWeatherCall(resultByte,false)
     }
 }

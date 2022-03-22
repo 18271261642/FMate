@@ -19,6 +19,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.ui.setting.MyDeviceActivity.FlashBean.UIFlash
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
 import com.example.xingliansdk.utils.*
+import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.github.iielse.switchbutton.SwitchView
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -48,10 +49,15 @@ import org.greenrobot.eventbus.ThreadMode
 //手表设置页面
 class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener {
 
+    private var cusDufAlert : CusDfuAlertDialog? = null
 
+    val instance by lazy{this}
     object FlashBean
     { var  UIFlash=true }
     private var electricity=0
+
+
+
     override fun layoutId() = R.layout.activity_my_device
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
@@ -91,8 +97,41 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         mViewModel.result.observe(this){
             val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
             dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
+
+            if(isShowDfuPoint){
+                showOtaAlert(it.isForceUpdate)
+            }
+
         }
    }
+
+
+    private fun showOtaAlert(isFocus : Boolean) {
+
+        cusDufAlert = CusDfuAlertDialog(this)
+        cusDufAlert!!.show()
+        cusDufAlert!!.setCancelable(false)
+        cusDufAlert!!.setNormalShow(isFocus)
+        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
+            override fun onCancelClick() {
+                cusDufAlert!!.dismiss()
+            }
+
+            override fun onSUreClick() {
+                cusDufAlert!!.dismiss()
+                JumpUtil.startOTAActivity(
+                    instance,
+                    Hawk.get("address"),
+                    Hawk.get("name"),
+                    mDeviceFirmwareBean.productNumber,
+                    mDeviceFirmwareBean.version,
+                    true
+                )
+            }
+
+        })
+    }
+
 
     private fun initOnclick() {
         settingInformationReminder.setOnClickListener(this)

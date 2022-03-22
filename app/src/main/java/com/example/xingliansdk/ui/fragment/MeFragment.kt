@@ -85,6 +85,11 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
         setImgHead()
         setAdapter()
+
+        constInfo.setOnLongClickListener {
+            startActivity(Intent(activity, TestNetActivity::class.java))
+            true
+        }
     }
 
     private fun setAdapter() {
@@ -197,8 +202,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //        }
         when (v.id) {
             R.id.constInfo -> {
-                startActivity(Intent(activity,TestNetActivity::class.java))
-//                JumpUtil.startDeviceInformationActivity(activity, false)
+//                startActivity(Intent(activity,TestNetActivity::class.java))
+                JumpUtil.startDeviceInformationActivity(activity, false)
             }
             R.id.setting_step -> {
                 JumpUtil.startSportsGoalActivity(activity)

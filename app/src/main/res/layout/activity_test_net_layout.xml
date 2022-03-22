@@ -5,6 +5,10 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
 
     <Button
         android:id="@+id/testNetBtn"
@@ -12,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="获取数据"/>
+        android:text="发送天气"/>
 
 
     <Button
@@ -21,23 +25,25 @@
         android:layout_height="wrap_content"
         android:text="获取睡眠大数据缓存数据"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设备端同步睡眠大数据缓存数据数据记录"
-        android:id="@+id/getBtn2"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="APP 端获取指定的睡眠大数据缓存数据"
-        android:id="@+id/getBtn3"/>
-
-   <Button
-       android:layout_width="wrap_content"
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+   <LinearLayout
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:text="设备端同步指定的睡眠数据缓存数据"
-       android:id="@+id/getBtn4"/>
+       android:orientation="vertical">
 
+       <TextView
+           android:id="@+id/weatherTvShow"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+       <TextView
+           android:id="@+id/showLogTv"
+           android:padding="5dp"
+           android:textSize="18sp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+   </LinearLayout>
+</androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

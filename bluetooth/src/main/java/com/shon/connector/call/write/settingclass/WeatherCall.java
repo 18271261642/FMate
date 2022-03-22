@@ -69,9 +69,16 @@ public class WeatherCall extends WriteCallback {
                 , HexDump.toByteArrayTwo(Integer.parseInt(dataBean.getAirQuality()))
                 , HexDump.toByteArrayTwo(Byte.parseByte(dataBean.getHumidity()))
         );
+
+        Log.e("天气","-------send="+ByteUtil.getHexString(send));
+
+
         //紫外线,湿度,日出时,日出分,日落时,日落分
         byte[] playerEnd = new byte[]{Byte.parseByte(dataBean.getUVIndex())
                 , (byte) dataBean.getSunriseHours(), (byte) dataBean.getSunriseMin(), (byte) dataBean.getSunsetHours(), (byte) dataBean.getSunsetMin()};
+
+       Log.e("天气","----单个的byte="+ByteUtil.getHexString(playerEnd));
+
         if (dataBean.getUnicodeType() == DataBean.TEMPERATURE_FEATURES_UNICODE) {
             //   byte[] unicodeTitle = HexDump.stringToByte(HexDump.getUnicode(dataBean.getUnicodeTitle()).replace("\\u", ""));//解码
 //            TLog.Companion.error("dataBean.getUnicodeContent()==" + dataBean.getUnicodeContent());
@@ -81,6 +88,10 @@ public class WeatherCall extends WriteCallback {
 //            TLog.Companion.error("unicodeContent==" + ByteUtil.getHexString(unicodeContent));
             //  unicodeByte = HexDump.byteMerger(unicodeByte, unicodeContent);
         }
+
+        Log.e("天气","--------unitCode="+ByteUtil.getHexString(unicodeContent));
+
+
         key = CmdUtil.getPlayer(Config.SettingDevice.command, Config.SettingDevice.APP_WEATHER,
                 ByteUtil.hexStringToByte(keyValue(HexDump.toByteArray(dataBean.getTime()), (byte) dataBean.getWeatherType(), send, playerEnd, unicodeContent)));
 

@@ -43,7 +43,7 @@ class WeatherWork : IWork {
 //        TLog.error("dataList=="+dataList.size)
 //        TLog.error("Message.code =="+eMessage.code)
         if (eMessage.code == Config.eventBus.DEVICE_CONNECT_WEATHER_SERVICE && dataList.size > 0) {
-            TLog.error("dataList==${Gson().toJson(dataList)}")
+          //  TLog.error("dataList==${Gson().toJson(dataList)}")
 //            for (i in 0 until dataList.size) {
 //                TLog.error("天气发送+=" + dataList[i].temperature+"   dataList.size=="+ dataList.size)
 //                if(i==0) {

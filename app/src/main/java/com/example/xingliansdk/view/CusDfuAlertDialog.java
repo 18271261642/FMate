@@ -2,9 +2,14 @@ package com.example.xingliansdk.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
 import com.example.xingliansdk.R;
@@ -14,6 +19,25 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
     private Button cancelBtn,sureBtn;
 
     private  OnCusDfuClickListener onCusDfuClickListener;
+
+    private TextView normalTv;
+
+    private int countTime = 3;
+
+    private final Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 0x00){
+                countTime--;
+                normalTv.setText(countTime == 0 ?"知道了":"知道了("+countTime+"s)");
+                if(countTime == 0)
+                    return;
+                setStartNormalTime();
+            }
+        }
+    };
+
 
     public void setOnCusDfuClickListener(OnCusDfuClickListener onCusDfuClickListener) {
         this.onCusDfuClickListener = onCusDfuClickListener;
@@ -33,11 +57,13 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
     }
 
     private void initViews() {
+        normalTv = findViewById(R.id.dialogDfuNormalTv);
         cancelBtn = findViewById(R.id.dialogDfuCancelBtn);
         sureBtn = findViewById(R.id.dialogDfuSureBtn);
 
         cancelBtn.setOnClickListener(this);
         sureBtn.setOnClickListener(this);
+        normalTv.setOnClickListener(this);
     }
 
     @Override
@@ -51,10 +77,37 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
             if(onCusDfuClickListener != null)
                 onCusDfuClickListener.onSUreClick();
         }
+
+        if(view.getId() == R.id.dialogDfuNormalTv){
+            if(countTime != 0)
+                return;
+            dismiss();
+        }
     }
 
     public interface OnCusDfuClickListener{
         void onCancelClick();
         void onSUreClick();
+    }
+
+
+    public void setNormalShow(boolean isNormal){
+        normalTv.setVisibility(isNormal ? View.VISIBLE : View.GONE);
+        cancelBtn.setVisibility(isNormal ? View.GONE : View.VISIBLE);
+        sureBtn.setVisibility(isNormal ? View.GONE : View.VISIBLE);
+        if(isNormal){
+            setStartNormalTime();
+        }
+    }
+
+
+    public void setStartNormalTime(){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(0x00);
+            }
+        },1000);
+
     }
 }

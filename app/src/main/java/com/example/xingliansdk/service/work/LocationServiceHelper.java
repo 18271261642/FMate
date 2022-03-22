@@ -2,6 +2,7 @@ package com.example.xingliansdk.service.work;
 
 import android.content.Context;
 import android.location.Address;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.example.xingliansdk.ui.fragment.map.view.MapType;
@@ -64,6 +65,7 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
         double latitude = 0;
         double longitude = 0;
         String city = null;
+        TLog.Companion.error("天气服务:onLocationChanged:"+(location.getLocation() instanceof AMapLocation)+" "+location.getLocation().toString());
         if (location != null) {
             if (location.getLocation() instanceof Address) {
                 Address addr = location.getLocation();
@@ -71,6 +73,7 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
                     city = addr.getLocality();
                     latitude = addr.getLatitude();
                     longitude = addr.getLongitude();
+                    TLog.Companion.error("11天气服务:定位成功:"+city);
                 }
             }
             if (location.getLocation() instanceof AMapLocation) {
@@ -79,6 +82,7 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
                     city = addr.getDistrict();
                     latitude = addr.getLatitude();
                     longitude = addr.getLongitude();
+                    TLog.Companion.error("天气服务:22定位成功:"+city);
                 }
             }
         }

@@ -51,8 +51,8 @@ public class BigDataHistoryCall extends WriteCallback {
 //        if(uuid.isEmpty())
 //            return false;
         String getResult = ByteUtil.getHexString(result);
-//        TLog.Companion.error("getResult++" + getResult);
-//        TLog.Companion.error("uuid++" + uuid);
+        TLog.Companion.error("温度大数据","getResult++" + getResult);
+        TLog.Companion.error("uuid++" + uuid);
         if (result[8] == Config.DEVICE_COMMAND_ACK && result[9] == Config.DEVICE_KEY_ACK) {
             switch (result[10]) {
                 case 0x01:

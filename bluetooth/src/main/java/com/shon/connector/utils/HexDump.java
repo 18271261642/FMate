@@ -21,6 +21,23 @@ public class HexDump {
     private final static char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',
             '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+
+    /**
+     * 4个byte转int，不够补0
+     * @param high_h
+     * @param high_l
+     * @param low_h
+     * @param low_l
+     * @return
+     */
+    public static   int getIntFromBytes(byte high_h, byte high_l, byte low_h, byte low_l) {
+        return (high_h & 0xff) << 24 | (high_l & 0xff) << 16 | (low_h & 0xff) << 8 | low_l & 0xff;
+    }
+
+    public static   int getIntFromBytes( byte low_h, byte low_l) {
+        return (low_h & 0xff) << 8 | low_l & 0xff;
+    }
+
     public static String dumpHexString(byte[] array) {
         return dumpHexString(array, 0, array.length);
     }
@@ -142,6 +159,18 @@ public class HexDump {
         }
         return array;
     }
+
+
+    public static byte[] minusToByteArray(int i){
+        byte[] array = new byte[2];
+        array[0] = (byte) ((i >> 8) & 0xFF);
+        array[1] = (byte) (i & 0xFF);
+
+        array[0] = 1;
+        return array;
+    }
+
+
 
     /**
      * @param i

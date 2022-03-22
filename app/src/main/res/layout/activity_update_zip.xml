@@ -23,6 +23,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_height="match_parent"
         android:overScrollMode="never">
 
@@ -31,13 +32,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+           >
 
             <ImageView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="48dp"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
@@ -75,7 +78,7 @@
             <TextView
                 android:id="@+id/tvBegan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="42dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginRight="32dp"
@@ -89,6 +92,7 @@
                 android:id="@+id/noUpdateTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:text="手表电量过低，建议充电后再进行升级"
                 android:textColor="#C5C5C5"

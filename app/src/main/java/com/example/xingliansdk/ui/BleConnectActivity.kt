@@ -8,6 +8,7 @@ import android.os.ParcelUuid
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -146,6 +147,9 @@ class BleConnectActivity :
 
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
+                results.forEach {
+                    Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name)
+                }
                 //  hideWaitDialog()
 //                TLog.error("results+="+results.size)
                 if(results.isEmpty())

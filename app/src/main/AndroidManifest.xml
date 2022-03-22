@@ -163,9 +163,13 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
-        <meta-data
+
+    <!--    <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ef2698e05ff8170fbd76f27721772f22" />
+            android:value="4716c47de236ac44dd48f9cde3c98d25"/>-->
+     <!--   <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="ef2698e05ff8170fbd76f27721772f22" />-->
 
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.BloodPressureActivity" />
@@ -175,7 +179,8 @@
         <activity android:name=".ui.fragment.map.RunningActivity" /> <!-- <activity android:name=".WriteRedActivity" /> -->
         <!-- <activity android:name=".MainActivity2" />&lt;!&ndash;测试俩个心率用的&ndash;&gt; -->
         <!-- <activity android:name=".dfu.Notification.NotificationActivity" /> -->
-        <activity android:name=".dfu.DFUActivity" /> <!-- <activity android:name=".MainHomeActivity" /> -->
+        <activity android:name=".dfu.DFUActivity"
+            android:launchMode="singleTask"/> <!-- <activity android:name=".MainHomeActivity" /> -->
         <!-- <activity android:name=".TestActivity" /> -->
         <activity android:name=".ui.setting.MyDeviceActivity" /> <!-- <activity android:name=".ui.setting.SportsGoalActivity"> -->
         <activity android:name=".ui.setting.SleepGoalActivity" />
@@ -301,6 +306,7 @@
 
         <service android:name=".utils.RemoteControlService"/>
 
+        <service android:name=".service.SendWeatherService"/>
 
         <activity android:name="com.example.test.TestNetActivity"/>
     </application>

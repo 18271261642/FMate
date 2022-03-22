@@ -1,8 +1,5 @@
 package com.example.xingliansdk.network
 
-import android.app.AlertDialog
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xingliansdk.Config
@@ -19,7 +16,6 @@ import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.utils.TLog
 import kotlinx.coroutines.launch
-import retrofit2.Call
 
 
 fun <T> ViewModel.requestCustom(

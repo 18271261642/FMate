@@ -82,14 +82,18 @@ object BleConnection {
                             iFonConnectError = false
                             Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
                             SNEventBus.sendEvent(DEVICE_OTA_UPDATE)
-//                            if (!startOTAActivity) //不用跳转不用下方操作 ,有个页面是先进入ota在断开
-//                                return
+                            if (!startOTAActivity) //不用跳转不用下方操作 ,有个页面是先进入ota在断开
+                                return
                             val intent = Intent()
                             Hawk.put(DEVICE_OTA, true)
                             intent.setClass(mXingLianApplication, DFUActivity::class.java)
                             intent.putExtra("address", address)
                             intent.putExtra("name", name)
                             intent.putExtra("productNumber", manufacturerSpecificData.toString(16))
+                            intent.putExtra("writeOTAUpdate",true)
+
+                            intent.putExtra("is_ota_into",true)
+
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             mXingLianApplication.getContext()?.startActivity(intent)
                             return

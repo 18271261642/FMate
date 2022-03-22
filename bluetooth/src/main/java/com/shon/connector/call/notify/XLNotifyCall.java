@@ -43,10 +43,15 @@ public class XLNotifyCall extends NotifyCallback {
         new Listener(address).enqueue(new ICallback() {
             @Override
             public boolean process(String address, byte[] result,String uuid) {
-//                TLog.Companion.error("uuid=="+uuid);
+                TLog.Companion.error("uuid=="+uuid+"result="+ByteUtil.getHexString(result));
                 if(!Config.readCharacter.equalsIgnoreCase(uuid))
                     return false;
                TLog.Companion.error("广播值++"+ ByteUtil.getHexString(result));
+
+
+//               boolean isSwitch = (result[9] == Config.ActiveUpload.DEVICE_REAL_TIME_EXERCISE) || (result[9] == Config.ActiveUpload.DEVICE_REAL_TIME_OTHER)||
+//                       (result[9] == Config.ActiveUpload.DEVICE_FIND_PHONE)
+
                 if (result[0] == Config.PRODUCT_CODE && result[8] == Config.ActiveUpload.COMMAND
                 ) {
                     switch (result[9])

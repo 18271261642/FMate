@@ -18,7 +18,9 @@ ext {
             isSupportLoginFromTwitter: true
     ]
     mapApiKey = [
-            apiKeyGaodeMap : "ef2698e05ff8170fbd76f27721772f22",
+
+          /*  apiKeyGaodeMap : "ef2698e05ff8170fbd76f27721772f22",*/
+            apiKeyGaodeMap : "4716c47de236ac44dd48f9cde3c98d25",
             apiKeyGoogleMap: "AIzaSyDwmewF127UgSSMfcBch9d7mhxJ1R9uDmQ",
     ]
     HTTP = [

@@ -5,11 +5,13 @@ import android.app.Activity
 import android.content.*
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import androidx.multidex.MultiDex
 import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
 import com.example.xingliansdk.service.AppService
+import com.example.xingliansdk.service.SendWeatherService
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.hjq.permissions.XXPermissions
@@ -80,6 +82,7 @@ class XingLianApplication : BaseApp() {
         private var context: WeakReference<Context>? = null
         var ifStartedOrStopped = true
 
+        private var sendWeatherService : SendWeatherService ? = null
 
 
         //用于判断是否正在同步表盘
@@ -195,6 +198,32 @@ class XingLianApplication : BaseApp() {
 
         val musicIntent = Intent(this,RemoteControlService::class.java)
         bindService(musicIntent,serviceConnect(),Context.BIND_ABOVE_CLIENT)
+
+        val weatherIntnet = Intent(this,SendWeatherService::class.java)
+        bindService(weatherIntnet,weatherServiceConnection(),Context.BIND_AUTO_CREATE)
+
+
+    }
+
+
+     fun getWeatherService(): SendWeatherService? {
+        return sendWeatherService
+    }
+
+
+    private fun weatherServiceConnection() = object : ServiceConnection{
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+           try {
+             val binder = service as SendWeatherService.SendWeatherBinder
+               sendWeatherService = binder.service
+           }catch (e : Exception){
+               e.printStackTrace()
+           }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            sendWeatherService = null
+        }
 
     }
 

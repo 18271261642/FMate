@@ -1,6 +1,7 @@
 package com.example.xingliansdk.service.work
 
 import android.content.Context
+import android.content.Intent
 import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
@@ -978,8 +979,15 @@ class BleWork : IWork, OnCountTimerListener,
     override fun onLocationChanged(city: String?, latitude: Double, longitude: Double) {
         mLSHelper?.pause()
         if (city == null) return
+        Log.e("定位", "-----城市=$city $longitude $latitude")
         Hawk.put("city", city)
         SNEventBus.sendEvent(LOCATION_INFO, "${longitude},${latitude}")
+
+        val intent = Intent()
+        intent.action = "com.example.xingliansdk.location"
+        intent.putExtra("longitude",longitude)
+        intent.putExtra("latitude",latitude)
+        context.sendBroadcast(intent)
     }
 
 

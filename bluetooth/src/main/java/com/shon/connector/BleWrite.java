@@ -13,6 +13,7 @@ import com.shon.connector.bean.PressureBean;
 import com.shon.connector.bean.PushBean;
 import com.shon.connector.bean.RemindTakeMedicineBean;
 import com.shon.connector.bean.SleepBean;
+import com.shon.connector.bean.SpecifySleepSourceBean;
 import com.shon.connector.bean.TimeBean;
 import com.shon.connector.call.write.bigdataclass.BigDataHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyApneaHistoryCall;
@@ -22,6 +23,7 @@ import com.shon.connector.call.write.bigdataclass.Specify.SpecifyDailyActivities
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyHeartRateHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyRRHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifySleepHistoryCall;
+import com.shon.connector.call.write.bigdataclass.Specify.SpecifySleepSourceCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifySportsHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyStressFatigueHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyTemperatureHistoryCall;
@@ -797,6 +799,25 @@ public class BleWrite {
 
     }
 
+
+
+
+
+
+    public static void writeSpecifySleepSourceCall(byte[] bytes,boolean status,long startrTime,long endTime,SpecifySleepSourceInterface specifySleepSourceInterface){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        write.setTimeout(30000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new SpecifySleepSourceCall(address,specifySleepSourceInterface,startrTime,endTime,bytes));
+    }
+
+
+
+
+
+
     /******************************************设置类****************************/
 
     /**
@@ -1201,16 +1222,24 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
     }
 
 
-    public static void writeCommByteArray(byte[] writeArray,boolean status){
+    public static void writeCommByteArray(byte[] writeArray,boolean status,SpecifySleepSourceInterface specifySleepSourceInterface){
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
         write.setTimeout(30000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
-        write.enqueue(new CommonWriteCall(address,writeArray));
+        write.enqueue(new CommonWriteCall(address,writeArray,specifySleepSourceInterface));
+
     }
 
     public interface EffectiveBloodPressureInterface {
         void EffectiveBloodPressureCallResult(  ArrayList<Integer> mList);
+    }
+
+
+    public interface SpecifySleepSourceInterface{
+        void backSpecifySleepSourceBean(SpecifySleepSourceBean specifySleepSourceBean);
+        //开始时间 4个byte 结束时间 4个byte
+        void backStartAndEndTime(byte[] startTime,byte[] endTime);
     }
 }

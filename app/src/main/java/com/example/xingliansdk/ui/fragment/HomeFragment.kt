@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.HOME_HISTORICAL_BIG_DATA_WEEK
+import com.example.xingliansdk.MainHomeActivity
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.XingLianApplication.Companion.getSelectedCalendar
@@ -24,6 +26,7 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.viewmodel.HomeViewModel
@@ -35,6 +38,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.*
+import com.shon.connector.call.CmdUtil
+import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
 import com.shon.connector.utils.TLog.Companion.error
 import kotlinx.android.synthetic.main.activity_home.*
@@ -56,6 +61,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     , BleWrite.SpecifyStressFatigueHistoryCallInterface //压力
     , BleWrite.SpecifyTemperatureHistoryCallInterface //体温
     , BleWrite.DeviceMotionInterface //实时运动返回
+, BleWrite.SpecifySleepSourceInterface
 {
     companion object {
         //关于这个页面会重复点击打开俩次的针对性操作
@@ -284,7 +290,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 //            TLog.error("进行刷新")
         TLog.error("mHomeCardVoBean====+" + Gson().toJson(mHomeCardVoBean))
 //        mSwipeRefreshLayout.finishRefresh(60000)
-        handler.sendEmptyMessageDelayed(0x00,15 * 1000)
+        //handler.sendEmptyMessageDelayed(0x00,15 * 1000)
         setPopularAdapter()
         homeBleWrite()
 //        }
@@ -942,6 +948,42 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             }
         }
         Hawk.put(HOME_CARD_BEAN, mHomeCardVoBean)
+
+        MainHomeActivity().setSyncComplete(true)
+
+//        val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
+//        BleWrite.writeCommByteArray(resultByte,false,this)
+    }
+
+
+
+
+    override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+        if(specifySleepSourceBean != null){
+            val constanceMils = 946656000L
+            //ServerWeatherViewModel().postSleepSourceServer(specifySleepSourceBean.remark,specifySleepSourceBean.startTime+constanceMils,specifySleepSourceBean.endTime+constanceMils,specifySleepSourceBean.avgActive,specifySleepSourceBean.avgHeartRate)
+        }
+        Log.e("原始睡眠","----------backSpecifySleepSourceBean="+specifySleepSourceBean?.remark)
+    }
+
+    override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+        Log.e("原始睡眠","----------startTime="+startTime)
+//       handler.postDelayed(Runnable {
+//           val btArray = startTime?.get(0)?.let {
+//               byteArrayOf(0x02,0x3F, it, startTime[1],
+//                   startTime[2], startTime[3]
+//               )
+//           }
+//
+//           val resultByte = CmdUtil.getFullPackage(btArray)
+//           val startLongTime = startTime?.get(0)?.let { HexDump.getIntFromBytes(it,startTime[1],startTime[2],startTime[3]) }
+//           val endLongTime =
+//               endTime?.get(0)?.let { HexDump.getIntFromBytes(it,endTime[1],endTime[2],endTime[3]) }
+//
+//           if (startLongTime != null && endLongTime != null) {
+//               BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)
+//           }
+//       },1000)
     }
 
 }

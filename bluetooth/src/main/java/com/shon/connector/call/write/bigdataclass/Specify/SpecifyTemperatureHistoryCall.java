@@ -1,5 +1,7 @@
 package com.shon.connector.call.write.bigdataclass.Specify;
 
+import android.content.Intent;
+
 import com.example.xingliansdk.utils.ShowToast;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.callback.WriteCallback;
@@ -43,7 +45,7 @@ public class SpecifyTemperatureHistoryCall extends WriteCallback {
     public boolean process(String address, byte[] result, String uuid) {
 
         String getResult = ByteUtil.getHexString(result);
-//        TLog.Companion.error("getResult++" + getResult);
+        TLog.Companion.error("指定的温度数据","getResult++" + getResult);
         if (result[8] == Config.Expand.COMMAND && result[9] == Config.Expand.DEVICE_ACK) {
             switch (result[10]) {
                 case 0x01:
@@ -109,6 +111,7 @@ public class SpecifyTemperatureHistoryCall extends WriteCallback {
             }
        //     TLog.Companion.error("温度");
             mInterface.SpecifyTemperatureHistoryCallResult(startTime, endTime, mList);
+
             return true;
 
         }
