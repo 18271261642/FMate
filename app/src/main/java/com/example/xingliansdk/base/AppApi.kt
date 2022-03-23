@@ -11,6 +11,7 @@ import com.shon.net.OkHttpClientBuild
 import com.shon.net.interceptor.TokenAddInterceptor
 import com.shon.net.interceptor.TokenErrorInterceptor
 import okhttp3.OkHttpClient
+import java.util.*
 
 abstract class AppApi<T>:BaseApi<T>(XingLianApplication.baseUrl) {
     override val tokenKey: String
@@ -28,6 +29,7 @@ abstract class AppApi<T>:BaseApi<T>(XingLianApplication.baseUrl) {
     override val okHttpClient: OkHttpClient
         get() {
             mac= Hawk.get("address","")
+
 //            TLog.error("mac=="+mac)
             val defaultBuild = OkHttpClientBuild.getDefaultBuild()
             defaultBuild.addInterceptor(headAddInterceptor(token,mac)) //设置 Token拦截器, 添加 token 使用

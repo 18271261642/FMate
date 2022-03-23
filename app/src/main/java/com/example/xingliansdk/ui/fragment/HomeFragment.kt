@@ -358,6 +358,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             if (it == null || it.list.isNullOrEmpty() || it.list.size <= 0)
                 return@observe
             TLog.error("更新的数据===" + Gson().toJson(it))
+
             mPopularList.addAll(it.list)
             mPopularScienceAdapter.notifyDataSetChanged()
         }

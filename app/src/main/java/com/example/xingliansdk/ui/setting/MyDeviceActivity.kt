@@ -98,10 +98,6 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
             val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
             dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
 
-            if(isShowDfuPoint){
-                showOtaAlert(it.isForceUpdate)
-            }
-
         }
    }
 

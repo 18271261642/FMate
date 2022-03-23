@@ -31,8 +31,12 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
             if(msg.what == 0x00){
                 countTime--;
                 normalTv.setText(countTime == 0 ?"知道了":"知道了("+countTime+"s)");
-                if(countTime == 0)
+
+                if(countTime == 0){
+                    dismiss();
                     return;
+                }
+
                 setStartNormalTime();
             }
         }
