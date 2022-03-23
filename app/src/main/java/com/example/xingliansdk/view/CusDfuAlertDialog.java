@@ -19,6 +19,7 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
     private Button cancelBtn,sureBtn;
 
     private  OnCusDfuClickListener onCusDfuClickListener;
+    private TextView dialogDufContentTv;
 
     private TextView normalTv;
 
@@ -61,6 +62,7 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
     }
 
     private void initViews() {
+        dialogDufContentTv = findViewById(R.id.dialogDufContentTv);
         normalTv = findViewById(R.id.dialogDfuNormalTv);
         cancelBtn = findViewById(R.id.dialogDfuCancelBtn);
         sureBtn = findViewById(R.id.dialogDfuSureBtn);
@@ -99,6 +101,7 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
         normalTv.setVisibility(isNormal ? View.VISIBLE : View.GONE);
         cancelBtn.setVisibility(isNormal ? View.GONE : View.VISIBLE);
         sureBtn.setVisibility(isNormal ? View.GONE : View.VISIBLE);
+        dialogDufContentTv.setText(isNormal ? getContext().getResources().getString(R.string.string_dfu_low_battery_desc):getContext().getResources().getString(R.string.string_dfu_normal_desc));
         if(isNormal){
             setStartNormalTime();
         }

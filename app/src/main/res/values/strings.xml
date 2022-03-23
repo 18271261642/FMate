@@ -2,7 +2,8 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
-
+    <string name="string_dfu_normal_desc">当前固件有新版本，如暂不升级，将会影响部分功能提醒哦</string>
+    <string name="string_dfu_low_battery_desc">当前固件有新版本，您可以将手表和手机充电后来升级哦</string>
 
     <string name="string_permiss_title">ai Health权限使用说明</string>
     <string name="string_permiss_desc">为保证APP的正常使用,请开启以下权限</string>
