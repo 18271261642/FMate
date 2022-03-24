@@ -105,6 +105,9 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
     }
 
 
+
+
+
     public void setStartNormalTime(){
         handler.postDelayed(new Runnable() {
             @Override

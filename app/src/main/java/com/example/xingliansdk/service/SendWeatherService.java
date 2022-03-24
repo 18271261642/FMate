@@ -84,7 +84,7 @@ public class SendWeatherService extends Service {
             stringBuffer.append("010014");
             Calendar calendar = Calendar.getInstance();
             //时间戳 4个byte
-            long currTime = calendar.getTimeInMillis() / 1000;
+            long currTime = weatherBean.getDateTimeStamp();
             long constanceMils = 946656000L;
             long currTimeLong = currTime - constanceMils;
             //Log.e("111","-----相差="+currTimeLong)
@@ -289,8 +289,7 @@ public class SendWeatherService extends Service {
 
     private  void send24HourData(ServerWeatherBean weatherBean){
         //时间戳
-        Calendar calendar = Calendar.getInstance();
-        long currTime = calendar.getTimeInMillis() / 1000;
+        long currTime = weatherBean.getDateTimeStamp();
         long constanceMils = 946656000L;
         byte[] timeByte = HexDump.toByteArray(currTime-constanceMils);
 

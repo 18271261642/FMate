@@ -41,6 +41,17 @@ public class ServerWeatherBean implements Serializable {
     private DayAfterTomorrow dayAfterTomorrow;
     private  ThreeDaysFromNow threeDaysFromNow;
 
+
+    private long dateTimeStamp;
+
+    public long getDateTimeStamp() {
+        return dateTimeStamp;
+    }
+
+    public void setDateTimeStamp(long dateTimeStamp) {
+        this.dateTimeStamp = dateTimeStamp;
+    }
+
     public ThreeDaysFromNow getThreeDaysFromNow() {
         return threeDaysFromNow;
     }
