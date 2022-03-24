@@ -15,6 +15,7 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.MainHomeActivity
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
@@ -70,6 +71,12 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
 
                 //ota搜索进入不限制电量限制
                 if(!isOtaInto){
+
+                    val devicePropertiesBean = Hawk.get(
+                        Config.database.DEVICE_ATTRIBUTE_INFORMATION,
+                        DevicePropertiesBean(0, 0, 0, 0)
+                    )
+
                     val electricity =  Hawk.get<Int>("d_battery",0)
                     var batteryManager: BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
                     var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
@@ -79,8 +86,9 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     tvBegan.isClickable = false
                     tvBegan.visibility = View.VISIBLE
                     tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
-                    if(electricity <40&&DeviceStatus<=0) //40电量 小于说的  2021 -11-17 19.08
-                    {                     noUpdateTv.visibility = View.VISIBLE
+                    if(devicePropertiesBean.electricity <40) //40电量 小于说的  2021 -11-17 19.08
+                    {
+                        noUpdateTv.visibility = View.VISIBLE
                         ShowToast.showToastLong("手表电量低于40%,请充电")
                         return@observe
                     }

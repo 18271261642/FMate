@@ -25,6 +25,13 @@
         android:layout_height="wrap_content"
         android:text="获取睡眠大数据缓存数据"/>
 
+
+    <Button
+        android:id="@+id/showDialogBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示弹窗"/>
+
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

@@ -485,8 +485,8 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             barData = BarDataSet(values,"")
             barData.setDrawValues(false)
             barData.highLightColor= resources.getColor(R.color.color_marker)
-
-            val clor = intArrayOf(Color.parseColor("#9AF7FF"),Color.parseColor("#95BFFE"),Color.parseColor("#1D78FF"))
+            //Color.parseColor("#9AF7FF"),Color.parseColor("#95BFFE"),
+            val clor = intArrayOf(Color.parseColor("#1D78FF"),Color.parseColor("#1D78FF"),Color.parseColor("#1D78FF"))
             val fill1 = Fill(clor)
             val arrayFills : List<Fill> = listOf(fill1)
             barData.fills = arrayFills

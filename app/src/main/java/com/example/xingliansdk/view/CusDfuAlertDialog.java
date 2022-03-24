@@ -16,7 +16,7 @@ import com.example.xingliansdk.R;
 
 public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickListener {
 
-    private Button cancelBtn,sureBtn;
+    private TextView cancelBtn,sureBtn;
 
     private  OnCusDfuClickListener onCusDfuClickListener;
     private TextView dialogDufContentTv;
@@ -52,6 +52,11 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
         super(context);
     }
 
+    public CusDfuAlertDialog(Context context, int theme) {
+        super(context, theme);
+    }
+
+    //    style="@style/edit_AlertDialog_style"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +90,6 @@ public class CusDfuAlertDialog extends AppCompatDialog implements View.OnClickLi
         }
 
         if(view.getId() == R.id.dialogDfuNormalTv){
-            if(countTime != 0)
-                return;
             dismiss();
         }
     }

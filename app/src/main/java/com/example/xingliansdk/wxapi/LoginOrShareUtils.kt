@@ -47,7 +47,7 @@ object LoginOrShareUtils {
         //设置缩略图
 //        val thumbBmp = Bitmap.createScaledBitmap(myBitmap, 280, 480, true)
 
-        val thumbBmp = scaleBitmap(myBitmap,0.2f)
+        val thumbBmp = scaleBitmap(myBitmap,0.15f)
 
       //  myBitmap.recycle()
         msg.thumbData = FileUtils.bmpToByteArray(thumbBmp, true)

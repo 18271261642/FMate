@@ -131,7 +131,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             TLog.error("IT==" + Gson().toJson(it))
             //&& it.versionCode>mDeviceFirmwareBean.version
 
-            if (it.versionCode>mDeviceFirmwareBean.version) {
+            if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
                 showOtaAlert(it.isForceUpdate)
             }
@@ -183,10 +183,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         if(devicePropertiesBean != null){
             currPower = devicePropertiesBean!!.electricity
         }
-        cusDufAlert = CusDfuAlertDialog(instance)
+        cusDufAlert = CusDfuAlertDialog(instance,R.style.edit_AlertDialog_style)
         cusDufAlert!!.show()
         cusDufAlert!!.setCancelable(false)
-        cusDufAlert!!.setNormalShow(currPower < 110)
+        cusDufAlert!!.setNormalShow(currPower <40)
         cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
             override fun onCancelClick() {
                 cusDufAlert!!.dismiss()

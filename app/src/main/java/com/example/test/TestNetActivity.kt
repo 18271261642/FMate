@@ -11,6 +11,8 @@ import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
+import com.example.xingliansdk.utils.JumpUtil
+import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
@@ -28,7 +30,7 @@ import java.util.*
 
 class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.HistoryCallInterface,BleWrite.SpecifySleepSourceInterface {
 
-
+    private var cusDufAlert : CusDfuAlertDialog? = null
     val handler : Handler =  object : Handler(Looper.myLooper()!!){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -67,8 +69,29 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
         }
 
 
+        showDialogBtn.setOnClickListener {
+            showOtaAlert();
+        }
+
+    }
 
 
+    private fun showOtaAlert() {
+
+        cusDufAlert = CusDfuAlertDialog(this,R.style.edit_AlertDialog_style)
+        cusDufAlert!!.show()
+        cusDufAlert!!.setCancelable(false)
+        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
+            override fun onCancelClick() {
+                cusDufAlert!!.dismiss()
+            }
+
+            override fun onSUreClick() {
+                cusDufAlert!!.dismiss()
+
+            }
+
+        })
     }
 
     override fun createObserver() {
