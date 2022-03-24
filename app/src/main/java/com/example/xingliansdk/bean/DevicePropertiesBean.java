@@ -47,4 +47,14 @@ public class DevicePropertiesBean {
         this.type=type;
 
     }
+
+    @Override
+    public String toString() {
+        return "DevicePropertiesBean{" +
+                "electricity=" + electricity +
+                ", mCurrentBattery=" + mCurrentBattery +
+                ", mDisplayBattery=" + mDisplayBattery +
+                ", type=" + type +
+                '}';
+    }
 }

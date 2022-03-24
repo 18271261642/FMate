@@ -18,6 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.DeviceFirmwareBean
+import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
 import com.example.xingliansdk.dfu.DFUActivity
@@ -55,6 +56,9 @@ import kotlin.system.exitProcess
 public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,BleWrite.SpecifySleepSourceInterface{
     var exitTime = 0L
     var bleListener:BluetoothMonitorReceiver?=null
+
+    var devicePropertiesBean : DevicePropertiesBean ?= null
+
 
     var bleListener1: LocalBroadcastManager? = null
     var bluetoothMonitorReceiver: BluetoothMonitorReceiver? = null
@@ -175,11 +179,14 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     }
 
     private fun showOtaAlert(isFocus : Boolean){
-
+        var currPower = 100
+        if(devicePropertiesBean != null){
+            currPower = devicePropertiesBean!!.electricity
+        }
         cusDufAlert = CusDfuAlertDialog(instance)
         cusDufAlert!!.show()
         cusDufAlert!!.setCancelable(false)
-        cusDufAlert!!.setNormalShow(isFocus)
+        cusDufAlert!!.setNormalShow(currPower < 110)
         cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
             override fun onCancelClick() {
                 cusDufAlert!!.dismiss()
@@ -410,6 +417,14 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             Config.eventBus.DEVICE_FIRMWARE->{
                 val tmpDeviceBean = event.data as DeviceFirmwareBean
                 Log.e("主页","------设备固件信息="+tmpDeviceBean.toString())
+
+                devicePropertiesBean = Hawk.get(
+                    Config.database.DEVICE_ATTRIBUTE_INFORMATION,
+                    DevicePropertiesBean(0, 0, 0, 0)
+                )
+
+                Log.e("主页","-------devicePropertiesBean="+devicePropertiesBean.toString())
+
                 if(tmpDeviceBean.productNumber != null){
                     mDeviceFirmwareBean = tmpDeviceBean
                     getLastOta()
@@ -464,45 +479,6 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     }
 
 
-    //    private void setMtu(int setMtu) {
-    //        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-    //        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-    //        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
-    //            @Override
-    //            public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-    //                device.connectGatt(TestActivity2.this, true, new BluetoothGattCallback() {
-    //                    @Override
-    //                    public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-    //                        super.onServicesDiscovered(gatt, status);
-    //                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-    //                            if (setMtu > 23 && setMtu < 512) {
-    //                                gatt.requestMtu(setMtu);
-    //                            }
-    //                        }
-    //                    }
-    //
-    //                    @Override
-    //                    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
-    //                        super.onMtuChanged(gatt, mtu, status);
-    //                    }
-    //                });
-    //            }
-    //        });
-    //    }
-
-
-    //
-    //    @Override
-    //    public void onBackPressed() {
-    //        if ((System.currentTimeMillis() - mExitTime) > 2000) {
-    //            mExitTime = System.currentTimeMillis();
-    //            ToastUtils.showToast(context, R.string.press_again_exit);
-    //        } else {
-    //            ISportAgent.getInstance().disConDevice(false);
-    //            ISportAgent.getInstance().exit();
-    //            finish();
-    //        }
-    //    }
     override fun onBackPressed() {
         moveTaskToBack(true)
         super.onBackPressed()

@@ -129,7 +129,7 @@ class BleWork : IWork, OnCountTimerListener,
     //最先发出去的数据
     private fun getInstruction() {
         BleSend.sendDateTime(this)
-        BleWrite.writeForGetFirmwareInformation(this, false)
+
         BleWrite.writeForGetDeviceProperties(this, false)
         var mDeviceInformation = Hawk.get(
             PERSONAL_INFORMATION,
@@ -141,6 +141,7 @@ class BleWork : IWork, OnCountTimerListener,
 
 
         BleWrite.writeDeviceInformationCall(mDeviceInformation, false)
+        BleWrite.writeForGetFirmwareInformation(this, false)
         BleWrite.writeForGetDeviceMotion(this, false)
         BleWrite.writeUUIDBind(HelpUtil.getAndroidId(context), this@BleWork)
         BleWrite.writeFlashGetDialCall(this)
