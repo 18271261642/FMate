@@ -139,6 +139,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
     override fun onResume() {
         super.onResume()
+        mainViewModel.userInfo()
         mViewModel.getHomeCard()
     }
 
@@ -324,7 +325,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         })
         mainViewModel.result.observe(this)
         {
-            TLog.error("mainViewModel.result+" + Gson().toJson(it))
+            TLog.error("mainViewModel.result+" + Gson().toJson(it)+"\n"+Gson().toJson(it.user))
             userInfo.user = it.user
             userInfo.userConfig = it.userConfig
             userInfo.permission = it.permission
@@ -350,6 +351,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(PERSONAL_INFORMATION, mDeviceInformationBean)
             tvGoal.text = "${it.userConfig.movingTarget.toLong()}步"
             TLog.error("个人信息++" + Gson().toJson(it))
+
+            if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
+                tvKM?.text = "${mHomeCardVoBean.distance} 英里"
+            } else
+                tvKM?.text = "${mHomeCardVoBean.distance} 公里"
+            tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
         }
 
         mViewModel.resultPopular.observe(this)
@@ -369,12 +376,19 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             //   TLog.error("===" + Gson().toJson(it))
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
-                TLog.error("首页卡片数据++" + Gson().toJson(it))
+                TLog.error("首页卡片数据++" + Gson().toJson(it)+"\n"+mDeviceInformationBean.toString())
             mCardList = it.list
             mHomeAdapter.data = it.list
             mHomeAdapter.notifyDataSetChanged()
             Hawk.put(HOME_CARD_BEAN, it)
             mHomeCardVoBean = it
+
+            if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
+                tvKM?.text = "${mHomeCardVoBean.distance} 英里"
+            } else
+                tvKM?.text = "${mHomeCardVoBean.distance} 公里"
+            tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+
             //   TLog.error("首页卡片数据++" + Gson().toJson(it))
             if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                 mSwipeRefreshLayout.finishRefresh()

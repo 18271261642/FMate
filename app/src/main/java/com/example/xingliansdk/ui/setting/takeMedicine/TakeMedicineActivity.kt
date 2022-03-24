@@ -100,12 +100,12 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 mRemindTakeMedicineList.forEach {
                     BleWrite.writeRemindTakeMedicineCall(it, true)
                 }
-                var bean = Gson().toJson(mRemindTakeMedicineList)
-                var data = HashMap<String, String>()
-                data["takeMedicine"] = bean
-                data["createTime"] = (saveTime).toString()
-                mViewModel.saveTakeMedicine(data)
-                Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, saveTime)
+//                var bean = Gson().toJson(mRemindTakeMedicineList)
+//                var data = HashMap<String, String>()
+//                data["takeMedicine"] = bean
+//                data["createTime"] = (saveTime).toString()
+//                mViewModel.saveTakeMedicine(data)
+//                Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, saveTime)
                 finish()
             }
         })

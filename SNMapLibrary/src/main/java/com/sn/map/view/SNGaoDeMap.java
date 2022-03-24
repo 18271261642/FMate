@@ -209,7 +209,7 @@ public class SNGaoDeMap extends SNMapHelper {
         if (map == null) return;
         try {
             LatLngBounds.Builder boundsBuilder = getLatLngBoundsBuilder();
-            map.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 15));
+            map.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 17));
         } catch (Exception ignored) {
         }
     }
@@ -373,7 +373,7 @@ public class SNGaoDeMap extends SNMapHelper {
         if (isTouchMap) {
             return;
         }
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17);
         if (animation) {
             map.animateCamera(cameraUpdate);// 有动画
         } else {

@@ -611,7 +611,7 @@ public class DateUtil {
 
     //获取当前的秒
     public static long getCurrentSecond(){
-        return System.currentTimeMillis();
+        return System.currentTimeMillis()/1000;
     }
 
     public static int getCurrHour(){

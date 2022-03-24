@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:padding="5dp"
+        android:textColor="#666666"
         android:textSize="17sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -60,6 +61,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="invisible"
         android:background="#EBEBEB"/>
 
     <LinearLayout
@@ -87,7 +89,7 @@
             android:visibility="visible"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:textColor="#AAA9AC"
+            android:textColor="#666666"
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/dialogDfuCancelBtn"

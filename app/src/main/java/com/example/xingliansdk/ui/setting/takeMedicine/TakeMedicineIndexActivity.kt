@@ -61,6 +61,13 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
 
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel.getRemind("3")
+    }
+
+
     var time = 0L
     override fun onResume() {
         super.onResume()
@@ -73,7 +80,7 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
         )
 
         setAdapter()
-        mViewModel.getRemind("3")
+
     }
 
     fun setAdapter() {
@@ -92,7 +99,7 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                 if (pos >= 0 && pos < mList.size) {
                     TLog.error("mlist=+${Gson().toJson(mList)}")
                     mList.removeAt(pos)
-                    mTakeMedicineAdapter.notifyItemRemoved(pos)
+//                    mTakeMedicineAdapter.notifyItemRemoved(pos)
                     for (i in 0 until mList.size) {
                         mList[i].number = i
                         BleWrite.writeRemindTakeMedicineCall(mList[i], false)
@@ -104,13 +111,17 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                         mTimeBean.switch = 0
                         BleWrite.writeRemindTakeMedicineCall(mTimeBean, false)
                     }
-
+                    mTakeMedicineAdapter.notifyItemRemoved(pos)
                     TLog.error("数据流++${Gson().toJson(mList)}")
                     setVisible()
+                    saveTakeMedicine(DateUtil.getCurrentSecond())
                     Hawk.put(Config.database.REMIND_TAKE_MEDICINE, mList)
-                    var deleteTime = System.currentTimeMillis() / 1000
-                    Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, deleteTime)
-                    saveTakeMedicine(deleteTime)
+
+
+
+//                    var deleteTime = System.currentTimeMillis() / 1000
+//                    Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, deleteTime)
+//                    saveTakeMedicine(deleteTime)
                 }
                 mTakeMedicineAdapter.notifyDataSetChanged()
             }
@@ -120,6 +131,10 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
             }
 
         })
+
+        saveLocalCache(mList);
+        saveTakeMedicine(DateUtil.getCurrentSecond())
+
     }
 
     private fun setVisible() {
@@ -140,39 +155,54 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
         }
     }
 
+
+    private fun saveLocalCache(remindTakeMedicineList: MutableList<RemindTakeMedicineBean>){
+        Hawk.put(Config.database.REMIND_TAKE_MEDICINE, remindTakeMedicineList)
+
+
+        mList.forEach {
+            BleWrite.writeRemindTakeMedicineCall(it, true)
+        }
+
+    }
+
+
     override fun createObserver() {
         super.createObserver()
         mViewModel.resultRemind.observe(this)
         {
             TLog.error("吃药==" + Gson().toJson(it))
-            if (it == null || it.takeMedicine == null || it.takeMedicine.createTime < time) {
-                TLog.error("吃药==修改本地的到网络")
-                saveTakeMedicine(time)
-            } else if (it.takeMedicine.createTime > time) {
 
-                mList.forEach {
-                    BleWrite.writeRemindTakeMedicineCall(it, true)
-                }
-
-                TLog.error(tags, "-------1111-list=" + Gson().toJson(mList))
-
-                mList.clear()
-                mList = it.takeMedicine.list as ArrayList<RemindTakeMedicineBean>
-
-                TLog.error(tags, "-------222-list=" + Gson().toJson(mList))
-                Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, it.takeMedicine.createTime)
-                TLog.error("吃药==修改本地")
-                mTakeMedicineAdapter = TakeMedicineAdapter(mList)
-            }
-            setVisible()
-            mTakeMedicineAdapter.notifyDataSetChanged()
+            saveLocalCache(it.takeMedicine.list)
+//
+//            if (it == null || it.takeMedicine == null || it.takeMedicine.createTime < time) {
+//                TLog.error("吃药==修改本地的到网络")
+//                saveTakeMedicine(time)
+//            } else if (it.takeMedicine.createTime > time) {
+//
+//                mList.forEach {
+//                    BleWrite.writeRemindTakeMedicineCall(it, true)
+//                }
+//
+//                TLog.error(tags, "-------1111-list=" + Gson().toJson(mList))
+//
+//                mList.clear()
+//                mList = it.takeMedicine.list as ArrayList<RemindTakeMedicineBean>
+//
+//                TLog.error(tags, "-------222-list=" + Gson().toJson(mList))
+//                Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, it.takeMedicine.createTime)
+//                TLog.error("吃药==修改本地")
+//                mTakeMedicineAdapter = TakeMedicineAdapter(mList)
+//            }
+//            setVisible()
+//            mTakeMedicineAdapter.notifyDataSetChanged()
         }
 
     }
 
     private fun saveTakeMedicine(time: Long) {
-        if (mList.isNullOrEmpty() || mList.size <= 0)
-            return
+//        if (mList.isNullOrEmpty() || mList.size <= 0)
+//            return
         var bean = Gson().toJson(mList)
         var data = HashMap<String, String>()
         data["takeMedicine"] = bean

@@ -59,11 +59,17 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                 //   tvItemStatusSubTitle.text =DateUtil.getDate(DateUtil.MM_AND_DD,item.time*1000)
                 //    tvItemStatusSubTitle.text = item.data
                 if (item.type == 2) {
+                    var timeStr = item.data
+                    if(timeStr.length<6){
+
+                        timeStr = "00小时$timeStr"
+                    }
+
                     tvItemStatusData.text = HelpUtil.getSpan(
-                        item.data.substring(0, 2),
-                        item.data.substring(2, 4),
-                        item.data.substring(4, 6),
-                        item.data.substring(6, 8),
+                        timeStr.substring(0, 2),
+                        timeStr.substring(2, 4),
+                        timeStr.substring(4, 6),
+                        timeStr.substring(6, 8),
                         R.color.sub_text_color,
                         12
                     )
