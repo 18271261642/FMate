@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_update_zip.*
 import no.nordicsemi.android.dfu.DfuProgressListener
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 
 /**
@@ -341,7 +342,9 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
         //升级完成，等待重启，然后需要自己重新连接设备
         Handler().postDelayed({ // 如果此活动仍处于打开状态并且上传过程已完成，请取消通知
 
-            BLEManager.getInstance().disconnectDevice(deviceAddress)
+            if (deviceAddress != null) {
+                BLEManager.getInstance().disconnectDevice(deviceAddress)
+            }
             val manager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.cancel(DfuService.NOTIFICATION_ID)

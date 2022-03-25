@@ -1,5 +1,7 @@
 package com.example.xingliansdk.network.api.login;
 
+import java.util.Locale;
+
 public class LoginBean {
     /**
      * token : 33579664123466
@@ -99,7 +101,7 @@ public class LoginBean {
         private String mac;
 
         public String getMac() {
-            return mac;
+            return mac.toUpperCase(Locale.ROOT);
         }
 
         public void setMac(String mac) {

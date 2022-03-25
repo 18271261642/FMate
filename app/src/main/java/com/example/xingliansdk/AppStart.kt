@@ -21,6 +21,7 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
+import java.util.*
 
 /**
  * 应用程序启动类：显示欢迎界面并跳转到主界面
@@ -91,7 +92,7 @@ class AppStart : BaseActivity<AppStartViewModel>() {
             if(userInfo?.user?.mac?.isNotEmpty()!!){
                 var  savedMac = Hawk.get<String>("address")
                 if(!TextUtils.isEmpty(savedMac)){
-                    Hawk.put("address",userInfo.user.mac)
+                    Hawk.put("address",userInfo.user.mac.toUpperCase(Locale.CHINA))
                 }
             }
 

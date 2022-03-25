@@ -34,6 +34,8 @@ import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
@@ -159,7 +161,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                     Hawk.put("name", "")
                 } else {
                     BleConnection.iFonConnectError = true
-                    Hawk.put("address", "" + it.user.mac)
+                    Hawk.put("address", "" + it.user.mac.toUpperCase(Locale.CHINA))
                     Hawk.put("name", "StarLink GT1")
                 }
 
@@ -170,7 +172,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                     Hawk.put("name", "")
                 } else {
                     BleConnection.iFonConnectError = true
-                    Hawk.put("address", "" + it.user.mac)
+                    Hawk.put("address", "" + it.user.mac.toLowerCase(Locale.CHINA))
                     Hawk.put("name", "StarLink GT1")
                 }
             }

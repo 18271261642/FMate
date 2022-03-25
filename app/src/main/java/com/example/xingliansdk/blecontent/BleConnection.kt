@@ -277,23 +277,27 @@ object BleConnection {
     private fun stopScanner() {
         scanner.stopScan(mScanCallback)
     }
+
+
+
     var mScanCallback: ScanCallback =
         object : ScanCallback() {
 
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
+                var saveAddress = Hawk.get<String>("address","")
                 results.forEachIndexed { index, it ->
 //                        TLog.error("查找到的设备++" + it.device.address + "本地设备++" + Hawk.get<String>("address"))
-                    if (it.device.address.equals(Hawk.get<String>("address"),ignoreCase = true)||
+                    if (it.device.address.equals(saveAddress.toUpperCase(Locale.CHINA),ignoreCase = true)||
                             (iFOta && it.device.address.equals(Hawk.get<String>("dfuAddress"),ignoreCase = true))
                     ) {
                         TLog.error("搜索到相同设备并连接=+"+it.device.address+"=="+Hawk.get<String>("address"))
-                        var address=Hawk.get("address","")
+                        //var address=Hawk.get("address","")
                         if(it.device.address.isNullOrEmpty()||it.device.name.isNullOrEmpty()) //测试神经操作开关蓝牙导致有蓝牙的时候突然关闭会突然为null
                             return
                         timer?.cancel()
                         scanner.stopScan(this)
-                        if (it.device.address.equals(address,ignoreCase = true) &&it.device.name.equals("StarLink GT1")) {
+                        if (it.device.address.equals(saveAddress.toUpperCase(Locale.CHINA),ignoreCase = true) &&it.device.name.equals("StarLink GT1")) {
                         //    RoomUtils.roomDeleteAll()
                         //    SNEventBus.sendEvent(HOME_CARD)
                             Hawk.put(DEVICE_OTA, false)  //如果是 address进来的说明就不是ota升级要把ota的true变为false
@@ -329,7 +333,7 @@ object BleConnection {
                 TLog.error("initStart 的  onFinish 断开的"+Hawk.get("address", ""))
                 if(Hawk.get("address", "").isNotEmpty()) {
                     TLog.error("断开链接"+Hawk.get("address", ""))
-                    BLEManager.getInstance().disconnectDevice(Hawk.get("address"))
+                    BLEManager.getInstance().disconnectDevice(Hawk.get("address","").toUpperCase(Locale.CHINA))
                     BLEManager.getInstance().dataDispatcher.clearAll()
                 }
              //   ShowToast.showToastLong("无法扫描到该设备,请检查设备")

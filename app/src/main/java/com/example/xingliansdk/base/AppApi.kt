@@ -32,7 +32,7 @@ abstract class AppApi<T>:BaseApi<T>(XingLianApplication.baseUrl) {
 
 //            TLog.error("mac=="+mac)
             val defaultBuild = OkHttpClientBuild.getDefaultBuild()
-            defaultBuild.addInterceptor(headAddInterceptor(token,mac)) //设置 Token拦截器, 添加 token 使用
+            defaultBuild.addInterceptor(headAddInterceptor(token,mac.toLowerCase(Locale.CHINA))) //设置 Token拦截器, 添加 token 使用
           //  defaultBuild.addInterceptor(TokenErrorInterceptor(this)) //设置 返回 Token失效 拦截器
             return defaultBuild.build()
         }

@@ -599,7 +599,7 @@ class BleWork : IWork, OnCountTimerListener,
         mac: String?
     ) {
         var value = HashMap<String, Any>()
-        value["mac"] = nowMaC!!
+        value["mac"] = nowMaC!!.toLowerCase(Locale.CHINA)   //上传到后台转小写
         value["productNumber"] = productNumber!!
         value["firmwareVersion"] = version.toString()
         value["appVersion"] = HelpUtil.getVersionCode(context).toString()
