@@ -45,6 +45,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -96,6 +97,20 @@ class BleWork : IWork, OnCountTimerListener,
         if (mLSHelper != null) {
             mLSHelper!!.startLocation()
         }
+    }
+
+    public fun startLocation(context: Context) {
+        //重复定位 大于1小时的,重新定位
+        if(mLSHelper == null){
+            mLSHelper = LocationServiceHelper(context)
+            mLSHelper?.setOnLocationListener(this)
+            mLSHelper!!.startLocation()
+        }else{
+            if (mLSHelper != null) {
+                mLSHelper!!.startLocation()
+            }
+        }
+
 
     }
 
@@ -980,9 +995,10 @@ class BleWork : IWork, OnCountTimerListener,
     override fun onLocationChanged(city: String?, latitude: Double, longitude: Double) {
         mLSHelper?.pause()
         if (city == null) return
+         val decimalFormat = DecimalFormat("#.##")
         Log.e("定位", "-----城市=$city $longitude $latitude")
         Hawk.put("city", city)
-        SNEventBus.sendEvent(LOCATION_INFO, "${longitude},${latitude}")
+        SNEventBus.sendEvent(LOCATION_INFO, "${decimalFormat.format(longitude)},${decimalFormat.format(latitude)}")
 
         val intent = Intent()
         intent.action = "com.example.xingliansdk.location"

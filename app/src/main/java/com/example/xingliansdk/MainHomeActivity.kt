@@ -183,10 +183,12 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         if(devicePropertiesBean != null){
             currPower = devicePropertiesBean!!.electricity
         }
+        //1在充电
+        val isPower =  Hawk.get("ELECTRICITY_STATUS", 0)
         cusDufAlert = CusDfuAlertDialog(instance,R.style.edit_AlertDialog_style)
         cusDufAlert!!.show()
         cusDufAlert!!.setCancelable(false)
-        cusDufAlert!!.setNormalShow(currPower <40)
+        cusDufAlert!!.setNormalShow(if(isPower == 1) false else currPower <40)
         cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
             override fun onCancelClick() {
                 cusDufAlert!!.dismiss()
@@ -434,6 +436,11 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
             Config.eventBus.LOCATION_INFO->{
                 Log.e("主页","-------定位成功="+Hawk.get("city"))
+                if(event.code == Config.eventBus.LOCATION_INFO){
+                    val local: String = event.data as String
+                    mViewModel.getWeatherServer(local)
+
+                }
             }
 
         }
@@ -502,7 +509,11 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
         val weatherService = XingLianApplication.getXingLianApplication().getWeatherService()
         val cityStr = Hawk.get<String>("city")
+        Hawk.put("test_weather",Gson().toJson(weatherBean))
         weatherService?.setWeatherData(weatherBean,cityStr)
+        val wIntent = Intent();
+        wIntent.action = "com.example.xingliansdk.test_weather"
+        sendBroadcast(wIntent)
     }
 
     public fun setSyncComplete(isSync : Boolean){
@@ -550,10 +561,14 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     private  val broadcastReceiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
            val action = intent?.action ?: return
+
+            Log.e("主页定位成功","-----acion="+action)
             if(action == "com.example.xingliansdk.location"){
                 val longitude = intent.getDoubleExtra("longitude",0.0)
                 val latitude = intent.getDoubleExtra("latitude",0.0)
                 mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
+
+                XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
             }
 
 

@@ -34,6 +34,20 @@ public class RemindTakeMedicineBean {
      */
     public String unicodeContent;
 
+    public RemindTakeMedicineBean() {
+    }
+
+    public RemindTakeMedicineBean(int number, int mSwitch, long startTime, long endTime, int reminderPeriod, List<ReminderGroup> groupList, String unicodeTitle, String unicodeContent) {
+        this.number = number;
+        this.mSwitch = mSwitch;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.reminderPeriod = reminderPeriod;
+        this.groupList = groupList;
+        this.unicodeTitle = unicodeTitle;
+        this.unicodeContent = unicodeContent;
+    }
+
     public int getNumber() {
         return number;
     }

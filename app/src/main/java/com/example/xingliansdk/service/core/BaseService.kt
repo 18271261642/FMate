@@ -4,9 +4,13 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.example.xingliansdk.service.core.annotation.Works
+import com.example.xingliansdk.service.work.BleWork
 
 
 open class BaseService : Service() {
+
+    private var privateIWork : BleWork ?= null
+
     private  var iWorks:MutableList<IWork>  = mutableListOf()
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -32,6 +36,11 @@ open class BaseService : Service() {
             val iWork:IWork = kClass.java.newInstance()
             iWorks.add(iWork)
             iWork.init(applicationContext)
+
         }
+    }
+
+    public fun getWorks(){
+
     }
 }

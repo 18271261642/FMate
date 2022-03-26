@@ -95,7 +95,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     lateinit var mPopularScienceAdapter: PopularScienceAdapter
     private lateinit var mPopularList: MutableList<PopularScienceBean.ListDTO>
 
-
+    var decimalFormat = DecimalFormat("#.##")
 
     private val handler = object : Handler(Looper.myLooper()!!){
         override fun handleMessage(msg: Message) {
@@ -351,12 +351,15 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(PERSONAL_INFORMATION, mDeviceInformationBean)
             tvGoal.text = "${it.userConfig.movingTarget.toLong()}步"
             TLog.error("个人信息++" + Gson().toJson(it))
-
-            if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-                tvKM?.text = "${mHomeCardVoBean.distance} 英里"
+            if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
+                   if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
+                val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
+                tvKM?.text = decimalFormat.format(miDis)+"英里"
             } else
                 tvKM?.text = "${mHomeCardVoBean.distance} 公里"
             tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+            }
+
         }
 
         mViewModel.resultPopular.observe(this)
@@ -383,15 +386,20 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(HOME_CARD_BEAN, it)
             mHomeCardVoBean = it
 
-            if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-                tvKM?.text = "${mHomeCardVoBean.distance} 英里"
-            } else
-                tvKM?.text = "${mHomeCardVoBean.distance} 公里"
-            tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+            if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
+                if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
+                    val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
+                    tvKM?.text = decimalFormat.format(miDis)+"英里"
+                } else
+                    tvKM?.text = "${mHomeCardVoBean.distance} 公里"
+                tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+            }
 
             //   TLog.error("首页卡片数据++" + Gson().toJson(it))
             if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                 mSwipeRefreshLayout.finishRefresh()
+                if(mHomeCardVoBean == null || mHomeCardVoBean.distance == null)
+                    return@observe
                 if (!progressStatus) {
                     progressStatus = true
                     TLog.error("circleSports  progressStatus+=" + progressStatus)
@@ -399,7 +407,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     circleSports?.progress = mHomeCardVoBean.steps.toInt()
                 }
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-                    tvKM?.text = "${mHomeCardVoBean.distance} 英里"
+                    val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
+                    tvKM?.text = decimalFormat.format(miDis)+"英里"
                 } else
                     tvKM?.text = "${mHomeCardVoBean.distance} 公里"
                 tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
@@ -745,6 +754,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         TLog.error("unitSystem==" + Gson().toJson(mDeviceInformationBean))
         if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 英里"
+
+
+
+
         } else
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
         //  TLog.error("calories==${data.calories}")

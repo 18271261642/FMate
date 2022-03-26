@@ -1,6 +1,7 @@
 package com.example.xingliansdk.service.work;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.util.Log;
 
@@ -90,6 +91,7 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
         if (onLocationListener != null) {
             onLocationListener.onLocationChanged(city, latitude, longitude);
         }
+
     }
 
     @Override

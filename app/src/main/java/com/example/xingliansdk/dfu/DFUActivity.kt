@@ -59,6 +59,9 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
 
     var isOtaInto = false
 
+    //1在充电
+    val isPower =  Hawk.get("ELECTRICITY_STATUS", 0)
+
     override fun createObserver() {
         mViewModel.result.observe(this) {
             TLog.error("IT==" + Gson().toJson(it))
@@ -71,7 +74,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
             else {
 
                 //ota搜索进入不限制电量限制
-                if(!isOtaInto){
+                if(!isOtaInto || isPower == 1){
 
                     val devicePropertiesBean = Hawk.get(
                         Config.database.DEVICE_ATTRIBUTE_INFORMATION,

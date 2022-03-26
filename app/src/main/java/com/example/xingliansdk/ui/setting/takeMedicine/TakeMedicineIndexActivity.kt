@@ -100,25 +100,25 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
                     TLog.error("mlist=+${Gson().toJson(mList)}")
                     mList.removeAt(pos)
 //                    mTakeMedicineAdapter.notifyItemRemoved(pos)
-                    for (i in 0 until mList.size) {
-                        mList[i].number = i
-                        BleWrite.writeRemindTakeMedicineCall(mList[i], false)
-                    }
-                    if (mList.size <= 0) {
-                        TLog.error("删除===")
-                        var mTimeBean = RemindTakeMedicineBean()
-                        mTimeBean.number = 0
-                        mTimeBean.switch = 0
-                        BleWrite.writeRemindTakeMedicineCall(mTimeBean, false)
-                    }
+//                    for (i in 0 until mList.size) {
+//                        mList[i].number = i
+//                        BleWrite.writeRemindTakeMedicineCall(mList[i], false)
+//                    }
+//                    if (mList.size <= 0) {
+//                        TLog.error("删除===")
+//                        var mTimeBean = RemindTakeMedicineBean()
+//                        mTimeBean.number = 0
+//                        mTimeBean.switch = 0
+//                        BleWrite.writeRemindTakeMedicineCall(mTimeBean, false)
+//                    }
                     mTakeMedicineAdapter.notifyItemRemoved(pos)
                     TLog.error("数据流++${Gson().toJson(mList)}")
                     setVisible()
                     saveTakeMedicine(DateUtil.getCurrentSecond())
-                    Hawk.put(Config.database.REMIND_TAKE_MEDICINE, mList)
+                   // Hawk.put(Config.database.REMIND_TAKE_MEDICINE, mList)
 
 
-
+                    saveLocalCache(mList)
 //                    var deleteTime = System.currentTimeMillis() / 1000
 //                    Hawk.put(Config.database.TAKE_MEDICINE_CREATE_TIME, deleteTime)
 //                    saveTakeMedicine(deleteTime)
@@ -158,11 +158,21 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
 
     private fun saveLocalCache(remindTakeMedicineList: MutableList<RemindTakeMedicineBean>){
         Hawk.put(Config.database.REMIND_TAKE_MEDICINE, remindTakeMedicineList)
-
-
-        mList.forEach {
-            BleWrite.writeRemindTakeMedicineCall(it, true)
+        if(remindTakeMedicineList.isEmpty()){
+            val mTimeBean = RemindTakeMedicineBean()
+            mTimeBean.number = 0
+            mTimeBean.switch = 0
+            BleWrite.writeRemindTakeMedicineCall(mTimeBean, false)
+            return
         }
+
+
+
+        mList.forEachIndexed { index, remindTakeMedicineBean ->
+            remindTakeMedicineBean.number= index
+                BleWrite.writeRemindTakeMedicineCall(remindTakeMedicineBean, true)
+        }
+
 
     }
 

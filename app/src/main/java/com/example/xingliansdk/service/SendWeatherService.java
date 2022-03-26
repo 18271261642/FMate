@@ -11,6 +11,8 @@ import android.util.Log;
 
 import com.example.xingliansdk.network.api.weather.bean.FutureWeatherBean;
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean;
+import com.example.xingliansdk.service.core.BaseService;
+import com.example.xingliansdk.service.work.BleWork;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;
 import com.shon.bluetooth.util.ByteUtil;
@@ -30,10 +32,16 @@ import androidx.annotation.Nullable;
  * Created by Admin
  * Date 2022/3/16
  */
-public class SendWeatherService extends Service {
+public class SendWeatherService extends BaseService {
 
     private static final String TAG = "SendWeatherService";
 
+
+    private OnWeatherStatusListener onWeatherStatusListener;
+
+    public void setOnWeatherStatusListener(OnWeatherStatusListener onWeatherStatusListener) {
+        this.onWeatherStatusListener = onWeatherStatusListener;
+    }
 
     private final IBinder iBinder = new SendWeatherBinder();
 
@@ -66,13 +74,43 @@ public class SendWeatherService extends Service {
     }
 
 
+    //每小时定位一次，发送天气
+
+    /**
+     * 通过Handler延迟发送消息的形式实现定时任务。
+     */
+    public static final int CHANGE_TIPS_TIMER_INTERVAL = 60 * 60 * 1000;
+
+    //启动计时器任务
+    public void start24HourMethod() {
+        Runnable mChangeTipsRunnable = new Runnable() {
+            @Override
+            public void run() {
+               //开始定位
+               new BleWork().startLocation(SendWeatherService.this);
+                handler.postDelayed(this, CHANGE_TIPS_TIMER_INTERVAL);
+            }
+        };
+        handler.post(mChangeTipsRunnable);
+    }
+
+
+    private ServerWeatherBean tmpServerBean;
 
     public void setWeatherData(ServerWeatherBean str,String cityStr){
         Log.e("TAG","------天气设置="+cityStr+" " +str.toString());
-
+        this.tmpServerBean = str;
+        if(onWeatherStatusListener != null)
+            onWeatherStatusListener.backWeatherStatus(new Gson().toJson(str));
         anslysisTodayWeather(str,cityStr);
 
     }
+
+    public String getWeatherData(){
+        return new Gson().toJson(tmpServerBean);
+    }
+
+
 
     int day = 1;
 
