@@ -32,6 +32,7 @@
                 android:id="@+id/cusMapContainerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.amap.api.maps.MapView
                     android:id="@+id/amapDetailMapView"
                     android:layout_width="match_parent"

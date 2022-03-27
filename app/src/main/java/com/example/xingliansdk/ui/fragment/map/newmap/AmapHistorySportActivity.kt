@@ -529,9 +529,14 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
                 mDataPieCount += pieList[i]
             }
             if (mDataPieCount > 0) {
-                setDataPieView(pieList)
-            } else
-                pieChart.visibility = View.GONE
+                setDataPieView(pieList,false)
+            } else{
+
+                var emptyPieList: ArrayList<Float> = arrayListOf(0F, 0F, 0F, 0F, 1F)
+                setDataPieView(emptyPieList,true)
+                //  pieChart.visibility = View.GONE
+            }
+
         }
     }
 
@@ -566,7 +571,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         pieChart.setEntryLabelTextSize(12f)
     }
 
-    private fun setDataPieView(mList: MutableList<Float>) {
+    private fun setDataPieView(mList: MutableList<Float>,isEmpty : Boolean) {
         val entries = ArrayList<PieEntry>()
         val typeList = arrayListOf("无氧极限", "无氧耐力", "有氧耐力", "燃烧脂肪", "热身放松")
         val mListColor = arrayListOf(
@@ -577,15 +582,18 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             R.color.color_blood_pressure_low
         )
         TLog.error("数据++" + Gson().toJson(mList))
+
         for (i in 0 until mList.size) {
 //            if (mList[i] != 0F)
             entries.add(
                 PieEntry(
                     mList[i],
-                    typeList[i] + "    " + (mList[i].toLong()) + "分钟"
+                    typeList[i] + "    " + (if(isEmpty)"0" else mList[i].toLong()) + "分钟"
                 )
             )
         }
+
+
         val dataSet = PieDataSet(entries, " ")
         dataSet.setDrawIcons(false)
         dataSet.sliceSpace = 3f
@@ -594,7 +602,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         val colors = ArrayList<Int>()
         for (i in 0 until mList.size) {
             // if (mList[i] > 0)
-            colors.add(resources.getColor(mListColor[i]))
+            colors.add(resources.getColor(mListColor[ i]))
         }
         dataSet.colors = colors
         val data = PieData(dataSet)
@@ -720,7 +728,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             mLocationOption!!.locationMode =
                 AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
             mLocationOption!!.isNeedAddress = true
-            mLocationOption!!.interval = (50 * 1000).toLong()
+            mLocationOption!!.interval = (10 * 1000).toLong()
             mLocationOption!!.locationPurpose = AMapLocationClientOption.AMapLocationPurpose.Sport
             mlocationClient!!.setLocationOption(mLocationOption)
             // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，

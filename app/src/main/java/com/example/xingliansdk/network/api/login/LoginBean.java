@@ -101,7 +101,7 @@ public class LoginBean {
         private String mac;
 
         public String getMac() {
-            return mac.toUpperCase(Locale.ROOT);
+            return mac != null ? mac.toUpperCase(Locale.ROOT) : mac;
         }
 
         public void setMac(String mac) {

@@ -152,7 +152,7 @@ object BleConnection {
                 }
 
                 override fun onDisconnected(address: String) {
-                    TLog.error("onDisconnected   $address")
+                    TLog.error("连接状态","--------onDisconnected----   $address")
                     ShowToast.showToastLong("连接异常，请重新连接")
                     if (Unbind) //解绑情况下直接返回其他操作就别管了
                     {

@@ -373,7 +373,7 @@ public class SNGaoDeMap extends SNMapHelper {
         if (isTouchMap) {
             return;
         }
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 17);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 25);
         if (animation) {
             map.animateCamera(cameraUpdate);// 有动画
         } else {

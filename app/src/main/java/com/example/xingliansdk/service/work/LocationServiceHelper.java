@@ -45,7 +45,7 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
               //  SNLog.i("天气服务:地图类型:未知,暂时选用高德地图作为默认定位");
             case A_MAP:
                // SNLog.i("天气服务:地图类型:高德");
-                location = new GaoDeLocationImpl(context, 1, 1);
+                location = new GaoDeLocationImpl(context, 5, 1);
                 break;
             case GOOGLE_MAP:
                 if (MapType.isGooglePlayServicesAvailable(context)) {
