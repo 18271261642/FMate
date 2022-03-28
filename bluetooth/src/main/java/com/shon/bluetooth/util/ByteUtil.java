@@ -27,6 +27,8 @@ public class ByteUtil {
      */
     public static String getHexString(byte[] buffer) {
         StringBuilder sb = new StringBuilder();
+        if(buffer == null || buffer.length == 0)
+            return sb.toString();
         for (byte b : buffer) {
             String s = byteToHex(b);
             sb.append(s);

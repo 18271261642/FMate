@@ -220,6 +220,8 @@ object BleConnection {
                     super.onChangeResult(result)
                     TLog.error("onChangeResult==$result")
                     if (result) {
+                        //打开广播接收监听
+                        intReceiver()
                         iFonConnectError = false
                         Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
                         Unbind = false
@@ -237,8 +239,7 @@ object BleConnection {
                         SNEventBus.sendEvent(DEVICE_CONNECT_NOTIFY)
                         //打开监听
                         BleUtil.bigListener(address)
-                        //打开广播接收监听
-                        intReceiver()
+
                         val intent =
                             Intent(BLE_ACTION)
                         intent.putExtra("address", address)
@@ -351,7 +352,8 @@ object BleConnection {
     private fun intReceiver() {
         intentFilter = IntentFilter()
         intentFilter?.addAction(BLE_ACTION)
-        mBleBroadcastReceiver = BleBroadcastReceiver()
+        if(mBleBroadcastReceiver == null)
+          mBleBroadcastReceiver = BleBroadcastReceiver()
         mXingLianApplication.registerReceiver(mBleBroadcastReceiver, intentFilter)
     }
 }
