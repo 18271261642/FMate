@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -357,7 +358,7 @@ public class SNGaoDeMap extends SNMapHelper {
         LinkedList<SNLocation> locations = getLocations();
         LinkedList<LatLng> latLngs = convert(locations);
         if (latLngs.size() >= 2) {
-            PolylineOptions polylineOptions = new PolylineOptions().color(lineColor).width(lineWidth)
+            PolylineOptions polylineOptions = new PolylineOptions().color(Color.parseColor("#00FF01")).width(15f)
                     .addAll(latLngs);
             mPolyline = map.addPolyline(polylineOptions);
         }
@@ -373,7 +374,9 @@ public class SNGaoDeMap extends SNMapHelper {
         if (isTouchMap) {
             return;
         }
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 25);
+        LatLngBounds.Builder bt = getLatLngBoundsBuilder();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bt.build(), 23);
+       // CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 25);
         if (animation) {
             map.animateCamera(cameraUpdate);// 有动画
         } else {

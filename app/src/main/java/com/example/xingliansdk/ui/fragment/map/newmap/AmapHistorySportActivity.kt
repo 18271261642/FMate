@@ -161,6 +161,12 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             val latLngList =
                 Gson().fromJson<List<LatLng>>(latStr, object : TypeToken<List<LatLng?>?>() {}.type)
 
+            if(latLngList == null || latLngList.size == 1){
+                cusMapContainerView?.visibility = View.GONE
+                return
+            }
+
+
             //  List<LatLng> latLngList = getLanList(traceLocationList);
 
             //开始和结束的位置标记
@@ -183,7 +189,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             endMark = aMap!!.addMarker(markerOption)
             endMark?.isDraggable = false
             polyline = aMap!!.addPolyline(
-                PolylineOptions().addAll(latLngList).color(Color.parseColor("#00FF01")).width(10f)
+                PolylineOptions().addAll(latLngList).color(Color.parseColor("#00FF01")).width(15f)
             )
             val boundsBuilder = LatLngBounds.Builder()
             for (p in latLngList) {
@@ -232,6 +238,10 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         try {
             TLog.error("获取当前数据库的数据++" + Gson().toJson(amapSportBean))
             TLog.error("心率++" + amapSportBean.heartArrayStr)
+
+            val latStr = amapSportBean.latLonArrayStr
+
+
             if (amapSportBean.heartArrayStr.isNotEmpty()) {
                 mList = Gson().fromJson(
                     amapSportBean.heartArrayStr,

@@ -55,6 +55,12 @@ public class Config {
         public static final String MESSAGE_CALL="MessageCall";
 
 
+
+        public static final String SENSOR_STEP_ACTION = "com.example.xingliansdk.sensor";
+
+
+
+
         //用于保存运动类型，步行、跑步等
         public static final String AMAP_SPORT_TYPE = "map_sport_type";
 

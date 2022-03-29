@@ -31,6 +31,7 @@ import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
+import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
@@ -435,11 +436,11 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
 
             Config.eventBus.LOCATION_INFO->{
-                Log.e("主页","-------定位成功="+Hawk.get("city"))
+                Log.e("主页","----eventBus---定位成功="+Hawk.get("city"))
                 if(event.code == Config.eventBus.LOCATION_INFO){
                     val local: String = event.data as String
                     mViewModel.getWeatherServer(local)
-
+                    start24HourMethod()
                 }
             }
 
@@ -566,13 +567,35 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             if(action == "com.example.xingliansdk.location"){
                 val longitude = intent.getDoubleExtra("longitude",0.0)
                 val latitude = intent.getDoubleExtra("latitude",0.0)
-                mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
+               // mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
 
-                XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
+
+               // XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
             }
 
 
         }
 
+    }
+
+
+    //每小时定位一次，发送天气
+
+    //每小时定位一次，发送天气
+    /**
+     * 通过Handler延迟发送消息的形式实现定时任务。
+     */
+    private val CHANGE_TIPS_TIMER_INTERVAL =  60 * 1000
+
+    //启动计时器任务
+    fun start24HourMethod() {
+        val mChangeTipsRunnable: Runnable = object : Runnable {
+            override fun run() {
+                //开始定位
+                BleWork().startLocation(this@MainHomeActivity)
+                handler.postDelayed(this, CHANGE_TIPS_TIMER_INTERVAL.toLong())
+            }
+        }
+        handler.post(mChangeTipsRunnable)
     }
 }

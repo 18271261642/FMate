@@ -24,15 +24,15 @@ import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.MapMotionBean
 import com.example.xingliansdk.bean.SleepTypeBean
+import com.example.xingliansdk.bean.db.AmapSportBean
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.fragment.map.view.IRunningContract
 import com.example.xingliansdk.ui.fragment.map.view.RunningPresenterImpl
-import com.example.xingliansdk.utils.CountTimerUtil
-import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.example.xingliansdk.ui.fragment.service.OnSensorStepListener
+import com.example.xingliansdk.ui.fragment.service.SensorImpl
+import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.view.OnSlideUnlockCallback
 import com.example.xingliansdk.view.PressView
@@ -40,6 +40,8 @@ import com.example.xingliansdk.view.SlideUnlockView
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.Config.ControlClass
@@ -62,7 +64,7 @@ import kotlin.collections.ArrayList
 //轮滑、溜冰：k=0.518
 //室外滑雪：k=0.888
 class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
-    IRunningContract.IView/*,OnSlideUnlockCallback*/ {
+    IRunningContract.IView,OnSensorStepListener/*,OnSlideUnlockCallback*/ {
 
     private var mapHelper: SNMapHelper? = null
     var mPresenter: RunningPresenterImpl? = null
@@ -71,8 +73,11 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //计算卡里路常量
     var kcalcanstanc = 65.4 //计算卡路里常量
 
+    var stepService : StepService ?= null
 
     private var stopAlert : AlertDialog.Builder ?= null
+
+    private val instance by lazy { this }
 
     //是否是暂停状态
     private var isStopStatus = false
@@ -85,12 +90,13 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         requestPermission()
         SNEventBus.register(this)
 
+        registerReceiver(broadcastReceiver,IntentFilter(Config.database.SENSOR_STEP_ACTION))
+
+        setupService()
         //已保存的用户信息，用于判断公英制
         val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
 
         runDistanceStatusTv.text = if (userInfo == null || userInfo.userConfig.distanceUnit == 1) "距离/英里" else "距离/公里"
-
-
 
         mPresenter = RunningPresenterImpl(this)
         mPresenter?.attachView(this)
@@ -110,9 +116,17 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 amapStatusTime.base = SystemClock.elapsedRealtime()
                 amapStatusTime.start()
                 initMap(savedInstanceState)
-                mPresenter?.requestWeatherData()
-                mPresenter?.requestMapFirstLocation()
-                mPresenter?.initDefaultValue()
+
+                //GPS未打开，使用传感器计步
+                if(GPSUtil.isGpsEnable(instance)){
+                    mPresenter?.requestWeatherData()
+                    mPresenter?.requestMapFirstLocation()
+                    mPresenter?.initDefaultValue()
+                }else{
+                    stepService?.startToSensorSport()
+                    val sensorImpl = SensorImpl()
+                }
+
                 chTimer.base = SystemClock.elapsedRealtime()//计时器清零
                 chTimer.start()
             }
@@ -127,6 +141,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         //statusView.setSlideUnlockCallback(this)
         tvStatus.setOnClickListener(this)
         initStatusView()
+
+
+        //获取传感器权限
+        XXPermissions.with(this).permission(Manifest.permission.BODY_SENSORS).request { _, _ -> }
 
     }
 
@@ -206,7 +224,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 .setPositiveButton("是") { p0, p1 ->
                     p0?.dismiss()
                     //startActivity(Intent(instance, DFUActivity::class.java))
-
+                    if(stepService != null && !GPSUtil.isGpsEnable(instance)){
+                        stepService?.setStopParams(heartList,chTimer.text.toString())
+                        stepService?.stopToSensorSport()
+                    }
                     SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
                    // ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 
@@ -227,6 +248,11 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         //ShowToast.showToastLong("最终保留的步数++$stepCount")
         mPresenter!!.saveHeartAndStep(heartList, stepCount)
         mPresenter!!.requestRetrySaveSportData()
+
+        if(stepService != null && !GPSUtil.isGpsEnable(instance)){
+            stepService?.setStopParams(heartList,chTimer.text.toString())
+            stepService?.stopToSensorSport()
+        }
 
         if (mHomeCardBean.list != null && mHomeCardBean.list.size > 0) {
 
@@ -346,6 +372,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         amapStatusTime.stop()
         mRecordTime = SystemClock.elapsedRealtime()
         mPresenter?.requestStopSport()
+
+        if(stepService != null){
+            stepService?.pauseToSensorSport(true)
+        }
     }
 
 
@@ -362,6 +392,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         }
         chTimer.start()
         amapStatusTime.start()
+
+        if(stepService != null){
+            stepService?.pauseToSensorSport(false)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -459,7 +493,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         TLog.error("calories++$calories")
         TLog.error("hourSpeed++$hourSpeed")
         TLog.error("pace++$pace")
-        TLog.error("-----经纬度集合=" + Gson().toJson(latLngs))
+       // TLog.error("-----经纬度集合=" + Gson().toJson(latLngs))
         try {
             tvCalories.text = calories
             tvDistance.text = distances
@@ -577,6 +611,13 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
          * @param service 服务的通信信道的IBind，可以通过Service访问对应服务
          */
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            try {
+                val stepBinder = service as StepService.StepBinder
+                stepService = stepBinder.stepService
+            }catch (e : Exception){
+                e.printStackTrace()
+            }
+
         }
 
         /**
@@ -586,6 +627,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
          * @param name 丢失连接的组件名称
          */
         override fun onServiceDisconnected(name: ComponentName) {
+            stepService = null
         }
     }
 
@@ -604,6 +646,35 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 }
             }
         }
+    }
+
+    override fun onSensorUpdateSportData(
+        distances: String?,
+        calories: String?,
+        hourSpeed: String?,
+        pace: String?,
+        latLngs: List<LatLng?>?
+    ) {
+        TLog.error("传感器", "-----dis=$distances")
+    }
+
+
+
+    private  val broadcastReceiver = object :BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+           val action = p1?.action
+            if(action.equals(Config.database.SENSOR_STEP_ACTION)){
+                if(GPSUtil.isGpsEnable(instance))
+                    return
+                val dis = p1?.getStringExtra("sensor_dis")
+                val kcal = p1?.getStringExtra("sensor_cal")
+
+                tvCalories.text = kcal
+                tvDistance.text = dis
+
+            }
+        }
+
     }
 
 }

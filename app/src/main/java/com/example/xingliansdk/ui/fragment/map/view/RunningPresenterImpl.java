@@ -526,6 +526,11 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     hashMap.put("avgSpeed",avgSpeed);
                     hashMap.put("heartRateData",new Gson().toJson(heartList));
 
+
+                    if (!GPSUtil.isGpsEnable((Context) getView())) {
+                       return;
+                    }
+
                     Call   bean=mapViewApi.motionInfoSave(hashMap);
                     bean.enqueue(new Callback<BaseData>() {
                         @Override

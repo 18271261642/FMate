@@ -13,17 +13,45 @@ import android.hardware.SensorManager
 import android.os.*
 import android.util.Log
 import androidx.annotation.Nullable
+import com.amap.api.maps.model.LatLng
+import com.example.xingliansdk.BaseData
 import com.example.xingliansdk.Config
+import com.example.xingliansdk.Config.database.SENSOR_STEP_ACTION
 import com.example.xingliansdk.R
+import com.example.xingliansdk.bean.db.AmapSportBean
+import com.example.xingliansdk.bean.db.AmapSportDao
+import com.example.xingliansdk.bean.room.AppDataBase
+import com.example.xingliansdk.bean.room.AppDataBase.Companion.instance
 import com.example.xingliansdk.eventbus.SNEventBus
+import com.example.xingliansdk.network.api.javaMapView.MapViewApi
+import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.service.SendWeatherService
 import com.example.xingliansdk.ui.fragment.map.RunningActivity
+import com.example.xingliansdk.ui.fragment.map.task.WeakHandler
+import com.example.xingliansdk.utils.GPSUtil
+import com.example.xingliansdk.utils.ResUtil
+import com.example.xingliansdk.utils.Utils
+import com.example.xingliansdk.view.DateUtil
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.orhanobut.hawk.Hawk
+import com.shon.connector.bean.DeviceInformationBean
 import com.shon.connector.utils.TLog
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.DecimalFormat
 import java.util.*
 
 /**
  * 步数传感器
  */
-class StepService : Service(), SensorEventListener {
+class StepService : Service(), SensorEventListener ,OnSensorStepListener{
+
+    private val tags = "传感器"
+
+    //保留两位小数
+    private val decimal = DecimalFormat("#.##")
 
     //当前步数
     private var currentStep: Int = 0
@@ -46,19 +74,65 @@ class StepService : Service(), SensorEventListener {
     //未记录之前的步数
     private var hasStepCount: Int = 0
 
+    private val stepBinder = StepBinder()
+
+    //保存在本地的用户信息bean
+    var mDeviceInformationBean : DeviceInformationBean ?= null
+
+    //是否开始运动
+    private var isStartSport = false
+    //是否暂停运动
+    private var isPauseSport = false
+
+    //传感器运动的心率集合，可为空
+    private  var heartList: ArrayList<Int> = arrayListOf()
+    //时间，从运动页面传递过来
+    private var countSportTime : String ?= null
+
+
+    //用于最后上传bean
+    private var amapSportBean : AmapSportBean ? = null
+
+
+
+    private var isUnit = true
+
     override fun onCreate() {
         super.onCreate()
-        TLog.error("再次进入 onCreate")
+        TLog.error(tags,"再次进入 onCreate")
         currentStep=0
         initBroadcastReceiver()
         Thread { getStepDetector() }.start()
+        var year = Calendar.getInstance()
+        year.roll(Calendar.YEAR, -18)
+        year.timeInMillis
+        var birth: Long = year.timeInMillis
+        mDeviceInformationBean = Hawk.get(
+            Config.database.PERSONAL_INFORMATION,
+            DeviceInformationBean(2, 0, 160, 50f, 0, 0, 0, 0, 0, 0, 10000, birth)
+        )
+
+        isUnit = mDeviceInformationBean?.unitSystem?.toInt() == 2
+        amapSportBean = AmapSportBean()
 
     }
 
     @Nullable
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
 
-        return null
+        return stepBinder
+    }
+
+
+    public fun setStopParams(htList : MutableList<Int>,sportTime : String){
+        this.heartList = heartList
+        this.countSportTime = sportTime
+    }
+
+    inner class StepBinder : Binder() {
+        val stepService: StepService
+            get() = this@StepService
+
     }
 
 
@@ -173,21 +247,148 @@ class StepService : Service(), SensorEventListener {
         //为什么取消第一个 讲一下因为第一个是步数累计会自动累计下去然而我们的步数是每次进去是从新累计所以不需要
         val countSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         val detectorSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-        if (countSensor != null) {
-            stepSensor = 0
-            sensorManager!!.registerListener(
-                this@StepService,
-                countSensor,
-                SensorManager.SENSOR_DELAY_NORMAL
-            )
-        } else  if (detectorSensor != null) {
-            stepSensor = 1
-            sensorManager!!.registerListener(
-                this@StepService,
-                detectorSensor,
-                SensorManager.SENSOR_DELAY_NORMAL
-            )
-        }
+
+        val stepSensors = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+
+        sensorManager!!.registerListener(this,stepSensors,SensorManager.SENSOR_DELAY_FASTEST)
+        sensorManager!!.registerListener(this,detectorSensor,SensorManager.SENSOR_DELAY_FASTEST)
+
+//        if (countSensor != null) {
+//            stepSensor = 0
+//            sensorManager!!.registerListener(
+//                this@StepService,
+//                countSensor,
+//                SensorManager.SENSOR_DELAY_NORMAL
+//            )
+//        } else  if (detectorSensor != null) {
+//            stepSensor = 1
+//            sensorManager!!.registerListener(
+//                this@StepService,
+//                detectorSensor,
+//                SensorManager.SENSOR_DELAY_NORMAL
+//            )
+//        }
+    }
+
+
+    //开始运动
+    public fun startToSensorSport(){
+        countSTep = 0
+        isStartSport = true
+
+    }
+
+
+    //暂停运动
+    public fun pauseToSensorSport(isPause : Boolean){
+        isPauseSport = isPause
+    }
+
+    //结束运动
+    public fun stopToSensorSport(){
+        isStartSport = false
+        saveSensorSport()
+    }
+
+
+    /**
+     *  amapSportBean.setDayDate(Utils.getCurrentDate());
+    amapSportBean.setYearMonth(Utils.getCurrentDateByFormat("yyyy-MM"));
+    amapSportBean.setSportType(sportType);
+    amapSportBean.setMapType(1);
+    amapSportBean.setCurrentSportTime(millisecondStr);
+    amapSportBean.setEndSportTime(Utils.getCurrentDate1());
+    amapSportBean.setCurrentSteps(step);
+    amapSportBean.setDistance(countDistance);
+    amapSportBean.setCalories(countCalories);
+    amapSportBean.setAverageSpeed(""+avgSpeed);
+    TLog.Companion.error("paceStr=="+paceStr);
+    amapSportBean.setPace(paceStr);
+    amapSportBean.setLatLonArrayStr(latStr);
+    amapSportBean.setCreateTime(createTime/1000);
+    TLog.Companion.error("心率==="+new Gson().toJson(heartList));
+    amapSportBean.setHeartArrayStr(new Gson().toJson(heartList));
+    TLog.Companion.error("-----保存cans="+new Gson().toJson(amapSportBean));
+     */
+    private fun saveSensorSport(){
+        if(amapSportBean == null)
+            return
+        //GPS打开不保存
+        if(GPSUtil.isGpsEnable(this))
+            return
+        val loginBean =
+            Hawk.get<LoginBean>(Config.database.USER_INFO) ?: return
+        //mac地址
+
+        //mac地址
+        val macAddress = Hawk.get<String>("address")
+
+        amapSportBean?.userId = loginBean.user.userId
+        amapSportBean?.deviceMac = macAddress
+        amapSportBean?.dayDate = Utils.getCurrentDate()
+        amapSportBean?.yearMonth = Utils.getCurrentDateByFormat("yyyy-MM")
+
+        val sType = Hawk.get(Config.database.AMAP_SPORT_TYPE,1)
+
+        amapSportBean?.sportType = sType
+        amapSportBean?.mapType = 1
+        amapSportBean?.endSportTime = Utils.getCurrentDate1()
+
+        amapSportBean?.latLonArrayStr = null
+        amapSportBean?.createTime = System.currentTimeMillis() / 1000
+
+        amapSportBean?.currentSportTime = "00:$countSportTime"
+        amapSportBean?.heartArrayStr =  Gson().toJson(heartList)
+
+
+        //平均速度 米/秒
+        //  String avgSpeed = baseSportData.speedAvg+"";
+        //平均速度 米/秒
+        //  String avgSpeed = baseSportData.speedAvg+"";
+        val disC = amapSportBean?.distance?.toDouble()
+        //时长
+        val countTimeL = getAnalysisTime()
+        val avgSpeed: Double = Utils.divi(Utils.mul(disC,1000.0) ,countTimeL.toDouble(),2)
+        amapSportBean?.averageSpeed = avgSpeed.toString()
+
+        val paceStr = disC?.let { Utils.divi(countTimeL.toDouble(), it.toDouble(),2) }
+        amapSportBean?.pace = paceStr.toString()
+
+
+
+        TLog.error(tags,"-------结束运动="+amapSportBean.toString())
+
+        val latLng = LatLng(116.39,39.91)
+        val latList = arrayListOf(latLng)
+
+        val hashMap = HashMap<String, Any>()
+        hashMap["positionData"] = Gson().toJson(latList)
+        hashMap["createTimeStamp"] =System.currentTimeMillis() / 1000
+        hashMap["type"] = 1
+        hashMap["distance"] = amapSportBean?.distance.toString()
+        hashMap["motionTime"] = getAnalysisTime()
+        hashMap["calorie"] = amapSportBean?.calories.toString()
+        hashMap["steps"] = countSTep
+        hashMap["avgPace"] = paceStr!!
+        hashMap["avgSpeed"] = avgSpeed
+        hashMap["heartRateData"] = Gson().toJson(heartList)
+
+
+        val bean = MapViewApi.mapViewApi.motionInfoSave(hashMap)
+        bean.enqueue(object : Callback<BaseData>{
+            override fun onResponse(call: Call<BaseData>, response: Response<BaseData>) {
+               TLog.error(tags,"------上传数据="+response.message())
+
+                val mAmapSportDao = instance.getAmapSportDao()
+                mAmapSportDao.insert(amapSportBean!!)
+            }
+
+            override fun onFailure(call: Call<BaseData>, t: Throwable) {
+
+            }
+
+        })
+
     }
 
     /**
@@ -195,10 +396,78 @@ class StepService : Service(), SensorEventListener {
      * 只有当用户关机以后，该数据才会清空，所以需要做数据保护
      */
     var step=0
+
+    var countSTep = 0
+
     override fun onSensorChanged(event: SensorEvent) {
+        TLog.error(tags,"--------类型="+event.sensor.type)
+        if(!isStartSport)
+            return
+
+        if(isPauseSport)
+            return
+
+        if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
+            val sensorSteps = event.values[0].toInt()
+            val currTimeLong = event.timestamp
+            TLog.error(tags,"tempStep==${sensorSteps}"+" 对应时间="+currTimeLong+" "+DateUtil.getDate("yyyy-MM-dd HH:mm:ss",currTimeLong))
+        }
+
+
+        if(event.sensor.type == Sensor.TYPE_STEP_DETECTOR){
+            val tmpS = event.values[0].toInt()
+            TLog.error(tags,"--------实时="+event.values[0])
+            if(tmpS == 1){
+                countSTep++
+                //体重
+                var userWeight = mDeviceInformationBean?.weight
+                if(userWeight == null)
+                    userWeight = 60f
+                else
+                    userWeight
+                //计算距离
+                val currDistance = (countSTep * 0.6f / 1000 )
+                //卡路里
+                //跑步热量（kcal）＝体重（kg）×距离（公里）×K（运动系数
+
+                /**
+                 * 健走 K =0.8214
+                跑步 K =1.036
+                自行车 K =0.6142
+                轮滑、溜冰 K =0.518
+                室外滑雪 K =0.888
+                 */
+
+                val currKcal = userWeight * currDistance * 1.036f
+
+                //当前步数
+                amapSportBean?.currentSteps = countSTep;
+
+                //距离
+                amapSportBean?.distance   = decimal.format(currDistance).toString()
+                //卡路里
+                amapSportBean?.calories = decimal.format(currKcal).toString()
+
+                TLog.error(tags,"--------计算数据="+currDistance +" "+currKcal +" "+countSTep)
+
+                val showDis =
+                    ResUtil.format(
+                        "%.2f",
+                        if (isUnit) Utils.kmToMile(currDistance.toDouble()) else currDistance
+                    )
+                setSensorBroadCast(showDis,decimal.format(currKcal).toString())
+
+
+               // sensorImpl.onSensorUpdateSportData(amapSportBean?.distance,amapSportBean?.calories,"0","0",null)
+
+
+              //  onSensorUpdateSportData(amapSportBean?.distance,amapSportBean?.calories,"0","0",null)
+            }
+        }
+
         if (stepSensor == 0) {
             val tempStep = event.values[0].toInt()
-            TLog.error("tempStep==${tempStep}")
+            //TLog.error("tempStep==${tempStep}")
             if (!hasRecord) {
                 hasRecord = true
                 hasStepCount = tempStep
@@ -226,8 +495,18 @@ class StepService : Service(), SensorEventListener {
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
+    private fun setSensorBroadCast(dis : String,kcal : String){
+        val intent = Intent();
+        intent.setAction(SENSOR_STEP_ACTION)
+        intent.putExtra("sensor_dis",dis)
+        intent.putExtra("sensor_cal",kcal)
+        sendBroadcast(intent)
+    }
+
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+        Log.e("传感器","------sensor="+accuracy)
     }
 
 
@@ -268,9 +547,35 @@ class StepService : Service(), SensorEventListener {
         //主界面中需要手动调用stop方法service才会结束
         stopForeground(true)
         unregisterReceiver(mInfoReceiver)
+
     }
 
     override fun onUnbind(intent: Intent): Boolean {
         return super.onUnbind(intent)
+    }
+
+
+
+    //解析总运动时间，结束运动后传递过来的时间为HH:mm:ss格式，转换成秒
+    public fun getAnalysisTime(): Int {
+        if(countSportTime == null)
+            return 0
+        var timeArray = countSportTime!!.split(":")
+
+        val m = timeArray[0].toInt()
+        val s = timeArray[1].toInt()
+
+        return  m * 60 + s;
+
+    }
+
+    override fun onSensorUpdateSportData(
+        distances: String?,
+        calories: String?,
+        hourSpeed: String?,
+        pace: String?,
+        latLngs: List<LatLng?>?
+    ) {
+        TODO("Not yet implemented")
     }
 }

@@ -92,7 +92,7 @@ class BleWork : IWork, OnCountTimerListener,
         SNEventBus.register(this)
     }
 
-    private fun startLocation() {
+    public fun startLocation() {
         //重复定位 大于1小时的,重新定位
         if (mLSHelper != null) {
             mLSHelper!!.startLocation()

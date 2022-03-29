@@ -388,4 +388,7 @@ public class SendWeatherService extends BaseService {
         return cal.getTimeInMillis();
     }
 
+
+
+
 }
