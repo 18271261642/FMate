@@ -440,7 +440,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 if(event.code == Config.eventBus.LOCATION_INFO){
                     val local: String = event.data as String
                     mViewModel.getWeatherServer(local)
-                    start24HourMethod()
+                    //start24HourMethod()
                 }
             }
 
@@ -567,10 +567,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             if(action == "com.example.xingliansdk.location"){
                 val longitude = intent.getDoubleExtra("longitude",0.0)
                 val latitude = intent.getDoubleExtra("latitude",0.0)
-               // mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
+                mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
 
 
-               // XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
+                XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
             }
 
 
