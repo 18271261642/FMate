@@ -260,8 +260,9 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
 
 //                    hartsHrr.visibility = View.VISIBLE
 //                    pieChart.visibility = View.VISIBLE
-                        chartView()
                         pieView()
+                        chartView()
+
                     }
                 }
             }

@@ -125,7 +125,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
 
     public fun setStopParams(htList : MutableList<Int>,sportTime : String){
-        this.heartList = heartList
+        this.heartList = htList as ArrayList<Int>
         this.countSportTime = sportTime
     }
 
@@ -349,16 +349,17 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         //时长
         val countTimeL = getAnalysisTime()
         val avgSpeed: Double = Utils.divi(Utils.mul(disC,1000.0) ,countTimeL.toDouble(),2)
-        amapSportBean?.averageSpeed = avgSpeed.toString()
+        amapSportBean?.averageSpeed = Utils.mul(avgSpeed,3.6).toString()
 
         val paceStr = disC?.let { Utils.divi(countTimeL.toDouble(), it.toDouble(),2) }
         amapSportBean?.pace = paceStr.toString()
 
+       // amapSportBean?.distance = Utils.mul(disC,1000.0).toString()
 
 
         TLog.error(tags,"-------结束运动="+amapSportBean.toString())
 
-        val latLng = LatLng(116.39,39.91)
+        val latLng = LatLng(39.91,116.39)
         val latList = arrayListOf(latLng)
 
         val hashMap = HashMap<String, Any>()
@@ -425,8 +426,14 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                     userWeight = 60f
                 else
                     userWeight
+
+                //身高
+                var userHeight = mDeviceInformationBean?.height
+                if(userHeight == null)
+                    userHeight = 170
+
                 //计算距离
-                val currDistance = (countSTep * 0.6f / 1000 )
+                val currDistance = Utils.divi((countSTep * userHeight * 0.46 ),100000.0,2)
                 //卡路里
                 //跑步热量（kcal）＝体重（kg）×距离（公里）×K（运动系数
 
@@ -444,11 +451,11 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                 amapSportBean?.currentSteps = countSTep;
 
                 //距离
-                amapSportBean?.distance   = decimal.format(currDistance).toString()
+                amapSportBean?.distance   = decimal.format(currDistance * 1000).toString()
                 //卡路里
                 amapSportBean?.calories = decimal.format(currKcal).toString()
 
-                TLog.error(tags,"--------计算数据="+currDistance +" "+currKcal +" "+countSTep)
+                TLog.error(tags,"--------计算数据="+currDistance +" "+currKcal +" 步数="+countSTep)
 
                 val showDis =
                     ResUtil.format(

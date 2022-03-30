@@ -82,6 +82,15 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //是否是暂停状态
     private var isStopStatus = false
     var heartList: ArrayList<Int> = arrayListOf()
+
+
+    var calories: String? = null
+    var distances: String? = null
+    var pace: String? = null
+    var averageSpeed: String? = null
+
+
+
     override fun layoutId() = R.layout.include_map
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
@@ -224,10 +233,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 .setPositiveButton("是") { p0, p1 ->
                     p0?.dismiss()
                     //startActivity(Intent(instance, DFUActivity::class.java))
-                    if(stepService != null && !GPSUtil.isGpsEnable(instance)){
-                        stepService?.setStopParams(heartList,chTimer.text.toString())
-                        stepService?.stopToSensorSport()
-                    }
+//                    if(stepService != null && !GPSUtil.isGpsEnable(instance)){
+//                        stepService?.setStopParams(heartList,chTimer.text.toString())
+//                        stepService?.stopToSensorSport()
+//                    }
                     SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
                    // ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 
@@ -478,10 +487,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         }
     }
 
-    var calories: String? = null
-    var distances: String? = null
-    var pace: String? = null
-    var averageSpeed: String? = null
+
+
+
     override fun onUpdateSportData(
         distances: String?,
         calories: String?,
@@ -668,7 +676,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                     return
                 val dis = p1?.getStringExtra("sensor_dis")
                 val kcal = p1?.getStringExtra("sensor_cal")
-
+                calories = kcal
+                distances = dis
                 tvCalories.text = kcal
                 tvDistance.text = dis
 
