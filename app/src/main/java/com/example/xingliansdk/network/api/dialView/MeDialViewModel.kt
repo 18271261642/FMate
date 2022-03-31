@@ -10,6 +10,9 @@ import com.shon.connector.utils.TLog
 class MeDialViewModel : BaseViewModel() {
     val result: MutableLiveData<DownDialModel> = MutableLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
+
+
+
     fun findMyDial() {
         requestCustom({
             MeDialViewApi.mMeDialViewApi.findMyDial()
@@ -68,4 +71,23 @@ class MeDialViewModel : BaseViewModel() {
             }
         }
     }
+
+
+    val resultCheckDial: MutableLiveData<Any> = MutableLiveData()
+    val msgCheckDial: MutableLiveData<String> = MutableLiveData()
+    fun checkDialSate(data:String)
+    {
+        requestCustom({
+            RecommendDialViewApi.mRecommendDialViewApi.checkDialSate(data)
+        }, {
+            resultCheckDial.postValue(it)
+        }
+        ) { code, message ->
+            message?.let {
+                msgCheckDial.postValue(it)
+                ShowToast.showToastLong(it)
+            }
+        }
+    }
+
 }

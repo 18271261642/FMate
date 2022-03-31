@@ -8,6 +8,7 @@ import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -394,6 +395,9 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     }
 
     override fun onResultDialIdBean(bean: MutableList<DialGetAssignCall.DialBean>?) {
+
+        Log.e("校验表盘","--------onResultDialIdBean="+Gson().toJson(bean))
+
         //效验表盘
         if (HelpUtil.netWorkCheck(activity as Context)) {
             if (bean.isNullOrEmpty())

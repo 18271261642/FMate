@@ -200,6 +200,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                 //    SNEventBus.sendEvent(Config.eventBus.DIAL_IMG_RECOMMEND_INDEX, FlashBean(1, 1,helper.adapterPosition,item?.dialId))
                                         var hasMap = HashMap<String, String>()
                                         hasMap["dialId"] = item?.dialId.toString()
+                                        hasMap["stateCode"] = "6"
                                         GlobalScope.launch(Dispatchers.IO)
                                         {
                                             kotlin.runCatching {

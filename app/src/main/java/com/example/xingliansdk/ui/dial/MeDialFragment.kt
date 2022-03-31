@@ -22,6 +22,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DownDialModel
 import com.example.xingliansdk.network.api.dialView.MeDialViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
+import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
@@ -90,6 +91,9 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         ryLocal.adapter = meDialImgAdapter
         meDialImgAdapter.addChildClickViewIds(R.id.tvInstall)
         meDialImgAdapter.setOnItemChildClickListener { adapter, view, position ->
+
+            Log.e("点击本地表盘","------本地表盘点击="+Gson().toJson(mList[position]))
+
             when (view.id) {
                 R.id.tvInstall -> {
                     if (mList[position].isCurrent)
@@ -101,7 +105,8 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     BleWrite.writeDialDesignatedCall(id, this)
                     hasMapMeUpdate = HashMap()
                     hasMapMeUpdate["dialId"] = mList[position].dialId.toString()
-                    hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else mList[position].stateCode.toString()
+                    //hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else mList[position].stateCode.toString()
+                    hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else "1"
 
                     isSyncDial = true
 
@@ -115,6 +120,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         ryDownload.adapter = downAdapter
         downAdapter.addChildClickViewIds(R.id.imgDelete, R.id.imgDial)
         downAdapter.setOnItemChildClickListener { adapter, view, position ->
+
+
+            Log.e("已下载表盘点击","------点击已下载表盘="+Gson().toJson(adapter.data[position]))
+
             when (view.id) {
                 R.id.imgDelete -> {
 
@@ -265,11 +274,13 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         }
         mViewModel.result1.observe(this)
         {
-            TLog.error("数据++" + Gson().toJson(it))
+            TLog.error("获取表盘返回","----------数据++" + Gson().toJson(it))
             mList.clear()
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
             if (it.list[0].type == 0) {
+                Log.e("获取本地的表盘","------type=0本地表盘="+Gson().toJson(it.list[0]));
+
                 //  longCustOnclick
                 //  longOnclick
                 mList.addAll(it.list[0].typeList)
@@ -283,7 +294,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         mViewModel.result.observe(this)
         {
             mDownList.clear()
-            TLog.error("result it==" + Gson().toJson(it))
+            TLog.error("获取已下载表盘返回","--------result it==" + Gson().toJson(it))
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
             mDownList.addAll(it.list)
@@ -293,13 +304,14 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             downAdapter.notifyDataSetChanged()
         }
         mViewModel.resultUpdate.observe(this) {
-            TLog.error("resultUpdate 数据++" + Gson().toJson(it))
+            TLog.error("更新用户表盘返回","----------resultUpdate 数据++" + Gson().toJson(it))
             SNEventBus.sendEvent(Config.eventBus.DIAL_RECOMMEND_DIAL)
             dialRequest()
         }
         mViewModel.resultDeleteMyDial.observe(this) {
             if (it == null)
                 return@observe
+            Log.e("删除表盘网络请求返回","------删除表盘返回="+it.toString())
             SNEventBus.sendEvent(Config.eventBus.DIAL_RECOMMEND_DIAL)
         }
     }
@@ -310,7 +322,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         when (event.code) {
             Config.eventBus.DIAL_RECOMMEND_DIAL,
             Config.eventBus.DEVICE_DIAL_ID-> {
-                TLog.error("DIAL_RECOMMEND_DIAL")
+                TLog.error("----------DIAL_RECOMMEND_DIAL")
                 dialRequest()
             }
             Config.eventBus.DIAL_CUSTOMIZE -> {
@@ -330,9 +342,13 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 dialRequest()
             }
             Config.eventBus.DIAL_IMG_RECOMMEND_INDEX -> {
-                TLog.error("DIAL_IMG_RECOMMEND_INDEX")
                 var data = event.data as FlashBean
+                TLog.error("-----DIAL_IMG_RECOMMEND_INDEX"+" data="+data.toString())
+
                 mDownList.forEachIndexed { index, typeListDTO ->
+
+                    Log.e("操作完成更改状态","-------更改状态="+index+" 详情="+Gson().toJson(typeListDTO))
+
                     if (typeListDTO.dialId == data.id) {
                         typeListDTO.progress
                         var currentProcess =
@@ -360,6 +376,9 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         if (key == 2) {
             ShowToast.showToastLong("更换成功")
             mViewModel.updateUserDial(hasMapMeUpdate)
+
+           // mViewModel.checkDialSate(Gson().toJson(setList))
+
         } else
             ShowToast.showToastLong("更换失败")
     }

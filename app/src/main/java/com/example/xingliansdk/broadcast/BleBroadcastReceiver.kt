@@ -180,10 +180,10 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                             else if(type == 65533){
                                 userHashMap["stateCode"] = "3"
                             }else{
-                               // userHashMap["stateCode"] = "1"
+                                userHashMap["stateCode"] = "4"
                             }
 
-                            hashMap["type"]=  if(type == 65533) "3" else "2"
+                            hashMap["type"]=  if(type == 65533) "3" else "4"
                             hashMap["dialId"]= if(type == 65533) "0" else type.toString()
                             setList.add(hashMap)
                             Log.e("广播","-------校验表盘="+Gson().toJson(setList))

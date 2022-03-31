@@ -24,6 +24,9 @@ import me.hgj.jetpackmvvm.util.get
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+/**
+ * 最新表盘
+ */
 class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
     override fun layoutId() = R.layout.activity_dial_index
     lateinit var mMeDialImgAdapter: MeDialImgAdapter
