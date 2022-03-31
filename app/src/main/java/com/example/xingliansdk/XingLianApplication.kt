@@ -194,6 +194,7 @@ class XingLianApplication : BaseApp() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(Intent.ACTION_TIME_CHANGED)
         intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
+        intentFilter.addAction(Intent.ACTION_TIME_TICK)
         registerReceiver(timeBroadcastReceiver,intentFilter)
 
         val musicIntent = Intent(this,RemoteControlService::class.java)

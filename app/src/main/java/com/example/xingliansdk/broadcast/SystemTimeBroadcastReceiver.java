@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.xingliansdk.blesend.BleSend;
+import com.example.xingliansdk.service.work.BleWork;
 import com.example.xingliansdk.view.DateUtil;
 import com.shon.connector.BleWrite;
 import com.shon.connector.bean.TimeBean;
@@ -24,6 +25,20 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
         if(action == null)
             return;
         Log.e("TIME","-------时间变化="+action);
+        if(action.equals(Intent.ACTION_TIME_TICK)){
+            long currTime = System.currentTimeMillis();
+
+            int currMinute = (int) (currTime % 3600000);
+
+
+            if(currMinute < 60000){     //整点
+
+                Log.e("世界","------启动定位="+currMinute);
+
+                new BleWork().startLocation(context);
+            }
+        }
+
         if(action.equals(Intent.ACTION_TIME_CHANGED) || action.equals(Intent.ACTION_TIMEZONE_CHANGED)){
 
             Log.e("TIME","----时间="+DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
@@ -37,6 +52,10 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
             time.setHours(DateUtil.getHour(currentTime));
             time.setSs(DateUtil.getSecond(currentTime));
             BleWrite.writeTimeCall(time);
+
+
+
+
         }
     }
 }

@@ -570,7 +570,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
 
 
-                XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
+             //   XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
             }
 
 

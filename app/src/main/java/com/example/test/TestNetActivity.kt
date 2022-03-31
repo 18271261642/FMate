@@ -37,6 +37,9 @@ import java.util.*
 class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.HistoryCallInterface,
     BleWrite.SpecifySleepSourceInterface ,OnWeatherStatusListener{
 
+
+
+
     private var cusDufAlert : CusDfuAlertDialog? = null
     val handler : Handler =  object : Handler(Looper.myLooper()!!){
         override fun handleMessage(msg: Message) {
