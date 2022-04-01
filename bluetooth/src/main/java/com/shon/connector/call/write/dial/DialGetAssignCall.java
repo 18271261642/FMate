@@ -1,6 +1,7 @@
 package com.shon.connector.call.write.dial;
 
 import com.example.xingliansdk.utils.ShowToast;
+import com.orhanobut.hawk.Hawk;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.BleWrite;
@@ -36,7 +37,7 @@ public class DialGetAssignCall extends WriteCallback {
 
     @Override
     public boolean process(String address, byte[] result, String uuid) {
-        TLog.Companion.error("res==" + ByteUtil.getHexString(result));
+        TLog.Companion.error("获取当前表盘res==" + ByteUtil.getHexString(result));
         if (!uuid.equalsIgnoreCase(Config.readCharacter))
             return false;
         if (result[8] == Config.Expand.COMMAND && result[9] == Config.Expand.DEVICE_ACK) {
@@ -67,6 +68,7 @@ public class DialGetAssignCall extends WriteCallback {
                 countSize += (3 + size);
 
                 mList.add(new DialBean(id, 1));
+                Hawk.put(Config.SAVE_DEVICE_CURRENT_DIAL,id);
             }
           //  TLog.Companion.error("==" + result[10 + countSize]);
             if (result[10 + countSize] == 2) {
@@ -97,10 +99,13 @@ public class DialGetAssignCall extends WriteCallback {
                     int id = HexDump.byte2intHigh(result, i, 4);
                     mDialBean.type = 3;
                     mDialBean.dialId = id;
-                    if (i > num)
+                    if (i > num){
                         mList.add(new DialBean(id, 4));
-                    else
+                        Hawk.put(Config.SAVE_DEVICE_INTO_MARKET_DIAL,id);
+                    }else {
                         mList.add(new DialBean(id, 3));
+                    }
+
                 }
             }
             mInterface.onResultDialIdBean(mList);

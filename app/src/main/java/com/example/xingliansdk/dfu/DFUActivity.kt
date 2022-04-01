@@ -57,6 +57,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
     var version = 0
     var errorNum=0
 
+    //是否是从ota模式扫描进来的
     var isOtaInto = false
 
     //1在充电

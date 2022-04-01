@@ -17,6 +17,7 @@ import com.example.xingliansdk.utils.FileUtils
 import com.example.xingliansdk.utils.ImgUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.example.xingliansdk.view.DownloadProgressButton
+import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
@@ -123,6 +124,12 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
 
                     override fun onDownLoadSuccess() {
                         itemDownload.currentText = "更新中..."
+
+
+                        Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
+
+                        Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,item)
+
                         BleWrite.writeDialWriteAssignCall(
                             item.let {
                                 DialCustomBean(

@@ -22,6 +22,7 @@ import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DialProgressBar
 import com.example.xingliansdk.view.DownloadProgressButton
 import com.google.gson.Gson
+import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.Constants
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
@@ -204,6 +205,12 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                         GlobalScope.launch(Dispatchers.IO)
                                         {
                                             kotlin.runCatching {
+                                                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
+
+                                                Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,item)
+
+                                                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,item.dialId)
+
                                                 DetailDialViewApi.mDetailDialViewApi.updateUserDial(hasMap)
                                             }.onSuccess {
                                                 SNEventBus.sendEvent(Config.eventBus.DIAL_RECOMMEND_DIAL,helper.adapterPosition)

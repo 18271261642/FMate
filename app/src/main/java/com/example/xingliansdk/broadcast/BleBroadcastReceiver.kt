@@ -166,6 +166,8 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                 //  SNEventBus.sendEvent(DEVICE_ELECTRICITY, electricity)
             }
             Config.ActiveUpload.DEVICE_DIAL_ID -> {
+                Hawk.put<Int>(Config.SAVE_DEVICE_CURRENT_DIAL, type.toInt())
+
                 if (HelpUtil.netWorkCheck(mContext))
                     GlobalScope.launch(Dispatchers.IO)
                     {
@@ -183,7 +185,7 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                                 userHashMap["stateCode"] = "4"
                             }
 
-                            hashMap["type"]=  if(type == 65533) "3" else "4"
+                            hashMap["type"]=  if(type == 65533) "3" else type.toString()
                             hashMap["dialId"]= if(type == 65533) "0" else type.toString()
                             setList.add(hashMap)
                             Log.e("广播","-------校验表盘="+Gson().toJson(setList))

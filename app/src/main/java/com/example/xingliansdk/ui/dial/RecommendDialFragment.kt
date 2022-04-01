@@ -137,6 +137,8 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
             if (!mList.isNullOrEmpty() || mList.size >= 0)
                 mList.clear()
             //  mRecommendDialAdapter.data.clear()
+
+
             mList.addAll(it.list)
             TLog.error("===数据++" + mList.size)
             //  mRecommendDialAdapter.addData(mList)

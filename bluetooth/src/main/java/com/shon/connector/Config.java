@@ -12,6 +12,14 @@ public class Config {
     public static final long TIME_START = 946656000L;
 
 
+    //保存当前手表显示的表盘ID
+    public static final String SAVE_DEVICE_CURRENT_DIAL = "device_current_dial";
+    //保存手表中存在表盘市场的表的表id
+    public static final String SAVE_DEVICE_INTO_MARKET_DIAL = "device_market_dial";
+    //保存一个市场表盘的序列化对象，用于在本地表盘中
+    public static final String SAVE_MARKET_BEAN_DIAL = "device_market_bean";
+
+
     /**
      * 湿度最大值 当大于这个值时即温度为-温度
      */

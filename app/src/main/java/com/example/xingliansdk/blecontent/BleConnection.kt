@@ -78,7 +78,7 @@ object BleConnection {
                             (manufacturerSpecificData == 32769 || manufacturerSpecificData == 65535)
                         ) //ota模式到这里即可 非OTA才打开通知
                         {
-                            TLog.error("进入ota")
+                            TLog.error("---------进入ota")
                             iFonConnectError = false
                             Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
                             SNEventBus.sendEvent(DEVICE_OTA_UPDATE)

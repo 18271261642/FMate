@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.dial
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -31,6 +32,7 @@ import com.ly.genjidialog.extensions.newGenjiDialog
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.utils.TLog
+import kotlinx.android.synthetic.main.activity_take_medicine_repeat.*
 import kotlinx.android.synthetic.main.fragment_me_dial.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -102,11 +104,18 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         65533
                     else
                         mList[position].dialId.toLong()
+
+                    Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,id.toInt())
+
                     BleWrite.writeDialDesignatedCall(id, this)
+                    if(mList[position].dialId == 65535 || mList[position].dialId == 0){
+                        return@setOnItemChildClickListener
+                    }
+
                     hasMapMeUpdate = HashMap()
                     hasMapMeUpdate["dialId"] = mList[position].dialId.toString()
                     //hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else mList[position].stateCode.toString()
-                    hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else "1"
+                    hasMapMeUpdate["stateCode"] = if(mList[position].dialId == 0) "3" else mList[position].stateCode.toString()
 
                     isSyncDial = true
 
@@ -279,7 +288,29 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
             if (it.list[0].type == 0) {
-                Log.e("获取本地的表盘","------type=0本地表盘="+Gson().toJson(it.list[0]));
+                val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0).toInt()
+                //是否有市场表盘
+                val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
+                Log.e("获取本地的表盘","------type=0本地表盘="+"已经选择的表盘id="+currDialId+"    "+marketDialId+"  "+Gson().toJson(it.list[0]));
+
+
+
+//                val saveMarketBean = Hawk.get(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,RecommendDialBean.ListDTO.TypeListDTO())
+//
+//                Log.e("本地表盘第四张","-----序列化对象="+Gson().toJson(saveMarketBean))
+//
+//                if(marketDialId != -1 && !TextUtils.isEmpty(saveMarketBean.name)){
+//
+//                    it.list[0].typeList.add(3,saveMarketBean)
+//                }
+
+                it.list[0].typeList.forEach {
+                    if(it.dialId == currDialId || (currDialId == 65535 && it.dialId == 0)){
+                        it.stateCode = 1
+                        it.state = "当前"
+                        it.isCurrent = true
+                    }
+                }
 
                 //  longCustOnclick
                 //  longOnclick
@@ -297,6 +328,16 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             TLog.error("获取已下载表盘返回","--------result it==" + Gson().toJson(it))
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
+            val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
+            it.list.forEach {
+                if(currDialId == it.dialId){
+                    it.isCurrent = true
+                    it.stateCode = 1
+                    it.state = "当前"
+                    it.isCurrent = true
+                }
+            }
+
             mDownList.addAll(it.list)
             if (longOnclick) {
                 mDownList.forEach { it.delete="1" }

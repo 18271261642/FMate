@@ -51,6 +51,7 @@ import kotlinx.android.synthetic.main.activity_update_zip.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.text.DecimalFormat
+import java.util.*
 import kotlin.system.exitProcess
 
 
@@ -197,7 +198,8 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
             override fun onSUreClick() {
                 cusDufAlert!!.dismiss()
-                JumpUtil.startOTAActivity(instance,Hawk.get("address")
+                var adRes = Hawk.get("address","")
+                JumpUtil.startOTAActivity(instance,adRes.toUpperCase(Locale.CHINA)
                     ,Hawk.get("name")
                     ,mDeviceFirmwareBean.productNumber
                     ,mDeviceFirmwareBean.version
