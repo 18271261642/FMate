@@ -293,11 +293,9 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
                 Log.e("获取本地的表盘","------type=0本地表盘="+"已经选择的表盘id="+currDialId+"    "+marketDialId+"  "+Gson().toJson(it.list[0]));
 
-
-
                 val saveMarketBean = Hawk.get(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
-
-                if(TextUtils.isEmpty(saveMarketBean)){
+                Log.e("本地表盘第四张", "---1111--序列化对象=$saveMarketBean")
+                if(!TextUtils.isEmpty(saveMarketBean)){
                     val markBean = Gson().fromJson(saveMarketBean,RecommendDialBean.ListDTO.TypeListDTO::class.java)
                     Log.e("本地表盘第四张","-----序列化对象="+Gson().toJson(saveMarketBean))
                     if(markBean != null){

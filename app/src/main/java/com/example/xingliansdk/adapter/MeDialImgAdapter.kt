@@ -86,7 +86,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
 
         Log.e("MeDialImgAdapter","-----是否有市场表盘="+marketDialId)
-        if(marketDialId != -1 && marketDialId == item.dialId){
+        if(marketDialId != -1 && marketDialId == item.dialId.toInt()){
             Log.e("MeDialImgAdapter","-----是否有市场表盘="+Gson().toJson(item))
             Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
         }
@@ -190,6 +190,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                     it.name)
                             }
                         ) {
+                            Log.e("下载表盘写入", "------type=$it")
                             when (it) {
                                 1 -> {
                                     ShowToast.showToastLong("设备存储空间不够")
