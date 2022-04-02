@@ -295,19 +295,25 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 
 
 
-//                val saveMarketBean = Hawk.get(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,RecommendDialBean.ListDTO.TypeListDTO())
-//
-//                Log.e("本地表盘第四张","-----序列化对象="+Gson().toJson(saveMarketBean))
-//
-//                if(marketDialId != -1 && !TextUtils.isEmpty(saveMarketBean.name)){
-//
-//                    it.list[0].typeList.add(3,saveMarketBean)
-//                }
+                val saveMarketBean = Hawk.get(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
+
+                if(TextUtils.isEmpty(saveMarketBean)){
+                    val markBean = Gson().fromJson(saveMarketBean,RecommendDialBean.ListDTO.TypeListDTO::class.java)
+                    Log.e("本地表盘第四张","-----序列化对象="+Gson().toJson(saveMarketBean))
+                    if(markBean != null){
+
+                        if(marketDialId != -1 && !TextUtils.isEmpty(markBean.name)){
+                            it.list[0].typeList.add(3,markBean)
+                        }
+                    }
+                }
+
+
 
                 it.list[0].typeList.forEach {
                     if(it.dialId == currDialId || (currDialId == 65535 && it.dialId == 0)){
                         it.stateCode = 1
-                        it.state = "当前"
+                        it.state = "当前表盘"
                         it.isCurrent = true
                     }
                 }
@@ -333,7 +339,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 if(currDialId == it.dialId){
                     it.isCurrent = true
                     it.stateCode = 1
-                    it.state = "当前"
+                    it.state = "当前表盘"
                     it.isCurrent = true
                 }
             }

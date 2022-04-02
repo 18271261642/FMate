@@ -1,6 +1,7 @@
 package com.example.xingliansdk.adapter
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -72,6 +73,24 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         if (item == null) {
             return
         }
+
+        //当前的市场表盘，已经下载过，就显示安装或当前表盘
+        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
+        if(currDialId != -1 && currDialId == item.dialId){
+            item.state = "当前表盘"
+            item.isCurrent = true
+
+        }
+
+        //是否有市场表盘
+        val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
+
+        Log.e("MeDialImgAdapter","-----是否有市场表盘="+marketDialId)
+        if(marketDialId != -1 && marketDialId == item.dialId){
+            Log.e("MeDialImgAdapter","-----是否有市场表盘="+Gson().toJson(item))
+            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
+        }
+
         val img = helper.getView<ImageView>(R.id.imgDial)
         val tvInstall = helper.getView<TextView>(R.id.tvInstall)
         val tvName = helper.getView<TextView>(R.id.tvName)
@@ -207,7 +226,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                             kotlin.runCatching {
                                                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
 
-                                                Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,item)
+                                                Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item))
 
                                                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,item.dialId)
 

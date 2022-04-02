@@ -105,6 +105,8 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         onSportMessageListener.onSignalChanged(0);
 
         // 判断GPS模块是否开启，如果没有则开启
+        if(getView() == null)
+            return;
         if (!GPSUtil.isGpsEnable((Context) getView())) {
             view.onUpdateGpsSignal(SIGNAL_GPS_OFF);
         }
@@ -445,6 +447,15 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                 if (baseSportData == null  ) {
                     onCallSaveSportDataStatusChange(CODE_ERROR);
                 } else {
+
+                    if(getView() == null)
+                        return;
+
+                    if (!GPSUtil.isGpsEnable((Context) getView())) {
+                        return;
+                    }
+
+
                     LinkedList<SNLocation> locations = mMapHelper.getLocations();
                     LoginBean loginBean = Hawk.get(Config.database.USER_INFO);
                     if(loginBean == null)
@@ -527,9 +538,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     hashMap.put("heartRateData",new Gson().toJson(heartList));
 
 
-                    if (!GPSUtil.isGpsEnable((Context) getView())) {
-                       return;
-                    }
+
 
                     Call   bean=mapViewApi.motionInfoSave(hashMap);
                     bean.enqueue(new Callback<BaseData>() {

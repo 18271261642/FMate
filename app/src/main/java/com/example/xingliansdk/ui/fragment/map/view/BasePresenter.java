@@ -18,6 +18,8 @@ public abstract class BasePresenter<V>{
     }
 
     protected V getView() {
+        if(mViewRef == null)
+            return null;
         return mViewRef.get(); //获取View
     }
 

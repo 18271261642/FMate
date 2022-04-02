@@ -61,12 +61,51 @@
                 android:src="@mipmap/icon_gps_1" />
         </LinearLayout>
 
+
         <FrameLayout
-            android:id="@+id/mMapContent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/conBottom"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/mMapContent"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toTopOf="@+id/conBottom"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/noGpsMapLayout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="260dp"
+                android:padding="10dp"
+                android:layout_height="160dp"
+                android:background="@drawable/black_shap">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="当前运动未开启手机定位，建议开启定位权限，可以查看运动轨迹哦"/>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
 
         <ImageView
             android:id="@+id/tvTest"

@@ -33,10 +33,7 @@ import com.example.xingliansdk.ui.fragment.map.view.RunningPresenterImpl
 import com.example.xingliansdk.ui.fragment.service.OnSensorStepListener
 import com.example.xingliansdk.ui.fragment.service.SensorImpl
 import com.example.xingliansdk.utils.*
-import com.example.xingliansdk.view.DateUtil
-import com.example.xingliansdk.view.OnSlideUnlockCallback
-import com.example.xingliansdk.view.PressView
-import com.example.xingliansdk.view.SlideUnlockView
+import com.example.xingliansdk.view.*
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -89,6 +86,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     var pace: String? = null
     var averageSpeed: String? = null
 
+    //没有打开GPS时的提示框
+    private var noGpsDialog : NotGpsDialogView ?= null
 
 
     override fun layoutId() = R.layout.include_map
@@ -131,7 +130,14 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                     mPresenter?.requestWeatherData()
                     mPresenter?.requestMapFirstLocation()
                     mPresenter?.initDefaultValue()
+
+                    noGpsMapLayout.visibility = View.GONE
+
                 }else{
+
+                    noGpsMapLayout.visibility = View.VISIBLE
+
+                   // showNoGpsView()
                     stepService?.startToSensorSport()
                     val sensorImpl = SensorImpl()
                 }
@@ -153,8 +159,17 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
 
         //获取传感器权限
-        XXPermissions.with(this).permission(Manifest.permission.BODY_SENSORS).request { _, _ -> }
+        //XXPermissions.with(this).permission(Manifest.permission.BODY_SENSORS).request { _, _ -> }
 
+    }
+
+
+
+    private fun showNoGpsView(){
+        if(noGpsDialog == null)
+            noGpsDialog = NotGpsDialogView(this,R.style.edit_AlertDialog_style)
+        noGpsDialog!!.show()
+        noGpsDialog!!.setCancelable(false)
     }
 
     private fun initStatusView() {

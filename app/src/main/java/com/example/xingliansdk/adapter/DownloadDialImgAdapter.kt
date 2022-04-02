@@ -17,6 +17,7 @@ import com.example.xingliansdk.utils.FileUtils
 import com.example.xingliansdk.utils.ImgUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.example.xingliansdk.view.DownloadProgressButton
+import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
@@ -128,7 +129,7 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
 
                         Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
 
-                        Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,item)
+                        Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item))
 
                         BleWrite.writeDialWriteAssignCall(
                             item.let {

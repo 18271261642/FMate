@@ -345,10 +345,14 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         //  String avgSpeed = baseSportData.speedAvg+"";
         //平均速度 米/秒
         //  String avgSpeed = baseSportData.speedAvg+"";
-        val disC = amapSportBean?.distance?.toDouble()
+        var disC = amapSportBean?.distance?.toDouble()
         //时长
         val countTimeL = getAnalysisTime()
-        val avgSpeed: Double = Utils.divi(Utils.mul(disC,1000.0) ,countTimeL.toDouble(),2)
+
+        if(disC == null)
+            disC = 0.0
+
+        val avgSpeed: Double = Utils.divi(disC.toDouble() ,countTimeL.toDouble(),2)
         amapSportBean?.averageSpeed = Utils.mul(avgSpeed,3.6).toString()
 
         val paceStr = disC?.let { Utils.divi(countTimeL.toDouble(), it.toDouble(),2) }
@@ -433,7 +437,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                     userHeight = 170
 
                 //计算距离
-                val currDistance = Utils.divi((countSTep * userHeight * 0.46 ),100000.0,2)
+                val currDistance = Utils.divi((countSTep * userHeight * 0.46 ),1000 * 100.0,2)
                 //卡路里
                 //跑步热量（kcal）＝体重（kg）×距离（公里）×K（运动系数
 
@@ -450,7 +454,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                 //当前步数
                 amapSportBean?.currentSteps = countSTep;
 
-                //距离
+                //距离 米
                 amapSportBean?.distance   = decimal.format(currDistance * 1000).toString()
                 //卡路里
                 amapSportBean?.calories = decimal.format(currKcal).toString()
