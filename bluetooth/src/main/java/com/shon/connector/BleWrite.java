@@ -58,6 +58,7 @@ import com.shon.connector.call.write.controlclass.BloodPressureSwitchCall;
 import com.shon.connector.call.write.controlclass.TemperatureSwitchCall;
 import com.shon.connector.call.write.deviceclass.FlashGetFeaturesCall;
 import com.shon.connector.call.write.deviceclass.UUIDBindCall;
+import com.shon.connector.call.write.dial.DialDeleteCall;
 import com.shon.connector.call.write.dial.DialDesignatedCall;
 import com.shon.connector.call.write.dial.DialGetAssignCall;
 import com.shon.connector.call.write.dial.DialWriteAssignCall;
@@ -1173,6 +1174,18 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.setWriteType(type);
         write.enqueue(new DialWriteAssignCall(address,mDialCustomBean,mInterface));
     }
+
+
+    //删除表盘
+    public static void writeDeleteDialCall(long dialId,DialWriteInterface mInterface){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(true);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.setWriteType(1);
+        write.enqueue(new DialDeleteCall(address,mInterface,dialId));
+    }
+
 
 
     public interface DialWriteInterface {

@@ -75,7 +75,7 @@ public class DialWriteAssignCall extends WriteCallback {
 
     @Override
     public boolean process(String address, byte[] result, String uuid) {
-        TLog.Companion.error("res==" + ByteUtil.getHexString(result));
+        TLog.Companion.error("写入表盘res==" + ByteUtil.getHexString(result));
         if (!uuid.equalsIgnoreCase(Config.readCharacter))
             return false;
         if (result[8] == Config.Expand.COMMAND && result[9] == Config.Expand.DEVICE_ACK) {

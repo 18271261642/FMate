@@ -2,8 +2,10 @@ package com.example.xingliansdk.ui.setting.flash
 
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
+import android.util.Log
 import com.amap.api.mapcore.util.id
 import com.example.xingliansdk.Config.eventBus.*
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.bean.FlashBean
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DetailDialViewApi
@@ -178,6 +180,9 @@ public class FlashCallback(
 //   var errorNum=0
     //返回监听处理
     override fun process(address: String?, result: ByteArray, uuid: String?): Boolean {
+
+        Log.e("FlashCall","---------flash监听回调="+address+" result="+HexDump.bytesToString(result)+"\n"+uuid)
+
         //处理 4096 返回的数据
         if (result[8] == Config.Flash.KEY && result[9] == Config.Flash.DEVICE_FLASH_OK_UPDATE) {
             when (result[10]) {
@@ -282,6 +287,14 @@ public class FlashCallback(
         }
 //        TLog.error("发出去之前的byte=="+ByteUtil.getHexString(bytes))
         val setValue = characteristic.setValue(bytes)
+
+        //没有在同步表盘了，表盘强制退出了
+        if(XingLianApplication.mXingLianApplication.getIsSyncWriteDial()){
+            setEventProgress(-1,-1)
+            ShowToast.showToastLong("更新失败")
+            return
+        }
+
         if (setValue) {
             gatt.writeCharacteristic(characteristic)
         }

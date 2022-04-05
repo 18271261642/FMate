@@ -1,23 +1,40 @@
 package com.example.xingliansdk.ui.problemsFeedback
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.helpView.HelpViewModel
-import com.example.xingliansdk.utils.AppUtils
-import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
-import com.example.xingliansdk.utils.ThreadUtils
+import com.example.xingliansdk.pictureselector.GlideEngine
+import com.example.xingliansdk.utils.*
+import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.XXPermissions
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
 import com.shon.connector.utils.TLog
+import kotlinx.android.synthetic.main.activity_device_information.*
 import kotlinx.android.synthetic.main.activity_problems_feedback.*
+import kotlinx.android.synthetic.main.activity_problems_feedback.titleBar
+import java.util.jar.Manifest
 
 /**
  * 问题与反馈
  */
 class ProblemsFeedbackActivity : BaseActivity<HelpViewModel>(),View.OnClickListener {
+
+    var feedAddImgAdapter : FeedAddImgAdapter ?= null
+    val addList = arrayListOf<String>()
+
+    private var localAddImgUrl :String ?= null
+
+
     override fun layoutId()=R.layout.activity_problems_feedback
     var type =1
     override fun initView(savedInstanceState: Bundle?) {
@@ -27,7 +44,54 @@ class ProblemsFeedbackActivity : BaseActivity<HelpViewModel>(),View.OnClickListe
         tvFeedback.setOnClickListener(this)
         tvSuggestion.setOnClickListener(this)
         tvSure.setOnClickListener(this)
+
+
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),0x01)
+        //XXPermissions.with(this).permission(android.Manifest.permission.READ_EXTERNAL_STORAGE).request { permissions, all ->  }
+
+
+        localAddImgUrl = ("+"+resources.getDrawable(R.drawable.icon_feedback_add))
+
+        addList.add(localAddImgUrl!!)
+
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        feedBackRecyclerView.layoutManager = linearLayoutManager
+
+        feedAddImgAdapter = FeedAddImgAdapter(addList,this)
+        feedBackRecyclerView.adapter = feedAddImgAdapter
+
+        feedAddImgAdapter!!.setAddFeedBackListener {
+            if(addList.size>4)
+                return@setAddFeedBackListener
+
+            if(!addList[it].contains("+")){
+                return@setAddFeedBackListener
+            }
+            selectLocalImg();
+        }
     }
+
+    fun selectLocalImg(){
+        PictureSelector.create(this)
+            .openGallery(PictureMimeType.ofImage())
+            .imageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
+            .maxSelectNum(1)
+            .isAndroidQTransform(true)// 是否需要处理Android Q 拷贝至应用沙盒的操作，只针对compress(false); && .isEnableCrop(false);有效,默认处理
+            .selectionMode(PictureConfig.SINGLE)
+            .isPreviewImage(true)//是否可预览图片
+            .isEnableCrop(true)//是否裁剪
+            .withAspectRatio(1, 1)
+            .circleDimmedLayer(true)// 是否圆形裁剪
+            .showCropFrame(false)// 是否显示裁剪矩形边框
+            .showCropGrid(false)// 是否显示裁剪矩形网格
+            .scaleEnabled(false)//是否可缩放
+            .setOutputCameraPath(PictureMimeType.PNG)
+            .imageFormat(PictureMimeType.PNG_Q)
+            .forResult(PictureConfig.CHOOSE_REQUEST)
+    }
+
+
 
     override fun createObserver() {
         super.createObserver()
@@ -78,5 +142,37 @@ class ProblemsFeedbackActivity : BaseActivity<HelpViewModel>(),View.OnClickListe
                 mViewModel.saveFeedback(hashMap)
              }
          }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                PictureConfig.CHOOSE_REQUEST -> {
+
+                    Log.e("","-------list="+Gson().toJson(addList))
+
+                    localAddImgUrl = ("+"+resources.getDrawable(R.drawable.icon_feedback_add))
+                    // 图片选择结果回调
+                    val selectList = PictureSelector.obtainMultipleResult(data)
+                    //ImgUtil.loadHead(imgHead, selectList[0].cutPath.toString())
+                    val mImagePaths = selectList[0].cutPath.toString()
+                    //     Hawk.put(Config.database.IMG_HEAD, mImagePaths?.get(0))
+                   // imgCheck = true
+                    if(addList.size<4){
+                        addList.add(addList.size-1,mImagePaths)
+                      //  addList.add(addList.size,localAddImgUrl.toString())
+                        feedBackTvNumber.setText((addList.size-1).toString()+"/"+"4")
+                    }else{
+                        addList.removeAt(3)
+                        addList.add(3,mImagePaths)
+                        feedBackTvNumber.setText("4/4")
+                    }
+                    feedAddImgAdapter?.notifyDataSetChanged()
+
+                }
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.TestViewApi
 import com.example.xingliansdk.bean.FlashBean
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DetailDialViewApi
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
@@ -138,6 +139,13 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         }
         itemDownload?.setOnClickListener {
             ThreadUtils.runOnUiThread {
+
+            if(BleConnection.iFonConnectError){
+                ShowToast.showToastLong("蓝牙未连接，请先连接设备!")
+                return@runOnUiThread
+            }
+
+
             if(item.stateCode==1) {
                 return@runOnUiThread
             }
@@ -193,6 +201,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                             Log.e("下载表盘写入", "------type=$it")
                             when (it) {
                                 1 -> {
+                                    DialMarketActivity.downStatus =false
                                     ShowToast.showToastLong("设备存储空间不够")
                                 }
                                 2 -> {
@@ -212,8 +221,11 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                                 startByte,
                                                 keyData , Config.eventBus.DIAL_IMG_RECOMMEND_INDEX,helper.adapterPosition,item?.dialId
                                             )
-                                        } else
+                                        } else{
+                                            DialMarketActivity.downStatus =false
                                             ShowToast.showToastLong("不支持擦写FLASH数据")
+                                        }
+
                                     }
                                 }
                                 3 -> {

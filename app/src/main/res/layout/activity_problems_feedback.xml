@@ -101,25 +101,24 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="24dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="30dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="0dp"
+                            android:id="@+id/feedBackRecyclerView"
+                            android:layout_width="match_parent"
                             android:layout_height="80dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tvNumber"
+                            android:id="@+id/feedBackTvNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0/4"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/feedBackRecyclerView"
                             app:layout_constraintRight_toRightOf="parent"
 
                             />

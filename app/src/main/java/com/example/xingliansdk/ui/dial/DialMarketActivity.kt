@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.ext.bindViewPager2
@@ -37,10 +38,10 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
     private var alertDialog : AlertDialog.Builder ?=null
 
 
-
-
-
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        XingLianApplication.mXingLianApplication.setIsSyncWriteDial(false)
+    }
 
     override fun layoutId()=R.layout.activity_dial_market
     override fun initView(savedInstanceState: Bundle?) {
@@ -100,6 +101,9 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
         alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
         alertDialog!!.setPositiveButton("确定"
         ) { p0, p1 ->
+            downStatus = false
+
+            XingLianApplication.mXingLianApplication.setIsSyncWriteDial(true)
             p0.dismiss()
             finish()
         }.setNegativeButton("取消"

@@ -18,6 +18,7 @@ import com.example.xingliansdk.bean.FlashBean
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.bean.room.CustomizeDialBean
 import com.example.xingliansdk.bean.room.CustomizeDialDao
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DownDialModel
@@ -27,6 +28,7 @@ import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.ShowToast
 import com.google.gson.Gson
+import com.luck.picture.lib.tools.ToastUtils
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.orhanobut.hawk.Hawk
@@ -181,6 +183,8 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             when (view.id) {
                 R.id.imgDial,
                 R.id.tvInstall -> {
+
+
                     if (DialMarketActivity.downStatus) {
                         ShowToast.showToastLong("有表盘正在安装,请安装完成再次点击")
                         return@setOnItemChildClickListener
@@ -306,8 +310,6 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     }
                 }
 
-
-
                 it.list[0].typeList.forEach {
                     if(it.dialId == currDialId || (currDialId == 65535 && it.dialId == 0)){
                         it.stateCode = 1
@@ -390,21 +392,32 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 var data = event.data as FlashBean
                 TLog.error("-----DIAL_IMG_RECOMMEND_INDEX"+" data="+data.toString())
 
+                //处理断开逻辑
+                val isConnDevice = BleConnection.iFonConnectError
+
                 mDownList.forEachIndexed { index, typeListDTO ->
 
                     Log.e("操作完成更改状态","-------更改状态="+index+" 详情="+Gson().toJson(typeListDTO))
 
                     if (typeListDTO.dialId == data.id) {
+
+                        if(isConnDevice){
+                            typeListDTO.state = "连接已断开"
+                            ToastUtils.s(context,"连接已断开")
+                            downAdapter.notifyItemChanged(index, typeListDTO)
+                            return
+                        }
+
                         typeListDTO.progress
                         var currentProcess =
                             (data.currentProgress.toDouble() / data.maxProgress * 100).toInt()
                         typeListDTO.progress = currentProcess.toString()
 
                         Log.e(tags,"---------更新状态="+isSyncDial)
-
-                        if(isSyncDial){
-                            downAdapter.notifyItemChanged(index, typeListDTO)
-                        }
+                        downAdapter.notifyItemChanged(index, typeListDTO)
+//                        if(isSyncDial){
+//                            downAdapter.notifyItemChanged(index, typeListDTO)
+//                        }
 
                     }
                 }
@@ -441,6 +454,22 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 dialogContent?.text = "是否删除该表盘？"
                 dialogSet?.setOnClickListener {
                     if (type == DOWN_DELETE_TYPE) {
+                        val deleteDialId = mDownList[position].dialId
+
+                        //当前显示的表盘id
+                        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0).toInt()
+
+                        BleWrite.writeDeleteDialCall(deleteDialId.toLong()
+                        ) {
+                            if(currDialId == deleteDialId && it == 0x02){
+                                //是否有市场表盘
+                                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
+                                //清除当前显示的市场表盘bean
+                               Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
+                            }
+
+                        }
+
                         mViewModel.deleteMyDial(mDownList[position].dialId.toString())
                         mDownList.removeAt(position)
                         downAdapter.notifyItemRemoved(position)

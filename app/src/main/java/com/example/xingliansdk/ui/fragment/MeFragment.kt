@@ -16,6 +16,7 @@ import com.example.test.TestNetActivity
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.MeImgAdapter
 import com.example.xingliansdk.base.fragment.BaseFragment
 import com.example.xingliansdk.bean.DeviceFirmwareBean
@@ -223,6 +224,12 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     ShowToast.showToastLong("蓝牙设备未连接,请连接蓝牙设备")
                     return
                 }
+
+                if(!XingLianApplication.mXingLianApplication.getDeviceConnStatus()){
+                    ShowToast.showToastLong("蓝牙设备未连接,请连接蓝牙设备")
+                    return
+                }
+
                 getInformationPermissions(requireActivity(), object : CallBack {
                     override fun next() {
                         JumpUtil.startMyDeviceActivity(activity, electricity)

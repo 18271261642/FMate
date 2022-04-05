@@ -91,4 +91,18 @@ public class DialCustomBean {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    @Override
+    public String toString() {
+        return "DialCustomBean{" +
+                "uiFeature=" + uiFeature +
+                ", binSize=" + binSize +
+                ", color=" + color +
+                ", function=" + function +
+                ", location=" + location +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -84,8 +84,11 @@ class XingLianApplication : BaseApp() {
 
         private var sendWeatherService : SendWeatherService ? = null
 
+        //用于判断是否是连接状态
+        private var isConnected = false
 
-        //用于判断是否正在同步表盘
+        //正在同步表盘中是否强制退出，强制退出后停止同步表盘
+        private var isForceDial = false;
 
 
         //监听时间变化的广播
@@ -312,4 +315,24 @@ class XingLianApplication : BaseApp() {
         stopService(intent)
         unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks)
     }
+
+
+    //设置连接状态
+    public fun setDeviceConnectedStatus(isConnStatus : Boolean){
+        isConnected = isConnStatus
+    }
+    //获取连接状态
+    public fun getDeviceConnStatus(): Boolean {
+        return isConnected
+    }
+
+    //设置是否正在同步表盘
+    public fun setIsSyncWriteDial(isSync : Boolean){
+        isForceDial = isSync
+    }
+    //获取是否正在同步表盘
+    fun getIsSyncWriteDial(): Boolean {
+        return isForceDial
+    }
+
 }

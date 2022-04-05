@@ -126,7 +126,6 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
                     override fun onDownLoadSuccess() {
                         itemDownload.currentText = "更新中..."
 
-
                         Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
 
                         Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item))

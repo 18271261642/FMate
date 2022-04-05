@@ -9,6 +9,7 @@ import android.os.*
 import com.example.xingliansdk.Config.database
 import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.Config.eventBus.*
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.XingLianApplication.Companion.mXingLianApplication
 import com.example.xingliansdk.bean.MessageBean
 import com.example.xingliansdk.broadcast.BleBroadcastReceiver
@@ -163,6 +164,10 @@ object BleConnection {
                         TLog.error("==="+Hawk.get(DEVICE_OTA, false))
                         return
                     }
+
+                    //设置连接失败状态
+                    mXingLianApplication.setDeviceConnectedStatus(false)
+
                     BLEManager.getInstance().disconnectDevice(address)
                     iFonConnectError = true
                     Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=true")
@@ -222,6 +227,7 @@ object BleConnection {
                     if (result) {
                         //打开广播接收监听
                         intReceiver()
+                        mXingLianApplication.setDeviceConnectedStatus(true)
                         iFonConnectError = false
                         Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
                         Unbind = false
