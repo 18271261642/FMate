@@ -85,6 +85,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
        // if (Hawk.get<Int>(SLEEP_GOAL) != null)
            // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
 
+        imgDevice?.alpha = 0.5f
+
         setImgHead()
         setAdapter()
 

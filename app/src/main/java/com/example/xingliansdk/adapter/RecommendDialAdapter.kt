@@ -65,6 +65,13 @@ class RecommendDialAdapter(data: MutableList<RecommendDialBean.ListDTO>) :
             val meDialImgAdapter: MeDialImgAdapter = adapterList["" + 1]!!
             listDTO.typeList.forEachIndexed { innerIndex, typeListDTO ->
                 if (typeListDTO.dialId == bean.id) {
+                    if(bean.maxProgress == -2){ //强制退出或断开连接
+                        typeListDTO.state = "安装"
+                        listDTO.typeList[innerIndex] = typeListDTO
+                        meDialImgAdapter?.notifyItemChanged(innerIndex, typeListDTO)
+                        return
+                    }
+
                     var currentProcess =
                         (bean.currentProgress.toDouble() / bean.maxProgress * 100).toInt()
                     typeListDTO.progress = "" + currentProcess

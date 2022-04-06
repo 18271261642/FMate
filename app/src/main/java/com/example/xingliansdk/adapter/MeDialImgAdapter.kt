@@ -75,14 +75,6 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
             return
         }
 
-        //当前的市场表盘，已经下载过，就显示安装或当前表盘
-        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
-        if(currDialId != -1 && currDialId == item.dialId){
-            item.state = "当前表盘"
-            item.isCurrent = true
-
-        }
-
         //是否有市场表盘
         val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
 
@@ -91,6 +83,21 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
             Log.e("MeDialImgAdapter","-----是否有市场表盘="+Gson().toJson(item))
             Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
         }
+
+        //当前的市场表盘，已经下载过，就显示安装或当前表盘
+        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
+        if(currDialId != -1 && currDialId == item.dialId){
+            item.state = "当前表盘"
+            item.isCurrent = true
+            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
+            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId);
+
+        }else{
+            item.state = "安装"
+            item.isCurrent = false
+        }
+
+
 
         val img = helper.getView<ImageView>(R.id.imgDial)
         val tvInstall = helper.getView<TextView>(R.id.tvInstall)
@@ -229,6 +236,10 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                                     }
                                 }
                                 3 -> {
+
+
+                                    Log.e("下载表----","-----下载成功---------")
+
                                  //   ShowToast.showToastLong("设备已经有存储这个表盘")
                                 //    SNEventBus.sendEvent(Config.eventBus.DIAL_IMG_RECOMMEND_INDEX, FlashBean(1, 1,helper.adapterPosition,item?.dialId))
                                         var hasMap = HashMap<String, String>()

@@ -7,6 +7,7 @@ import com.amap.api.mapcore.util.id
 import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.bean.FlashBean
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DetailDialViewApi
 import com.example.xingliansdk.utils.ShowToast
@@ -289,9 +290,9 @@ public class FlashCallback(
         val setValue = characteristic.setValue(bytes)
 
         //没有在同步表盘了，表盘强制退出了
-        if(XingLianApplication.mXingLianApplication.getIsSyncWriteDial()){
-            setEventProgress(-1,-1)
-            ShowToast.showToastLong("更新失败")
+        if(XingLianApplication.mXingLianApplication.getIsSyncWriteDial() || BleConnection.iFonConnectError){
+            setEventProgress(-1,-2)
+          //  ShowToast.showToastLong("更新失败")
             return
         }
 

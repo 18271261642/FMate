@@ -332,17 +332,34 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         {
             mDownList.clear()
             TLog.error("获取已下载表盘返回","--------result it==" + Gson().toJson(it))
-            if (it == null || it.list == null || it.list.size <= 0)
+            if (it == null || it.list == null || it.list.size <= 0){
+                //是否有市场表盘
+                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
+                Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
                 return@observe
+            }
+
+
             val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
             it.list.forEach {
                 if(currDialId == it.dialId){
+
+                    Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,it.dialId)
+                    Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(it))
+
                     it.isCurrent = true
                     it.stateCode = 1
                     it.state = "当前表盘"
                     it.isCurrent = true
                 }
             }
+
+            //只有一个已下载表盘，就保存到已下载的本地表盘中去
+            if(it.list.size == 1){
+                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,it.list[0].dialId)
+                Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(it.list[0]))
+            }
+
 
             mDownList.addAll(it.list)
             if (longOnclick) {

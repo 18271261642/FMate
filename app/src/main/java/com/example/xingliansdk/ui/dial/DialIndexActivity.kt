@@ -120,6 +120,19 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
                     AppActivityManager.getInstance().finishActivity(DialMarketActivity::class.java)
                     return
                 }
+
+                if(data.currentProgress == -1 && data.maxProgress == -2){
+                    mList.forEachIndexed { index, typeListDTO ->
+                        if(typeListDTO.dialId==data.id) {
+
+                            typeListDTO.state = "安装"
+
+                            mMeDialImgAdapter.notifyItemChanged(index,typeListDTO)
+                        }
+                    }
+                    return
+                }
+
                 mList.forEachIndexed { index, typeListDTO ->
                     if(typeListDTO.dialId==data.id) {
                         typeListDTO.progress

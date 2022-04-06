@@ -190,6 +190,19 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
                     activity?.finish()
                     return
                 }
+
+                if(data.currentProgress == -1 && data.maxProgress == -2){
+                   data.maxProgress = -2
+                    if(Constants.isDialSync){
+                        downStatus = false
+                        mRecommendDialAdapter.updateProgress(data)
+                    }
+                    return
+                }
+
+
+
+
                 if (data.currentProgress == 1 && data.maxProgress == 1)//完成下载标识
                 {
                     downStatus = false
@@ -202,6 +215,7 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
             }
             DEVICE_BLE_OFF,
             Config.eventBus.DEVICE_DISCONNECT -> {
+                downStatus = false
                 activity?.finish()
             }
 
