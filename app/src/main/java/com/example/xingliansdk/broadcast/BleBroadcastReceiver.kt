@@ -194,6 +194,7 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                             RecommendDialViewApi.mRecommendDialViewApi.checkDialSate(Gson().toJson(setList))
                         }.onSuccess {
                             TLog.error("BLEBROAD  效验id+"+type)
+                            //当前表盘
                             Hawk.put(Config.SAVE_DEVICE_CURRENT_DIAL,type)
                             SNEventBus.sendEvent(DEVICE_DIAL_ID, type)
                         }.onFailure {

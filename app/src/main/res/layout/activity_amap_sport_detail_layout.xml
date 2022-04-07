@@ -16,6 +16,11 @@
         app:iconActionImage="@mipmap/icon_share"
         android:layout_height="?actionBarSize"/>
 
+    <View
+        android:id="@+id/shareTmpView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/amapDetailSV"
         android:layout_width="match_parent"

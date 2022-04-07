@@ -1,5 +1,7 @@
 package com.example.xingliansdk.ui.setting
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,8 @@ import com.example.xingliansdk.viewmodel.MainViewModel
 import com.github.iielse.switchbutton.SwitchView
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_inf_remind.*
 import kotlinx.android.synthetic.main.activity_inf_remind.titleBar
@@ -53,7 +57,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         TLog.error("mList+="+Gson().toJson(userInfo.userConfig))
         TLog.error("存储以后取++"+Hawk.get<ArrayList<RemindConfig.Apps> >("RemindList"))
         setAdapter()
-
+        getPermission()
     }
     private  fun onState()
     {
@@ -144,6 +148,21 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
                     Hawk.put("RemindList", mList)
                     TLog.error("=${Gson().toJson(mList[position])}")
                 }
+            }
+        }
+    }
+
+
+    private fun getPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            XXPermissions.with(this).permission(Manifest.permission_group.CONTACTS,Manifest.permission_group.PHONE).request { permissions, all ->
+                TODO("Not yet implemented")
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            XXPermissions.with(this).permission(Manifest.permission.ANSWER_PHONE_CALLS).request{ permissions, all ->
+                TODO("Not yet implemented")
             }
         }
     }

@@ -71,7 +71,6 @@
             <FrameLayout
                 android:id="@+id/mMapContent"
                 android:layout_width="match_parent"
-
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/conBottom"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +85,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="260dp"
                 android:padding="10dp"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/black_shap">
 
 

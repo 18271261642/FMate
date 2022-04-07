@@ -88,7 +88,8 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
     private  var heartList: ArrayList<Int> = arrayListOf()
     //时间，从运动页面传递过来
     private var countSportTime : String ?= null
-
+    //运动类型，运动页面传递过来的
+    private var sportType : Int ?= null
 
     //用于最后上传bean
     private var amapSportBean : AmapSportBean ? = null
@@ -124,9 +125,10 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
     }
 
 
-    public fun setStopParams(htList : MutableList<Int>,sportTime : String){
+    public fun setStopParams(htList : MutableList<Int>,sportTime : String,type : Int){
         this.heartList = htList as ArrayList<Int>
         this.countSportTime = sportTime
+        this.sportType = type
     }
 
     inner class StepBinder : Binder() {
@@ -253,21 +255,21 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         sensorManager!!.registerListener(this,stepSensors,SensorManager.SENSOR_DELAY_FASTEST)
         sensorManager!!.registerListener(this,detectorSensor,SensorManager.SENSOR_DELAY_FASTEST)
 
-//        if (countSensor != null) {
-//            stepSensor = 0
-//            sensorManager!!.registerListener(
-//                this@StepService,
-//                countSensor,
-//                SensorManager.SENSOR_DELAY_NORMAL
-//            )
-//        } else  if (detectorSensor != null) {
-//            stepSensor = 1
-//            sensorManager!!.registerListener(
-//                this@StepService,
-//                detectorSensor,
-//                SensorManager.SENSOR_DELAY_NORMAL
-//            )
-//        }
+        if (countSensor != null) {
+            stepSensor = 0
+            sensorManager!!.registerListener(
+                this@StepService,
+                countSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        } else  if (detectorSensor != null) {
+            stepSensor = 1
+            sensorManager!!.registerListener(
+                this@StepService,
+                detectorSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
     }
 
 
@@ -330,7 +332,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
         val sType = Hawk.get(Config.database.AMAP_SPORT_TYPE,1)
 
-        amapSportBean?.sportType = sType
+        amapSportBean?.sportType = sportType!!
         amapSportBean?.mapType = 1
         amapSportBean?.endSportTime = Utils.getCurrentDate1()
 
@@ -369,7 +371,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         val hashMap = HashMap<String, Any>()
         hashMap["positionData"] = Gson().toJson(latList)
         hashMap["createTimeStamp"] =System.currentTimeMillis() / 1000
-        hashMap["type"] = 1
+        hashMap["type"] = sportType.toString()
         hashMap["distance"] = amapSportBean?.distance.toString()
         hashMap["motionTime"] = getAnalysisTime()
         hashMap["calorie"] = amapSportBean?.calories.toString()

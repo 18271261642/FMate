@@ -110,9 +110,9 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,id.toInt())
 
                     BleWrite.writeDialDesignatedCall(id, this)
-                    if(mList[position].dialId == 65535 || mList[position].dialId == 0){
-                        return@setOnItemChildClickListener
-                    }
+//                    if(mList[position].dialId == 65535 || mList[position].dialId == 0){
+//                        return@setOnItemChildClickListener
+//                    }
 
                     hasMapMeUpdate = HashMap()
                     hasMapMeUpdate["dialId"] = mList[position].dialId.toString()
@@ -305,8 +305,12 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     if(markBean != null){
 
                         if(marketDialId != -1 && !TextUtils.isEmpty(markBean.name)){
+                            if(it.list[0].typeList.size>=5){
+                                it.list[0].typeList.removeAt(3)
+                            }
                             it.list[0].typeList.add(3,markBean)
                         }
+
                     }
                 }
 

@@ -1,6 +1,9 @@
 package com.example.xingliansdk.utils;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class FileUtil {
 
@@ -125,4 +128,30 @@ public class FileUtil {
         }
         return true;
     }
+
+
+    public static File writeImage(Bitmap bitmap, File f, int quality) {
+        try {
+
+            if (bitmap != null) {
+                FileOutputStream fos;
+                try {
+                    fos = new FileOutputStream(f);
+                    //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 70, fos);
+                    fos.flush();
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return f;
+    }
+
+
 }

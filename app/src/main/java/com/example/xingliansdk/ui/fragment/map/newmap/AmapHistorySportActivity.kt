@@ -3,6 +3,7 @@ package com.example.xingliansdk.ui.fragment.map.newmap
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
@@ -11,6 +12,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocation
@@ -118,6 +120,10 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
     //平均速度
     private var itemAmapSportSpeedTv: TextView? = null
 
+    //判断是否是GPS运动，GPS运动有轨迹展示，
+    private var isGpsSport : Boolean ?= null
+
+
     private lateinit var hartsHrr: LineChart
     private lateinit var mList: ArrayList<Int>
     companion object {
@@ -162,10 +168,12 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
                 Gson().fromJson<List<LatLng>>(latStr, object : TypeToken<List<LatLng?>?>() {}.type)
 
             if(latLngList == null || latLngList.size == 1){
+                isGpsSport = false
                 cusMapContainerView?.visibility = View.GONE
                 return
             }
 
+            isGpsSport = true
 
             //  List<LatLng> latLngList = getLanList(traceLocationList);
 
@@ -353,6 +361,25 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
 
             override fun onActionImageClick() {
                 ShowToast.showToastLong("图片生成中...")
+
+
+            if(isGpsSport == false){
+                   var bitmap = getFullScreenBitmap(amapDetailSV!!)
+
+                val bm: Bitmap? = amapDetailSV?.let { AppUtils.getBitmapByView(it) }
+                  var allBitmap = FileUtils.combineBitmap(bm, bitmap)
+                lifecycleScope.launch {
+                    val saveFile = bm?.let { saveFile(allBitmap, fileName) }
+                    if (saveFile == true){
+                        var intent = Intent(this@AmapHistorySportActivity, ImgShareActivity::class.java)
+                        startActivity(intent)
+                        hideWaitDialog()
+                    }
+                }
+                return
+            }
+
+
                 aMap?.getMapScreenShot(object : OnMapScreenShotListener,
                     AMap.OnMapScreenShotListener {
                     override fun onMapScreenShot(bitmap: Bitmap?) {
@@ -843,4 +870,47 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             }
         }
     }
+
+
+    /**
+     * 获取长截图
+     *
+     * @return
+     */
+    fun getFullScreenBitmap(scrollVew: NestedScrollView): Bitmap? {
+        var h = 0
+        val bitmap: Bitmap
+        for (i in 0 until scrollVew.childCount) {
+            h += scrollVew.getChildAt(i).height
+        }
+        // 创建对应大小的bitmap
+        bitmap = Bitmap.createBitmap(
+            scrollVew.width, h,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE)
+        scrollVew.draw(canvas)
+
+        //获取顶部布局的bitmap
+        val head = Bitmap.createBitmap(
+            shareTmpView.getWidth(), shareTmpView.getHeight(),
+            Bitmap.Config.ARGB_8888
+        )
+        val canvasHead = Canvas(head)
+        canvasHead.drawColor(Color.WHITE)
+        shareTmpView.draw(canvasHead)
+        val newbmp = Bitmap.createBitmap(scrollVew.width, h + head.height, Bitmap.Config.ARGB_8888)
+        val cv = Canvas(newbmp)
+        cv.drawBitmap(head, 0f, 0f, null) // 在 0，0坐标开始画入headBitmap
+        cv.drawBitmap(bitmap, 0f, head.height.toFloat(), null) // 在 0，headHeight坐标开始填充课表的Bitmap
+        cv.save() // 保存
+        cv.restore() // 存储
+        //回收
+        head.recycle()
+        return newbmp
+        // 测试输出
+       // return FileUtil.writeImage(newbmp, FileUtil.getImageFile(FileUtil.getPhotoFileName()), 100)
+    }
+
 }

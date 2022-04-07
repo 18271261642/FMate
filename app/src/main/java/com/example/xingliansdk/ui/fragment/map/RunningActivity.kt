@@ -20,11 +20,8 @@ import com.amap.api.maps.model.LatLng
 import com.example.xingliansdk.ui.fragment.service.StepService
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
-import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.MapMotionBean
-import com.example.xingliansdk.bean.SleepTypeBean
-import com.example.xingliansdk.bean.db.AmapSportBean
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.login.LoginBean
@@ -35,9 +32,7 @@ import com.example.xingliansdk.ui.fragment.service.SensorImpl
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.*
 import com.example.xingliansdk.viewmodel.MainViewModel
-import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
-import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
@@ -54,6 +49,8 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import kotlin.collections.ArrayList
+
+
 
 //运动系数(健走：k=0.8214
 //跑步：k=1.036
@@ -89,6 +86,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //没有打开GPS时的提示框
     private var noGpsDialog : NotGpsDialogView ?= null
 
+    private var mapMotionBean : MapMotionBean ?= null
+
 
     override fun layoutId() = R.layout.include_map
     override fun initView(savedInstanceState: Bundle?) {
@@ -99,6 +98,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         SNEventBus.register(this)
 
         registerReceiver(broadcastReceiver,IntentFilter(Config.database.SENSOR_STEP_ACTION))
+
+        mapMotionBean = intent.getSerializableExtra("MapMotionBean") as MapMotionBean?
 
         setupService()
         //已保存的用户信息，用于判断公英制
@@ -113,6 +114,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         //GPS显示
         llRunningGPS.visibility = View.VISIBLE
         statusAmapOperateLayout.visibility = View.GONE
+
+
+
         CountTimerUtil.start(tvNumberAnim, object : CountTimerUtil.AnimationState {
             override fun start() {
             }
@@ -123,7 +127,11 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 //封面计时器开始计时
                 amapStatusTime.base = SystemClock.elapsedRealtime()
                 amapStatusTime.start()
+
                 initMap(savedInstanceState)
+//                mPresenter?.requestWeatherData()
+//                mPresenter?.requestMapFirstLocation()
+//                mPresenter?.initDefaultValue()
 
                 //GPS未打开，使用传感器计步
                 if(GPSUtil.isGpsEnable(instance)){
@@ -159,7 +167,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
 
         //获取传感器权限
-        //XXPermissions.with(this).permission(Manifest.permission.BODY_SENSORS).request { _, _ -> }
+        XXPermissions.with(this).permission(Manifest.permission.ACCESS_FINE_LOCATION).request { _, _ -> }
 
     }
 
@@ -274,7 +282,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         mPresenter!!.requestRetrySaveSportData()
 
         if(stepService != null && !GPSUtil.isGpsEnable(instance)){
-            stepService?.setStopParams(heartList,chTimer.text.toString())
+            mapMotionBean?.let {
+                stepService?.setStopParams(heartList,chTimer.text.toString(),
+                    it.type)
+            }
             stepService?.stopToSensorSport()
         }
 

@@ -89,12 +89,9 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         if(currDialId != -1 && currDialId == item.dialId){
             item.state = "当前表盘"
             item.isCurrent = true
-            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
-            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId);
+//            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
+//            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId);
 
-        }else{
-            item.state = "安装"
-            item.isCurrent = false
         }
 
 

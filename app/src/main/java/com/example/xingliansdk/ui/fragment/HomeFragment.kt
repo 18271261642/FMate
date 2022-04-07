@@ -754,10 +754,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         TLog.error("unitSystem==" + Gson().toJson(mDeviceInformationBean))
         if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 英里"
-
-
-
-
         } else
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
         //  TLog.error("calories==${data.calories}")

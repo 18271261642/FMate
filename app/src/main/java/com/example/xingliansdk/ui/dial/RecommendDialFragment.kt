@@ -201,8 +201,6 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
                 }
 
 
-
-
                 if (data.currentProgress == 1 && data.maxProgress == 1)//完成下载标识
                 {
                     downStatus = false

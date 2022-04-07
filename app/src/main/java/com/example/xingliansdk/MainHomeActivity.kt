@@ -532,8 +532,14 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
         if(specifySleepSourceBean != null){
             val constanceMils = 946656000L
-            val startTime = specifySleepSourceBean.startTime + constanceMils
-            val endTime = specifySleepSourceBean.endTime + constanceMils
+            var startTime = specifySleepSourceBean.startTime + constanceMils
+            var endTime = specifySleepSourceBean.endTime + constanceMils
+
+            if(startTime < constanceMils)
+                startTime = System.currentTimeMillis()/1000
+            if(endTime < constanceMils)
+                endTime = System.currentTimeMillis()/1000
+
             ServerWeatherViewModel().postSleepSourceServer(specifySleepSourceBean.remark,startTime,endTime,specifySleepSourceBean.avgActive,specifySleepSourceBean.avgHeartRate)
         }
     }

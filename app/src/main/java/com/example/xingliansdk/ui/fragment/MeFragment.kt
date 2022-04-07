@@ -232,11 +232,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     return
                 }
 
-                getInformationPermissions(requireActivity(), object : CallBack {
-                    override fun next() {
-                        JumpUtil.startMyDeviceActivity(activity, electricity)
-                    }
-                })
+                JumpUtil.startMyDeviceActivity(activity, electricity)
+
+//                getInformationPermissions(requireActivity(), object : CallBack {
+//                    override fun next() {
+//                        JumpUtil.startMyDeviceActivity(activity, electricity)
+//                    }
+//                })
 
             }
             R.id.setting_unit -> {
@@ -250,11 +252,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 if (!turnOnBluetooth()) {
                     return
                 }
-                getInformationPermissions(requireActivity(), object : CallBack {
-                    override fun next() {
-                        JumpUtil.startBleConnectActivity(activity)
-                    }
-                })
+                JumpUtil.startBleConnectActivity(activity)
+
+//                getInformationPermissions(requireActivity(), object : CallBack {
+//                    override fun next() {
+//                        JumpUtil.startBleConnectActivity(activity)
+//                    }
+//                })
 
             }
             R.id.tvReconnection -> {

@@ -85,13 +85,14 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     val electricity =  Hawk.get<Int>("d_battery",0)
                     var batteryManager: BatteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
                     var  battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-                    var DeviceStatus = Hawk.get("ELECTRICITY_STATUS",0)
+                    //1正在充电
+                    var deviceStatus = Hawk.get("ELECTRICITY_STATUS",0)
 
 
                     tvBegan.isClickable = false
                     tvBegan.visibility = View.VISIBLE
                     tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
-                    if(devicePropertiesBean.electricity <40) //40电量 小于说的  2021 -11-17 19.08
+                    if(deviceStatus != 1 || devicePropertiesBean.electricity <40) //40电量 小于说的  2021 -11-17 19.08
                     {
                         noUpdateTv.visibility = View.VISIBLE
                         ShowToast.showToastLong("手表电量低于40%,请充电")
