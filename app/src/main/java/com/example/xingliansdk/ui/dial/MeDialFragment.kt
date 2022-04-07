@@ -292,7 +292,8 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
             if (it.list[0].type == 0) {
-                val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0).toInt()
+                var currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1).toInt()
+
                 //是否有市场表盘
                 val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
                 Log.e("获取本地的表盘","------type=0本地表盘="+"已经选择的表盘id="+currDialId+"    "+marketDialId+"  "+Gson().toJson(it.list[0]));
@@ -305,6 +306,8 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     if(markBean != null){
 
                         if(marketDialId != -1 && !TextUtils.isEmpty(markBean.name)){
+                            markBean.state = "安装"
+                            markBean.isCurrent = false
                             if(it.list[0].typeList.size>=5){
                                 it.list[0].typeList.removeAt(3)
                             }
@@ -314,13 +317,19 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     }
                 }
 
-                it.list[0].typeList.forEach {
-                    if(it.dialId == currDialId || (currDialId == 65535 && it.dialId == 0)){
-                        it.stateCode = 1
-                        it.state = "当前表盘"
-                        it.isCurrent = true
-                    }
+                if(marketDialId == -1){ //表盘没有市场表盘了，清除掉本地的市场表盘
+                    if(it.list[0].typeList.size == 5)
+                    it.list[0].typeList.removeAt(3)
                 }
+
+
+//                it.list[0].typeList.forEach {
+//                    if(it.dialId == currDialId ){
+//                        it.stateCode = 1
+//                        it.state = "当前表盘"
+//                        it.isCurrent = true
+//                    }
+//                }
 
                 //  longCustOnclick
                 //  longOnclick
@@ -359,7 +368,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
             }
 
             //只有一个已下载表盘，就保存到已下载的本地表盘中去
-            if(it.list.size == 1){
+            if(it.list.size == 1 && currDialId == it.list[0].dialId){
                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,it.list[0].dialId)
                 Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(it.list[0]))
             }
@@ -440,6 +449,11 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 //                            downAdapter.notifyItemChanged(index, typeListDTO)
 //                        }
 
+                        //已经下载完了，更新下本地的表盘状态
+                        if(data.currentProgress == 1 && data.maxProgress == 1){
+                            dialRequest()
+                        }
+
                     }
                 }
             }
@@ -478,7 +492,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         val deleteDialId = mDownList[position].dialId
 
                         //当前显示的表盘id
-                        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0).toInt()
+                        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1).toInt()
+
+
+                        Log.e("22","-----要删除的表盘ID="+deleteDialId+"-当前显示的表盘ID="+currDialId)
 
                         BleWrite.writeDeleteDialCall(deleteDialId.toLong()
                         ) {

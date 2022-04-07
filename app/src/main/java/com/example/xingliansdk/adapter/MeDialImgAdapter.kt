@@ -85,8 +85,11 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         }
 
         //当前的市场表盘，已经下载过，就显示安装或当前表盘
-        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
-        if(currDialId != -1 && currDialId == item.dialId){
+        var currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
+
+        Log.e("11","------当前已经保存的表盘ID="+currDialId)
+
+        if((currDialId != -1 && currDialId == item.dialId) || (currDialId == 65533 && item.dialId == 0)){
             item.state = "当前表盘"
             item.isCurrent = true
 //            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));

@@ -13,6 +13,8 @@ import com.example.xingliansdk.utils.ImgUtil
 import com.example.xingliansdk.view.DialProgressBar
 import com.example.xingliansdk.view.DownloadProgressButton
 import com.shon.bluetooth.DataDispatcher
+import com.shon.connector.BleWrite
+import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
 
 class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
@@ -51,6 +53,26 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
             ImgUtil.loadMeImgDialCircle(img, item.value)
         }
 
+        /**
+         *  long uiFeature;
+        long  binSize;
+        int  color;
+        int function;
+        int location;
+        int type;
+        String name;
+         */
+
+        //val dialBean = DialCustomBean(1,item.uiFeature,item.)
+
+//        tvInstall.setOnClickListener {
+//            BleWrite.writeDialWriteAssignCall(item,object : BleWrite.DialWriteInterface{
+//                override fun onResultDialWrite(key: Int) {
+//
+//                }
+//
+//            })
+//        }
 
     }
 

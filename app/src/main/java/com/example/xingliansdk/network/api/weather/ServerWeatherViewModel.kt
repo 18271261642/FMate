@@ -42,7 +42,7 @@ class ServerWeatherViewModel : BaseViewModel(){
             message?.let {
                 TLog.error("it=" + it)
                 msg.postValue(it)
-                ShowToast.showToastLong(it)
+                //ShowToast.showToastLong(it)
             }
         }
     }

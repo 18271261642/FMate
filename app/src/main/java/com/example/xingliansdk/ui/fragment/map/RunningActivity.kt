@@ -246,7 +246,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //长按暂停
     private fun clickSaveData() {
         //  if(!HelpUtil.isApkInDebug(XingLianApplication.mXingLianApplication))
-        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
+        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.02) {
 //            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
 //            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 

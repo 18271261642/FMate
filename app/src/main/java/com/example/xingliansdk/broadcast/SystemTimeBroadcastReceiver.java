@@ -24,7 +24,6 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if(action == null)
             return;
-        Log.e("TIME","-------时间变化="+action);
         if(action.equals(Intent.ACTION_TIME_TICK)){
             long currTime = System.currentTimeMillis();
 
@@ -32,17 +31,11 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
 
 
             if(currMinute < 60000){     //整点
-
-                Log.e("世界","------启动定位="+currMinute);
-
                 new BleWork().startLocation(context);
             }
         }
 
         if(action.equals(Intent.ACTION_TIME_CHANGED) || action.equals(Intent.ACTION_TIMEZONE_CHANGED)){
-
-            Log.e("TIME","----时间="+DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
-
             TimeBean time = new TimeBean();
             long currentTime = System.currentTimeMillis();
             time.setYear(DateUtil.getYear(currentTime));
