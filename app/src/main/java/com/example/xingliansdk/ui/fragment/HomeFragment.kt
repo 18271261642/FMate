@@ -62,6 +62,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     , BleWrite.SpecifyTemperatureHistoryCallInterface //体温
     , BleWrite.DeviceMotionInterface //实时运动返回
 , BleWrite.SpecifySleepSourceInterface
+
 {
     companion object {
         //关于这个页面会重复点击打开俩次的针对性操作
@@ -72,6 +73,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
          */
         var progressStatus = false
     }
+
+
+    private val tags = "HomeFragment"
+
+
 
     //    private lateinit var mList: MutableList<HomeCardBean>
     //  private lateinit var mHomeCardBean: HomeCardBean
@@ -413,6 +419,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     tvKM?.text = "${mHomeCardVoBean.distance} 公里"
                 tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
             }
+        }
+
+
+        mViewModel.resultRealSep.observe(this){
+
         }
     }
 
@@ -843,7 +854,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     //  TLog.error("calories==${data.calories}")
                     tvCalories?.text = "${data.calories} 千卡"
                     val countStepMap = HashMap<String,Any>();
-                    countStepMap["step"] = data.totalSteps
+                    countStepMap["step"] = data.totalSteps/1000
                     countStepMap["calorie"] = data.calories
                     countStepMap["distance"] = data.distance
                     mViewModel.uploadHomeRealCountStep(countStepMap)

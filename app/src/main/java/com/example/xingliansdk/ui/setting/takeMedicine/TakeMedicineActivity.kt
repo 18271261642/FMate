@@ -279,6 +279,8 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 //        }
         //当天的long
         val currDayLong = DateUtil.getCurrDayToLongLast();
+        if(mBean.startTime == 0L)
+            mBean.startTime = currDayLong
         TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000)+" "+currDayLong)
 //        if(mBean.endTime<currDayLong){
 //            mBean.endTime = currDayLong

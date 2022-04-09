@@ -163,22 +163,27 @@ class ShowPermissionActivity : AppCompatActivity(),View.OnClickListener {
 
     //请求权限
     private fun requestPermission(permissStr: Array<String>){
-      //  ActivityCompat.requestPermissions(this, permissStr, REQUEST_PERMISSION_CODE)
-        XXPermissions.with(instance).permission(permissStr).request { p0, p1 ->
 
-        };
+        try {
+            XXPermissions.with(instance).permission(permissStr).request { p0, p1 ->
+
+            };
 
 
-        XXPermissions.with(instance).permission(android.Manifest.permission.MANAGE_EXTERNAL_STORAGE).request { p0, p1 ->
+            XXPermissions.with(instance).permission(android.Manifest.permission.MANAGE_EXTERNAL_STORAGE).request { p0, p1 ->
 
-        };
+            };
 
-       // ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_SMS),REQUEST_PERMISSION_CODE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ANSWER_PHONE_CALLS), REQUEST_PERMISSION_CODE)
+            // ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_SMS),REQUEST_PERMISSION_CODE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ANSWER_PHONE_CALLS), REQUEST_PERMISSION_CODE)
+            }
+
+            handle.sendEmptyMessage(0x02)
+        }catch (e : Exception){
+            e.printStackTrace()
         }
 
-        handle.sendEmptyMessage(0x02)
 
     }
 

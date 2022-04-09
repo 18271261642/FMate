@@ -57,6 +57,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         TLog.error("mList+="+Gson().toJson(userInfo.userConfig))
         TLog.error("存储以后取++"+Hawk.get<ArrayList<RemindConfig.Apps> >("RemindList"))
         setAdapter()
+
         getPermission()
     }
     private  fun onState()
@@ -154,16 +155,19 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
 
     private fun getPermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        try {
             XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.READ_PHONE_STATE).request { permissions, all ->
-                TODO("Not yet implemented")
+
             }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                XXPermissions.with(this).permission(Manifest.permission.ANSWER_PHONE_CALLS).request{ permissions, all ->
+
+                }
+            }
+        }catch (e : Exception){
+            e.printStackTrace()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            XXPermissions.with(this).permission(Manifest.permission.ANSWER_PHONE_CALLS).request{ permissions, all ->
-                TODO("Not yet implemented")
-            }
-        }
     }
 }

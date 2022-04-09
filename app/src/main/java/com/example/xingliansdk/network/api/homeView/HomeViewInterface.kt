@@ -114,7 +114,8 @@ interface HomeViewInterface {
 
 
     //上传实时计步
+
     @POST("/health/save_real_time_active_info")
-    suspend fun saveRealActiveInfo(@FieldMap value: HashMap<String, Any>
+    suspend fun saveRealActiveInfo(@QueryMap value: HashMap<String, Any>
     ):BaseResult<Any>
 }

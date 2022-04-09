@@ -92,25 +92,23 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     tvBegan.isClickable = false
                     tvBegan.visibility = View.VISIBLE
                     tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
-                    if(deviceStatus != 1 || devicePropertiesBean.electricity <40) //40电量 小于说的  2021 -11-17 19.08
-                    {
-                        noUpdateTv.visibility = View.VISIBLE
-                        ShowToast.showToastLong("手表电量低于40%,请充电")
+
+                    if (deviceStatus != 1) {
+                        if (devicePropertiesBean.electricity < 80) {
+                            noUpdateTv.visibility = View.VISIBLE
+                            ShowToast.showToastLong("手表电量低于40%,请充电")
+                            return@observe
+                        }
+                    }
+
+                    if (!InonePowerSaveUtil.isCharging(this) && battery < 20) {
+                        ShowToast.showToastLong("手机电量低于20%,请充电")
                         return@observe
                     }
-                    else
-                    {
-                        if (!InonePowerSaveUtil.isCharging(this)&& battery<20)
-                        {
-                            ShowToast.showToastLong("手机电量低于20%,请充电")
-                            return@observe
-                        }
-                        else if(InonePowerSaveUtil.isCharging(this)&& battery<10)
-                        {
-                            noUpdateTv.visibility = View.VISIBLE
-                            ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
-                            return@observe
-                        }
+                    if (InonePowerSaveUtil.isCharging(this) && battery < 10) {
+                        noUpdateTv.visibility = View.VISIBLE
+                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+                        return@observe
                     }
 
                     tvBegan.isClickable = true
