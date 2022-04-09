@@ -101,7 +101,7 @@ public class DialGetAssignCall extends WriteCallback {
                     mDialBean.dialId = id;
                     if (i > num){
                         mList.add(new DialBean(id, 4));
-                        Hawk.put(Config.SAVE_DEVICE_INTO_MARKET_DIAL,id);
+                        Hawk.put(Config.SAVE_DEVICE_INTO_MARKET_DIAL,id == 65535 ? -1 : id);
                     }else {
                         mList.add(new DialBean(id, 3));
                     }

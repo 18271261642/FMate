@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.dial
 
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
@@ -103,6 +104,11 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventReceived(event: SNEvent<Any>) {
         when (event.code) {
+            Config.eventBus.DEVICE_DISCONNECT -> {
+                DialMarketActivity.downStatus = false
+                finish()
+            }
+
             Config.eventBus.DIAL_RECOMMEND_DIAL -> {
                 TLog.error("数据返回了")
                 var hashMap = HashMap<String, String>()
@@ -113,6 +119,10 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
             Config.eventBus.DIAL_IMG_RECOMMEND_INDEX->
             {
                 var data = event.data as FlashBean
+
+
+                Log.e("111","-----最新市场更新状态="+data.toString())
+
                 if(data.currentProgress==-1&&data.maxProgress==-1)
                 {
                     ShowToast.showToastLong("下载错误,请重新下载")
