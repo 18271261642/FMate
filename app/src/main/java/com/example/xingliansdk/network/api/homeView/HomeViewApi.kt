@@ -5,6 +5,7 @@ import com.example.xingliansdk.bean.PopularScienceBean
 import com.example.xingliansdk.network.BaseResult
 import com.example.xingliansdk.network.api.javaMapView.MapVoBean
 import java.util.*
+import kotlin.collections.HashMap
 
 class HomeViewApi private constructor() : AppApi<HomeViewInterface>() {
     companion object {
@@ -104,6 +105,10 @@ class HomeViewApi private constructor() : AppApi<HomeViewInterface>() {
     }
     suspend fun motionInfoGetList(value: HashMap<String, Any>):BaseResult<MapVoBean>{
         return apiInterface?.motionInfoGetList(value)!!
+    }
+
+    suspend fun uploadRealStep(value : HashMap<String,Any>) : BaseResult<Any>{
+        return apiInterface?.saveRealActiveInfo(value)!!
     }
 
 }

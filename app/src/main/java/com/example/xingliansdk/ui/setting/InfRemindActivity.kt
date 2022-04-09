@@ -155,7 +155,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
     private fun getPermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            XXPermissions.with(this).permission(Manifest.permission_group.CONTACTS,Manifest.permission_group.PHONE).request { permissions, all ->
+            XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.READ_PHONE_STATE).request { permissions, all ->
                 TODO("Not yet implemented")
             }
         }

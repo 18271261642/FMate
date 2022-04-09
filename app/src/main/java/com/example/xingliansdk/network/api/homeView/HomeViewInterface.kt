@@ -111,4 +111,10 @@ interface HomeViewInterface {
     suspend fun motionInfoGetList(
         @QueryMap value: HashMap<String, Any>
     ):BaseResult<MapVoBean>
+
+
+    //上传实时计步
+    @POST("/health/save_real_time_active_info")
+    suspend fun saveRealActiveInfo(@FieldMap value: HashMap<String, Any>
+    ):BaseResult<Any>
 }

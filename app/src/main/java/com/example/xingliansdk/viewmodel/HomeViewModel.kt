@@ -186,4 +186,22 @@ class HomeViewModel : BaseViewModel() {
             }
         })
     }
+
+
+
+    //上传汇总的计步数据
+    val resultRealSep : MutableLiveData<Any> = MutableLiveData()
+
+    fun uploadHomeRealCountStep(date: HashMap<String, Any>){
+        requestCustom({
+            HomeViewApi.mHomeViewApi.uploadRealStep(date)
+        },{
+            resultRealSep.postValue(it)
+        },{
+                code, message ->
+            message?.let {
+                msg.postValue(it)
+            }
+        })
+    }
 }
