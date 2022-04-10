@@ -54,6 +54,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
         }
 
         edtCustom.addTextChangedListener {
+
             if(it==null||it.isEmpty()){
 //                edtCustom.setText("1")
 //                it?.let { it1 -> edtCustom.setSelection(edtCustom.text.length)
@@ -63,6 +64,15 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
             //    ShowToast.showToastLong("周期天数间隔不能小于1天")
                 return@addTextChangedListener
             }
+
+            edtCustom.setBackgroundResource(
+                R.drawable.device_repeat_true_green
+            )
+            edtCustom.setTextColor(
+                resources.getColor(R.color.white)
+            )
+
+
             val day=it.toString().toInt()
             if (day>255)
             {
@@ -93,6 +103,12 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
             }
 
         })
+    }
+
+
+
+    fun clearCusBeforeStatus(){
+        
     }
 
     override fun onClick(v: View) {
