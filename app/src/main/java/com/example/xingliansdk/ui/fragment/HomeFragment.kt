@@ -854,9 +854,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     //  TLog.error("calories==${data.calories}")
                     tvCalories?.text = "${data.calories} 千卡"
                     val countStepMap = HashMap<String,Any>();
-                    countStepMap["step"] = data.totalSteps/1000
+                    countStepMap["step"] = data.totalSteps
                     countStepMap["calorie"] = data.calories
-                    countStepMap["distance"] = data.distance
+                    countStepMap["distance"] = data.distance/1000
                     mViewModel.uploadHomeRealCountStep(countStepMap)
                 }
             }
