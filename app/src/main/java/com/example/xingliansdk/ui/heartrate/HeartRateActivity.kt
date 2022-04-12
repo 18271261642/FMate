@@ -216,8 +216,9 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
     }
 
     private fun chartView() {
-        //获取焦点
-        hartsHrr.requestFocus()
+
+
+
         hartsHrr.description.isEnabled = false
         hartsHrr.legend.isEnabled = false  //色块不显示
         hartsHrr.setScaleEnabled(true)//设置比列启动
@@ -418,6 +419,11 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         }
         hartsHrr.data = data
         hartsHrr.invalidate()
+
+        //获取焦点
+        hartsHrr.clearFocus()
+
+        hartsHrr.isFocusableInTouchMode = false
     }
 
     override fun onNothingSelected() {

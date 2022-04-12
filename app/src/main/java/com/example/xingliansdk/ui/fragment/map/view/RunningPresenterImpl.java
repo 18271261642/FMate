@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -506,7 +507,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 
                     AmapSportBean amapSportBean = new AmapSportBean();
                     amapSportBean.setUserId(userId);
-                    amapSportBean.setDeviceMac(macAddress);
+                    amapSportBean.setDeviceMac(macAddress.toLowerCase(Locale.CHINA));
                     amapSportBean.setDayDate(Utils.getCurrentDate());
                     amapSportBean.setYearMonth(Utils.getCurrentDateByFormat("yyyy-MM"));
                     amapSportBean.setSportType(sportType);

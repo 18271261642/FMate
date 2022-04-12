@@ -7,14 +7,11 @@
 
         />
     <padding
-        android:left="9dp"
-        android:top="4dp"
-        android:right="9dp"
         android:bottom="4dp"
-        />
-    <corners
-        android:radius="6dp"
-        />
+        android:left="9dp"
+        android:right="9dp"
+        android:top="4dp" />
+    <corners android:radius="6dp" />
 
 
 </shape>

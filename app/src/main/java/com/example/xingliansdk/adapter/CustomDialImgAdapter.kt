@@ -3,20 +3,29 @@ package com.example.xingliansdk.adapter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.bean.room.CustomizeDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.meView.MeDialImgBean
-import com.example.xingliansdk.utils.ImgUtil
+import com.example.xingliansdk.ui.setting.flash.FlashCall
+import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DialProgressBar
 import com.example.xingliansdk.view.DownloadProgressButton
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
+import kotlinx.android.synthetic.main.activity_customize_dial.*
+import java.util.HashMap
 
+/**
+ * 自定表盘adapter
+ */
 class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
     BaseQuickAdapter<CustomizeDialBean, BaseViewHolder>(
         R.layout.item_dial_img,
@@ -62,17 +71,6 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
         int type;
         String name;
          */
-
-        //val dialBean = DialCustomBean(1,item.uiFeature,item.)
-
-//        tvInstall.setOnClickListener {
-//            BleWrite.writeDialWriteAssignCall(item,object : BleWrite.DialWriteInterface{
-//                override fun onResultDialWrite(key: Int) {
-//
-//                }
-//
-//            })
-//        }
 
     }
 

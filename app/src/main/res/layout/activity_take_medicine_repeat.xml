@@ -120,6 +120,8 @@
                 android:hint="自定义"
                 android:textColor="@color/sub_text_color"
                 android:textSize="14sp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:inputType="number"
                 android:singleLine="true"
                 android:maxLength="3"

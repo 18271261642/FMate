@@ -78,25 +78,21 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         //是否有市场表盘
         val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
 
-        Log.e("MeDialImgAdapter","-----是否有市场表盘="+marketDialId)
+        //Log.e("MeDialImgAdapter","-----是否有市场表盘="+marketDialId)
         if(marketDialId != -1 && marketDialId == item.dialId.toInt()){
-            Log.e("MeDialImgAdapter","-----是否有市场表盘="+Gson().toJson(item))
+            //Log.e("MeDialImgAdapter","-----是否有市场表盘="+Gson().toJson(item))
             Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
         }
 
         //当前的市场表盘，已经下载过，就显示安装或当前表盘
         var currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1)
 
-        Log.e("11","------当前已经保存的表盘ID="+currDialId)
+        //Log.e("11","------当前已经保存的表盘ID="+currDialId +"---item中Id="+item.dialId)
 
         if((currDialId != -1 && currDialId == item.dialId) || (currDialId == 65533 && item.dialId == 0)){
             item.state = "当前表盘"
             item.isCurrent = true
-//            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item));
-//            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId);
-
         }
-
 
 
         val img = helper.getView<ImageView>(R.id.imgDial)

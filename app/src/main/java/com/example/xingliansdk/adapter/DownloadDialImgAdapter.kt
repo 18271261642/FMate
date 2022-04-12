@@ -1,6 +1,7 @@
 package com.example.xingliansdk.adapter
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -126,6 +127,7 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
                     override fun onDownLoadSuccess() {
                         itemDownload.currentText = "更新中..."
 
+                        Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,item.dialId)
                         Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,item.dialId)
 
                         Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,Gson().toJson(item))
@@ -138,6 +140,7 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
                                     it.binSize,
                                     it.name) }
                         ) {
+                            TLog.error("写入","---------写入状态="+it)
                             when (it) {
                                 2 -> {
                                     val startByte = byteArrayOf(
@@ -161,6 +164,8 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
 
                                 }
                                 3 -> {
+                                    TLog.error("写入","---------写入fff状态="+it)
+
                                   //  ShowToast.showToastLong("设备已经有存储这个表盘")
                                     var hasMap = HashMap<String, String>()
                                     hasMap["dialId"] = item?.dialId.toString()

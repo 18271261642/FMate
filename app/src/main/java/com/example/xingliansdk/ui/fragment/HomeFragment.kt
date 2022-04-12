@@ -357,6 +357,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(PERSONAL_INFORMATION, mDeviceInformationBean)
             tvGoal.text = "${it.userConfig.movingTarget.toLong()}步"
             TLog.error("个人信息++" + Gson().toJson(it))
+
+
+            TLog.error("-------用户信息返回--------")
+
             if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
                    if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                 val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
@@ -392,6 +396,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(HOME_CARD_BEAN, it)
             mHomeCardVoBean = it
 
+
+            TLog.error("------首页卡片处返回--------")
+
             if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
@@ -412,6 +419,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     circleSports.maxProgress = mHomeCardVoBean.movingTarget.toInt()
                     circleSports?.progress = mHomeCardVoBean.steps.toInt()
                 }
+
+                TLog.error("------未连接处返回--------")
+
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
                     tvKM?.text = decimalFormat.format(miDis)+"英里"
@@ -752,7 +762,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 //    }
 
     override fun DeviceMotionResult(mDataBean: DataBean) {
-        TLog.error("设备实时运动${Gson().toJson(mDataBean)}")
+        TLog.error("--------设备实时运动返回${Gson().toJson(mDataBean)}")
         TLog.error("exerciseSteps===" + mDeviceInformationBean.exerciseSteps.toInt())
         val forMater = DecimalFormat("#0.00")
         forMater.roundingMode = RoundingMode.DOWN
@@ -847,6 +857,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     forMater.roundingMode = RoundingMode.DOWN
                     mDeviceInformationBean = Hawk.get(PERSONAL_INFORMATION, DeviceInformationBean())
                     TLog.error("circleSports data.distance==${data.distance}  data.calories+=${data.calories}")
+
+                    TLog.error("-------EventBus处返回--------")
+
                     if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                         tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 英里"
                     } else
@@ -856,7 +869,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     val countStepMap = HashMap<String,Any>();
                     countStepMap["step"] = data.totalSteps
                     countStepMap["calorie"] = data.calories
-                    countStepMap["distance"] = data.distance/1000
+                    countStepMap["distance"] = forMater.format(data.distance.toDouble() / 1000)
                     mViewModel.uploadHomeRealCountStep(countStepMap)
                 }
             }

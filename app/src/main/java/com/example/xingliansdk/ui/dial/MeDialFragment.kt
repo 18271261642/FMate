@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.eventBus.DEVICE_BLE_OFF
 import com.example.xingliansdk.R
@@ -25,14 +27,15 @@ import com.example.xingliansdk.network.api.dialView.DownDialModel
 import com.example.xingliansdk.network.api.dialView.MeDialViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
-import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.example.xingliansdk.ui.setting.flash.FlashCall
+import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.luck.picture.lib.tools.ToastUtils
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
+import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_take_medicine_repeat.*
 import kotlinx.android.synthetic.main.fragment_me_dial.*
@@ -70,7 +73,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         imgLocal.setOnClickListener(this)
         bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
         sDao = AppDataBase.instance.getCustomizeDialDao()
-        dialRequest()
+       // dialRequest()
         dialInit()
     }
 
@@ -80,6 +83,12 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         hashMap["productNumber"] = bean.productNumber
         mViewModel.findDialImg(hashMap)
         mViewModel.findMyDial()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(tags,"---------onResume----------")
+        dialRequest()
     }
 
     override fun onDestroy() {
@@ -102,6 +111,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 R.id.tvInstall -> {
                     if (mList[position].isCurrent)
                         return@setOnItemChildClickListener
+                    hasMapMeUpdate.clear()
                     var id = if (mList[position].dialId == 0)
                         65533
                     else
@@ -129,6 +139,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         ryDownload.layoutManager = GridLayoutManager(activity, 3)
         downAdapter = DownloadDialImgAdapter(mDownList)
         ryDownload.adapter = downAdapter
+        downAdapter.animationEnable = false
         downAdapter.addChildClickViewIds(R.id.imgDelete, R.id.imgDial)
         downAdapter.setOnItemChildClickListener { adapter, view, position ->
 
@@ -181,10 +192,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         customDialImgAdapter.addChildClickViewIds(R.id.tvInstall, R.id.imgDelete, R.id.imgDial)
         customDialImgAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
-                R.id.imgDial,
-                R.id.tvInstall -> {
-
-
+                R.id.imgDial->{ //图片点击
                     if (DialMarketActivity.downStatus) {
                         ShowToast.showToastLong("有表盘正在安装,请安装完成再次点击")
                         return@setOnItemChildClickListener
@@ -193,6 +201,113 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         activity,
                         Gson().toJson(adapter.data[position])
                     )
+                }
+                R.id.tvInstall -> {
+
+
+                    if (DialMarketActivity.downStatus) {
+                        ShowToast.showToastLong("有表盘正在安装,请安装完成再次点击")
+                        return@setOnItemChildClickListener
+                    }
+
+                    showWaitDialog("更换表盘中,请稍后...")
+                    val cusDialBean = adapter.data[position] as CustomizeDialBean
+
+                    var uiFeature = 65533
+                    var grbByte = byteArrayOf()
+                    if (cusDialBean.imgPath.isNullOrEmpty()) {
+                        uiFeature = 65534
+                        // ShowToast.showToastLong("请选择自定义背景图案")
+                        //  return
+                    } else {
+                        uiFeature = 65533
+                        ThreadUtils.submit {
+                            var bitmap = Glide.with(this)
+                                .asBitmap()
+                                .load(cusDialBean.imgPath)
+                                .into(
+                                    Target.SIZE_ORIGINAL,
+                                    Target.SIZE_ORIGINAL
+                                ).get()
+                            grbByte = BitmapAndRgbByteUtil.bitmap2RGBData(bitmap)
+                            TLog.error("grbByte==${grbByte.size}")
+                            //   ImgUtil.loadMeImgDialCircle(imgRecall, bitmap)
+                        }
+                    }
+                    //生成新图并保存
+//                    var newBit = BitmapAndRgbByteUtil.loadBitmapFromView(img)
+//                    var path = FileUtils.saveBitmapToSDCard(newBit, (cusDialBean.date / 1000).toString())
+//                    cusDialBean.value = path
+
+                    val dialBean = DialCustomBean(1,
+                        uiFeature,
+                        grbByte.size,
+                        cusDialBean.color,
+                        cusDialBean.functionType,
+                        cusDialBean.locationType)
+                    BleWrite.writeDialWriteAssignCall(dialBean,object : BleWrite.DialWriteInterface{
+                        override fun onResultDialWrite(key: Int) {
+                             isSyncDial = true
+                            TLog.error("it==" + key)
+                            when (key) {
+
+                                1 -> {
+                                    hideWaitDialog()
+                                    ShowToast.showToastLong("传入非法值")
+                                     isSyncDial = false
+                                }
+                                2 -> {
+                                    val startByte = byteArrayOf(
+                                        0x00, 0xff.toByte(), 0xff.toByte(),
+                                        0xff.toByte()
+                                    )
+                                    TLog.error("mCustomizeDialBean.imgPath+=" + cusDialBean.imgPath)
+                                    BleWrite.writeFlashErasureAssignCall(
+                                        16777215, 16777215
+                                    ) { key ->
+                                        if (key == 2) {
+                                            //isSyncDial = true
+                                            TLog.error("开始擦写++" + grbByte.size)
+                                            FlashCall().writeFlashCall(
+                                                startByte, startByte, grbByte,
+                                                Config.eventBus.DIAL_CUSTOMIZE, -100, 0
+                                            )
+                                        } else{
+                                            ShowToast.showToastLong("不支持擦写FLASH数据")
+                                            isSyncDial = false;
+                                        }
+
+                                    }
+
+                                }
+                                3 -> {
+                                      hideWaitDialog()
+                                    var hasMap = java.util.HashMap<String, String>()
+                                    hasMap["dialId"] = "0"
+                                     mViewModel.updateUserDial(hasMap)
+                                    // finish()
+                                    // ShowToast.showToastLong("设备已经有存储这个表盘")
+                                    //给后台一个 更改表盘的指令
+                                    isSyncDial = false
+                                }
+                                4 -> {
+                                     hideWaitDialog()
+                                    ShowToast.showToastLong("设备已经有存储这个表盘")
+                                     isSyncDial = false
+                                }
+                            }
+                        }
+
+                    })
+
+
+
+
+
+//                    JumpUtil.startCustomizeDialActivity(
+//                        activity,
+//                        Gson().toJson(adapter.data[position])
+//                    )
                 }
                 R.id.imgDelete -> {
 
@@ -287,7 +402,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         }
         mViewModel.result1.observe(this)
         {
-            TLog.error("获取表盘返回","----------数据++" + Gson().toJson(it))
+            TLog.error("获取本地表盘返回","----------数据++" + Gson().toJson(it))
             mList.clear()
             if (it == null || it.list == null || it.list.size <= 0)
                 return@observe
@@ -306,9 +421,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     if(markBean != null){
 
                         if(marketDialId != -1 && !TextUtils.isEmpty(markBean.name)){
-                            markBean.state = "安装"
+                            markBean.state = "选择"
                             markBean.isCurrent = false
                             if(it.list[0].typeList.size>=5){
+
                                 it.list[0].typeList.removeAt(3)
                             }
                             it.list[0].typeList.add(3,markBean)
@@ -322,18 +438,13 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     it.list[0].typeList.removeAt(3)
                 }
 
-
-//                it.list[0].typeList.forEach {
-//                    if(it.dialId == currDialId ){
-//                        it.stateCode = 1
-//                        it.state = "当前表盘"
-//                        it.isCurrent = true
-//                    }
-//                }
-
                 //  longCustOnclick
                 //  longOnclick
                 mList.addAll(it.list[0].typeList)
+                mList.forEach {
+                    it.state = "选择"
+                    it.isCurrent = false
+                }
 
                 meDialImgAdapter.notifyDataSetChanged()
             } else if (it.list[0].type == 1001) {
@@ -489,17 +600,15 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 dialogContent?.text = "是否删除该表盘？"
                 dialogSet?.setOnClickListener {
                     if (type == DOWN_DELETE_TYPE) {
+                        //删除的表盘ID
                         val deleteDialId = mDownList[position].dialId
-
-                        //当前显示的表盘id
-                        val currDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,-1).toInt()
-
-
-                        Log.e("22","-----要删除的表盘ID="+deleteDialId+"-当前显示的表盘ID="+currDialId)
+                        //本地的第四张表盘id
+                        val localMarketId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1).toInt()
+                        Log.e("22","-----要删除的表盘ID="+deleteDialId+"-本地第四张表盘ID="+localMarketId)
 
                         BleWrite.writeDeleteDialCall(deleteDialId.toLong()
                         ) {
-                            if(currDialId == deleteDialId && it == 0x02){
+                            if(localMarketId == deleteDialId && it == 0x02){
                                 //是否有市场表盘
                                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
                                 //清除当前显示的市场表盘bean
@@ -507,6 +616,14 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                             }
 
                         }
+
+                        if(localMarketId == deleteDialId){
+                            //是否有市场表盘
+                            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
+                            //清除当前显示的市场表盘bean
+                            Hawk.put(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
+                        }
+
 
                         mViewModel.deleteMyDial(mDownList[position].dialId.toString())
                         mDownList.removeAt(position)

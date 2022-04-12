@@ -94,7 +94,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     tvBegan.setBackgroundColor(Color.parseColor("#F1F1F1"))
 
                     if (deviceStatus != 1) {
-                        if (devicePropertiesBean.electricity < 80) {
+                        if (devicePropertiesBean.electricity < 40) {
                             noUpdateTv.visibility = View.VISIBLE
                             ShowToast.showToastLong("手表电量低于40%,请充电")
                             return@observe

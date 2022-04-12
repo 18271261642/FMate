@@ -570,11 +570,14 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
                 setDataPieView(pieList,false)
             } else{
 
-                var emptyPieList: ArrayList<Float> = arrayListOf(0F, 0F, 0F, 0F, 1F)
+                val emptyPieList: ArrayList<Float> = arrayListOf(0F, 0F, 0F, 0F, 1F)
                 setDataPieView(emptyPieList,true)
                 //  pieChart.visibility = View.GONE
             }
 
+        }else{
+            val emptyPieList: ArrayList<Float> = arrayListOf(0F, 0F, 0F, 0F, 1F)
+            setDataPieView(emptyPieList,true)
         }
     }
 

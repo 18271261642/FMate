@@ -50,11 +50,17 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
 //        TLog.error("bean+" + Gson().toJson(bean))
         tvEdt.setOnClickListener(this)
         imgDial.setOnClickListener(this)
+
+        setAdapter()
+    }
+
+    override fun onResume() {
+        super.onResume()
         var hashMap = HashMap<String, String>()
         hashMap["productNumber"] = bean.productNumber
         mViewModel.findDialImg(hashMap)
-        setAdapter()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -179,7 +185,6 @@ class RecommendDialFragment : BaseFragment<RecommendDialViewModel>(), View.OnCli
             }
             Config.eventBus.DIAL_IMG_RECOMMEND_INDEX -> {
 
-                Log.e(tags,"-----更新表盘下载状态="+Config.eventBus.DIAL_IMG_RECOMMEND_INDEX)
                 val data = event.data as FlashBean
 //                TLog.error("data==" + data.toString())
 //                data.id

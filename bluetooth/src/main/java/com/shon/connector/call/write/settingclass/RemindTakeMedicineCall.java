@@ -69,10 +69,15 @@ public class RemindTakeMedicineCall extends WriteCallback {
 //        byte[] endTime = HexDump.toByteArray((mTimeBean.getEndTime()/1000-Config.TIME_START));
 
         long startDate = mTimeBean.getStartTime();
+        long endDate = mTimeBean.getEndTime();
 
+        Log.e(TAG,"------开始结束时间戳="+startDate+" "+endDate);
 
-        byte[] startTime = new byte[]{0x00,0x00,0x00,0x00};
-        byte[] endTime =  new byte[]{0x00,0x00,0x00,0x00};
+        long resultStartTime = startDate == 0 ? 0 :  startDate - 946656000L;
+        long resultEndTime = endDate == 0 ? 0 : endDate - 946656000L;
+
+        byte[] startTime = HexDump.toByteArray(resultStartTime);
+        byte[] endTime =  HexDump.toByteArray(resultEndTime);
 
         Log.e(TAG,"------开始结束时间="+ByteUtil.getHexString(startTime)+"\n"+ByteUtil.getHexString(endTime));
         //下面是数据解析

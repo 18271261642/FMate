@@ -326,7 +326,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         val macAddress = Hawk.get<String>("address")
 
         amapSportBean?.userId = loginBean.user.userId
-        amapSportBean?.deviceMac = macAddress
+        amapSportBean?.deviceMac = macAddress.toLowerCase(Locale.CHINA)
         amapSportBean?.dayDate = Utils.getCurrentDate()
         amapSportBean?.yearMonth = Utils.getCurrentDateByFormat("yyyy-MM")
 
