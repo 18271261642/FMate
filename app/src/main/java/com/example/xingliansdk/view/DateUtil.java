@@ -680,6 +680,11 @@ public class DateUtil {
 
     }
 
+    public static String getCurrDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+        return sdf.format(new Date());
+    }
+
     //获取指定天的long类型
     public static long getCurrDayToLongLast() {
         try {

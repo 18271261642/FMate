@@ -1,14 +1,12 @@
 package com.example.test
 
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.util.Log
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
@@ -18,9 +16,12 @@ import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.service.OnWeatherStatusListener
 import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.utils.JumpUtil
+import com.example.xingliansdk.utils.LogcatHelper
 import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.BleWrite
@@ -31,6 +32,7 @@ import com.shon.connector.call.CmdUtil
 import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_test_net_layout.*
+import java.io.File
 import java.util.*
 
 
@@ -65,6 +67,11 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+
+
+        XXPermissions.with(this).permission(Manifest.permission.READ_EXTERNAL_STORAGE).request { permissions, all -> }
+
+
         testNetBtn.setOnClickListener {
 
             BleWork().startLocation(this)
@@ -82,6 +89,13 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
         showDialogBtn.setOnClickListener {
             showOtaAlert();
+        }
+
+        shareLogBtn.setOnClickListener {
+            val path =
+                Environment.getExternalStorageDirectory().path + "/aLog/log-" + DateUtil.getCurrDate() + ".txt"
+
+            LogcatHelper.shareFile(this, File(path))
         }
 
     }

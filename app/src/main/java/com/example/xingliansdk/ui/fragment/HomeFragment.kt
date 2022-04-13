@@ -361,14 +361,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
             TLog.error("-------用户信息返回--------")
 
-            if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
-                   if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-                val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                tvKM?.text = decimalFormat.format(miDis)+"英里"
-            } else
-                tvKM?.text = "${mHomeCardVoBean.distance} 公里"
-            tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
-            }
+//            if(mHomeCardVoBean != null && mHomeCardVoBean.distance != null){
+//                   if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
+//                val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
+//                tvKM?.text = decimalFormat.format(miDis)+"英里"
+//            } else
+//                tvKM?.text = "${mHomeCardVoBean.distance} 公里"
+//            tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+//            }
 
         }
 
