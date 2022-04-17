@@ -9,6 +9,8 @@ import androidx.core.widget.addTextChangedListener
 import com.example.xingliansdk.Config.eventBus.REMIND_TAKE_MEDICINE_REMINDER_PERIOD
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.dialog.BaseDialog
+import com.example.xingliansdk.dialog.MediaRepeatDialog
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.ShowToast
@@ -17,6 +19,7 @@ import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_take_medicine_repeat.*
+import org.apache.commons.lang.StringUtils
 
 /**
  * 重复周期
@@ -54,7 +57,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                     getType(R.id.tvThree)
                 }
                 else->{
-                    edtCustom.setText(type.toString())
+                    edtCustom.setText(type.toString()+"天")
 
                     getType(R.id.edtCustom)
 
@@ -100,22 +103,33 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
 
             override fun onActionClick() {
                 TLog.error("===$type")
+
+
                 if (type == -1) {
-                    ShowToast.showToastLong("请填入正确的间隔周期")
+                    ShowToast.showToastShort("请填入正确的间隔周期")
                     return
                 }
 
                 val day = edtCustom.text.toString()
-                if (day.toInt() == 0) {
-                    ShowToast.showToastLong("请填入正确的间隔周期")
+                if(day == "自定义"){
+                    ShowToast.showToastShort("请填入间隔周期")
                     return
                 }
-                if (day.toInt() > 255) {
+                val numDay = StringUtils.substringBefore(day,"天")
+                if(numDay == ""){
+                    ShowToast.showToastShort("请填入间隔周期")
+                    return
+                }
+                if (numDay.toInt() == 0) {
+                    ShowToast.showToastShort("请填入正确的间隔周期")
+                    return
+                }
+                if (numDay.toInt() > 255) {
                     ShowToast.showToastLong("周期天数不大于255天")
                     edtCustom.hint = "自定义"
                     return
                 }
-                type = day.toInt()
+                type = numDay.toInt()
 
                 SNEventBus.sendEvent(REMIND_TAKE_MEDICINE_REMINDER_PERIOD, type)
                 finish()
@@ -154,6 +168,15 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
             }
             R.id.edtCustom->{
                 getType(R.id.edtCustom)
+                var inputD = edtCustom.text.toString()
+                if(inputD == "自定义"){
+                    showInputRepeat("")
+                    return
+                }
+
+                val numDay = StringUtils.substringBefore(inputD,"天")
+                showInputRepeat(numDay)
+
             }
         }
 
@@ -220,6 +243,17 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
     override fun onDestroy() {
         super.onDestroy()
         HelpUtil.hideSoftInputView(this)
+    }
+
+    private fun showInputRepeat(repeat : String){
+        val inputDialog = MediaRepeatDialog(this,R.style.edit_AlertDialog_style)
+        inputDialog.show()
+        inputDialog.setRepeatValue(repeat)
+        inputDialog.setOnMediaRepeatInputListener {
+            inputDialog.dismiss()
+            edtCustom.setText(it.toString()+"天")
+        }
+
     }
 
 }

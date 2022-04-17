@@ -184,6 +184,8 @@ dependencies {
     implementation customLibs
     //annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
+    // Shape 框架：https://github.com/getActivity/ShapeView
+    implementation 'com.github.getActivity:ShapeView:6.2'
 }
 
  

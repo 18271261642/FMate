@@ -112,17 +112,16 @@
                 android:textSize="14sp"
                 android:layout_marginRight="16dp"
                 />
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtCustom"
                 android:background="@drawable/device_repeat_false_gray"
-                android:hint="自定义"
+                android:text="自定义"
                 android:textColor="@color/sub_text_color"
                 android:textSize="14sp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:inputType="number"
                 android:singleLine="true"
                 android:maxLength="3"
                 android:imeOptions="actionDone"
