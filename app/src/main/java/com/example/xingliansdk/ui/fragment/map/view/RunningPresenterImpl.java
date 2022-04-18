@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.fragment.map.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 
 import com.amap.api.maps.model.LatLng;
@@ -11,6 +12,7 @@ import com.example.xingliansdk.bean.db.AmapSportBean;
 import com.example.xingliansdk.bean.db.AmapSportDao;
 import com.example.xingliansdk.bean.room.AppDataBase;
 import com.example.xingliansdk.network.api.login.LoginBean;
+import com.example.xingliansdk.ui.fragment.map.MapContances;
 import com.example.xingliansdk.ui.fragment.map.task.SNAsyncTask;
 import com.example.xingliansdk.ui.fragment.map.task.SNVTaskCallBack;
 import com.example.xingliansdk.utils.CountTimer;
@@ -552,6 +554,10 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                             }
                             AmapSportDao mAmapSportDao= AppDataBase.Companion.getInstance().getAmapSportDao();
                             mAmapSportDao.insert(amapSportBean);
+
+                            Intent intent = new Intent();
+                            intent.setAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION);
+                            ((Context) getView()).sendBroadcast(intent);
                         }
 
                         @Override

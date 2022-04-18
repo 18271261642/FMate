@@ -1,12 +1,16 @@
 package com.example.xingliansdk.ui.fragment.map
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.view.View
+import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.exercise.MILE
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.fragment.BaseFragment
@@ -23,6 +27,7 @@ import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.fragment_movement_type.*
+import kotlinx.android.synthetic.main.include_map.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.text.DecimalFormat
@@ -33,6 +38,13 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
     override fun layoutId(): Int = R.layout.fragment_movement_type
     lateinit var mStr: SpannableString
     var mMapMotionBean: MapMotionBean? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intentFilter = IntentFilter(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION)
+        activity?.registerReceiver(broadcastReceiver,intentFilter)
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
@@ -100,6 +112,10 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
             R.id.homeSportLayout -> {
                 val intent = Intent(context, AmapSportRecordActivity::class.java)
                 mMapMotionBean?.let { intent.putExtra("sportType", it.type) }
+                Hawk.put(
+                    com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
+                    mMapMotionBean?.type
+                )
                 startActivity(intent)
             }
         }
@@ -110,12 +126,6 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         mMapMotionBean?.let { it ->
             mViewModel.getMotionDistance(it.type)
         }
-        mViewModel.msg.observe(this)
-        {
-            //累计里程
-            mMapMotionBean?.let { it1 -> typeSportDistance(it1.type) }
-        }
-
         //文字显示
         homeSportTypeTv.text = "累计" + mMapMotionBean?.let { it1 -> typeSport(it1.type) } + "距离>"
 //        //文字显示
@@ -128,7 +138,7 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         super.createObserver()
         mViewModel.result.observe(this)
         {
-            TLog.error("--------" + Gson().toJson(it))
+            TLog.error("---网络获取运动计步-----" + Gson().toJson(it))
             var motionBean: MotionBean = Gson().fromJson(Gson().toJson(it), MotionBean::class.java)
             unitSport(motionBean.distance.toDouble())
         }
@@ -208,5 +218,28 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
             }
         }
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        try {
+         activity?.unregisterReceiver(broadcastReceiver)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private  val broadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action = p1?.action
+            if(action.equals(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION)){
+                mMapMotionBean?.let { it ->
+                    mViewModel.getMotionDistance(it.type)
+                }
+            }
+        }
+
+    }
+
 
 }

@@ -13,6 +13,7 @@ import com.example.xingliansdk.ext.init
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.call.write.dial.DialGetAssignCall
 import com.shon.connector.utils.TLog
@@ -104,6 +105,7 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
             downStatus = false
 
             XingLianApplication.mXingLianApplication.setIsSyncWriteDial(true)
+            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,17)
             p0.dismiss()
             finish()
         }.setNegativeButton("取消"

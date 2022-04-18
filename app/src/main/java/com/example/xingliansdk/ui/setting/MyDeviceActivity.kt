@@ -539,6 +539,8 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                            // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
                             BLEManager.getInstance().dataDispatcher.clearAll()
 
+                            Hawk.put("ELECTRICITY_STATUS",-1)
+
                             Handler(Looper.getMainLooper()).postDelayed({
                                 var value = HashMap<String, String>()
                                 value["mac"] =""

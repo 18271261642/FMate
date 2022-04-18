@@ -54,8 +54,8 @@ class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterfac
                 userInfo.userConfig.temperatureUnit=mDeviceInformationBean.temperatureSystem.toInt()
                 userInfo.userConfig.timeFormat=mDeviceInformationBean.timeSystem.toInt()
                 Hawk.put(Config.database.USER_INFO,userInfo)
-                SNEventBus.sendEvent( Config.eventBus.CHANGE_UNIT, userInfo)
                 mViewModel.setUserInfo(value!!)
+                SNEventBus.sendEvent( Config.eventBus.CHANGE_UNIT, userInfo)
                 finish()
             }
         })

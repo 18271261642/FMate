@@ -779,6 +779,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
         //  TLog.error("calories==${data.calories}")
         tvCalories?.text = "${mDataBean.calories} 千卡"
+
+
+        val countStepMap = HashMap<String,Any>();
+        countStepMap["step"] =mDataBean.totalSteps.toInt()
+        countStepMap["calorie"] = mDataBean.totalSteps.toInt()
+        countStepMap["distance"] = forMater.format(mDataBean.distance.toDouble() / 1000)
+        mViewModel.uploadHomeRealCountStep(countStepMap)
+
     }
 
     override fun SpecifyStressFatigueHistoryCallResult(

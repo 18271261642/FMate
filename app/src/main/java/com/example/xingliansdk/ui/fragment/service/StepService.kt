@@ -408,11 +408,11 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
     override fun onSensorChanged(event: SensorEvent) {
         TLog.error(tags,"--------类型="+event.sensor.type)
-        if(!isStartSport)
-            return
-
-        if(isPauseSport)
-            return
+//        if(!isStartSport)
+//            return
+//
+//        if(isPauseSport)
+//            return
 
         if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
             val sensorSteps = event.values[0].toInt()
@@ -424,6 +424,13 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         if(event.sensor.type == Sensor.TYPE_STEP_DETECTOR){
             val tmpS = event.values[0].toInt()
             TLog.error(tags,"--------实时="+event.values[0])
+
+            if(!isStartSport)
+                return
+
+            if(isPauseSport)
+                return
+
             if(tmpS == 1){
                 countSTep++
                 //体重
@@ -471,6 +478,8 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                 setSensorBroadCast(showDis,decimal.format(currKcal).toString())
 
 
+                SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_STEP,countSTep)
+
                // sensorImpl.onSensorUpdateSportData(amapSportBean?.distance,amapSportBean?.calories,"0","0",null)
 
 
@@ -495,7 +504,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                     "previousStepCount==${tempStep}  currentStep==${currentStep}==+${previousStepCount}"
                 )
             }
-            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_STEP,currentStep)
+           // SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_STEP,currentStep)
             saveStepData()
         } else if (stepSensor == 1) {
             if (event.values[0].toDouble() == 1.0) {

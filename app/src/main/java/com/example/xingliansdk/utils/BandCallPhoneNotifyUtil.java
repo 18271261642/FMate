@@ -36,8 +36,9 @@ public class BandCallPhoneNotifyUtil {
     @SuppressLint("WrongConstant")
     public static void startNotification(Context context) {
 
+        //getSystemDefultRingtoneUri(context) ;//
         long[] pattern = {1000, 3000, 1000, 3000, 1000, 3000 };
-        Uri sound = getSystemDefultRingtoneUri(context) ;//Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.found_phone);
+        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.aihealth);
           manager = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
         String title = context.getString(R.string.content_find_phone);
         String text = context.getString(R.string.content_band_call_phone);

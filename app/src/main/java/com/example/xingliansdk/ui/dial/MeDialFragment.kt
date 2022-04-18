@@ -248,7 +248,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     BleWrite.writeDialWriteAssignCall(dialBean,object : BleWrite.DialWriteInterface{
                         override fun onResultDialWrite(key: Int) {
                              isSyncDial = true
-                            TLog.error("it==" + key)
+                            TLog.error("---------自定义表盘it==" + key)
                             when (key) {
 
                                 1 -> {
@@ -265,6 +265,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                                     BleWrite.writeFlashErasureAssignCall(
                                         16777215, 16777215
                                     ) { key ->
+
                                         if (key == 2) {
                                             //isSyncDial = true
                                             TLog.error("开始擦写++" + grbByte.size)
@@ -273,6 +274,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                                                 Config.eventBus.DIAL_CUSTOMIZE, -100, 0
                                             )
                                         } else{
+                                            hideWaitDialog()
                                             ShowToast.showToastLong("不支持擦写FLASH数据")
                                             isSyncDial = false;
                                         }
@@ -474,7 +476,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     it.isCurrent = true
                     it.stateCode = 1
                     it.state = "当前表盘"
-                    it.isCurrent = true
+                }else{
+                    it.isCurrent = false
+                    it.stateCode = 6
+                    it.state = "安装"
                 }
             }
 
@@ -514,20 +519,29 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 dialRequest()
             }
             Config.eventBus.DIAL_CUSTOMIZE -> {
+
                 TLog.error("DIAL_CUSTOMIZE")
-                customDialList = if (sDao.getAllCustomizeDialList()
-                        .isNullOrEmpty() || sDao.getAllCustomizeDialList().size <= 0
-                )
-                    ArrayList()
-                else
-                    sDao.getAllCustomizeDialList()
-                TLog.error("customDialList==" + Gson().toJson(customDialList))
-                if (customDialImgAdapter != null) {
-                    customDialImgAdapter.data.clear()
-                    customDialImgAdapter.addData(customDialList)
-                    customDialImgAdapter.notifyDataSetChanged()
+
+                var data = event.data as FlashBean
+                if(data != null && data.currentProgress == 1){
+
+                    TLog.error("---------自定义表盘安装进度="+data.toString())
+                    hideWaitDialog()
+                    customDialList = if (sDao.getAllCustomizeDialList()
+                            .isNullOrEmpty() || sDao.getAllCustomizeDialList().size <= 0
+                    )
+                        ArrayList()
+                    else
+                        sDao.getAllCustomizeDialList()
+                    TLog.error("customDialList==" + Gson().toJson(customDialList))
+                    if (customDialImgAdapter != null) {
+                        customDialImgAdapter.data.clear()
+                        customDialImgAdapter.addData(customDialList)
+                        customDialImgAdapter.notifyDataSetChanged()
+                    }
+                    dialRequest()
                 }
-                dialRequest()
+
             }
             Config.eventBus.DIAL_IMG_RECOMMEND_INDEX -> {
                 var data = event.data as FlashBean
