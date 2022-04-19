@@ -120,6 +120,18 @@ abstract class AppDataBase : RoomDatabase() {
             }
         }
 
+//        val MIGRATION_8_9 : Migration = object : Migration(8,9){
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//               //自定义表盘字段中添加几个字段
+//                database.execSQL("ALTER TABLE CustomizeDialBean ADD COLUMN isCurrentDial boolean DEFAULT 0")
+//
+//                database.execSQL("ALTER TABLE CustomizeDialBean ADD COLUMN statusTxt TEXT DEFAULT 0")
+//
+//                database.execSQL("ALTER TABLE CustomizeDialBean ADD COLUMN progress float DEFAULT 0")
+//            }
+//
+//        }
+
 
         //这里创建的是数据库 User 是对应数据库名称，其他所有 例如Student Teacher 都是表
         val sin: AppDataBase = Room.databaseBuilder(
@@ -134,6 +146,7 @@ abstract class AppDataBase : RoomDatabase() {
             .addMigrations(MIGRATION_5_6)
             .addMigrations(MIGRATION_6_7)
             .addMigrations(MIGRATION_7_8)
+
             .allowMainThreadQueries()
             .build()
     }

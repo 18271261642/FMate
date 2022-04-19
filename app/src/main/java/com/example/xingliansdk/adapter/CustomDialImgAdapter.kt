@@ -33,6 +33,8 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
     ) {
 
 
+    var itemDownload : DownloadProgressButton ? = null
+
     var holder: BaseViewHolder? = null
     override fun convert(helper: BaseViewHolder, item: CustomizeDialBean?) {
         if (item == null) {
@@ -42,13 +44,24 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
         holder = helper
         val img = helper.getView<ImageView>(R.id.imgDial)
         val tvInstall = helper.getView<TextView>(R.id.tvInstall)
-       val itemDownload= helper.getView<DownloadProgressButton>(R.id.itemDownload)
+        itemDownload= helper.getView<DownloadProgressButton>(R.id.itemDownload)
         val tvName = helper.getView<TextView>(R.id.tvName)
         tvInstall.text = "安装"
-        itemDownload?.currentText="安装"
+       // itemDownload?.currentText="安装"
+
+        TLog.error("--------自定义表盘item="+item.getyAxis())
+        if(item.getyAxis() != null){
+            itemDownload?.progress = item.getyAxis().toFloat()
+        }else{
+            itemDownload?.currentText= "安装"
+        }
+//        itemDownload?.currentText= item.getyAxis()
+//
+//        itemDownload?.progress = item.getyAxis().toFloat()
+
         tvName.visibility = View.GONE
-        tvInstall.visibility = View.VISIBLE
-        itemDownload.visibility=View.GONE
+        tvInstall.visibility = View.GONE
+        itemDownload!!.visibility=View.VISIBLE
         val imgDelete = holder?.getView<ImageView>(R.id.imgDelete)
         if (item.getxAxis().isNullOrEmpty()||item.getxAxis()!="1")
             imgDelete?.visibility = View.GONE
@@ -74,5 +87,12 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
 
     }
 
+
+    fun setDownloadProgress(progress : Float){
+        if(itemDownload != null){
+            itemDownload?.progress   = progress
+        }
+
+    }
 
 }

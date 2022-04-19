@@ -180,6 +180,17 @@
                 android:drawableLeft="@drawable/round_awake"
                 android:drawablePadding="3dp"
                 />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="入睡时长"
+                android:textSize="11sp"
+                android:drawableLeft="@drawable/round_wake_up"
+                android:drawablePadding="3dp"
+                />
+
 <!--            <View-->
 <!--                android:layout_width="0dp"-->
 <!--                android:layout_height="wrap_content"-->

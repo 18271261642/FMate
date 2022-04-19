@@ -125,6 +125,8 @@ public class SleepViewData
             return "快速眼动";
         if(status == 4)
             return "清醒";
+        if(status == 5)
+            return "入睡时长";
         return "";
     }
 }

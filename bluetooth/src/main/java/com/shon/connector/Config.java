@@ -18,7 +18,8 @@ public class Config {
     public static final String SAVE_DEVICE_INTO_MARKET_DIAL = "device_market_dial";
     //保存一个市场表盘的序列化对象，用于在本地表盘中
     public static final String SAVE_MARKET_BEAN_DIAL = "device_market_bean";
-
+    //自定义表盘的图片URL
+    public static final String SAVE_LOCAL_CUS_DIAL_URL = "cus_dial_url";
 
     /**
      * 湿度最大值 当大于这个值时即温度为-温度

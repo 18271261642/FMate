@@ -416,6 +416,17 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                         values[indexOf] = BarEntry(indexOf.toFloat(), find.totalStep.toFloat())
                     }
                 }
+
+                if(values.size == 30){
+                    chart.xAxis.granularity = 6f
+                    chart.xAxis.setLabelCount(5,true)
+                }else{
+                    chart.xAxis.granularity = 5f
+                    chart.xAxis.labelCount = 6;
+                }
+
+                TLog.error("-------月的天数="+values.size)
+
             }
             3 -> {
                 totalStep = 0F

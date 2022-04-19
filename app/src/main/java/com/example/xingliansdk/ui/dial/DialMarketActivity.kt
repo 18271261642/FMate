@@ -15,6 +15,7 @@ import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
+import com.shon.connector.Config
 import com.shon.connector.call.write.dial.DialGetAssignCall
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_dial_details.*
@@ -106,6 +107,9 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
 
             XingLianApplication.mXingLianApplication.setIsSyncWriteDial(true)
             Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,17)
+            Hawk.put(Config.SAVE_MARKET_BEAN_DIAL,"")
+
+
             p0.dismiss()
             finish()
         }.setNegativeButton("取消"

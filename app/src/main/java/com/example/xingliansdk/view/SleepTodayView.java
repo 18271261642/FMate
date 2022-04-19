@@ -54,6 +54,11 @@ public class SleepTodayView
     private final int deepSleepColor = Color.parseColor("#9030EA");
     private final int BGfour = Color.parseColor("#E1EFFF");
 
+    //入睡时长
+    private final int wakeUpTimeColor = Color.parseColor("#FD801F");
+    private final int BGFive = Color.parseColor("#E1EFFF");
+
+
     private Paint backPaint;
     private Paint backimgline;
     private Paint backimgshowdow;
@@ -289,6 +294,7 @@ public class SleepTodayView
         float y2 = 0.0F;
         int lineColor = this.wakeColor;
         switch (curStatus) {
+            case 5:
             case 4:
                 lineColor = this.wakeColor;
                 switch (nextStatus) {
@@ -545,7 +551,7 @@ public class SleepTodayView
                         this.backimgshowdow.setColor(this.BGtwo);
                     } else if (status == 3) {
                         this.backimgshowdow.setColor(this.BGthere);
-                    } else if (status == 4) {
+                    } else if (status == 4 || status == 5) {
                         this.backimgshowdow.setColor(this.BGfour);
                     }
                     float startX = this.ALLdata.get(i).get(j).getStartX();
@@ -580,6 +586,8 @@ public class SleepTodayView
                 } else if (status == 1) {
                     //深睡
                     this.linePaint.setColor(this.deepSleepColor);
+                }else if(status == 5){
+                    this.linePaint.setColor(this.wakeUpTimeColor);
                 }
                 canvas.drawRoundRect(new RectF(this.ALLdata.get(i).get(j).getStartX() - this.lineWith, this.ALLdata.get(i).get(j).getStartY(), this.ALLdata.get(i).get(j).getStopX() + this.lineWith, this.ALLdata.get(i).get(j).getStopY()), dip2px(this.context, 4.0F), dip2px(this.context, 4.0F), this.linePaint);
             }

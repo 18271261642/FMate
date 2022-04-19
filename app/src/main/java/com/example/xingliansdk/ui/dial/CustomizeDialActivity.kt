@@ -39,6 +39,7 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.tools.ToastUtils
+import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
@@ -46,10 +47,12 @@ import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_customize_dial.*
 import kotlinx.android.synthetic.main.activity_customize_dial.titleBar
 import kotlinx.android.synthetic.main.activity_dial_market.*
+import kotlinx.android.synthetic.main.item_dial_img_text.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 //自定义表盘
@@ -404,6 +407,9 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                             hideWaitDialog()
                             var hasMap = HashMap<String, String>()
                             hasMap["dialId"] = "0"
+
+                            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
+
                             mViewModel.updateUserDial(hasMap)
                             // finish()
                             // ShowToast.showToastLong("设备已经有存储这个表盘")
@@ -480,6 +486,9 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                 hasMap["dialId"] = "0"
                 mViewModel.updateUserDial(hasMap)
                 DataDispatcher.callDequeStatus = true
+                Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
+
+                Hawk.put(com.shon.connector.Config.SAVE_LOCAL_CUS_DIAL_URL,mCustomizeDialBean.imgPath)
             }
         }
         }

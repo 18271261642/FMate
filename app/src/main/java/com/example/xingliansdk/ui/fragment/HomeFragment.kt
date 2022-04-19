@@ -783,7 +783,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
         val countStepMap = HashMap<String,Any>();
         countStepMap["step"] =mDataBean.totalSteps.toInt()
-        countStepMap["calorie"] = mDataBean.totalSteps.toInt()
+        countStepMap["calorie"] = mDataBean.calories.toInt()
         countStepMap["distance"] = forMater.format(mDataBean.distance.toDouble() / 1000)
         mViewModel.uploadHomeRealCountStep(countStepMap)
 
