@@ -424,7 +424,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                    tvKM?.text = decimalFormat.format(miDis)+"英里"
+                    tvKM?.text = decimalFormat.format(mHomeCardVoBean.distance.toDouble())+"英里"
                 } else
                     tvKM?.text = "${mHomeCardVoBean.distance} 公里"
                 tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
