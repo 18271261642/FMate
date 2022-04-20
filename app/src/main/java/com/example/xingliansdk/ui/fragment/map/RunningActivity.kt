@@ -97,7 +97,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         requestPermission()
         SNEventBus.register(this)
 
-        registerReceiver(broadcastReceiver,IntentFilter(Config.database.SENSOR_STEP_ACTION))
+        val intentFilter = IntentFilter();
+        intentFilter.addAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION)
+        intentFilter.addAction(Config.database.SENSOR_STEP_ACTION)
+        registerReceiver(broadcastReceiver,intentFilter)
 
         mapMotionBean = intent.getSerializableExtra("MapMotionBean") as MapMotionBean?
 
@@ -289,6 +292,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             stepService?.stopToSensorSport()
         }
 
+        showWaitDialog()
+
         if (mHomeCardBean.list != null && mHomeCardBean.list.size > 0) {
 
             mHomeCardBean.list.forEachIndexed { index, addCardDTO ->
@@ -311,7 +316,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             ControlClass.APP_REAL_TIME_HEART_RATE_SWITCH_KEY,
             1
         )
-        finish()
+        //finish()
 //        }
     }
 
@@ -707,6 +712,13 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 tvCalories.text = kcal
                 tvDistance.text = dis
 
+            }
+
+
+
+            if(action.equals(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION)){
+                hideWaitDialog()
+                finish()
             }
         }
 

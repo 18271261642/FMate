@@ -176,33 +176,36 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
         { it ->
             TLog.error("it==" + Gson().toJson(it))
             TLog.error("it.alarmClock.createTime==${it.alarmClock.createTime}  time+==${time}")
-            if (it==null||it.alarmClock==null||it.alarmClock.createTime < time) {
-                TLog.error("修改数据")
-                saveAlarmClock(System.currentTimeMillis() / 1000)
-            } else if (it.alarmClock.createTime > time) {
-                var list = it.alarmClock.list
-                TLog.error("list==" + Gson().toJson(list))
-                mTimeList.clear()
-                list.forEach {
-                    var bean = TimeBean()
-                    bean.characteristic = it.characteristic
-                    bean.hours = it.hours
-                    bean.mSwitch = it.getmSwitch()
-                    bean.min = it.min
-                    bean.number = it.number
-                    bean.specifiedTime = it.specifiedTime
-                    bean.unicode = it.unicode
-                    bean.unicodeType = it.unicodeType.toByte()
-                    bean.specifiedTimeDescription = it.specifiedTimeDescription
-                    bean.endTime = it.endTime
-                    if(it.endTime<System.currentTimeMillis()/1000&&it.specifiedTime==128)
-                    {
-                        bean.mSwitch = 1
-                    }
-                    mTimeList.add(bean)
-                    BleWrite.writeAlarmClockScheduleCall(bean, false)
-                }
-            }
+
+            saveAlarmClock(System.currentTimeMillis() / 1000)
+
+//            if (it==null||it.alarmClock==null||it.alarmClock.createTime < time) {
+//                TLog.error("修改数据")
+//                saveAlarmClock(System.currentTimeMillis() / 1000)
+//            } else if (it.alarmClock.createTime > time) {
+//                var list = it.alarmClock.list
+//                TLog.error("list==" + Gson().toJson(list))
+//                mTimeList.clear()
+//                list.forEach {
+//                    var bean = TimeBean()
+//                    bean.characteristic = it.characteristic
+//                    bean.hours = it.hours
+//                    bean.mSwitch = it.getmSwitch()
+//                    bean.min = it.min
+//                    bean.number = it.number
+//                    bean.specifiedTime = it.specifiedTime
+//                    bean.unicode = it.unicode
+//                    bean.unicodeType = it.unicodeType.toByte()
+//                    bean.specifiedTimeDescription = it.specifiedTimeDescription
+//                    bean.endTime = it.endTime
+//                    if(it.endTime<System.currentTimeMillis()/1000&&it.specifiedTime==128)
+//                    {
+//                        bean.mSwitch = 1
+//                    }
+//                    mTimeList.add(bean)
+//                    BleWrite.writeAlarmClockScheduleCall(bean, false)
+//                }
+//            }
             TLog.error("mAlarmClockAdapter+="+Gson().toJson(mAlarmClockAdapter.data))
             mAlarmClockAdapter.notifyDataSetChanged()
         }
@@ -226,6 +229,21 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
                     it.endTime
                 )
             )
+            val bean = TimeBean()
+            bean.characteristic = it.characteristic
+            bean.hours = it.hours
+            bean.min = it.min
+            bean.number = it.number
+            bean.specifiedTime = it.specifiedTime
+            bean.unicode = it.unicode
+            bean.unicodeType = it.unicodeType.toByte()
+            bean.specifiedTimeDescription = it.specifiedTimeDescription
+            bean.endTime = it.endTime
+            if(it.endTime<System.currentTimeMillis()/1000&&it.specifiedTime==128)
+            {
+                bean.mSwitch = 1
+            }
+            BleWrite.writeAlarmClockScheduleCall(bean, false)
         }
         var bean = Gson().toJson(mAlarmClockList)
         var data = HashMap<String, String>()

@@ -65,11 +65,17 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     mDataBean.distance = mData.distance
                     mDataBean.calories = mData.calories
                 }
+
+                Log.e(
+                    "XLNotify",
+                    "----222----运动实时数据=" + mDataBean.totalSteps + " " + mDataBean.distance
+                )
+
                 SNEventBus.sendEvent(
                     Config.ActiveUpload.DEVICE_REAL_TIME_EXERCISE.toInt(),
                     mDataBean
                 )
-//            TLog.error("你好实时运动"+mDataBean.totalSteps )
+            TLog.error("你好实时运动"+mDataBean.totalSteps )
             }
             Config.ActiveUpload.DEVICE_REAL_TIME_OTHER -> {
                 mDataBean = DataBean()

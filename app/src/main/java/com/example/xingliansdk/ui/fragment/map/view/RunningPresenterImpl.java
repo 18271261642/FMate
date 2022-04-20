@@ -8,6 +8,7 @@ import com.amap.api.maps.model.LatLng;
 import com.example.xingliansdk.BaseData;
 import com.example.xingliansdk.Config;
 import com.example.xingliansdk.R;
+import com.example.xingliansdk.XingLianApplication;
 import com.example.xingliansdk.bean.db.AmapSportBean;
 import com.example.xingliansdk.bean.db.AmapSportDao;
 import com.example.xingliansdk.bean.room.AppDataBase;
@@ -107,10 +108,14 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         mapHelper.setOnSportMessageListener(onSportMessageListener);
         onSportMessageListener.onSignalChanged(0);
 
+        Context context = null;
         // 判断GPS模块是否开启，如果没有则开启
-        if(getView() == null)
-            return;
-        if (!GPSUtil.isGpsEnable((Context) getView())) {
+        if(getView() == null){
+            context = XingLianApplication.mXingLianApplication;
+        }else{
+            context = (Context) getView();
+        }
+        if (!GPSUtil.isGpsEnable(context)) {
             view.onUpdateGpsSignal(SIGNAL_GPS_OFF);
         }
         BleWrite.writeHeartRateSwitchCall(APP_REAL_TIME_HEART_RATE_SWITCH_KEY, (byte) 0x02);
@@ -451,10 +456,16 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     onCallSaveSportDataStatusChange(CODE_ERROR);
                 } else {
 
-                    if(getView() == null)
-                        return;
+                    Context context = null;
 
-                    if (!GPSUtil.isGpsEnable((Context) getView())) {
+                    if( getView() == null){
+                        context = XingLianApplication.mXingLianApplication;
+                    }else{
+                        context = (Context) getView();
+                    }
+
+
+                    if (!GPSUtil.isGpsEnable(context)) {
                         return;
                     }
 
@@ -557,7 +568,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 
                             Intent intent = new Intent();
                             intent.setAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION);
-                            ((Context) getView()).sendBroadcast(intent);
+                            XingLianApplication.mXingLianApplication.sendBroadcast(intent);
                         }
 
                         @Override

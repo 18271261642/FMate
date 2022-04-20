@@ -1,5 +1,7 @@
 package com.shon.connector.call.notify;
 
+import android.util.Log;
+
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.call.Listener;
@@ -62,6 +64,9 @@ public class XLNotifyCall extends NotifyCallback {
                             mDataBean.setTotalSteps(HexDump.byte2intHigh(result, 10, 4));
                             mDataBean.setDistance(HexDump.byte2intHigh(result, 14, 4));
                             mDataBean.setCalories(HexDump.byte2intHigh(result, 18, 4));
+
+
+                            Log.e("XLNotify","----111----运动实时数据="+mDataBean.getTotalSteps()+" "+mDataBean.getDistance());
                             mInterface.NotifyCallResult(result[9],mDataBean);
                             break;
                         }

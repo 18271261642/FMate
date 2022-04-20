@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.setting
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.CompoundButton
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
@@ -141,6 +142,7 @@ class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterfac
 
     override fun DeviceMotionResult(mDataBean: DataBean?) {
         TLog.error("触发")
+        Log.e("XLNotify", "----444----运动实时数据=" + mDataBean!!.totalSteps + " " + mDataBean.distance)
         SNEventBus.sendEvent(com.shon.connector.Config.ActiveUpload.DEVICE_REAL_TIME_EXERCISE.toInt(), mDataBean)
     }
 

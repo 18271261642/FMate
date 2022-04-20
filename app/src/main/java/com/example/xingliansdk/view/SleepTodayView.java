@@ -437,7 +437,7 @@ public class SleepTodayView
             for (int j = 0; j < this.ALLdata.get(i).size(); j++) {
                 SleepViewData data = this.ALLdata.get(i).get(j);
                 int status = data.getStatus();
-                if (status == 4) {
+                if (status == 4 || status == 5) {
                     //清醒
                     startY = base;
                     stopY = base + h;

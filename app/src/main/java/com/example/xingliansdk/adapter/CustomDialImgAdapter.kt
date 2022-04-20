@@ -53,7 +53,11 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
         if(item.getyAxis() != null){
             itemDownload?.progress = item.getyAxis().toFloat()
         }else{
+            itemDownload?.textColor = (context.resources.getColor(R.color.color_main_green))
+            itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_main_green))
+            //itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_text_de))
             itemDownload?.currentText= "安装"
+
         }
 //        itemDownload?.currentText= item.getyAxis()
 //

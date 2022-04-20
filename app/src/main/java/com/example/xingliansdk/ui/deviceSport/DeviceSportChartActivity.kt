@@ -420,7 +420,11 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 if(values.size == 30){
                     chart.xAxis.granularity = 6f
                     chart.xAxis.setLabelCount(5,true)
-                }else{
+                }else if(values.size == 28){
+                    chart.xAxis.granularity = 7f
+                    chart.xAxis.setLabelCount(4,true)
+                }
+                else{
                     chart.xAxis.granularity = 5f
                     chart.xAxis.labelCount = 6;
                 }

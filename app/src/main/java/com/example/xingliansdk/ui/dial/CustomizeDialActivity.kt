@@ -488,7 +488,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                 DataDispatcher.callDequeStatus = true
                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
 
-                Hawk.put(com.shon.connector.Config.SAVE_LOCAL_CUS_DIAL_URL,mCustomizeDialBean.imgPath)
+                Hawk.put(com.shon.connector.Config.SAVE_LOCAL_CUS_DIAL_URL,mCustomizeDialBean.value)
             }
         }
         }

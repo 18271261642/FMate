@@ -1,6 +1,8 @@
 package com.example.xingliansdk.ui.fragment.map.view;
 
 
+import com.example.xingliansdk.XingLianApplication;
+
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 

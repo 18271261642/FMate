@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.dial
 
+import android.app.ActivityManager
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.KeyEvent
@@ -10,6 +11,7 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.ext.bindViewPager2
 import com.example.xingliansdk.ext.init
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -84,6 +86,7 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
     override fun onDestroy() {
         super.onDestroy()
         isSyncDial = false
+        downStatus = false
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -91,7 +94,7 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
             if(downStatus){
                 backAlert()
             }else{
-                finish()
+               AppActivityManager.getInstance().finishActivity(this)
             }
         }
         return true
@@ -104,14 +107,14 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
         alertDialog!!.setPositiveButton("确定"
         ) { p0, p1 ->
             downStatus = false
-
             XingLianApplication.mXingLianApplication.setIsSyncWriteDial(true)
             Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,17)
             Hawk.put(Config.SAVE_MARKET_BEAN_DIAL,"")
+            Hawk.put(Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1)
 
 
             p0.dismiss()
-            finish()
+            AppActivityManager.getInstance().finishActivity(this)
         }.setNegativeButton("取消"
         ) { p0, p1 ->
             p0.dismiss()

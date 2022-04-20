@@ -647,6 +647,10 @@ class BleWork : IWork, OnCountTimerListener,
     }
 
     override fun DeviceMotionResult(mDataBean: DataBean?) {
+        Log.e(
+            "XLNotify",
+            "----333----运动实时数据=" + mDataBean!!.totalSteps + " " + mDataBean!!.distance
+        )
         SNEventBus.sendEvent(Config.ActiveUpload.DEVICE_REAL_TIME_EXERCISE.toInt(), mDataBean)
     }
 

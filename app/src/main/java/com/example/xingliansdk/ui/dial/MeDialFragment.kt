@@ -66,6 +66,9 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
     var isSyncDial = false
 
 
+    var cusDialPosition = 0
+
+
     override fun initView(savedInstanceState: Bundle?) {
         SNEventBus.register(this)
         imgDownload.setOnClickListener(this)
@@ -118,6 +121,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         65533
                     else
                         mList[position].dialId.toLong()
+
 
                     Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,id.toInt())
 
@@ -191,7 +195,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         ryCustomize.layoutManager = GridLayoutManager(activity, 3)
         customDialImgAdapter = CustomDialImgAdapter(customDialList)
         ryCustomize.adapter = customDialImgAdapter
-        customDialImgAdapter.addChildClickViewIds(R.id.itemDownload, R.id.imgDelete, R.id.imgDial)
+        customDialImgAdapter.addChildClickViewIds(R.id.itemDownload, R.id.imgDelete, R.id.imgDial,R.id.tvInstall)
         customDialImgAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.imgDial->{ //图片点击
@@ -204,19 +208,26 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         Gson().toJson(adapter.data[position])
                     )
                 }
-                R.id.itemDownload -> {
+
+                R.id.itemDownload  -> {
 
 
                     if (DialMarketActivity.downStatus) {
                         ShowToast.showToastLong("有表盘正在安装,请安装完成再次点击")
                         return@setOnItemChildClickListener
                     }
+                    val cusDialBean = adapter.data[position] as CustomizeDialBean
+//                    if(customDialList.get(position).getyAxis() == null ){
+//                        ShowToast.showToastLong("有表盘正在安装,请安装完成再次点击")
+//                        return@setOnItemChildClickListener
+//                    }
 
                     showWaitDialog("更换表盘中,请稍后...")
-                    val cusDialBean = adapter.data[position] as CustomizeDialBean
+
 
                     TLog.error("-------点击自定义表盘="+Gson().toJson(cusDialBean))
-
+                    Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
+                    Hawk.put(com.shon.connector.Config.SAVE_LOCAL_CUS_DIAL_URL,if(TextUtils.isEmpty(cusDialBean.imgPath) )cusDialBean.value else cusDialBean.value)
                     var uiFeature = 65533
                     var grbByte = byteArrayOf()
                     if (cusDialBean.imgPath.isNullOrEmpty()) {
@@ -243,6 +254,8 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 //                    var path = FileUtils.saveBitmapToSDCard(newBit, (cusDialBean.date / 1000).toString())
 //                    cusDialBean.value = path
 
+                    cusDialPosition = position
+
                     val dialBean = DialCustomBean(1,
                         uiFeature,
                         grbByte.size,
@@ -265,7 +278,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                                         0x00, 0xff.toByte(), 0xff.toByte(),
                                         0xff.toByte()
                                     )
-                                    TLog.error("mCustomizeDialBean.imgPath+=" + cusDialBean.imgPath)
+                                    TLog.error("mCustomizeDialBean.imgPath+=" + cusDialBean.imgPath+" value="+cusDialBean.value)
                                     BleWrite.writeFlashErasureAssignCall(
                                         16777215, 16777215
                                     ) { key ->
@@ -435,10 +448,10 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 
                 //是否有市场表盘
                 val marketDialId = Hawk.get(com.shon.connector.Config.SAVE_DEVICE_INTO_MARKET_DIAL,-1);
-               // Log.e("获取本地的表盘","------type=0本地表盘="+"已经选择的表盘id="+currDialId+"    "+marketDialId+"  "+Gson().toJson(it.list[0]));
+                Log.e("获取本地的表盘","------type=0本地表盘="+"已经选择的表盘id="+currDialId+"    "+marketDialId+"  "+Gson().toJson(it.list[0]));
 
                 val saveMarketBean = Hawk.get(com.shon.connector.Config.SAVE_MARKET_BEAN_DIAL,"")
-                //Log.e("本地表盘第四张", "---1111--序列化对象=$saveMarketBean")
+                Log.e("本地表盘第四张", "---1111--序列化对象=$saveMarketBean")
                 if(!TextUtils.isEmpty(saveMarketBean)){
                     val markBean = Gson().fromJson(saveMarketBean,RecommendDialBean.ListDTO.TypeListDTO::class.java)
                    // Log.e("本地表盘第四张","-----序列化对象="+Gson().toJson(saveMarketBean))
@@ -561,16 +574,22 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     TLog.error("---------自定义表盘安装进度="+data.toString())
 
                     if(data.currentProgress !=1 || data.maxProgress != 1){
+                        val currCusBean = Hawk.get(com.shon.connector.Config.SAVE_LOCAL_CUS_DIAL_URL,"")
+
+                        TLog.error("------自定义url="+currCusBean)
 
                         customDialList.forEachIndexed { index, customizeDialBean ->
 
-                            var currentProcess =
-                                (data.currentProgress.toDouble() / data.maxProgress * 100).toFloat()
-
-                            customizeDialBean.setyAxis("$currentProcess")
-                            customDialImgAdapter.notifyItemChanged(index,customizeDialBean)
+                            if(cusDialPosition == index){
+                                var currentProcess =
+                                    (data.currentProgress.toDouble() / data.maxProgress * 100).toFloat()
+                                TLog.error("------gengx进度="+currentProcess)
+                                customizeDialBean.setyAxis("$currentProcess")
+//                                customDialImgAdapter.notifyItemChanged(index,customizeDialBean)
+                            }
 
                         }
+                        customDialImgAdapter.notifyDataSetChanged()
 
                         return
                     }
@@ -578,7 +597,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 
                 Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
 
-
+                customDialList.clear()
                     customDialList = if (sDao.getAllCustomizeDialList()
                             .isNullOrEmpty() || sDao.getAllCustomizeDialList().size <= 0
                     )
@@ -587,14 +606,14 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                         sDao.getAllCustomizeDialList()
                     TLog.error("customDialList==" + Gson().toJson(customDialList))
 
+                customDialList.forEach {
+                    it.setyAxis(null)
+                }
 
-
-                    if (customDialImgAdapter != null) {
-                        customDialImgAdapter.data.clear()
-                        customDialImgAdapter.addData(customDialList)
-                        customDialImgAdapter.notifyDataSetChanged()
-                    }
-                    dialRequest()
+                customDialImgAdapter.data.clear()
+                customDialImgAdapter.addData(customDialList)
+                customDialImgAdapter.notifyDataSetChanged()
+                dialRequest()
 
 
             }

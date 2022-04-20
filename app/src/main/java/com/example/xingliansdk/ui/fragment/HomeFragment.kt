@@ -411,7 +411,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             //   TLog.error("首页卡片数据++" + Gson().toJson(it))
             if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                 mSwipeRefreshLayout.finishRefresh()
-                if(mHomeCardVoBean == null || mHomeCardVoBean.distance == null)
+                if(mHomeCardVoBean.distance == null)
                     return@observe
                 if (!progressStatus) {
                     progressStatus = true
@@ -856,6 +856,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         when (event.code) {
             Config.ActiveUpload.DEVICE_REAL_TIME_EXERCISE.toInt() -> {
                 var data: DataBean = event.data as DataBean
+
+                TLog.error("--------设备实时运动="+data.toString())
+
                 val time =
                     (getSelectedCalendar()!!.timeInMillis / 1000) - TimeUtil.getTodayZero(0) / 1000
 //                TLog.error("回调")
@@ -875,6 +878,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     //  TLog.error("calories==${data.calories}")
                     tvCalories?.text = "${data.calories} 千卡"
                     val countStepMap = HashMap<String,Any>();
+
+
+                    val locaDis = mHomeCardVoBean.distance
+
+
+
                     countStepMap["step"] = data.totalSteps
                     countStepMap["calorie"] = data.calories
                     countStepMap["distance"] = forMater.format(data.distance.toDouble() / 1000)
