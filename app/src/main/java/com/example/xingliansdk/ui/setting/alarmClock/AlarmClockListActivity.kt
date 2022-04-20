@@ -98,9 +98,12 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
                     Hawk.put(TIME_LIST, mTimeList)
                     var upDataTime = System.currentTimeMillis() / 1000
                     Hawk.put(ALARM_CLOCK_CREATE_TIME, upDataTime)
-                    for (i in 0 until mTimeList.size)
-                        BleWrite.writeAlarmClockScheduleCall(mTimeList[i], false)
-                    saveAlarmClock(upDataTime)
+
+                    saveLocalAlarmClock(mTimeList)
+
+//                    for (i in 0 until mTimeList.size)
+//                        BleWrite.writeAlarmClockScheduleCall(mTimeList[i], false)
+//                    saveAlarmClock(upDataTime)
                     mAlarmClockAdapter.notifyItemChanged(position)
                 }
             }
@@ -113,25 +116,30 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
 //                    BleWrite.writeAlarmClockScheduleCall(mTimeList[pos])
                     mTimeList.removeAt(pos)
                     mAlarmClockAdapter.notifyItemRemoved(pos)
-                    for (i in 0 until mTimeList.size) {
-                        TLog.error("删除的position+=$i")
-                        mTimeList[i].number = i
-                        BleWrite.writeAlarmClockScheduleCall(mTimeList[i], true)
-                    }
-                    if (mTimeList.size <= 0) {
-                        TLog.error("删除===")
-                        var mTimeBean = TimeBean()
-                        mTimeBean.number = 0
-                        mTimeBean.switch = 0
-                        mTimeBean.characteristic = TimeBean.ALARM_FEATURES.toInt()
-                        BleWrite.writeAlarmClockScheduleCall(mTimeBean, true)
-                    }
-                    var deleteTime = System.currentTimeMillis() / 1000
-                    Hawk.put(ALARM_CLOCK_CREATE_TIME, deleteTime)
-                    TLog.error("数据流++${Gson().toJson(mTimeList)}")
-                    Hawk.put(TIME_LIST, mTimeList)
-                    saveAlarmClock(deleteTime)
+
+                    saveLocalAlarmClock(mTimeList)
+                    saveAlarmClock(System.currentTimeMillis()/1000)
+//                    for (i in 0 until mTimeList.size) {
+//                        TLog.error("删除的position+=$i")
+//                        mTimeList[i].number = i
+//                        BleWrite.writeAlarmClockScheduleCall(mTimeList[i], true)
+//                    }
+//                    if (mTimeList.size <= 0) {
+//                        TLog.error("删除===")
+//                        var mTimeBean = TimeBean()
+//                        mTimeBean.number = 0
+//                        mTimeBean.switch = 0
+//                        mTimeBean.characteristic = TimeBean.ALARM_FEATURES.toInt()
+//                        BleWrite.writeAlarmClockScheduleCall(mTimeBean, true)
+//                    }
+//                    var deleteTime = System.currentTimeMillis() / 1000
+//                    Hawk.put(ALARM_CLOCK_CREATE_TIME, deleteTime)
+//                    TLog.error("数据流++${Gson().toJson(mTimeList)}")
+//                    Hawk.put(TIME_LIST, mTimeList)
+//                    saveAlarmClock(deleteTime)
                 }
+
+                mAlarmClockAdapter.notifyDataSetChanged()
             }
 
             override fun onClick(pos: Int) {
@@ -139,6 +147,11 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
             }
 
         })
+
+
+        saveLocalAlarmClock(mTimeList)
+
+        saveAlarmClock(System.currentTimeMillis()/1000)
     }
     private fun setUpdateTime(time: Long):Long
     {   //原来设置的时间
@@ -162,12 +175,19 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
         }
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel.getRemind("1")
+    }
+
+
     var time = 0
     override fun onResume() {
         super.onResume()
         time = Hawk.get(ALARM_CLOCK_CREATE_TIME, 0)
         setAdapter()
-        mViewModel.getRemind("1")
+
     }
 
     override fun createObserver() {
@@ -177,8 +197,36 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
             TLog.error("it==" + Gson().toJson(it))
             TLog.error("it.alarmClock.createTime==${it.alarmClock.createTime}  time+==${time}")
 
-            saveAlarmClock(System.currentTimeMillis() / 1000)
+            //saveAlarmClock(System.currentTimeMillis() / 1000)
 
+            if(it.alarmClock.list == null || it.alarmClock.list.isEmpty()){
+                val emptyData = ArrayList<TimeBean>()
+                saveLocalAlarmClock(emptyData)
+                return@observe
+            }
+            mTimeList.clear()
+            var list = it.alarmClock.list
+            list.forEachIndexed { index, listDTO ->
+                val bean = TimeBean()
+                bean.characteristic = listDTO.characteristic
+                bean.hours = listDTO.hours
+                bean.mSwitch = listDTO.getmSwitch()
+                bean.min = listDTO.min
+                bean.number = index
+                bean.specifiedTime = listDTO.specifiedTime
+                bean.unicode = listDTO.unicode
+                bean.unicodeType = listDTO.unicodeType.toByte()
+                bean.specifiedTimeDescription = listDTO.specifiedTimeDescription
+                bean.endTime = listDTO.endTime
+                if(listDTO.endTime<System.currentTimeMillis()/1000 && listDTO.specifiedTime==128)
+                {
+                    bean.mSwitch = 1
+                }
+                mTimeList.add(bean)
+            }
+            saveLocalAlarmClock(mTimeList)
+
+//
 //            if (it==null||it.alarmClock==null||it.alarmClock.createTime < time) {
 //                TLog.error("修改数据")
 //                saveAlarmClock(System.currentTimeMillis() / 1000)
@@ -211,9 +259,40 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
         }
     }
 
+
+
+    //将数据保存在本地数据库
+    private fun saveLocalAlarmClock(mAlarmClockList : ArrayList<TimeBean>){
+        Hawk.put(TIME_LIST, mAlarmClockList)
+
+        TLog.error("------保存到本地闹钟="+Gson().toJson(mAlarmClockList))
+        //无闹钟情况
+        if(mAlarmClockList.isEmpty()){
+            var mTimeBean = TimeBean()
+            mTimeBean.number = 0
+            mTimeBean.switch = 0
+            mTimeBean.characteristic = TimeBean.ALARM_FEATURES.toInt()
+            BleWrite.writeAlarmClockScheduleCall(mTimeBean, true)
+
+            return
+        }
+
+
+        mAlarmClockList.forEachIndexed { index, timeBean ->
+            timeBean.number = index
+            BleWrite.writeAlarmClockScheduleCall(timeBean, true)
+        }
+
+
+
+    }
+
+
+
+
     fun saveAlarmClock(deleteTime: Long) {
       //  mTimeList = Hawk.get(TIME_LIST, ArrayList())
-        var mAlarmClockList: ArrayList<AlarmClockBean> = ArrayList()
+        val mAlarmClockList: ArrayList<AlarmClockBean> = ArrayList()
         mTimeList.forEach {
             mAlarmClockList.add(
                 AlarmClockBean(
@@ -229,24 +308,9 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
                     it.endTime
                 )
             )
-            val bean = TimeBean()
-            bean.characteristic = it.characteristic
-            bean.hours = it.hours
-            bean.min = it.min
-            bean.number = it.number
-            bean.specifiedTime = it.specifiedTime
-            bean.unicode = it.unicode
-            bean.unicodeType = it.unicodeType.toByte()
-            bean.specifiedTimeDescription = it.specifiedTimeDescription
-            bean.endTime = it.endTime
-            if(it.endTime<System.currentTimeMillis()/1000&&it.specifiedTime==128)
-            {
-                bean.mSwitch = 1
-            }
-            BleWrite.writeAlarmClockScheduleCall(bean, false)
         }
-        var bean = Gson().toJson(mAlarmClockList)
-        var data = HashMap<String, String>()
+        val bean = Gson().toJson(mAlarmClockList)
+        val data = HashMap<String, String>()
         data["alarmClock"] = bean
         data["createTime"] = (deleteTime).toString()
         mViewModel.saveAlarmClock(data)

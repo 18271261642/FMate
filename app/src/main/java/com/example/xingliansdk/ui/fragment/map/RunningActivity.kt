@@ -292,7 +292,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             stepService?.stopToSensorSport()
         }
 
-        showWaitDialog()
+        showWaitDialog("数据保存中...")
 
         if (mHomeCardBean.list != null && mHomeCardBean.list.size > 0) {
 

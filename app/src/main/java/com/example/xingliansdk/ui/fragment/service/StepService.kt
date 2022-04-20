@@ -18,6 +18,7 @@ import com.example.xingliansdk.BaseData
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.database.SENSOR_STEP_ACTION
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.bean.db.AmapSportBean
 import com.example.xingliansdk.bean.db.AmapSportDao
 import com.example.xingliansdk.bean.room.AppDataBase
@@ -26,6 +27,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.javaMapView.MapViewApi
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.service.SendWeatherService
+import com.example.xingliansdk.ui.fragment.map.MapContances
 import com.example.xingliansdk.ui.fragment.map.RunningActivity
 import com.example.xingliansdk.ui.fragment.map.task.WeakHandler
 import com.example.xingliansdk.utils.GPSUtil
@@ -388,6 +390,10 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
                 val mAmapSportDao = instance.getAmapSportDao()
                 mAmapSportDao.insert(amapSportBean!!)
+
+                val intent = Intent()
+                intent.action = MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION
+                this@StepService.sendBroadcast(intent)
             }
 
             override fun onFailure(call: Call<BaseData>, t: Throwable) {

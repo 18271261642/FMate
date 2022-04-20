@@ -93,22 +93,22 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
                 TLog.error("m==" + Gson().toJson(mTimeBean))
                 TLog.error("m==" + Gson().toJson(mTimeList))
 
-                mTimeList.forEach {
-                    if (it.endTime < saveTime && it.specifiedTime == 128)
-                        it.switch = 1
-                    TLog.error("===最终结果" + Gson().toJson(it))
-                    mAlarmClockList.add(AlarmClockBean(
-                        it.characteristic,it.hours,it.mSwitch
-                    ,it.min,it.number,it.specifiedTime,it.unicode
-                    ,it.dataUnitType,it.getSpecifiedTimeDescription()
-                        ,it.endTime ))
-                    BleWrite.writeAlarmClockScheduleCall(it, false)
-                }
-                var bean=Gson().toJson(mAlarmClockList)
-                var data= HashMap<String,String>()
-                data["alarmClock"]=bean
-                data["createTime"]=(saveTime).toString()
-                mViewModel.saveAlarmClock(data)
+//                mTimeList.forEach {
+//                    if (it.endTime < saveTime && it.specifiedTime == 128)
+//                        it.switch = 1
+//                    TLog.error("===最终结果" + Gson().toJson(it))
+//                    mAlarmClockList.add(AlarmClockBean(
+//                        it.characteristic,it.hours,it.mSwitch
+//                    ,it.min,it.number,it.specifiedTime,it.unicode
+//                    ,it.dataUnitType,it.getSpecifiedTimeDescription()
+//                        ,it.endTime ))
+//                    BleWrite.writeAlarmClockScheduleCall(it, false)
+//                }
+//                var bean=Gson().toJson(mAlarmClockList)
+//                var data= HashMap<String,String>()
+//                data["alarmClock"]=bean
+//                data["createTime"]=(saveTime).toString()
+//                mViewModel.saveAlarmClock(data)
                 Hawk.put(Config.database.ALARM_CLOCK_CREATE_TIME,saveTime)
                 // BleWrite.writeAlarmClockScheduleCall(mTimeBean,true)
                 finish()

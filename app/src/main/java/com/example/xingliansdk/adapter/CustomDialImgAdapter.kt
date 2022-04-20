@@ -21,6 +21,7 @@ import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_customize_dial.*
+import java.text.DecimalFormat
 import java.util.HashMap
 
 /**
@@ -33,6 +34,7 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
     ) {
 
 
+    val decimalFormat = DecimalFormat("#.#")
     var itemDownload : DownloadProgressButton ? = null
 
     var holder: BaseViewHolder? = null
@@ -51,12 +53,12 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
 
         TLog.error("--------自定义表盘item="+item.getyAxis())
         if(item.getyAxis() != null){
-            itemDownload?.progress = item.getyAxis().toFloat()
+            tvInstall.text =  decimalFormat.format(item.getyAxis().toFloat())+"%"
         }else{
-            itemDownload?.textColor = (context.resources.getColor(R.color.color_main_green))
-            itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_main_green))
+//            itemDownload?.textColor = (context.resources.getColor(R.color.color_main_green))
+//            itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_main_green))
             //itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_text_de))
-            itemDownload?.currentText= "安装"
+            tvInstall.text = "安装"
 
         }
 //        itemDownload?.currentText= item.getyAxis()
@@ -64,13 +66,14 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
 //        itemDownload?.progress = item.getyAxis().toFloat()
 
         tvName.visibility = View.GONE
-        tvInstall.visibility = View.GONE
-        itemDownload!!.visibility=View.VISIBLE
+        tvInstall.visibility = View.VISIBLE
+        itemDownload!!.visibility=View.GONE
         val imgDelete = holder?.getView<ImageView>(R.id.imgDelete)
         if (item.getxAxis().isNullOrEmpty()||item.getxAxis()!="1")
             imgDelete?.visibility = View.GONE
         else
             imgDelete?.visibility = View.VISIBLE
+
         if (item.value.isNullOrEmpty()) {
             if (item.imgPath.isNullOrEmpty())
                 return

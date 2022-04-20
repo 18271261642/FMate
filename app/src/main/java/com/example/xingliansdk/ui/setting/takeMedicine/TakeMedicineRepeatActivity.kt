@@ -104,18 +104,15 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
             override fun onActionClick() {
                 TLog.error("===$type")
 
-
+                var numDay : String ?=null
                 if (type == -1) {
-                    ShowToast.showToastShort("请填入正确的间隔周期")
-                    return
-                }
 
                 val day = edtCustom.text.toString()
                 if(day == "自定义"){
                     ShowToast.showToastShort("请填入间隔周期")
                     return
                 }
-                val numDay = StringUtils.substringBefore(day,"天")
+                 numDay = StringUtils.substringBefore(day,"天")
                 if(numDay == ""){
                     ShowToast.showToastShort("请填入间隔周期")
                     return
@@ -129,7 +126,10 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                     edtCustom.hint = "自定义"
                     return
                 }
-                type = numDay.toInt()
+                }
+                if (numDay != null) {
+                    type = numDay.toInt()
+                }
 
                 SNEventBus.sendEvent(REMIND_TAKE_MEDICINE_REMINDER_PERIOD, type)
                 finish()
@@ -167,6 +167,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                 getType(v.id)
             }
             R.id.edtCustom->{
+                type = -1
                 getType(R.id.edtCustom)
                 var inputD = edtCustom.text.toString()
                 if(inputD == "自定义"){

@@ -209,7 +209,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     )
                 }
 
-                R.id.itemDownload  -> {
+                R.id.tvInstall  -> {
 
 
                     if (DialMarketActivity.downStatus) {

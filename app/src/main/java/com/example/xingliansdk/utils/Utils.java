@@ -96,7 +96,7 @@ public class Utils {
 
 
     /**
-     * 小数相加
+     * 小数相乘
      * @param v1
      * @param v2
      * @return
