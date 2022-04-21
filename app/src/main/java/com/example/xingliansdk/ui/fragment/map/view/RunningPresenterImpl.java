@@ -230,8 +230,11 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 
     private void saveSportData() {
         LinkedList<SNLocation> locations = mMapHelper.getLocations();
-        if(locations == null || locations.isEmpty())
+        if(locations == null || locations.isEmpty()){
+            sendBroadCast();
             return;
+        }
+
 //        if (locations.size() <= 1) {
 //            onCallSaveSportDataStatusChange(CODE_COUNT_LITTLE);
 //            return;
@@ -425,6 +428,7 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         //条件: 需要 截图完成 和地理编码转换完成 才进行下一步
         //两个条件都必须满足
         if (mMapAddress == null ) {
+            sendBroadCast();
             return;
         }
         SNAsyncTask.execute(new SNVTaskCallBack() {
@@ -465,9 +469,9 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     }
 
 
-                    if (!GPSUtil.isGpsEnable(context)) {
-                        return;
-                    }
+//                    if (!GPSUtil.isGpsEnable(context)) {
+//                        return;
+//                    }
 
 
                     LinkedList<SNLocation> locations = mMapHelper.getLocations();
@@ -566,13 +570,12 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                             AmapSportDao mAmapSportDao= AppDataBase.Companion.getInstance().getAmapSportDao();
                             mAmapSportDao.insert(amapSportBean);
 
-                            Intent intent = new Intent();
-                            intent.setAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION);
-                            XingLianApplication.mXingLianApplication.sendBroadcast(intent);
+                            sendBroadCast();
                         }
 
                         @Override
                         public void onFailure(Call<BaseData> call, Throwable t) {
+                            sendBroadCast();
                         }
                     });
                     TLog.Companion.error("==="+new Gson().toJson(amapSportBean));
@@ -591,6 +594,12 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
     }
 
 
+
+    private void sendBroadCast(){
+        Intent intent = new Intent();
+        intent.setAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION);
+        XingLianApplication.mXingLianApplication.sendBroadcast(intent);
+    }
 
     @Override
     public void onDestroy() {

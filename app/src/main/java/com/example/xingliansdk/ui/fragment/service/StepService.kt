@@ -318,8 +318,8 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
         if(amapSportBean == null)
             return
         //GPS打开不保存
-        if(GPSUtil.isGpsEnable(this))
-            return
+//        if(GPSUtil.isGpsEnable(this))
+//            return
         val loginBean =
             Hawk.get<LoginBean>(Config.database.USER_INFO) ?: return
         //mac地址
@@ -397,7 +397,9 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
             }
 
             override fun onFailure(call: Call<BaseData>, t: Throwable) {
-
+                val intent = Intent()
+                intent.action = MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION
+                this@StepService.sendBroadcast(intent)
             }
 
         })

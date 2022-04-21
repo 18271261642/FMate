@@ -89,6 +89,10 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     private var mapMotionBean : MapMotionBean ?= null
 
 
+    //是否打开了GPS
+    private var isOpenGps : Boolean ? = null
+
+
     override fun layoutId() = R.layout.include_map
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
@@ -138,6 +142,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
                 //GPS未打开，使用传感器计步
                 if(GPSUtil.isGpsEnable(instance)){
+                    isOpenGps = true
                     mPresenter?.requestWeatherData()
                     mPresenter?.requestMapFirstLocation()
                     mPresenter?.initDefaultValue()
@@ -145,7 +150,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                     noGpsMapLayout.visibility = View.GONE
 
                 }else{
-
+                    isOpenGps = false
                     noGpsMapLayout.visibility = View.VISIBLE
 
                    // showNoGpsView()
@@ -249,7 +254,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //长按暂停
     private fun clickSaveData() {
         //  if(!HelpUtil.isApkInDebug(XingLianApplication.mXingLianApplication))
-        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.02) {
+        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
 //            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
 //            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 
@@ -281,18 +286,20 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             return
         }
         //ShowToast.showToastLong("最终保留的步数++$stepCount")
-        mPresenter!!.saveHeartAndStep(heartList, stepCount)
-        mPresenter!!.requestRetrySaveSportData()
 
-        if(stepService != null && !GPSUtil.isGpsEnable(instance)){
+
+        if(stepService != null && isOpenGps == false){
             mapMotionBean?.let {
                 stepService?.setStopParams(heartList,chTimer.text.toString(),
                     it.type)
             }
             stepService?.stopToSensorSport()
+        }else{
+            mPresenter!!.saveHeartAndStep(heartList, stepCount)
+            mPresenter!!.requestRetrySaveSportData()
         }
 
-        showWaitDialog("数据保存中...")
+       // showWaitDialog("数据保存中...")
 
         if (mHomeCardBean.list != null && mHomeCardBean.list.size > 0) {
 
@@ -703,14 +710,17 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         override fun onReceive(p0: Context?, p1: Intent?) {
            val action = p1?.action
             if(action.equals(Config.database.SENSOR_STEP_ACTION)){
-                if(GPSUtil.isGpsEnable(instance))
-                    return
-                val dis = p1?.getStringExtra("sensor_dis")
-                val kcal = p1?.getStringExtra("sensor_cal")
-                calories = kcal
-                distances = dis
-                tvCalories.text = kcal
-                tvDistance.text = dis
+//                if(GPSUtil.isGpsEnable(instance))
+//                    return
+                if(isOpenGps == false){
+                    val dis = p1?.getStringExtra("sensor_dis")
+                    val kcal = p1?.getStringExtra("sensor_cal")
+                    calories = kcal
+                    distances = dis
+                    tvCalories.text = kcal
+                    tvDistance.text = dis
+                }
+
 
             }
 

@@ -237,13 +237,39 @@ class BloodOxygenActivity : BaseActivity<BloodOxygenViewModel>(), View.OnClickLi
         TLog.error("setList==${Gson().toJson(setList)}")
         var mIndex = 0
         var lastText = 0
+
+        //展示的最小值
+        var showMinvalue = 0
+        //展示的平均值，去0
+        var showAvgValue = 0
+        var avgList : ArrayList<Int> = arrayListOf()
+
+
         setList.forEachIndexed { index, i ->
             values.add(BarEntry(index.toFloat(), i.toFloat()))
             if (i > 0) {
                 mIndex = index
                 lastText = i
+                avgList.add(i)
             }
         }
+
+        if(avgList.isEmpty()){
+            setValue(0,0,0)
+        }else{
+            showMinvalue = Collections.min(avgList)
+            var tmpCountV  = 0
+            avgList.forEach {
+                tmpCountV+=it
+            }
+            showAvgValue = tmpCountV / avgList.size
+
+            TLog.error("-----血氧最大值最小值="+Collections.max(setList)+" "+showMinvalue+" "+showAvgValue +" ")
+
+            setValue(Collections.max(setList),showMinvalue,showAvgValue)
+        }
+
+
         if (setList.size > 0 && lastText > 0) {
             getLastText(mIndex, lastText)
         }
@@ -519,11 +545,19 @@ class BloodOxygenActivity : BaseActivity<BloodOxygenViewModel>(), View.OnClickLi
                     bloodOxygenVoList.date
                 )
             )
-            setValue(
-                bloodOxygenVoList.max.toDouble().toInt(),
-                bloodOxygenVoList.min.toDouble().toInt(),
-                bloodOxygenVoList.avg.toDouble().toInt()
-            )
+
+            if(bloodOxygenVoList.avg.toDouble().toInt() >0){
+                tvAvg.text = HelpUtil.getSpan(bloodOxygenVoList.avg.toDouble().toString(), "%", 11)
+            }else{
+                tvAvg.text = "--"
+            }
+
+
+//            setValue(
+//                bloodOxygenVoList.max.toDouble().toInt(),
+//                bloodOxygenVoList.min.toDouble().toInt(),
+//                bloodOxygenVoList.avg.toDouble().toInt()
+//            )
             getHeart(date!!)
 
         }
@@ -578,11 +612,20 @@ class BloodOxygenActivity : BaseActivity<BloodOxygenViewModel>(), View.OnClickLi
             if (min > 100)
                 min = 0
             //   setAdapterDate(nullZero / avg, hypoxiaAverage)
-            setValue(Collections.max(mList), min, (nullZero / avg))
+           // setValue(Collections.max(mList), min, (nullZero / avg))
+
+            if((nullZero / avg) >0){
+                tvAvg.text = HelpUtil.getSpan((nullZero / avg).toString(), "%", 11)
+            }else{
+                tvAvg.text = "--"
+            }
+
 
         } else {
             TLog.error("eeeee")
             setValue(0, 0, 0)
+            tvAvg.text = "--"
+
             var nullList = arrayListOf<Int>()
             for (i in 0 until 1440)
                 nullList.add(0)
@@ -636,11 +679,11 @@ class BloodOxygenActivity : BaseActivity<BloodOxygenViewModel>(), View.OnClickLi
         if (max > 0 || min > 0 || avg > 0) {
             tvHeight.text = HelpUtil.getSpan(max.toString(), "%", 11)
             tvLow.text = HelpUtil.getSpan(min.toString(), "%", 11)
-            tvAvg.text = HelpUtil.getSpan(avg.toString(), "%", 11)
+          //  tvAvg.text = HelpUtil.getSpan(avg.toString(), "%", 11)
         } else {
             tvHeight.text = "--"
             tvLow.text = "--"
-            tvAvg.text = "--"
+           // tvAvg.text = "--"
         }
     }
 }

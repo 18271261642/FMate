@@ -401,8 +401,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
             if(mHomeCardVoBean.distance != null){
                 if (mDeviceInformationBean.unitSystem == 1.toByte()) {
-                   // val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                    tvKM?.text = decimalFormat.format(mHomeCardVoBean.distance.toFloat())+"英里"
+                    val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
+                    tvKM?.text = decimalFormat.format(miDis)+"英里"
                 } else
                     tvKM?.text = "${mHomeCardVoBean.distance} 公里"
                 tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
@@ -424,7 +424,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                    tvKM?.text = decimalFormat.format(mHomeCardVoBean.distance.toDouble())+"英里"
+                    tvKM?.text = decimalFormat.format(miDis)+"英里"
                 } else
                     tvKM?.text = "${mHomeCardVoBean.distance} 公里"
                 tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
@@ -774,7 +774,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         circleSports?.progress = mDataBean.totalSteps.toInt()
         TLog.error("unitSystem==" + Gson().toJson(mDeviceInformationBean))
         if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 英里"
+            val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble()/1000,0.6213)
+            tvKM?.text = "${forMater.format(miDis)} 英里"
         } else
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
         //  TLog.error("calories==${data.calories}")
@@ -870,23 +871,27 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     TLog.error("circleSports data.distance==${data.distance}  data.calories+=${data.calories}")
 
                     TLog.error("-------EventBus处返回--------")
-
                     if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-                        tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 英里"
+                       var disT =  Utils.muiltip(data.distance.toDouble() / 1000,1.61)
+                        tvKM?.text = "${forMater.format(disT)} 英里"
                     } else
                         tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 公里"
                     //  TLog.error("calories==${data.calories}")
                     tvCalories?.text = "${data.calories} 千卡"
+
                     val countStepMap = HashMap<String,Any>();
 
 
-                    val locaDis = mHomeCardVoBean.distance
+                    var locaDis = data.distance.toDouble() / 1000
 
+                    if(mDeviceInformationBean.unitSystem == 1.toByte()){
+                        locaDis = Utils.muiltip(locaDis.toDouble(),1.61)
+                    }
 
 
                     countStepMap["step"] = data.totalSteps
                     countStepMap["calorie"] = data.calories
-                    countStepMap["distance"] = forMater.format(data.distance.toDouble() / 1000)
+                    countStepMap["distance"] = forMater.format(locaDis)
                     mViewModel.uploadHomeRealCountStep(countStepMap)
                 }
             }
