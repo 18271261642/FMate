@@ -264,6 +264,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //长按暂停
     private fun clickSaveData() {
         //  if(!HelpUtil.isApkInDebug(XingLianApplication.mXingLianApplication))
+
+
+
         if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
 //            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
 //            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
@@ -557,6 +560,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 tvCalories.text = Utils.add(calories.toDouble(),sourceKcal).toString()
             }
             if (distances != null) {
+                this.distances =   Utils.add(distances.toDouble(),sourceDistance).toString()
                 tvDistance.text = Utils.add(distances.toDouble(),sourceDistance).toString()
             }
 
@@ -738,9 +742,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                     if(dis == null || kcal == null)
                         return
                     calories = kcal
-                    distances = dis
+                    //distances = dis
 
-
+                   distances =  Utils.add(dis.toDouble(),sourceDistance).toString()
 
                     tvCalories.text = Utils.add(kcal.toDouble(),sourceKcal).toString()
                     tvDistance.text = Utils.add(dis.toDouble(),sourceDistance).toString()
