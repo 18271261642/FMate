@@ -565,11 +565,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             }
 
 
-
-
 //            tvPace.text=pace
             this.calories = calories
-            this.distances = distances
+
             this.pace = pace
             averageSpeed = hourSpeed
 
@@ -766,7 +764,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     //GPS状态
     private val gpsListener = GpsStatus.Listener {
         TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
-        if(it == GpsStatus.GPS_EVENT_STARTED){    //打开
+        if(it == GpsStatus.GPS_EVENT_STARTED && GPSUtil.isGpsEnable(this)){    //打开
             noGpsMapLayout.visibility = View.GONE
             stepService?.setNoGpsStartAndEnd(true)
             isOpenGps = true
@@ -787,9 +785,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
         }
 
-        if(it == GpsStatus.GPS_EVENT_STOPPED){  //关闭
+        if(it == GpsStatus.GPS_EVENT_STOPPED && !GPSUtil.isGpsEnable(this)){  //关闭
             stepService?.setNoGpsStartAndEnd(false)
-            noGpsMapLayout.visibility = View.VISIBLE
+           // noGpsMapLayout.visibility = View.VISIBLE
             isOpenGps = false
             var disStr = tvDistance.text.toString();
             if(disStr == null || disStr == "--"){

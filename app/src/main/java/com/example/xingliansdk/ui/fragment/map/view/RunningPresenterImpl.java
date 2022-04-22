@@ -243,7 +243,8 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         mMapBitmap = null;
         mMapAddress = null;
       //  mMapHelper.screenCapture(true, onMapScreenShotListener);
-        mMapHelper.requestGetLocationAddress(locations.getLast(), onMapLocationAddressListener);
+        //116.398232,39.909599
+        mMapHelper.requestGetLocationAddress((locations == null || locations.isEmpty()) ? new SNLocation(39.909599,116.398232) : locations.getLast(), onMapLocationAddressListener);
 //        TimeOutUtil.setTimeOut(mHandler, 10 * 1000L, new TimeOutUtil.OnTimeOutListener() {
 //            @Override
 //            public void onTimeOut() {
