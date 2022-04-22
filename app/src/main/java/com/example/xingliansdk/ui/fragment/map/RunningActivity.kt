@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.GpsStatus
 import android.os.*
 import android.view.KeyEvent
 import android.view.View
@@ -91,7 +92,14 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     //是否打开了GPS
     private var isOpenGps : Boolean ? = null
+    //原有的距离和卡路里，用于切换GPS累加
+    private var sourceDistance= 0.0
+    private var sourceKcal = 0.0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        GPSUtil.registerGpsStatus(this,gpsListener)
+    }
 
     override fun layoutId() = R.layout.include_map
     override fun initView(savedInstanceState: Bundle?) {
@@ -136,20 +144,22 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 amapStatusTime.start()
 
                 initMap(savedInstanceState)
-//                mPresenter?.requestWeatherData()
-//                mPresenter?.requestMapFirstLocation()
-//                mPresenter?.initDefaultValue()
+                mPresenter?.requestWeatherData()
+                mPresenter?.requestMapFirstLocation()
+                mPresenter?.initDefaultValue()
 
                 //GPS未打开，使用传感器计步
                 if(GPSUtil.isGpsEnable(instance)){
-                    isOpenGps = true
-                    mPresenter?.requestWeatherData()
-                    mPresenter?.requestMapFirstLocation()
-                    mPresenter?.initDefaultValue()
 
+                    isOpenGps = true
+//                    mPresenter?.requestWeatherData()
+//                    mPresenter?.requestMapFirstLocation()
+//                    mPresenter?.initDefaultValue()
+                    stepService?.setNoGpsStartAndEnd(true)
                     noGpsMapLayout.visibility = View.GONE
 
                 }else{
+                    stepService?.setNoGpsStartAndEnd(false)
                     isOpenGps = false
                     noGpsMapLayout.visibility = View.VISIBLE
 
@@ -286,17 +296,15 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             return
         }
         //ShowToast.showToastLong("最终保留的步数++$stepCount")
+        mPresenter!!.saveHeartAndStep(heartList, stepCount)
+        mPresenter!!.requestRetrySaveSportData()
 
-
-        if(stepService != null && isOpenGps == false){
+        if(stepService != null ){
             mapMotionBean?.let {
                 stepService?.setStopParams(heartList,chTimer.text.toString(),
                     it.type)
             }
             stepService?.stopToSensorSport()
-        }else{
-            mPresenter!!.saveHeartAndStep(heartList, stepCount)
-            mPresenter!!.requestRetrySaveSportData()
         }
 
        // showWaitDialog("数据保存中...")
@@ -384,6 +392,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         this.unbindService(conn)
         val intent = Intent(this, StepService::class.java)
         this.stopService(intent)
+
+        GPSUtil.unregisterGpsListener(gpsListener)
     }
 
     override fun onClick(v: View) {
@@ -541,8 +551,18 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         TLog.error("pace++$pace")
        // TLog.error("-----经纬度集合=" + Gson().toJson(latLngs))
         try {
-            tvCalories.text = calories
-            tvDistance.text = distances
+
+
+            if (calories != null) {
+                tvCalories.text = Utils.add(calories.toDouble(),sourceKcal).toString()
+            }
+            if (distances != null) {
+                tvDistance.text = Utils.add(distances.toDouble(),sourceDistance).toString()
+            }
+
+
+
+
 //            tvPace.text=pace
             this.calories = calories
             this.distances = distances
@@ -715,12 +735,16 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 if(isOpenGps == false){
                     val dis = p1?.getStringExtra("sensor_dis")
                     val kcal = p1?.getStringExtra("sensor_cal")
+                    if(dis == null || kcal == null)
+                        return
                     calories = kcal
                     distances = dis
-                    tvCalories.text = kcal
-                    tvDistance.text = dis
-                }
 
+
+
+                    tvCalories.text = Utils.add(kcal.toDouble(),sourceKcal).toString()
+                    tvDistance.text = Utils.add(dis.toDouble(),sourceDistance).toString()
+                }
 
             }
 
@@ -732,6 +756,52 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             }
         }
 
+    }
+
+
+    //GPS状态
+    private val gpsListener = GpsStatus.Listener {
+        TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
+        if(it == GpsStatus.GPS_EVENT_STARTED){    //打开
+            noGpsMapLayout.visibility = View.GONE
+            stepService?.setNoGpsStartAndEnd(true)
+            isOpenGps = true
+            var disStr = tvDistance.text.toString();
+            if(disStr == null || disStr == "--"){
+                sourceDistance = 0.0
+            }else{
+                sourceDistance = disStr.toDouble()
+            }
+
+
+            var kcalStr = tvCalories.text.toString()
+            if(kcalStr == null || kcalStr.equals("--")){
+                sourceKcal = 0.0
+            }else{
+                sourceKcal = kcalStr.toDouble()
+            }
+
+        }
+
+        if(it == GpsStatus.GPS_EVENT_STOPPED){  //关闭
+            stepService?.setNoGpsStartAndEnd(false)
+            noGpsMapLayout.visibility = View.VISIBLE
+            isOpenGps = false
+            var disStr = tvDistance.text.toString();
+            if(disStr == null || disStr == "--"){
+                sourceDistance = 0.0
+            }else{
+                sourceDistance = disStr.toDouble()
+            }
+
+
+            var kcalStr = tvCalories.text.toString()
+            if(kcalStr == null || kcalStr == "--"){
+                sourceKcal = 0.0
+            }else{
+                sourceKcal = kcalStr.toDouble()
+            }
+        }
     }
 
 }

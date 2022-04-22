@@ -1,10 +1,15 @@
 package com.example.xingliansdk.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.GpsStatus;
 import android.location.LocationManager;
 import android.provider.Settings;
+
+import androidx.core.app.ActivityCompat;
 
 public class GPSUtil {
     private static LocationManager locationManager;
@@ -14,6 +19,23 @@ public class GPSUtil {
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         }
         return locationManager;
+    }
+
+
+    public static void registerGpsStatus(Context context,GpsStatus.Listener listener) {
+        locationManager = getLocationManager(context);
+        if (locationManager == null)
+            return;
+        if(ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationManager.addGpsStatusListener(listener);
+        }
+    }
+
+    public static void unregisterGpsListener(GpsStatus.Listener listener) {
+        if (locationManager != null) {
+            locationManager.removeGpsStatusListener(listener);
+        }
+
     }
 
     /**

@@ -96,6 +96,8 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
     //用于最后上传bean
     private var amapSportBean : AmapSportBean ? = null
 
+    //是否开启了GPS，未开启GPS使用计步器估算距离
+    private var isOpenGps = false
 
 
     private var isUnit = true
@@ -291,7 +293,7 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
     //结束运动
     public fun stopToSensorSport(){
         isStartSport = false
-        saveSensorSport()
+       // saveSensorSport()
     }
 
 
@@ -406,6 +408,15 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
     }
 
+    //GPS是否开启运动
+    public fun setNoGpsStartAndEnd(isOpen: Boolean){
+        isOpenGps = isOpen
+       noGpsCountStep = 0
+    }
+
+
+
+
     /**
      * 由传感器记录当前用户运动步数，注意：该传感器只在4.4及以后才有，并且该传感器记录的数据是从设备开机以后不断累加，
      * 只有当用户关机以后，该数据才会清空，所以需要做数据保护
@@ -413,6 +424,10 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
     var step=0
 
     var countSTep = 0
+
+    //GPS关闭后的计步累计
+    var noGpsCountStep = 0
+
 
     override fun onSensorChanged(event: SensorEvent) {
         TLog.error(tags,"--------类型="+event.sensor.type)
@@ -440,6 +455,9 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                 return
 
             if(tmpS == 1){
+
+                noGpsCountStep++
+
                 countSTep++
                 //体重
                 var userWeight = mDeviceInformationBean?.weight
@@ -455,6 +473,9 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
 
                 //计算距离
                 val currDistance = Utils.divi((countSTep * userHeight * 0.46 ),1000 * 100.0,2)
+
+                var noGpsCurrDistance = Utils.divi((noGpsCountStep * userHeight * 0.46 ),1000 * 100.0,2)
+
                 //卡路里
                 //跑步热量（kcal）＝体重（kg）×距离（公里）×K（运动系数
 
@@ -476,6 +497,11 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                 //卡路里
                 amapSportBean?.calories = decimal.format(currKcal).toString()
 
+
+
+
+                val noGpsKcal = userWeight * noGpsCurrDistance * 1.036f
+
                 TLog.error(tags,"--------计算数据="+currDistance +" "+currKcal +" 步数="+countSTep)
 
                 val showDis =
@@ -483,7 +509,18 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
                         "%.2f",
                         if (isUnit) Utils.kmToMile(currDistance.toDouble()) else currDistance
                     )
-                setSensorBroadCast(showDis,decimal.format(currKcal).toString())
+
+                val showNoGpsDis =
+                    ResUtil.format(
+                        "%.2f",
+                        if (isUnit) Utils.kmToMile(noGpsCurrDistance.toDouble()) else noGpsCurrDistance
+                    )
+
+                if(isOpenGps == false){
+                    setSensorBroadCast(showNoGpsDis,decimal.format(noGpsKcal).toString())
+                }
+
+               // setSensorBroadCast(showDis,decimal.format(currKcal).toString())
 
 
                 SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_STEP,countSTep)
