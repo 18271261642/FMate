@@ -43,9 +43,13 @@ import com.shon.connector.utils.TLog
 import com.sn.map.impl.GpsLocationImpl
 import com.sn.map.view.SNGaoDeMap
 import com.sn.map.view.SNMapHelper
+import kotlinx.android.synthetic.main.activity_map_test.*
 import kotlinx.android.synthetic.main.amap_include_start_pause_layout.*
 import kotlinx.android.synthetic.main.amap_running_status_view.*
 import kotlinx.android.synthetic.main.include_map.*
+import kotlinx.android.synthetic.main.include_map.mMapContent
+import kotlinx.android.synthetic.main.include_map.tvDistance
+import kotlinx.android.synthetic.main.include_map.tvPace
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
@@ -267,7 +271,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
 
 
-        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
+        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.002) {
 //            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
 //            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 
@@ -299,7 +303,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             return
         }
         //ShowToast.showToastLong("最终保留的步数++$stepCount")
-        mPresenter!!.saveHeartAndStep(heartList, stepCount)
+        mPresenter!!.saveHeartAndStep(heartList, stepCount,distances,tvCalories.text.toString())
         mPresenter!!.requestRetrySaveSportData()
 
         if(stepService != null ){

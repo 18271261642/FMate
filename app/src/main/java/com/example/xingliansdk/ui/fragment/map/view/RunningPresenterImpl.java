@@ -56,6 +56,11 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
     private ArrayList<Integer> heartList;//心率
     private  int step; //步数
 
+    //总距离，从页面传过来，
+    private String allDistance;
+    //总卡路里
+    private String allKcal;
+
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     /**
      * 超强
@@ -309,9 +314,11 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
     }
 
     @Override
-    public void saveHeartAndStep(ArrayList<Integer> heartList,int step) {
+    public void saveHeartAndStep(ArrayList<Integer> heartList,int step,String countDistance,String allKcal) {
         this.heartList=heartList;
         this.step=step;
+        this.allDistance = countDistance;
+        this.allKcal = allKcal;
     }
 
 
@@ -484,7 +491,19 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                         return;
                     //总距离
                     String countDistance = Math.round(baseSportData.distanceTotal)+"";
-                    TLog.Companion.error("距离++"+countDistance);
+
+                    //公英制
+                    LoginBean userInfo = Hawk.get(Config.database.USER_INFO, new LoginBean());
+                    boolean isUnit = (userInfo==null||userInfo.getUserConfig().getDistanceUnit()==0);
+
+                    double tmpDis = isUnit ? Double.parseDouble(allDistance) : Utils.miToKm(Double.parseDouble(allDistance));
+
+
+
+                    String resultDistance = decimalFormat.format(tmpDis* 1000);
+
+
+                    TLog.Companion.error("距离++"+resultDistance);
                     //总时长 ，秒
                     String countTime = (millisecond / 1000)+"";
                     //结束运动的时间
@@ -495,7 +514,10 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     TLog.Companion.error("sportData.calories=="+sportData.calories+", kcalcanstanc +"+kcalcanstanc);
                     //平均速度 米/秒
                   //  String avgSpeed = baseSportData.speedAvg+"";
-                    Double avgSpeed = baseSportData.distanceTotal/(millisecond/1000);
+                   // Double avgSpeed = baseSportData.distanceTotal/(millisecond/1000);
+
+                    Double avgSpeed = (tmpDis* 1000) /(millisecond/1000);
+
                     TLog.Companion.error("平均速度 米/秒=="+baseSportData.speedAvg);
 
 
@@ -506,8 +528,9 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     TLog.Companion.error("hms="+hms+"speedMinutes++"+speedMinutes+"speedSeconds++"+speedSeconds);
 //                    String paceStr = (speedMinutes * 60 + speedSeconds)+"";
                     TLog.Companion.error("millisecond++"+millisecond+" countDistance++"+countDistance +" baseSportData.distanceTotal++"+baseSportData.distanceTotal);
-                    String
-                            paceStr = (millisecond/baseSportData.distanceTotal)+"";
+                    String  paceStr = (millisecond / (tmpDis *1000))+"";
+
+
                     TLog.Companion.error("  //平均配速=="+paceStr);
                     //经纬度集合
                     List<LatLng> resultLat = new ArrayList<>();
@@ -533,8 +556,8 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     amapSportBean.setCurrentSportTime(millisecondStr);
                     amapSportBean.setEndSportTime(Utils.getCurrentDate1());
                     amapSportBean.setCurrentSteps(step);
-                    amapSportBean.setDistance(countDistance);
-                    amapSportBean.setCalories(countCalories);
+                    amapSportBean.setDistance(resultDistance);
+                    amapSportBean.setCalories(allKcal);
                     amapSportBean.setAverageSpeed(""+avgSpeed);
                     TLog.Companion.error("paceStr=="+paceStr);
                     amapSportBean.setPace(paceStr);
@@ -548,9 +571,12 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
                     hashMap.put("positionData",latStr);
                     hashMap.put("createTimeStamp",createTime/1000);
                     hashMap.put("type",sportType);
-                    hashMap.put("distance",countDistance);
+
+
+
+                    hashMap.put("distance",resultDistance);
                     hashMap.put("motionTime",countTime);
-                    hashMap.put("calorie",countCalories);
+                    hashMap.put("calorie",allKcal);
                     hashMap.put("steps",step);
                     hashMap.put("avgPace",paceStr);
                     hashMap.put("avgSpeed",avgSpeed);

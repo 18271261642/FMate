@@ -82,6 +82,6 @@ public class IRunningContract {
         void requestStopSport();
         void requestRetrySaveSportData();
 
-        void saveHeartAndStep(ArrayList<Integer> heartList,int step);
+        void saveHeartAndStep(ArrayList<Integer> heartList,int step,String countDistance,String countKcal);
     }
 }
