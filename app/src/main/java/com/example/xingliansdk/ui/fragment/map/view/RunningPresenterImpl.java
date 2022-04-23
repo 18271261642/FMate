@@ -218,8 +218,8 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
             view.onUpdateMapFirstLocation(latitude, longitude);
         } else {
             //如果没有 那就默认北京
-            latitude = 0;
-            longitude = 0;
+            latitude = 39.909599d;
+            longitude = 116.398232d;
             if (latitude > 0 && longitude > 0) {
                 if (!isUIEnable()) return;
                 view.onUpdateMapFirstLocation(latitude, longitude);

@@ -41,7 +41,7 @@ public class GaoDeLocationImpl implements ILocation, AMapLocationListener {
 
     @Override
     public void start() {
-        stop();
+     //   stop();
         if (mLocationClient == null) {
             //初始化定位
             mLocationClient = new AMapLocationClient(context.get());
@@ -61,7 +61,7 @@ public class GaoDeLocationImpl implements ILocation, AMapLocationListener {
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒 1次
-        mLocationOption.setInterval(minTime);
+        mLocationOption.setInterval(2000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位

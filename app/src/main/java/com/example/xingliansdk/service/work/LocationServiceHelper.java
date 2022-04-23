@@ -33,7 +33,8 @@ public class LocationServiceHelper implements ILocation.LocationListener, Closea
 
     public LocationServiceHelper(Context context) {
         this.context = new WeakReference<Context>(context.getApplicationContext());
-        switchLocationType();
+        //switchLocationType();
+        location = new GaoDeLocationImpl(context, 1, 1);
     }
 
     public void switchLocationType() {

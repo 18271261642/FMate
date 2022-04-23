@@ -26,6 +26,7 @@ import com.example.xingliansdk.bean.MapMotionBean
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.service.work.LocationServiceHelper
 import com.example.xingliansdk.ui.fragment.map.view.IRunningContract
 import com.example.xingliansdk.ui.fragment.map.view.RunningPresenterImpl
 import com.example.xingliansdk.ui.fragment.service.OnSensorStepListener
@@ -96,6 +97,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     private var sourceDistance= 0.0
     private var sourceKcal = 0.0
 
+    private var locationHelper : LocationServiceHelper ? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GPSUtil.registerGpsStatus(this,gpsListener)
@@ -108,6 +111,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             .init()
         requestPermission()
         SNEventBus.register(this)
+
+        locationHelper = LocationServiceHelper(this)
 
         val intentFilter = IntentFilter();
         intentFilter.addAction(MapContances.NOTIFY_MAP_HISTORY_UPDATE_ACTION)
@@ -144,7 +149,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 amapStatusTime.start()
 
                 initMap(savedInstanceState)
-                mPresenter?.requestWeatherData()
+                locationHelper!!.startLocation()
+              //  mPresenter?.requestWeatherData()
                 mPresenter?.requestMapFirstLocation()
                 mPresenter?.initDefaultValue()
 

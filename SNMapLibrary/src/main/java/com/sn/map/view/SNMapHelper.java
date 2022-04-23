@@ -146,7 +146,7 @@ public abstract class SNMapHelper implements Application.ActivityLifecycleCallba
      */
     public void startSport() {
 
-        iLocation.stop();
+       // iLocation.stop();
         iLocation.start();
         isStarted = true;
     }
