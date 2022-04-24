@@ -222,9 +222,9 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         if (latitude > 0 && longitude > 0) {
             view.onUpdateMapFirstLocation(latitude, longitude);
         } else {
-            //如果没有 那就默认北京
-            latitude = 0;
-            longitude = 0;
+            //如果没有 那就默认北京 116.398801,39.911688
+            latitude = 39.911688;
+            longitude = 116.39880;
             if (latitude > 0 && longitude > 0) {
                 if (!isUIEnable()) return;
                 view.onUpdateMapFirstLocation(latitude, longitude);
@@ -464,150 +464,147 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
 
             @Override
             public void done() {
-                if (baseSportData == null  ) {
-                    onCallSaveSportDataStatusChange(CODE_ERROR);
-                } else {
+                try {
+                    if (baseSportData == null  ) {
+                        onCallSaveSportDataStatusChange(CODE_ERROR);
+                    } else {
 
-                    Context context = null;
+                        Context context = null;
 
-                    if( getView() == null){
-                        context = XingLianApplication.mXingLianApplication;
-                    }else{
-                        context = (Context) getView();
-                    }
+                        if( getView() == null){
+                            context = XingLianApplication.mXingLianApplication;
+                        }else{
+                            context = (Context) getView();
+                        }
 
+                        LinkedList<SNLocation> locations = mMapHelper.getLocations();
+                        LoginBean loginBean = Hawk.get(Config.database.USER_INFO);
+                        if(loginBean == null)
+                            return;
+                        String userId = loginBean.getUser().getUserId();
+                        if(userId == null)
+                            return;
+                        //总距离
+                        String countDistance = Math.round(baseSportData.distanceTotal)+"";
 
-//                    if (!GPSUtil.isGpsEnable(context)) {
-//                        return;
-//                    }
+                        //公英制
+                        LoginBean userInfo = Hawk.get(Config.database.USER_INFO, new LoginBean());
+                        boolean isUnit = (userInfo==null||userInfo.getUserConfig().getDistanceUnit()==0);
 
-
-                    LinkedList<SNLocation> locations = mMapHelper.getLocations();
-                    LoginBean loginBean = Hawk.get(Config.database.USER_INFO);
-                    if(loginBean == null)
-                        return;
-                    String userId = loginBean.getUser().getUserId();
-                    if(userId == null)
-                        return;
-                    //总距离
-                    String countDistance = Math.round(baseSportData.distanceTotal)+"";
-
-                    //公英制
-                    LoginBean userInfo = Hawk.get(Config.database.USER_INFO, new LoginBean());
-                    boolean isUnit = (userInfo==null||userInfo.getUserConfig().getDistanceUnit()==0);
-
-                    double tmpDis = isUnit ? Double.parseDouble(allDistance) : Utils.miToKm(Double.parseDouble(allDistance));
+                        double tmpDis = isUnit ? Double.parseDouble(allDistance) : Utils.miToKm(Double.parseDouble(allDistance));
 
 
 
-                    String resultDistance = decimalFormat.format(tmpDis* 1000);
+                        String resultDistance = decimalFormat.format(tmpDis* 1000);
 
 
-                    TLog.Companion.error("距离++"+resultDistance);
-                    //总时长 ，秒
-                    String countTime = (millisecond / 1000)+"";
-                    //结束运动的时间
-                    long endTime = System.currentTimeMillis()/1000;
-                    //卡路里
-                 //   String countCalories = decimalFormat.format(Utils.mul(kcalcanstanc,baseSportData.)/1000) +"";
-                    String countCalories=String.valueOf(kcalcanstanc);
-                    TLog.Companion.error("sportData.calories=="+sportData.calories+", kcalcanstanc +"+kcalcanstanc);
-                    //平均速度 米/秒
-                  //  String avgSpeed = baseSportData.speedAvg+"";
-                   // Double avgSpeed = baseSportData.distanceTotal/(millisecond/1000);
+                        TLog.Companion.error("距离++"+resultDistance);
+                        //总时长 ，秒
+                        String countTime = (millisecond / 1000)+"";
+                        //结束运动的时间
+                        long endTime = System.currentTimeMillis()/1000;
+                        //卡路里
+                        //   String countCalories = decimalFormat.format(Utils.mul(kcalcanstanc,baseSportData.)/1000) +"";
+                        String countCalories=String.valueOf(kcalcanstanc);
+                        TLog.Companion.error("sportData.calories=="+sportData.calories+", kcalcanstanc +"+kcalcanstanc);
+                        //平均速度 米/秒
+                        //  String avgSpeed = baseSportData.speedAvg+"";
+                        // Double avgSpeed = baseSportData.distanceTotal/(millisecond/1000);
 
-                    Double avgSpeed = (tmpDis* 1000) /(millisecond/1000);
+                        Double avgSpeed = (tmpDis* 1000) /(millisecond/1000);
 
-                    TLog.Companion.error("平均速度 米/秒=="+baseSportData.speedAvg);
+                        TLog.Companion.error("平均速度 米/秒=="+baseSportData.speedAvg);
 
 
-                    //平均配速
-                    DateUtil.HMS hms =   DateUtil.getHMSFromMillis(millisecond);
-                    int speedMinutes = hms.getHour() * 60 + hms.getMinute();
-                    int speedSeconds = hms.getSecond();
-                    TLog.Companion.error("hms="+hms+"speedMinutes++"+speedMinutes+"speedSeconds++"+speedSeconds);
+                        //平均配速
+                        DateUtil.HMS hms =   DateUtil.getHMSFromMillis(millisecond);
+                        int speedMinutes = hms.getHour() * 60 + hms.getMinute();
+                        int speedSeconds = hms.getSecond();
+                        TLog.Companion.error("hms="+hms+"speedMinutes++"+speedMinutes+"speedSeconds++"+speedSeconds);
 //                    String paceStr = (speedMinutes * 60 + speedSeconds)+"";
-                    TLog.Companion.error("millisecond++"+millisecond+" countDistance++"+countDistance +" baseSportData.distanceTotal++"+baseSportData.distanceTotal);
-                    String  paceStr = (millisecond / (tmpDis *1000))+"";
+                        TLog.Companion.error("millisecond++"+millisecond+" countDistance++"+countDistance +" baseSportData.distanceTotal++"+baseSportData.distanceTotal);
+                        String  paceStr = (millisecond / (tmpDis *1000))+"";
 
 
-                    TLog.Companion.error("  //平均配速=="+paceStr);
-                    //经纬度集合
-                    List<LatLng> resultLat = new ArrayList<>();
-                    if(locations != null && locations.size()>0){
-                        for(SNLocation snLocation : locations){
-                            resultLat.add(new LatLng(snLocation.getLatitude(),snLocation.getLongitude()));
-                        }
-                    }
-                    String latStr = new Gson().toJson(resultLat);
-
-                    //mac地址
-                    String macAddress = Hawk.get("address");
-                    //运动类型
-                    int sportType = Hawk.get(Config.database.AMAP_SPORT_TYPE,1);
-
-                    AmapSportBean amapSportBean = new AmapSportBean();
-                    amapSportBean.setUserId(userId);
-                    amapSportBean.setDeviceMac(macAddress.toLowerCase(Locale.CHINA));
-                    amapSportBean.setDayDate(Utils.getCurrentDate());
-                    amapSportBean.setYearMonth(Utils.getCurrentDateByFormat("yyyy-MM"));
-                    amapSportBean.setSportType(sportType);
-                    amapSportBean.setMapType(1);
-                    amapSportBean.setCurrentSportTime(millisecondStr);
-                    amapSportBean.setEndSportTime(Utils.getCurrentDate1());
-                    amapSportBean.setCurrentSteps(step);
-                    amapSportBean.setDistance(resultDistance);
-                    amapSportBean.setCalories(allKcal);
-                    amapSportBean.setAverageSpeed(""+avgSpeed);
-                    TLog.Companion.error("paceStr=="+paceStr);
-                    amapSportBean.setPace(paceStr);
-                    amapSportBean.setLatLonArrayStr(latStr);
-                    amapSportBean.setCreateTime(createTime/1000);
-                    TLog.Companion.error("心率==="+new Gson().toJson(heartList));
-                    amapSportBean.setHeartArrayStr(new Gson().toJson(heartList));
-                    TLog.Companion.error("-----保存cans="+new Gson().toJson(amapSportBean));
-
-                    HashMap<String,Object> hashMap=new HashMap<>();
-                    hashMap.put("positionData",latStr);
-                    hashMap.put("createTimeStamp",createTime/1000);
-                    hashMap.put("type",sportType);
-
-
-
-                    hashMap.put("distance",resultDistance);
-                    hashMap.put("motionTime",countTime);
-                    hashMap.put("calorie",allKcal);
-                    hashMap.put("steps",step);
-                    hashMap.put("avgPace",paceStr);
-                    hashMap.put("avgSpeed",avgSpeed);
-                    hashMap.put("heartRateData",new Gson().toJson(heartList));
-
-
-
-
-                    Call   bean=mapViewApi.motionInfoSave(hashMap);
-                    bean.enqueue(new Callback<BaseData>() {
-                        @Override
-                        public void onResponse(Call<BaseData> call, Response<BaseData> response) {
-                            if(response.body().getCode()!=200)
-                            {
-                                ShowToast.INSTANCE.showToastLong(response.body().getMsg());
-                                return;
+                        TLog.Companion.error("  //平均配速=="+paceStr);
+                        //经纬度集合
+                        List<LatLng> resultLat = new ArrayList<>();
+                        if(locations != null && locations.size()>0){
+                            for(SNLocation snLocation : locations){
+                                resultLat.add(new LatLng(snLocation.getLatitude(),snLocation.getLongitude()));
                             }
-                            AmapSportDao mAmapSportDao= AppDataBase.Companion.getInstance().getAmapSportDao();
-                            mAmapSportDao.insert(amapSportBean);
-
-                            sendBroadCast();
                         }
+                        String latStr = new Gson().toJson(resultLat);
 
-                        @Override
-                        public void onFailure(Call<BaseData> call, Throwable t) {
-                            sendBroadCast();
-                        }
-                    });
-                    TLog.Companion.error("==="+new Gson().toJson(amapSportBean));
+                        //mac地址
+                        String macAddress = Hawk.get("address");
+                        //运动类型
+                        int sportType = Hawk.get(Config.database.AMAP_SPORT_TYPE,1);
+
+                        AmapSportBean amapSportBean = new AmapSportBean();
+                        amapSportBean.setUserId(userId);
+                        amapSportBean.setDeviceMac(macAddress.toLowerCase(Locale.CHINA));
+                        amapSportBean.setDayDate(Utils.getCurrentDate());
+                        amapSportBean.setYearMonth(Utils.getCurrentDateByFormat("yyyy-MM"));
+                        amapSportBean.setSportType(sportType);
+                        amapSportBean.setMapType(1);
+                        amapSportBean.setCurrentSportTime(millisecondStr);
+                        amapSportBean.setEndSportTime(Utils.getCurrentDate1());
+                        amapSportBean.setCurrentSteps(step);
+                        amapSportBean.setDistance(resultDistance);
+                        amapSportBean.setCalories(allKcal);
+                        amapSportBean.setAverageSpeed(""+avgSpeed);
+                        TLog.Companion.error("paceStr=="+paceStr);
+                        amapSportBean.setPace(paceStr);
+                        amapSportBean.setLatLonArrayStr(latStr);
+                        amapSportBean.setCreateTime(createTime/1000);
+                        TLog.Companion.error("心率==="+new Gson().toJson(heartList));
+                        amapSportBean.setHeartArrayStr(new Gson().toJson(heartList));
+                        TLog.Companion.error("-----保存cans="+new Gson().toJson(amapSportBean));
+
+                        HashMap<String,Object> hashMap=new HashMap<>();
+                        hashMap.put("positionData",latStr);
+                        hashMap.put("createTimeStamp",createTime/1000);
+                        hashMap.put("type",sportType);
 
 
+                        hashMap.put("distance",resultDistance);
+                        hashMap.put("motionTime",countTime);
+                        hashMap.put("calorie",allKcal);
+                        hashMap.put("steps",step);
+                        hashMap.put("avgPace",paceStr);
+                        hashMap.put("avgSpeed",avgSpeed);
+                        hashMap.put("heartRateData",new Gson().toJson(heartList));
+
+
+
+
+                        Call   bean=mapViewApi.motionInfoSave(hashMap);
+                        bean.enqueue(new Callback<BaseData>() {
+                            @Override
+                            public void onResponse(Call<BaseData> call, Response<BaseData> response) {
+                                if(response.body().getCode()!=200)
+                                {
+                                    ShowToast.INSTANCE.showToastLong(response.body().getMsg());
+                                    return;
+                                }
+                                AmapSportDao mAmapSportDao= AppDataBase.Companion.getInstance().getAmapSportDao();
+                                mAmapSportDao.insert(amapSportBean);
+
+                                sendBroadCast();
+                            }
+
+                            @Override
+                            public void onFailure(Call<BaseData> call, Throwable t) {
+                                sendBroadCast();
+                            }
+                        });
+                        TLog.Companion.error("==="+new Gson().toJson(amapSportBean));
+
+
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
 

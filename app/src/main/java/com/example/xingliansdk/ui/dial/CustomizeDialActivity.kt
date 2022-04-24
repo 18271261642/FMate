@@ -358,7 +358,13 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                 var newBit = BitmapAndRgbByteUtil.loadBitmapFromView(rlImg)
                 var path = FileUtils.saveBitmapToSDCard(newBit, (time / 1000).toString())
                 mCustomizeDialBean.value = path
+
+                //删除所有，只保留一个
+                sDao.deleteAll()
+
                 sDao.insert(mCustomizeDialBean)
+
+
                 TLog.error("==" + grbByte.size)
                 BleWrite.writeDialWriteAssignCall(
                     DialCustomBean(
@@ -471,7 +477,9 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
         when (event.code) {
         Config.eventBus.DIAL_CUSTOMIZE->
         {
-            var data = event.data as FlashBean
+            if(event.data == null)
+                return
+            val data = event.data as FlashBean
             var currentProgress = ((data.currentProgress.toDouble() / data.maxProgress) * 100).toInt()
             if (currentProgress <= 15)
                 JPSave.setProgress(15f)

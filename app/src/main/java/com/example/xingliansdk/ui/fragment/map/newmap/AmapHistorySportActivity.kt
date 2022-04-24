@@ -167,7 +167,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             val latLngList =
                 Gson().fromJson<List<LatLng>>(latStr, object : TypeToken<List<LatLng?>?>() {}.type)
 
-            if(latLngList == null || latLngList.size == 1){
+            if(latLngList == null || latLngList.size == 1 || latLngList.isEmpty()){
                 isGpsSport = false
                 cusMapContainerView?.visibility = View.GONE
                 return

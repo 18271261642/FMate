@@ -16,6 +16,7 @@ import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
+import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DataBean
 import com.shon.connector.bean.DeviceInformationBean
@@ -23,6 +24,11 @@ import kotlinx.android.synthetic.main.activity_unit.*
 import kotlinx.android.synthetic.main.item_unit.view.*
 
 class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterface {
+
+    //是否操作了单位
+    private var isOperate  = false
+
+
     override fun layoutId() = R.layout.activity_unit
     override fun initView(savedInstanceState: Bundle?) {
         ImmersionBar.with(this)
@@ -42,6 +48,12 @@ class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterfac
                     ShowToast.showToastLong("蓝牙设备未连接,请前往重新连接")
                     return
                 }
+
+                if(isOperate && !DataDispatcher.callDequeStatus){
+                    ShowToast.showToastLong("数据同步中，请稍后再试")
+                    return
+                }
+
                 Hawk.put(Config.database.PERSONAL_INFORMATION, mDeviceInformationBean)
                 TLog.error("获取数据"+Gson().toJson(Hawk.get<DeviceInformationBean>(Config.database.PERSONAL_INFORMATION)))
                 BleWrite.writeDeviceInformationCall(mDeviceInformationBean,true)
@@ -74,9 +86,11 @@ class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterfac
             // getChecked()
             when (buttonView) {//不知道为啥下面的逻辑是反着的
                 includeDistance.rbUnitLeft -> {
+                    isOperate = true
                     mDeviceInformationBean.setUnitSystem(1)
                 }
                 includeDistance.rbUnitRight -> {
+                    isOperate = true
                     mDeviceInformationBean.setUnitSystem(0)
                 }
                 includeTemperature.rbUnitLeft -> {

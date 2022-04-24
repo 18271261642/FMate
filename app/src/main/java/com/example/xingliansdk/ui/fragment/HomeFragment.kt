@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.fragment
 
 //import com.example.xingliansdk.bean.HomeCardBean
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -761,6 +762,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 //    ) {
 //    }
 
+    @SuppressLint("SetTextI18n")
     override fun DeviceMotionResult(mDataBean: DataBean) {
         TLog.error("--------设备实时运动返回${Gson().toJson(mDataBean)}")
         TLog.error("exerciseSteps===" + mDeviceInformationBean.exerciseSteps.toInt())
@@ -774,18 +776,26 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         circleSports?.progress = mDataBean.totalSteps.toInt()
         TLog.error("unitSystem==" + Gson().toJson(mDeviceInformationBean))
         if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
-            val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble()/1000,0.6213)
-            tvKM?.text = "${forMater.format(miDis)} 英里"
+         //  val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble()/1000,0.6213)
+            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble()/1000)} 英里"
         } else
             tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
         //  TLog.error("calories==${data.calories}")
         tvCalories?.text = "${mDataBean.calories} 千卡"
 
 
+
+        var locaDis = mDataBean.distance.toDouble() / 1000
+
+        if(mDeviceInformationBean.unitSystem == 1.toByte()){
+            locaDis = Utils.muiltip(locaDis,1.61)
+        }
+
+
         val countStepMap = HashMap<String,Any>();
         countStepMap["step"] =mDataBean.totalSteps.toInt()
         countStepMap["calorie"] = mDataBean.calories.toInt()
-        countStepMap["distance"] = forMater.format(mDataBean.distance.toDouble() / 1000)
+        countStepMap["distance"] = forMater.format(locaDis)
         mViewModel.uploadHomeRealCountStep(countStepMap)
 
     }
@@ -873,7 +883,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     TLog.error("-------EventBus处返回--------")
                     if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                        var disT =  Utils.muiltip(data.distance.toDouble() / 1000,1.61)
-                        tvKM?.text = "${forMater.format(disT)} 英里"
+                        tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 英里"
                     } else
                         tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 公里"
                     //  TLog.error("calories==${data.calories}")

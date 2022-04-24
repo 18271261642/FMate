@@ -208,6 +208,7 @@ abstract class BaseVmFragment<VM : BaseViewModel> : SimpleImmersionFragment() {
     }
 
     protected fun hideWaitDialog() {
+
         LoadingDialogUtils.closeDialog(dialog)
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -33,15 +32,18 @@ public class LogcatHelper {
     /**
      * 初始化目录
      */
-    public void init(Context context) {
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {// 优先保存到SD卡中
-            PATH_LOGCAT = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath() + File.separator + "aLog";
-        } else {// 如果SD卡不存在，就保存到本应用的目录下
-            PATH_LOGCAT = context.getFilesDir().getAbsolutePath()
-                    + File.separator + "aaLog";
-        }
+    public void init(Context context,String pathUrl) {
+//        if (Environment.getExternalStorageState().equals(
+//                Environment.MEDIA_MOUNTED)) {// 优先保存到SD卡中
+//            PATH_LOGCAT = Environment.getExternalStorageDirectory()
+//                    .getAbsolutePath() + File.separator + "aLog";
+//        } else {// 如果SD卡不存在，就保存到本应用的目录下
+//            PATH_LOGCAT = context.getFilesDir().getAbsolutePath()
+//                    + File.separator + "aaLog";
+//        }
+
+        PATH_LOGCAT = pathUrl;
+
         File file = new File(PATH_LOGCAT);
         Log.i("codedzh","存储位置："+PATH_LOGCAT);
         if (!file.exists()) {
@@ -49,14 +51,14 @@ public class LogcatHelper {
         }
         Log.i("codedzh","文件是否存在："+new File(PATH_LOGCAT).exists());
     }
-    public static LogcatHelper getInstance(Context context) {
+    public static LogcatHelper getInstance(Context context,String path) {
         if (INSTANCE == null) {
-            INSTANCE = new LogcatHelper(context);
+            INSTANCE = new LogcatHelper(context,path);
         }
         return INSTANCE;
     }
-    private LogcatHelper(Context context) {
-        init(context);
+    private LogcatHelper(Context context,String path) {
+        init(context,path);
         mPId = android.os.Process.myPid();
     }
     public void start() {

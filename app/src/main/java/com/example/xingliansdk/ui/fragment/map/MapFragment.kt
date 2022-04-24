@@ -1,11 +1,13 @@
 package com.example.xingliansdk.ui.fragment.map
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -23,13 +25,16 @@ import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mapView.MapMotionViewModel
 import com.example.xingliansdk.ui.fragment.map.newmap.AmapSportRecordActivity
 import com.example.xingliansdk.utils.*
+import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.fragment_movement_type.*
 import kotlinx.android.synthetic.main.include_map.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.text.DecimalFormat
 
 
@@ -65,6 +70,34 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         )
         tvGo.setOnClickListener(this)
 //        tvGoal.setOnClickListener(this)
+
+
+
+    }
+
+
+    private fun shareLogFile(){
+        if(XXPermissions.isGranted(activity,Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+            var logUrl = Environment.getExternalStorageDirectory().parent+"/Download/log-"+DateUtil.getCurrDate()+".txt"
+            if(logUrl != null && File(logUrl).isFile){
+
+
+            }
+
+        }
+    }
+
+    //分享文件
+    fun shareFiles(context: Context?) {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        //比如发送文本形式的数据内容
+        // 指定发送的内容
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        // 指定发送内容的类型
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, "分享中.."));
     }
 
 

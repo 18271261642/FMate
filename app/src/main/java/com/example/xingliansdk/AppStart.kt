@@ -3,6 +3,8 @@ package com.example.xingliansdk
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -129,7 +131,11 @@ class AppStart : BaseActivity<AppStartViewModel>() {
                         val contentUrl = Uri.parse(upDataUrl)
                         intent.data = contentUrl
                         startActivity(intent)
+
+                        setStart()
+
                     }
+
                     dialog.dismiss()
                 }
                 dialogCancel?.setOnClickListener {

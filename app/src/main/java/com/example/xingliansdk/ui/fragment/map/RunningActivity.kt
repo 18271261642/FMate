@@ -3,7 +3,6 @@ package com.example.xingliansdk.ui.fragment.map
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -11,7 +10,6 @@ import android.location.GpsStatus
 import android.os.*
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -43,7 +41,6 @@ import com.shon.connector.utils.TLog
 import com.sn.map.impl.GpsLocationImpl
 import com.sn.map.view.SNGaoDeMap
 import com.sn.map.view.SNMapHelper
-import kotlinx.android.synthetic.main.activity_map_test.*
 import kotlinx.android.synthetic.main.amap_include_start_pause_layout.*
 import kotlinx.android.synthetic.main.amap_running_status_view.*
 import kotlinx.android.synthetic.main.include_map.*
@@ -100,9 +97,14 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
     private var sourceDistance= 0.0
     private var sourceKcal = 0.0
 
+    var logPath : String ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GPSUtil.registerGpsStatus(this,gpsListener)
+
+        logPath = Environment.getExternalStorageDirectory().path+"/Download/";
+        //LogcatHelper.getInstance(this,logPath).start()
+
     }
 
     override fun layoutId() = R.layout.include_map
@@ -401,6 +403,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         this.stopService(intent)
 
         GPSUtil.unregisterGpsListener(gpsListener)
+
+       // LogcatHelper.getInstance(instance,).stop()
     }
 
     override fun onClick(v: View) {
@@ -767,7 +771,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     //GPS状态
     private val gpsListener = GpsStatus.Listener {
-        TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
+       // TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
         if(it == GpsStatus.GPS_EVENT_STARTED && GPSUtil.isGpsEnable(this)){    //打开
             noGpsMapLayout.visibility = View.GONE
             stepService?.setNoGpsStartAndEnd(true)

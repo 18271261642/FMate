@@ -2,6 +2,7 @@ package com.example.xingliansdk.adapter.map;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,8 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
         this.sportBeanList = sportBeanList;
         this.mContext = mContext;
         this.type = type;
+
+      //  Log.e("ADAPTER","----list="+sportBeanList.get(0).getDistanceCount());
     }
 
     @NonNull
@@ -77,6 +80,9 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
         holder.itemMonthDayTv.setText(amapRecordBean.getMonthStr());
         String unit="公里";
         String walkCount=amapRecordBean.getWalkDistance();
+
+        Log.e("ADAPTER","-------步行总距离="+walkCount+" type="+type);
+
         String runCount=amapRecordBean.getRunDistance();
         String cycleCount=amapRecordBean.getRideDistance();
         String distanceCount=amapRecordBean.getDistanceCount();
@@ -98,7 +104,7 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
             holder.walkCountTvName.setText("距离("+unit+")");
             holder.runCountTvName.setText("热量(千卡)");
             holder.cycleCountTvName.setText("次数");
-            holder.walkCountTv.setText(distanceCount);
+            holder.walkCountTv.setText(walkCount);
             holder.runCountTv.setText(amapRecordBean.getCaloriesCount());
             holder.cycleCountTv.setText(amapRecordBean.getSportCount() + "");
         }
