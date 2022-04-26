@@ -2,6 +2,9 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+
+    <string name="string_sms_notify_desc">打开某类别的消息推送开关，使该项的消息在手表上提醒如果消息推送一次，可以重启通知权服务进行修复。</string>
+
     <string name="string_dfu_normal_desc">当前固件有新版本，如暂不升级，将会影响部分功能提醒哦</string>
     <string name="string_dfu_low_battery_desc">当前固件有新版本，您可以将手表和手机充电后来升级哦</string>
 

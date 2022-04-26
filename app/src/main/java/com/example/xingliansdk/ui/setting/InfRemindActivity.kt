@@ -1,8 +1,15 @@
 package com.example.xingliansdk.ui.setting
 
 import android.Manifest
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.UnderlineSpan
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config
@@ -21,14 +28,19 @@ import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_inf_remind.*
 import kotlinx.android.synthetic.main.activity_inf_remind.titleBar
+import com.example.xingliansdk.MainActivity
+import com.example.xingliansdk.utils.PermissionUtils
 
 
+//消息提醒页面
 class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
     lateinit var mOtherSwitchAdapter: OtherSwitchAdapter
       var mList: ArrayList<RemindConfig.Apps> = ArrayList()
 
     var remindConfig = RemindConfig()
+
+    private var dialog: AlertDialog? = null
 
     override fun layoutId()=R.layout.activity_inf_remind
     override fun initView(savedInstanceState: Bundle?) {
@@ -59,7 +71,52 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         setAdapter()
 
         getPermission()
+
+        openNotify()
+
     }
+
+
+    private fun openNotify(){
+        val txtCon = resources.getString(R.string.string_sms_notify_desc)
+
+
+        //设置Hello World前三个字符有点击事件
+        //设置Hello World前三个字符有点击事件
+        val textSpanned4 = SpannableStringBuilder(txtCon)
+
+        textSpanned4.setSpan(UnderlineSpan(),txtCon.length-13, txtCon.length-7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showAlertNotify();
+            }
+        }
+        textSpanned4.setSpan(
+            clickableSpan,
+            txtCon.length-13, txtCon.length-7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        //注意：此时必须加这一句，不然点击事件不会生效
+        remindNotifyTv.setMovementMethod(LinkMovementMethod.getInstance())
+        remindNotifyTv.setText(textSpanned4)
+
+    }
+
+
+    private fun showAlertNotify(){
+        dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle(R.string.content_authorized)
+            .setMessage("找到 ai Health ,打开或重启服务即可")
+            .setPositiveButton(
+                getString(R.string.text_sure)
+            ) { dialog, which ->
+                PermissionUtils.startToNotificationListenSetting(this@InfRemindActivity)
+            }.show()
+    }
+
+
+
     private  fun onState()
     {
        var call= Hawk.get(Config.database.INCOMING_CALL,userInfo.userConfig.callReminder.toInt())
