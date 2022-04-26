@@ -3,6 +3,8 @@ package com.example.xingliansdk.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.callback.UnPeekLiveData
+import com.example.xingliansdk.network.api.appUpdate.AppUpdateApi
+import com.example.xingliansdk.network.api.appUpdate.AppUpdateBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mainView.MainApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
@@ -24,6 +26,10 @@ class MainViewModel : BaseViewModel() {
     val result: UnPeekLiveData<LoginBean> = UnPeekLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
     var userInfo= UnPeekLiveData<LoginBean>()
+
+
+    val appResult : MutableLiveData<AppUpdateBean> = MutableLiveData()
+    val appUpdateMsg: MutableLiveData<String> = MutableLiveData()
 
     val serverWeatherData : MutableLiveData<ServerWeatherBean> = MutableLiveData()
 
@@ -115,5 +121,23 @@ class MainViewModel : BaseViewModel() {
             }
         }
 
+    }
+
+
+    //APP版本更新
+    fun appUpdate(appName: String, versionCode: Int) {
+        requestCustom(
+            { AppUpdateApi.AppUpdateApi.getApp(appName, versionCode) },
+            {
+                appResult.postValue(it)
+            }
+        ) { code, message ->
+            message?.let {
+                TLog.error("it==" + it + "==code ==" + code)
+                appUpdateMsg.postValue(code.toString())
+                if (code != 312)
+                    ShowToast.showToastLong(it)
+            }
+        }
     }
 }

@@ -30,6 +30,42 @@
         android:lineSpacingExtra="5dp"
         android:text="@string/string_sms_notify_desc"/>
 
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:id="@+id/remindMoreLayout"
+     android:layout_width="match_parent"
+     android:layout_marginTop="5dp"
+     android:layout_marginBottom="5dp"
+     android:background="@drawable/selector_bg_white_gray"
+     android:layout_height="wrap_content">
+
+
+
+     <TextView
+         app:layout_constraintLeft_toLeftOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:padding="3dp"
+         android:layout_marginStart="5dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textSize="@dimen/text_size_17"
+         android:text="更多权限问题请点击"/>
+
+
+     <ImageView
+         app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:layout_width="wrap_content"
+         android:layout_marginEnd="10dp"
+         android:layout_height="wrap_content"
+         android:background="@mipmap/right_back"/>
+
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

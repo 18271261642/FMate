@@ -47,7 +47,10 @@ class AppStart : BaseActivity<AppStartViewModel>() {
               ///  startMainHomeActivity(this@AppStart)
                 //JumpUtil.startDeviceInformationActivity(this@AppStart,true)
              //   setStart()
-                mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this@AppStart))
+
+                setStart()
+
+             //   mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this@AppStart))
             }
             override fun onAnimationRepeat(animation: Animation) {}
             override fun onAnimationStart(animation: Animation) {}

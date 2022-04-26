@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.*
 import android.graphics.Color
+import android.net.Uri
 import android.os.*
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -22,6 +23,7 @@ import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
 import com.example.xingliansdk.dfu.DFUActivity
+import com.example.xingliansdk.dialog.UpdateDialogView
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
@@ -101,6 +103,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
         bindBle()
         mainViewModel.userInfo()
+
+        //版本更新
+        mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this))
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val nav = Navigation.findNavController(this@MainHomeActivity, R.id.host_fragment)
@@ -138,29 +144,6 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 showOtaAlert(it.isForceUpdate)
             }
 
-
-
-//            otaBean = it
-//            if (otaBean?.ota.isNullOrEmpty())
-//            {
-////                tvBegan.visibility= View.GONE
-////                tvUpdateCode.text = "已是最新版本"
-//            }
-//            else {
-//                val focusUpdate = otaBean.isForceUpdate;
-//
-//
-//
-//                //  tvUpdateCode.text = otaBean?.version
-//                var version = otaBean?.versionCode!!
-//                var code = otaBean?.versionCode?.toString(16)
-//                var codeName = ByteUtil.hexStringToByte(code)
-//
-//                if (!focusUpdate) {
-//                    //  showWaitDialog("下载ota升级包中")
-//                    showOtaAlert()
-//                }
-//            }
         }
 
 
@@ -178,8 +161,52 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
         }
 
+      mViewModel.appResult.observe(this){
+          TLog.error("--------版本信息="+Gson().toJson(it))
+          if(it != null && it.ota.isNotEmpty()){
+              updateDialog(it.ota,it.isForceUpdate)
+          }
+      }
+
     }
 
+
+    //app版本更新
+    private fun updateDialog(upDataUrl : String,forceUpdate: Boolean) {
+
+        val updateDialogView = UpdateDialogView(this,R.style.edit_AlertDialog_style)
+        updateDialogView.show()
+        updateDialogView.setCancelable(!forceUpdate)
+        updateDialogView.setContentTxt("APP有更新是否下载最新app进行升级?")
+        updateDialogView.setIsFocus(forceUpdate)
+        updateDialogView.setOnUpdateDialogListener(object :
+            UpdateDialogView.onUpdateDialogListener {
+            override fun onSureClick() {
+                if (upDataUrl.isNullOrEmpty()) {
+                    ShowToast.showToastLong("地址链接失效")
+                    return
+                } else {
+                    val intent = Intent()
+                    intent.action = "android.intent.action.VIEW"
+                    val contentUrl = Uri.parse(upDataUrl)
+                    intent.data = contentUrl
+                    startActivity(intent)
+                    updateDialogView.dismiss()
+
+                }
+            }
+
+            override fun onCancelClick() {
+                updateDialogView.dismiss()
+
+            }
+
+        })
+
+    }
+
+
+    //手表ota更新
     private fun showOtaAlert(isFocus : Boolean){
         var currPower = 100
         if(devicePropertiesBean != null){
@@ -208,24 +235,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             }
 
         })
-//
-//        otaAlert = AlertDialog.Builder(instance)
-//            .setTitle("提醒")
-//            .setMessage("有最新固件，是否升级?")
-//            .setPositiveButton("升级") { p0, p1 ->
-//                p0?.dismiss()
-//                //startActivity(Intent(instance, DFUActivity::class.java))
-//
-//                JumpUtil.startOTAActivity(this,Hawk.get("address")
-//                    ,Hawk.get("name")
-//                    ,mDeviceFirmwareBean.productNumber
-//                    ,mDeviceFirmwareBean.version
-//                    ,true
-//                )
-//
-//            }.setNegativeButton("取消"
-//            ) { p0, p1 -> p0?.dismiss() }
-//        otaAlert?.create()?.show()
+
     }
 
 
@@ -257,7 +267,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             TLog.error("没连接的时候重连")
             BleConnection.initStart(Hawk.get(Config.database.DEVICE_OTA, false))
         }
-        initPermission2()
+        //initPermission2()
         restartServiceIfNeed()
     }
 
