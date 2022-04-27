@@ -37,6 +37,7 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
 import com.shon.connector.utils.TLog
+import kotlinx.android.synthetic.main.activity_customize_dial.*
 import kotlinx.android.synthetic.main.activity_take_medicine_repeat.*
 import kotlinx.android.synthetic.main.fragment_me_dial.*
 import org.greenrobot.eventbus.Subscribe
@@ -76,9 +77,44 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         imgLocal.setOnClickListener(this)
         bean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
         sDao = AppDataBase.instance.getCustomizeDialDao()
+
+
+        addDefaultDial()
+
        // dialRequest()
         dialInit()
     }
+
+
+    private fun addDefaultDial(){
+        //{"color":0,"date":"10:28AM","function":"04/23 SAT","functionType":0,"locationType":0,"startTime":1650715453}
+
+         val time = System.currentTimeMillis()
+
+        if (sDao.getAllCustomizeDialList()
+                .isNullOrEmpty() || sDao.getAllCustomizeDialList().size <= 0
+        ){
+
+          //  R.drawable.icon_cus_dial_bg
+
+            //long startTime, String date, String imgPath, int color, int functionType, int locationType, String function, String uiFeature
+
+            val customizeDialBean = CustomizeDialBean()
+            customizeDialBean.startTime = time / 1000
+            customizeDialBean.date = "10:28AM"
+            customizeDialBean.imgPath = null;
+            customizeDialBean.color = 0
+            customizeDialBean.functionType = 0
+            customizeDialBean.locationType = 0
+            customizeDialBean.function = "04/23 SAT"
+
+            sDao.insert(customizeDialBean)
+
+        }
+
+
+    }
+
 
     private fun dialRequest() {
         var hashMap = HashMap<String, String>()
@@ -195,7 +231,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
         ryCustomize.layoutManager = GridLayoutManager(activity, 3)
         customDialImgAdapter = CustomDialImgAdapter(customDialList)
         ryCustomize.adapter = customDialImgAdapter
-        customDialImgAdapter.addChildClickViewIds(R.id.itemDownload, R.id.imgDelete, R.id.imgDial,R.id.tvInstall)
+        customDialImgAdapter.addChildClickViewIds(R.id.itemDownload, R.id.imgDial,R.id.tvInstall)
         customDialImgAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.imgDial->{ //图片点击
@@ -265,6 +301,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     BleWrite.writeDialWriteAssignCall(dialBean,object : BleWrite.DialWriteInterface{
                         override fun onResultDialWrite(key: Int) {
                              isSyncDial = true
+                            hideWaitDialog()
                             TLog.error("---------自定义表盘it==" + key)
                             when (key) {
 
@@ -332,7 +369,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 }
                 R.id.imgDelete -> {
 
-                    dialog(position, CUSTOM_DELETE_TYPE)
+//                    dialog(position, CUSTOM_DELETE_TYPE)
                 }
             }
         }
@@ -570,7 +607,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                 TLog.error("DIAL_CUSTOMIZE")
 
                 var data = event.data as FlashBean
-                hideWaitDialog()
+                //hideWaitDialog()
                     TLog.error("---------自定义表盘安装进度="+data.toString())
 
                     if(data.currentProgress !=1 || data.maxProgress != 1){

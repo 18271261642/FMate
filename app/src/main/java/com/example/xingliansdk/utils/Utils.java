@@ -21,6 +21,7 @@ public class Utils {
     private static final String TAG = "Utils";
 
     private static double miV = 0.6213;
+    private static double KmV = 1.609344;
 
     private static final DecimalFormat deci = new DecimalFormat("##");
 
@@ -30,6 +31,10 @@ public class Utils {
     }
 
 
+    //英制转公制
+    public static double miToKm(double miValue){
+        return mul(miValue,KmV,2);
+    }
 
 
     /**

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.setting.InfRemindActivity">
+
     <com.example.xingliansdk.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
@@ -18,94 +19,141 @@
         app:midtitle="消息提醒"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
-    <LinearLayout
-        android:background="@color/white"
+
+
+
+    <TextView
+        android:id="@+id/remindNotifyTv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/string_sms_notify_desc"/>
+
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:id="@+id/remindMoreLayout"
+     android:layout_width="match_parent"
+     android:layout_marginTop="5dp"
+     android:layout_marginBottom="5dp"
+     android:background="@drawable/selector_bg_white_gray"
+     android:layout_height="wrap_content">
+
+
+
+     <TextView
+         app:layout_constraintLeft_toLeftOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:padding="3dp"
+         android:layout_marginStart="5dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textSize="@dimen/text_size_17"
+         android:text="更多权限问题请点击"/>
+
+
+     <ImageView
+         app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:layout_width="wrap_content"
+         android:layout_marginEnd="10dp"
+         android:layout_height="wrap_content"
+         android:background="@mipmap/right_back"/>
+
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="来电提醒"
-            android:textSize="18sp"
-            android:textColor="@color/main_text_color"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:paddingLeft="16dp"
             android:id="@+id/tvCall"
-            />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="来电提醒"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp" />
 
         <com.github.iielse.switchbutton.SwitchView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/SwitchALL"
-            app:isOpened="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            />
+            app:isOpened="true" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="短信提醒"
-            android:textSize="18sp"
-            android:textColor="@color/main_text_color"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:paddingLeft="16dp"
             android:id="@+id/tvSMS"
-            />
-
-        <com.github.iielse.switchbutton.SwitchView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/SwitchSMS"
-            app:isOpened="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="32dp"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="其他提醒"
-            android:textSize="18sp"
-            android:textColor="@color/main_text_color"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
             android:paddingTop="13dp"
             android:paddingBottom="13dp"
-            android:paddingLeft="16dp"
-            android:id="@+id/tvOther"
-            />
+            android:text="短信提醒"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp" />
 
         <com.github.iielse.switchbutton.SwitchView
-            android:layout_gravity="center"
+            android:id="@+id/SwitchSMS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/SwitchOther"
-            app:isOpened="true"
+            android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            />
+            app:isOpened="true" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:overScrollMode="never"
-        android:id="@+id/ryRemind"
-        android:layout_marginTop="1dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tvOther"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="其他提醒"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp" />
+
+        <com.github.iielse.switchbutton.SwitchView
+            android:id="@+id/SwitchOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:isOpened="true" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ryRemind"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
         android:layout_marginBottom="16dp"
-        android:layout_height="match_parent"/>
+        android:overScrollMode="never" />
 </LinearLayout>

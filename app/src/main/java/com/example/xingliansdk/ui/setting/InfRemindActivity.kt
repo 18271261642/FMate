@@ -1,9 +1,17 @@
 package com.example.xingliansdk.ui.setting
 
 import android.Manifest
-import android.os.Build
-import android.os.Bundle
+import android.app.AlertDialog
+import android.content.Intent
+import android.os.*
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.UnderlineSpan
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
@@ -21,14 +29,33 @@ import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_inf_remind.*
 import kotlinx.android.synthetic.main.activity_inf_remind.titleBar
+import com.example.xingliansdk.MainActivity
+import com.example.xingliansdk.ui.ShowPermissionActivity
+import com.example.xingliansdk.utils.PermissionUtils
+import com.hjq.permissions.Permission
 
 
+//消息提醒页面
 class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
     lateinit var mOtherSwitchAdapter: OtherSwitchAdapter
       var mList: ArrayList<RemindConfig.Apps> = ArrayList()
 
     var remindConfig = RemindConfig()
+
+    private var dialog: AlertDialog? = null
+
+
+    private val handler = object : Handler(Looper.myLooper()!!){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if(msg.what == 0x00){
+                getPermission()
+            }
+
+        }
+    }
+
 
     override fun layoutId()=R.layout.activity_inf_remind
     override fun initView(savedInstanceState: Bundle?) {
@@ -59,7 +86,57 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         setAdapter()
 
         getPermission()
+
+        openNotify()
+
+
+        remindMoreLayout.setOnClickListener {
+            startActivity(Intent(this,ShowPermissionActivity::class.java))
+        }
     }
+
+
+    private fun openNotify(){
+        val txtCon = resources.getString(R.string.string_sms_notify_desc)
+
+
+        //设置Hello World前三个字符有点击事件
+        //设置Hello World前三个字符有点击事件
+        val textSpanned4 = SpannableStringBuilder(txtCon)
+
+        textSpanned4.setSpan(UnderlineSpan(),txtCon.length-13, txtCon.length-7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                showAlertNotify(false);
+            }
+        }
+        textSpanned4.setSpan(
+            clickableSpan,
+            txtCon.length-13, txtCon.length-7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        //注意：此时必须加这一句，不然点击事件不会生效
+        remindNotifyTv.setMovementMethod(LinkMovementMethod.getInstance())
+        remindNotifyTv.setText(textSpanned4)
+
+    }
+
+
+    private fun showAlertNotify(isSwitch : Boolean){
+        dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle(R.string.content_authorized)
+            .setCancelable(!isSwitch)
+            .setMessage(if(isSwitch) "找到 ai Health 打开通知开关即可" else "找到 ai Health ,打开或重启服务即可")
+            .setPositiveButton(
+                getString(R.string.text_sure)
+            ) { dialog, which ->
+                PermissionUtils.startToNotificationListenSetting(this@InfRemindActivity)
+            }.show()
+    }
+
+
+
     private  fun onState()
     {
        var call= Hawk.get(Config.database.INCOMING_CALL,userInfo.userConfig.callReminder.toInt())
@@ -73,12 +150,17 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         else
             ryRemind.visibility=View.GONE
         TLog.error("call =$call")
+
+
+
         SwitchALL.setOnStateChangedListener(object :SwitchView.OnStateChangedListener{
             override fun toggleToOn(view: SwitchView?) {
                 userInfo.userConfig.callReminder="2"
                 Hawk.put(Config.database.INCOMING_CALL,2)
                 setSwitchButton()
                 SwitchALL.isOpened=true
+
+                requestPermission(false)
             }
 
             override fun toggleToOff(view: SwitchView?) {
@@ -94,6 +176,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
                 Hawk.put(Config.database.SMS,2)
                 SwitchSMS.isOpened=true
                 setSwitchButton()
+//                requestPermission(true)
             }
 
             override fun toggleToOff(view: SwitchView?) {
@@ -110,6 +193,13 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
                 SwitchOther.isOpened=true
                 setSwitchButton()
                 ryRemind.visibility=View.VISIBLE
+                //通知开关
+                val hasNotificationPermission: Boolean =
+                    PermissionUtils.hasNotificationListenPermission(this@InfRemindActivity)
+                if(!hasNotificationPermission){
+                    showAlertNotify(true)
+                }
+
             }
 
             override fun toggleToOff(view: SwitchView?) {
@@ -154,20 +244,74 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
     }
 
 
+    private fun requestPermission(isSms : Boolean){
+
+        XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS).request{permissions,all->}
+//        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG),0x00)
+
+        if(isSms){
+//            XXPermissions.with(this).permission(Manifest.permission.READ_SMS).request { permissions, all ->
+//                handler.sendEmptyMessage(0x00)
+//            }
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS),0x00)
+//            XXPermissions.with(this).permission(Permission.READ_SMS).request { permissions, all ->
+//                handler.sendEmptyMessage(0x00)
+//            }
+
+            return
+        }
+
+
+        XXPermissions.with(this).permission(Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS).request { permissions, all ->
+            handler.sendEmptyMessage(0x00);
+        }
+        Permission.READ_PHONE_NUMBERS
+        XXPermissions.with(this).permission(Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG).request { permissions, all ->  }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            XXPermissions.with(this).permission(Manifest.permission.ANSWER_PHONE_CALLS).request{ permissions, all ->
+
+            }
+        }
+
+
+    }
+
+
     private fun getPermission(){
         try {
-            XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.READ_PHONE_STATE).request { permissions, all ->
 
-            }
+            val isSmsStatus = XXPermissions.isPermanentDenied(this,Manifest.permission.READ_SMS)
+//            SwitchSMS.isOpened = isSmsStatus
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                XXPermissions.with(this).permission(Manifest.permission.ANSWER_PHONE_CALLS).request{ permissions, all ->
+            val isPhone = XXPermissions.isGranted(this,Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS);
 
-                }
-            }
+
+            val isP = XXPermissions.isPermanentDenied(this,Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS)
+
+           TLog.error("------isPhone="+isPhone +" isSms="+isSmsStatus+" "+isP)
+
+            SwitchALL.isOpened = isPhone
+
+
+
+            //通知开关
+            val hasNotificationPermission: Boolean =
+                PermissionUtils.hasNotificationListenPermission(this)
+            SwitchOther.isOpened = hasNotificationPermission
+            ryRemind.visibility=if(hasNotificationPermission) View.VISIBLE else View.GONE
+
         }catch (e : Exception){
             e.printStackTrace()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        TLog.error("-----requestCode="+requestCode+" rrr="+resultCode)
+        getPermission()
     }
 }

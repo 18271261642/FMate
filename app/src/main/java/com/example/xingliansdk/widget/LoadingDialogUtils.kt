@@ -57,7 +57,7 @@ object LoadingDialogUtils {
             }
         }catch (e :Exception)
         {
-
+            e.printStackTrace()
         }finally {
             //mDialogUtils = null
         }

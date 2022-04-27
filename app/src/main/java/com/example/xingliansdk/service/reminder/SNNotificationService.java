@@ -92,6 +92,7 @@ public class SNNotificationService extends NotificationListenerService implement
                             }
                         }
                     } catch (Exception ignored) {
+                        ignored.printStackTrace();
                     }
                     //小米推送
                     if (PermissionUtils.isPhone(PermissionUtils.MANUFACTURER_XIAOMI)) {
@@ -125,6 +126,7 @@ public class SNNotificationService extends NotificationListenerService implement
 
         } catch (
                 Exception ignored) {
+            ignored.printStackTrace();
             //try住防止解析闪退 导致服务挂掉
         }
 

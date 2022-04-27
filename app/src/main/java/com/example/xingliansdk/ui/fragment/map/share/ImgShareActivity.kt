@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.fragment.map.share
 
+import android.Manifest
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,8 @@ import com.example.xingliansdk.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.example.xingliansdk.wxapi.LoginOrShareUtils
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.XXPermissions
 import com.shon.connector.utils.TLog
 import com.sina.weibo.sdk.auth.AuthInfo
 import com.sina.weibo.sdk.common.UiError
@@ -42,6 +45,9 @@ class ImgShareActivity : BaseActivity<BaseViewModel>(),View.OnClickListener,WbSh
             .titleBar(titleBar)
             .init()
         initWBSdk()
+
+        getPermission()
+
         tvShareWX.setOnClickListener(this)
         tvShareFriend.setOnClickListener(this)
         tvShareQQ.setOnClickListener(this)
@@ -61,6 +67,15 @@ class ImgShareActivity : BaseActivity<BaseViewModel>(),View.OnClickListener,WbSh
         ImgUtil.loadMapImg(imgShare, "${AmapHistorySportActivity.fileName}/mapImgShare.png")
         bitmap= FileUtils.getBitmapFromSDCard("${AmapHistorySportActivity.fileName}/mapImgShare.png")
     }
+
+
+
+    private fun getPermission(){
+        XXPermissions.with(this).permission(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE).request { permissions, all ->
+
+        };
+    }
+
 
     /**
      * 初始化sdk。

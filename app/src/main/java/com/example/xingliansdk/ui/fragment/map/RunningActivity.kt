@@ -3,7 +3,6 @@ package com.example.xingliansdk.ui.fragment.map
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -11,7 +10,6 @@ import android.location.GpsStatus
 import android.os.*
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -47,6 +45,9 @@ import com.sn.map.view.SNMapHelper
 import kotlinx.android.synthetic.main.amap_include_start_pause_layout.*
 import kotlinx.android.synthetic.main.amap_running_status_view.*
 import kotlinx.android.synthetic.main.include_map.*
+import kotlinx.android.synthetic.main.include_map.mMapContent
+import kotlinx.android.synthetic.main.include_map.tvDistance
+import kotlinx.android.synthetic.main.include_map.tvPace
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
@@ -99,9 +100,14 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     private var locationHelper : LocationServiceHelper ? = null
 
+    var logPath : String ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GPSUtil.registerGpsStatus(this,gpsListener)
+
+        logPath = Environment.getExternalStorageDirectory().path+"/Download/";
+        //LogcatHelper.getInstance(this,logPath).start()
+
     }
 
     override fun layoutId() = R.layout.include_map
@@ -273,7 +279,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
 
 
-        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.2) {
+        if (distances.isNullOrEmpty() || distances.toString().toDouble() < 0.002) {
 //            SNEventBus.sendEvent(Config.eventBus.MAP_MOVEMENT_DISSATISFY)
 //            ShowToast.showToastLong("本次运动距离过短,将不会记录数据.")
 
@@ -305,7 +311,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
             return
         }
         //ShowToast.showToastLong("最终保留的步数++$stepCount")
-        mPresenter!!.saveHeartAndStep(heartList, stepCount)
+        mPresenter!!.saveHeartAndStep(heartList, stepCount,distances,tvCalories.text.toString())
         mPresenter!!.requestRetrySaveSportData()
 
         if(stepService != null ){
@@ -403,6 +409,8 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
         this.stopService(intent)
 
         GPSUtil.unregisterGpsListener(gpsListener)
+
+       // LogcatHelper.getInstance(instance,).stop()
     }
 
     override fun onClick(v: View) {
@@ -769,7 +777,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     //GPS状态
     private val gpsListener = GpsStatus.Listener {
-        TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
+       // TLog.error("---------GPS状态变化="+it+"\n"+GPSUtil.isGpsEnable(this))
         if(it == GpsStatus.GPS_EVENT_STARTED && GPSUtil.isGpsEnable(this)){    //打开
             noGpsMapLayout.visibility = View.GONE
             stepService?.setNoGpsStartAndEnd(true)

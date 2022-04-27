@@ -207,7 +207,7 @@ class XingLianApplication : BaseApp() {
         bindService(weatherIntnet,weatherServiceConnection(),Context.BIND_AUTO_CREATE)
 
 
-        LogcatHelper.getInstance(this).start()
+
     }
 
 

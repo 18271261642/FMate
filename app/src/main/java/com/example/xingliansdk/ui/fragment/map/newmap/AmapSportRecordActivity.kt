@@ -188,6 +188,9 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
     //处理保存的数据，根据类型区分，暂根据本地数据库保存的数据处理，处理比较麻烦，后续上传到后台，后台处理简单很多
     private fun analyseData(sportLt: List<AmapSportBean>) {
         try {
+
+            Log.e("地图记录","-------list="+Gson().toJson(sportLt))
+
             val monthMap = HashMap<String, Any>()
             resultList.clear()
             val rMap: MutableMap<String, List<AmapSportBean>> = HashMap()

@@ -69,15 +69,15 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
         tvInstall.visibility = View.VISIBLE
         itemDownload!!.visibility=View.GONE
         val imgDelete = holder?.getView<ImageView>(R.id.imgDelete)
-        if (item.getxAxis().isNullOrEmpty()||item.getxAxis()!="1")
-            imgDelete?.visibility = View.GONE
-        else
-            imgDelete?.visibility = View.VISIBLE
+//        if (item.getxAxis().isNullOrEmpty()||item.getxAxis()!="1")
+//            imgDelete?.visibility = View.GONE
+//        else
+//            imgDelete?.visibility = View.VISIBLE
 
         if (item.value.isNullOrEmpty()) {
-            if (item.imgPath.isNullOrEmpty())
-                return
-            ImgUtil.loadMeImgDialCircle(img, item.imgPath)
+            if (item.imgPath.isNullOrEmpty())  ImgUtil.loadMeImgDialCircle(img, R.drawable.icon_cus_dial_bg)
+
+           else ImgUtil.loadMeImgDialCircle(img, item.imgPath)
         } else {
             ImgUtil.loadMeImgDialCircle(img, item.value)
         }

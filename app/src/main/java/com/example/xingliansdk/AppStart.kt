@@ -3,6 +3,8 @@ package com.example.xingliansdk
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -10,6 +12,7 @@ import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.widget.TextView
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.dialog.UpdateDialogView
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
@@ -44,7 +47,10 @@ class AppStart : BaseActivity<AppStartViewModel>() {
               ///  startMainHomeActivity(this@AppStart)
                 //JumpUtil.startDeviceInformationActivity(this@AppStart,true)
              //   setStart()
-                mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this@AppStart))
+
+                setStart()
+
+             //   mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this@AppStart))
             }
             override fun onAnimationRepeat(animation: Animation) {}
             override fun onAnimationStart(animation: Animation) {}
@@ -105,39 +111,80 @@ class AppStart : BaseActivity<AppStartViewModel>() {
     }
 
     private fun updateDialog() {
-        newGenjiDialog {
-            layoutId = R.layout.dialog_delete
-            dimAmount = 0.3f
-            isFullHorizontal = true
-            animStyle = R.style.AlphaEnterExitAnimation
-            convertListenerFun { holder, dialog ->
-                var dialogCancel = holder.getView<TextView>(R.id.dialog_cancel)
-                var dialogSet = holder.getView<TextView>(R.id.dialog_confirm)
-                var dialogContent = holder.getView<TextView>(R.id.dialog_content)
-                if(forceUpdate)
-                    dialogCancel?.visibility=View.GONE
-                else
-                    dialogCancel?.visibility=View.VISIBLE
-                dialogContent?.text = "APP有更新是否下载最新app进行升级?"
-                dialogSet?.setOnClickListener {
-                    if (upDataUrl.isNullOrEmpty()) {
-                        ShowToast.showToastLong("地址链接失效")
-                        return@setOnClickListener
-                    } else {
-                        val intent = Intent()
-                        intent.action = "android.intent.action.VIEW"
-                        val contentUrl = Uri.parse(upDataUrl)
-                        intent.data = contentUrl
-                        startActivity(intent)
-                    }
-                    dialog.dismiss()
-                }
-                dialogCancel?.setOnClickListener {
-                    setStart()
-                    dialog.dismiss()
+
+        val updateDialogView = UpdateDialogView(this,R.style.edit_AlertDialog_style)
+        updateDialogView.show()
+        updateDialogView.setCancelable(false)
+        updateDialogView.setContentTxt("APP有更新是否下载最新app进行升级?")
+        updateDialogView.setIsFocus(forceUpdate)
+        updateDialogView.setOnUpdateDialogListener(object :
+            UpdateDialogView.onUpdateDialogListener {
+            override fun onSureClick() {
+                if (upDataUrl.isNullOrEmpty()) {
+                    ShowToast.showToastLong("地址链接失效")
+                    return
+                } else {
+                    val intent = Intent()
+                    intent.action = "android.intent.action.VIEW"
+                    val contentUrl = Uri.parse(upDataUrl)
+                    intent.data = contentUrl
+                    startActivity(intent)
+                    updateDialogView.dismiss()
+                    //setStart()
+
                 }
             }
-        }.showOnWindow(supportFragmentManager)
+
+            override fun onCancelClick() {
+               updateDialogView.dismiss()
+                setStart()
+            }
+
+        })
+
+
+//        val newGdialog  =  newGenjiDialog {
+//            layoutId = R.layout.dialog_delete
+//            dimAmount = 0.3f
+//            isFullHorizontal = true
+//            animStyle = R.style.AlphaEnterExitAnimation
+//            convertListenerFun { holder, dialog ->
+//                var dialogCancel = holder.getView<TextView>(R.id.dialog_cancel)
+//                var dialogSet = holder.getView<TextView>(R.id.dialog_confirm)
+//                var dialogContent = holder.getView<TextView>(R.id.dialog_content)
+//                if(forceUpdate)
+//                    dialogCancel?.visibility=View.GONE
+//                else
+//                    dialogCancel?.visibility=View.VISIBLE
+//                dialogContent?.text = "APP有更新是否下载最新app进行升级?"
+//                dialogSet?.setOnClickListener {
+//                    if (upDataUrl.isNullOrEmpty()) {
+//                        ShowToast.showToastLong("地址链接失效")
+//                        return@setOnClickListener
+//                    } else {
+//                        val intent = Intent()
+//                        intent.action = "android.intent.action.VIEW"
+//                        val contentUrl = Uri.parse(upDataUrl)
+//                        intent.data = contentUrl
+//                        startActivity(intent)
+//
+//                        //setStart()
+//
+//                    }
+//
+//                    dialog.dismiss()
+//                }
+//                dialogCancel?.setOnClickListener {
+//                    dialog.dismiss()
+//                    setStart()
+//                }
+//            }
+//        }
+//
+//        newGdialog.showOnWindow(supportFragmentManager)
+//        newGdialog.dialog?.setCancelable(false)
+//        newGdialog.dialog?.setCanceledOnTouchOutside(false)
+
     }
     override fun onNetworkStateChanged(netState: NetState) {
         super.onNetworkStateChanged(netState)

@@ -117,7 +117,8 @@ class StepService : Service(), SensorEventListener ,OnSensorStepListener{
             DeviceInformationBean(2, 0, 160, 50f, 0, 0, 0, 0, 0, 0, 10000, birth)
         )
 
-        isUnit = mDeviceInformationBean?.unitSystem?.toInt() == 2
+        //是否是英制
+        isUnit = mDeviceInformationBean?.unitSystem?.toInt() == 1
         amapSportBean = AmapSportBean()
 
     }

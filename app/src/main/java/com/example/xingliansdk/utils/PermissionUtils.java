@@ -1,5 +1,6 @@
 package com.example.xingliansdk.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.ActivityNotFoundException;
@@ -47,11 +48,12 @@ public class PermissionUtils {
      *
      * @param context
      */
-    public static void startToNotificationListenSetting(Context context) {
+    public static void startToNotificationListenSetting(Activity context) {
         try {
             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            context.startActivityForResult(intent,0x08);
+            //context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             try {
                 Intent intent = new Intent();
