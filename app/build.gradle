@@ -14,8 +14,8 @@ android {
         applicationId "com.example.xingliansdk"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 18
-        versionName "1.5.4"
+        versionCode 19
+        versionName "1.5.4.2"
 
         rootProject.ext.supports.each{
             buildConfigField "boolean", String.valueOf(it.key) ,   ""+it.value+""
@@ -26,7 +26,7 @@ android {
         }
 
         buildConfigField "boolean", "isGooglePlayVersion" ,   ""+rootProject.ext.android.isGooglePlayVersion+""
-        buildConfigField "String", "baseUrl" , "\"${rootProject.ext.HTTP.HttpServer}\""
+        buildConfigField "String", "baseUrl" , "\"${rootProject.ext.HTTP.HttpServerDev}\""
         buildConfigField "String", "baseUrlDev" , "\"${rootProject.ext.HTTP.HttpServerDev}\""
         buildConfigField "String", "baseUrlChangSang" , "\"${rootProject.ext.HTTP.HttpServerChangSang}\""
 

@@ -163,7 +163,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
       mViewModel.appResult.observe(this){
           TLog.error("--------版本信息="+Gson().toJson(it))
+          if(it.ota == null)
+              return@observe
           if(it != null && it.ota.isNotEmpty()){
+
               updateDialog(it.ota,it.isForceUpdate)
           }
       }
