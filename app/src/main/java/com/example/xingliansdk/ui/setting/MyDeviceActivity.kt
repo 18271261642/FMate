@@ -1,11 +1,13 @@
 package com.example.xingliansdk.ui.setting
 
+import android.content.pm.PackageManager
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.R
@@ -45,6 +47,7 @@ import kotlinx.android.synthetic.main.item_menu_duf_layout.*
 import kotlinx.android.synthetic.main.item_switch.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.jar.Manifest
 
 //手表设置页面
 class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener {
@@ -79,7 +82,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     override fun onResume() {
         super.onResume()
         //查询是否有固件更新
-        mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
+       // mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
     }
 
 
@@ -299,9 +302,26 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         mViewModel.setUserInfo(value)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val isGet = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
+        TLog.error("----backPermisson="+isGet+" "+requestCode+" "+permissions[0])
+
+    }
+
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.settingInformationReminder -> {
+//                val isGet = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+//
+//                TLog.error("---isGet="+isGet)
+//                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.SEND_SMS),0x00)
+
                 JumpUtil.startInfRemindActivity(this)
             }
             R.id.settingAlarmClock -> {

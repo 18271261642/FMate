@@ -808,7 +808,7 @@ public class BleWrite {
     public static void writeSpecifySleepSourceCall(byte[] bytes,boolean status,long startrTime,long endTime,SpecifySleepSourceInterface specifySleepSourceInterface){
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
-        write.setTimeout(30000);
+        //write.setTimeout(30000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new SpecifySleepSourceCall(address,specifySleepSourceInterface,startrTime,endTime,bytes));
@@ -1238,7 +1238,7 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
     public static void writeCommByteArray(byte[] writeArray,boolean status,SpecifySleepSourceInterface specifySleepSourceInterface){
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
-        write.setTimeout(30000);
+     //   write.setTimeout(30000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new CommonWriteCall(address,writeArray,specifySleepSourceInterface));

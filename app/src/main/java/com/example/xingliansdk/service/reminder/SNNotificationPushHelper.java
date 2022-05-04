@@ -44,6 +44,26 @@ public class SNNotificationPushHelper {
     private Thread thread;
     private String contentLast;
 
+
+    //信息 三星手机信息
+    private static final String SAMSUNG_MSG_PACKNAME = "com.samsung.android.messaging";
+    private static final String SAMSUNG_MSG_SRVERPCKNAME = "com.samsung.android.communicationservice";
+    private static final String MSG_PACKAGENAME = "com.android.mms";//短信系统短信包名
+    private static final String SYS_SMS = "com.android.mms.service";//短信 --- vivo Y85A
+    private static final String XIAOMI_SMS_PACK_NAME = "com.xiaomi.xmsf";
+
+    static HashMap<String,Boolean> smsMap = new HashMap<>();
+
+    static {
+
+        smsMap.put(SAMSUNG_MSG_PACKNAME,true);
+        smsMap.put(SAMSUNG_MSG_SRVERPCKNAME,true);
+        smsMap.put(MSG_PACKAGENAME,true);
+        smsMap.put(SYS_SMS,true);
+        smsMap.put(XIAOMI_SMS_PACK_NAME,true);
+
+    }
+
     private SNNotificationPushHelper() {
         startThreadRunning();
     }
@@ -133,9 +153,16 @@ public class SNNotificationPushHelper {
                                     try {
                                         content = content.substring(indexOf + 1, content.length()).trim();
                                     } catch (Exception ignored) {
+                                        ignored.printStackTrace();
                                     }
                                 }
                             }
+
+//                            if( smsMap != null && smsMap.get(packageName)){
+//                                pushSMS(title,content);
+//                            }
+
+
                             RemindConfig remindConfig = new RemindConfig();
 
                             ArrayList<RemindConfig.Apps> nnList = (ArrayList<RemindConfig.Apps>) Hawk.get("RemindList", remindConfig.getRemindAppPushList());
@@ -254,6 +281,18 @@ public class SNNotificationPushHelper {
     }
 
 
-
+    /**
+     * 推送短信
+     *
+     * @param
+     * @param
+     */
+    private void pushSMS(String name, String content) {
+        TLog.Companion.error(String.format("短信++ name++%1$s  content++%2$s", name, content));
+        if((content.length()+name.length())>56)
+            BleWrite.writeMessageCall(1, name, content.substring(0,56-name.length()),mInterface);
+        else
+            BleWrite.writeMessageCall(1, name, content,mInterface);
+    }
 
 }

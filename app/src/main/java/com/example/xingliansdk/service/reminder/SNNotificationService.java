@@ -116,7 +116,7 @@ public class SNNotificationService extends NotificationListenerService implement
                 if (IF.isEmpty(content) && !IF.isEmpty(notification.tickerText)) {
                     content = notification.tickerText.toString();
                 }
-                TLog.Companion.error("SNNotificationService+=" + content);
+                TLog.Companion.error("SNNotificationService+=" +packName+" content=" +content);
                 //   BleWrite.writeMessageCall(1, "测试", "测试内容",this);
                 TLog.Companion.error("SNNotificationService TYPE_NOTIFICATION_LISTENER_SERVICE");
                 SNNotificationPushHelper.getInstance().handleMessage(SNNotificationPushHelper.TYPE_NOTIFICATION_LISTENER_SERVICE, packName, title, content, this);

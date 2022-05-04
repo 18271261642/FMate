@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
+import com.example.xingliansdk.MainHomeActivity
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.bean.DeviceFirmwareBean
@@ -756,6 +757,10 @@ class BleWork : IWork, OnCountTimerListener,
     }
 
     fun getTemp(startTime: Long, endTime: Long, list: ArrayList<Int>) {
+
+
+        MainHomeActivity().setSyncComplete(true)
+
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)
             {

@@ -36,7 +36,15 @@
         android:id="@+id/shareLogBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="分享Log"/>
+
+    <Button
+        android:id="@+id/smsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取短信权限"/>
+
 
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"

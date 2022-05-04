@@ -537,7 +537,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             Log.e("三生三世","----isSYnc="+isSync)
             val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
             BleWrite.writeCommByteArray(resultByte,false,this)
-        },5000)
+        },1000)
 
     }
 
@@ -570,6 +570,8 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             val startLongTime = startTime?.get(0)?.let { HexDump.getIntFromBytes(it,startTime[1],startTime[2],startTime[3]) }
             val endLongTime =
                 endTime?.get(0)?.let { HexDump.getIntFromBytes(it,endTime[1],endTime[2],endTime[3]) }
+
+            Log.e("睡眠缓存","--222--睡眠-时间戳="+startLongTime+" "+endLongTime)
 
             if (startLongTime != null && endLongTime != null) {
                 BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)

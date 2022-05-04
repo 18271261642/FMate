@@ -176,7 +176,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
                 Hawk.put(Config.database.SMS,2)
                 SwitchSMS.isOpened=true
                 setSwitchButton()
-//                requestPermission(true)
+                requestPermission(true)
             }
 
             override fun toggleToOff(view: SwitchView?) {
@@ -246,15 +246,18 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
     private fun requestPermission(isSms : Boolean){
 
-        XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS).request{permissions,all->}
+
+       // XXPermissions.with(this).permission(Permission.READ_SMS).request { permissions, all ->  }
+
+       // XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS).request{permissions,all->}
 //        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG),0x00)
 
         if(isSms){
-//            XXPermissions.with(this).permission(Manifest.permission.READ_SMS).request { permissions, all ->
-//                handler.sendEmptyMessage(0x00)
-//            }
+            XXPermissions.with(this).permission(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS).request { permissions, all ->
+                handler.sendEmptyMessage(0x00)
+            }
 
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS),0x00)
+//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS),0x00)
 //            XXPermissions.with(this).permission(Permission.READ_SMS).request { permissions, all ->
 //                handler.sendEmptyMessage(0x00)
 //            }
@@ -266,7 +269,7 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
         XXPermissions.with(this).permission(Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS).request { permissions, all ->
             handler.sendEmptyMessage(0x00);
         }
-        Permission.READ_PHONE_NUMBERS
+
         XXPermissions.with(this).permission(Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG).request { permissions, all ->  }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -282,8 +285,12 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
     private fun getPermission(){
         try {
 
-            val isSmsStatus = XXPermissions.isPermanentDenied(this,Manifest.permission.READ_SMS)
-//            SwitchSMS.isOpened = isSmsStatus
+            val isSmsStatus = XXPermissions.isGranted(this,Manifest.permission.READ_SMS)
+
+            if(!isSmsStatus){
+                SwitchSMS.isOpened = false
+            }
+
 
             val isPhone = XXPermissions.isGranted(this,Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS);
 
@@ -292,15 +299,19 @@ class InfRemindActivity : BaseActivity<MyDeviceViewModel>() {
 
            TLog.error("------isPhone="+isPhone +" isSms="+isSmsStatus+" "+isP)
 
-            SwitchALL.isOpened = isPhone
-
-
+            if(!isPhone){
+                SwitchALL.isOpened = false
+            }
 
             //通知开关
             val hasNotificationPermission: Boolean =
                 PermissionUtils.hasNotificationListenPermission(this)
-            SwitchOther.isOpened = hasNotificationPermission
-            ryRemind.visibility=if(hasNotificationPermission) View.VISIBLE else View.GONE
+            if(!hasNotificationPermission){
+                SwitchOther.isOpened = false
+                ryRemind.visibility=if(hasNotificationPermission) View.VISIBLE else View.GONE
+            }
+
+
 
         }catch (e : Exception){
             e.printStackTrace()

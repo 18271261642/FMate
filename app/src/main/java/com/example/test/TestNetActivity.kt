@@ -69,7 +69,13 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
     override fun initView(savedInstanceState: Bundle?) {
 
 
+
+
         XXPermissions.with(this).permission(Manifest.permission.READ_EXTERNAL_STORAGE).request { permissions, all -> }
+
+
+        val isSms = XXPermissions.isGranted(this,Manifest.permission.READ_SMS)
+        showLogTv.text = "permission="+isSms
 
 
         testNetBtn.setOnClickListener {
@@ -96,6 +102,15 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
                 Environment.getExternalStorageDirectory().path + "/aLog/log-" + DateUtil.getCurrDate() + ".txt"
 
             LogcatHelper.shareFile(this, File(path))
+        }
+
+
+        smsBtn.setOnClickListener { 
+            XXPermissions.with(this).permission(Manifest.permission.READ_SMS).request { permissions, all ->
+                val isSms = XXPermissions.isGranted(this,Manifest.permission.READ_SMS)
+                var conT =  permissions.toString()
+                showLogTv.text = "permission="+conT+" "+isSms
+            }
         }
 
     }

@@ -1034,7 +1034,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         }
         Hawk.put(HOME_CARD_BEAN, mHomeCardVoBean)
 
-        MainHomeActivity().setSyncComplete(true)
+//        MainHomeActivity().setSyncComplete(true)
 
 //        val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
 //        BleWrite.writeCommByteArray(resultByte,false,this)
