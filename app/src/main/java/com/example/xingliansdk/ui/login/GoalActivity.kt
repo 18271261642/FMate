@@ -18,6 +18,9 @@ import com.shon.connector.bean.DeviceInformationBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_goal.*
 
+/**
+ * 第一次进入页面进行设置 目标设置
+ */
 class GoalActivity :  BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeListener {
     lateinit var mStr: SpannableString
     var sleepGoal=0
@@ -29,7 +32,7 @@ class GoalActivity :  BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeList
             .init()
         seekBarSports.setOnSeekBarChangeListener(this)
         seekBarSports.progress = (mDeviceInformationBean.exerciseSteps / 1000).toInt()
-        mStr = SpannableString("${seekBarSports.progress * 1000}步")
+        mStr = SpannableString("${seekBarSports.progress * 1000}")
         mStr.setSpan(
             AbsoluteSizeSpan(48, true),
             0,

@@ -2,9 +2,8 @@ package com.shon.connector.call.write.settingclass;
 
 import android.util.Log;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.google.gson.Gson;
-import com.shon.connector.BleWrite;
 import com.shon.connector.Config;
 import com.shon.connector.call.CmdUtil;
 import com.shon.connector.utils.HexDump;
@@ -15,7 +14,6 @@ import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 
 /**
  * 3.6.7

@@ -12,7 +12,7 @@ import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherApi
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.requestCustom
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog

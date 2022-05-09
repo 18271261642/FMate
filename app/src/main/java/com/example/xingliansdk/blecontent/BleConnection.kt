@@ -1,7 +1,6 @@
 package com.example.xingliansdk.blecontent
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.content.Intent
 import android.content.IntentFilter
@@ -9,7 +8,6 @@ import android.os.*
 import com.example.xingliansdk.Config.database
 import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.Config.eventBus.*
-import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.XingLianApplication.Companion.mXingLianApplication
 import com.example.xingliansdk.bean.MessageBean
 import com.example.xingliansdk.broadcast.BleBroadcastReceiver
@@ -17,8 +15,7 @@ import com.example.xingliansdk.dfu.DFUActivity
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.BleUtil
-import com.example.xingliansdk.utils.RoomUtils
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.core.Connect

@@ -6,7 +6,7 @@ import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
 import com.example.xingliansdk.network.api.meView.MeViewApi.Companion.mMeViewApi
 import com.example.xingliansdk.network.requestCustom
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 
 

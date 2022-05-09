@@ -9,9 +9,8 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
-import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar

@@ -23,14 +23,13 @@ import com.example.xingliansdk.bean.CardWeightBean
 import com.example.xingliansdk.bean.UpdateWeight
 import com.example.xingliansdk.bean.YearBean
 import com.example.xingliansdk.bean.room.*
-import com.example.xingliansdk.custom.WeightMarkerView
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.weightView.WeightViewModel
 import com.example.xingliansdk.utils.DeviceSportAxisValueFormatter
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.HelpUtil.setNumber
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -38,10 +37,8 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun

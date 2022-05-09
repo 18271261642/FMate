@@ -15,10 +15,9 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.database.TIME_LIST
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.setAllClock.AlarmClockBean
 import com.example.xingliansdk.network.api.setAllClock.SetAllClockViewModel
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
@@ -28,12 +27,10 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
-import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * 添加 编辑闹钟页面

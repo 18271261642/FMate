@@ -8,11 +8,9 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel
-import com.example.xingliansdk.ui.setting.account.FindPhoneMainActivity
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.RoomUtils
-import com.example.xingliansdk.utils.ShowToast
-import com.example.xingliansdk.utils.ThreadUtils
+import com.shon.connector.utils.ShowToast
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager

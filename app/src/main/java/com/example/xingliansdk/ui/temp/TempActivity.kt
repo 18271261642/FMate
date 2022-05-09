@@ -16,7 +16,6 @@ import com.example.xingliansdk.network.api.tempView.TempViewModel
 import com.example.xingliansdk.network.api.tempView.TemperatureVoBean
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
-import com.example.xingliansdk.view.IF
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -30,6 +29,7 @@ import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bloodoxygen.*
 import kotlinx.android.synthetic.main.activity_temp.*

@@ -2,23 +2,20 @@ package com.example.xingliansdk.ui.setting
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.utils.AppUtils
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.viewmodel.AppStartViewModel
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
-import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : BaseActivity<AppStartViewModel>(),View.OnClickListener {

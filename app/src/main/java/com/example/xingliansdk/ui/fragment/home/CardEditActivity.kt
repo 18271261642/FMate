@@ -18,11 +18,10 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.cardView.CardViewModel
 import com.example.xingliansdk.network.api.cardView.EditCardVoBean
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
-import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
 

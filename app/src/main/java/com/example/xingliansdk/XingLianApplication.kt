@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.*
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import androidx.multidex.MultiDex
 import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
@@ -14,7 +13,6 @@ import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SendWeatherService
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
-import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.hawk.NoEncryption
 import com.qweather.sdk.view.HeConfig
@@ -34,6 +32,7 @@ import java.lang.ref.WeakReference
 import java.util.*
 import com.example.xingliansdk.utils.RemoteControlService
 import com.example.xingliansdk.utils.RemoteControlService.RCBinder
+import com.shon.connector.utils.ShowToast
 
 
 class XingLianApplication : BaseApp() {

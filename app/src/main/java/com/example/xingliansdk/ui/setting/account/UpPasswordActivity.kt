@@ -1,6 +1,5 @@
 package com.example.xingliansdk.ui.setting.account
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
@@ -18,6 +17,7 @@ import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_up_password.*
 

@@ -36,8 +36,8 @@
         android:id="@+id/shareLogBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="分享Log"/>
+
+        android:text="测量血压"/>
 
     <Button
         android:id="@+id/smsBtn"

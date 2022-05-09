@@ -12,7 +12,6 @@ import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocation
@@ -27,13 +26,11 @@ import com.amap.api.maps.model.*
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker
 import com.amap.api.trace.TraceListener
 import com.amap.api.trace.TraceOverlay
-import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.exercise.MILE
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.bean.db.AmapSportBean
-import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.fragment.map.share.ImgShareActivity
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusMapContainerView
@@ -51,7 +48,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.gyf.barlibrary.ImmersionBar
-import com.orhanobut.hawk.Hawk
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.sn.map.interfaces.OnMapScreenShotListener
 import kotlinx.android.synthetic.main.activity_amap_sport_detail_layout.*

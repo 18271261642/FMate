@@ -10,13 +10,13 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.blecontent.BleConnection
-import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_password.*
 

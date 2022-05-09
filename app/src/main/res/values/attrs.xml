@@ -165,4 +165,21 @@
         <attr name="text_finish" format="string"/>
         <attr name="animation_duration" format="integer"/>
     </declare-styleable>
+
+
+    <!--血压测量进度条-->
+    <declare-styleable name="BpMeasureViewStyleable">
+        <!-- 中间文字颜色、字体大小、状态值-->
+        <attr name="center_txt_color" format="color"/>
+        <attr name="center_txt_size" format="dimension"/>
+        <attr name="center_txt_bottom_size" format="dimension"/>
+        <attr name="center_txt_status" format="string" />
+
+        <!-- 圆的宽度 -->
+        <attr name="round_width" format="dimension"/>
+        <attr name="round_color" format="color"/>
+        <attr name="inner_round_width" format="dimension"/>
+        <attr name="inner_round_color" format="color"/>
+
+    </declare-styleable>
 </resources>

@@ -20,13 +20,10 @@ import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
-import com.example.xingliansdk.ui.login.LoginActivity
-import com.example.xingliansdk.ui.setting.MyDeviceActivity
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.InonePowerSaveUtil
-import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk

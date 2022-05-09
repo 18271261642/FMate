@@ -12,16 +12,13 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewModel
-import com.example.xingliansdk.ui.setting.account.FindPhoneMainActivity
-import com.example.xingliansdk.ui.setting.account.PasswordCheckActivity
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_dial_index.*
-import me.hgj.jetpackmvvm.util.get
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 

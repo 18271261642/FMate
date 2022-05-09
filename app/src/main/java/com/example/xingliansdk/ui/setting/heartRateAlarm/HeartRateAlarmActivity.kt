@@ -6,13 +6,10 @@ import androidx.core.widget.addTextChangedListener
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel
-import com.example.xingliansdk.utils.ShowToast
-import com.example.xingliansdk.view.DateUtil
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.iielse.switchbutton.SwitchView
-import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite

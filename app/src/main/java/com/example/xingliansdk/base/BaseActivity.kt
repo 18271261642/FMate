@@ -1,13 +1,10 @@
 package com.example.xingliansdk.base
 
 import android.bluetooth.BluetoothAdapter
-import android.content.res.Resources
 import android.os.Bundle
 import com.example.xingliansdk.base.activity.BaseVmActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
-import com.example.xingliansdk.utils.ShowToast
-import com.shon.connector.utils.TLog
-import me.jessyan.autosize.AutoSizeCompat
+import com.shon.connector.utils.ShowToast
 
 
 /**

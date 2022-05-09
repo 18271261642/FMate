@@ -12,16 +12,14 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.BloodPressureHistoryAdapter
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.bean.room.BloodPressureHistoryBean
 import com.example.xingliansdk.bean.room.BloodPressureHistoryDao
-import com.example.xingliansdk.bean.room.WeightBean
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
@@ -31,7 +29,6 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
-import com.shon.connector.BleWrite
 import kotlinx.android.synthetic.main.activity_blood_pressure.*
 import kotlinx.android.synthetic.main.item_blood_pressure_index.*
 

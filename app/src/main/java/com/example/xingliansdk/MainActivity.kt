@@ -16,7 +16,7 @@ import com.example.xingliansdk.broadcast.BleBroadcastReceiver
 import com.example.xingliansdk.dfu.DFUActivity
 import com.example.xingliansdk.ui.Ble5Activity
 import com.example.xingliansdk.ui.TemperatureActivity
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.shon.connector.utils.TLog.Companion.error
 import com.google.gson.Gson

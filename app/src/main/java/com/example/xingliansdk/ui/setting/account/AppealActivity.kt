@@ -13,14 +13,13 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_appeal.*
 import kotlinx.android.synthetic.main.activity_appeal.edtPhone
 import kotlinx.android.synthetic.main.activity_appeal.titleBar
 import kotlinx.android.synthetic.main.activity_appeal.tvPhoneCode
 import kotlinx.android.synthetic.main.activity_appeal.tvSure
-import kotlinx.android.synthetic.main.activity_bind_new_phone.*
 
 
 class AppealActivity : BaseActivity<LoginViewModel>(),View.OnClickListener {

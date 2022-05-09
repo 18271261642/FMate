@@ -8,21 +8,18 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.helpView.HelpViewModel
 import com.example.xingliansdk.pictureselector.GlideEngine
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
-import com.hjq.permissions.XXPermissions
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import com.shon.connector.utils.TLog
+import com.shon.connector.utils.ShowToast
 import kotlinx.android.synthetic.main.activity_device_information.*
 import kotlinx.android.synthetic.main.activity_problems_feedback.*
 import kotlinx.android.synthetic.main.activity_problems_feedback.titleBar
-import java.util.jar.Manifest
 
 /**
  * 问题与反馈

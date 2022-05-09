@@ -132,6 +132,22 @@
                 app:styleImage="@mipmap/icon_device_heart_rate_alarm"
                 app:titleText="心率报警"
                 />
+
+
+            <com.example.xingliansdk.widget.SettingItemLayout
+                android:id="@+id/settingBpSetLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:TextSize="18px"
+                app:contentTextSize="7sp"
+                app:layoutType="3"
+                app:mtitleTextColor="@color/sub_text_color"
+                app:styleImage="@mipmap/icon_device_bp_set"
+                app:titleText="血压设置"
+                />
+
+
 <!--            <include-->
 <!--                android:id="@+id/includeHeartRateAlarmSwitch"-->
 <!--                layout="@layout/item_switch"-->

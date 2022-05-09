@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import androidx.core.app.ActivityCompat;
 
 import com.example.xingliansdk.XingLianApplication;
+import com.shon.connector.utils.ShowToast;
 
 import java.util.List;
 

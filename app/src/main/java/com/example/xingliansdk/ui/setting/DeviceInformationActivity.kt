@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +35,7 @@ import com.luck.picture.lib.tools.ToastUtils
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DeviceInformationBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_device_information.*
 import me.hgj.jetpackmvvm.network.NetworkUtil
@@ -46,7 +46,6 @@ import org.apache.commons.lang.StringUtils
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.math.abs
 
 /**
  * 个人资料页面

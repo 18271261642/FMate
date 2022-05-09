@@ -1,6 +1,5 @@
 package com.example.xingliansdk.network
 
-import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xingliansdk.Config
@@ -11,8 +10,7 @@ import com.example.xingliansdk.ui.login.LoginActivity
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
-import com.google.gson.Gson
+import com.shon.connector.utils.ShowToast
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.utils.TLog

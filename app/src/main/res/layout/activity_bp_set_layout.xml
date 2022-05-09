@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#F6F7F8"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="血压设置"
+        app:showHome="true"
+        app:showAction="true"
+        app:actionText="保存"
+        app:actionTextColor="@color/color_main_green"
+        app:titleTextColor01="@color/black" />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="非睡眠状态下测量提醒"
+            android:textColor="#ff333333"
+            android:textSize="18sp"
+            android:layout_marginStart="@dimen/dp_10"/>
+
+        <com.github.iielse.switchbutton.SwitchView
+            android:id="@+id/autoBpNormalSwitch"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="非睡眠状态下，每30分钟提醒您测量一次"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        android:layout_marginStart="@dimen/dp_10"/>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="夜间睡眠自动测量"
+            android:textColor="#ff333333"
+            android:textSize="18sp"
+            android:layout_marginStart="@dimen/dp_10"/>
+
+        <com.github.iielse.switchbutton.SwitchView
+            android:id="@+id/autoBpNightSwitch"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="夜间00:00～08:00每45分钟自动测量一次"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/dp_10"/>
+
+</LinearLayout>

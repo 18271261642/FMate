@@ -10,7 +10,7 @@ import com.example.xingliansdk.ui.login.LoginActivity
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager

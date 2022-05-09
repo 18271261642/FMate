@@ -1,6 +1,6 @@
 package com.shon.connector.call.write.controlclass;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.connector.BleWrite;
 import com.shon.connector.Config;

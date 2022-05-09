@@ -3,7 +3,7 @@ package com.example.xingliansdk.network.api.dialView
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.requestCustom
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 
 

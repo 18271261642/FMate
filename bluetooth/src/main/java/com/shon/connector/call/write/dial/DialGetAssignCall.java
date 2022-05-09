@@ -1,6 +1,6 @@
 package com.shon.connector.call.write.dial;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.orhanobut.hawk.Hawk;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;

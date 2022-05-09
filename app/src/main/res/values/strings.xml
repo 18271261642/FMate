@@ -3,6 +3,19 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+
+    <string name="string_no_bind_device_txt">哦豁，当前还没有绑定设备哦，点击“绑定设</string>
+    <string name="string_not_yet_bind">暂不绑定</string>
+    <string name="string_go_to_bind">绑定设备</string>
+    <string name="string_check_bp_first_user_txt">首次使用，为了测量更精准，建议您先使用医疗级血压计对手表进行校准哦～</string>
+    <string name="string_check_bp_user_change_txt">您的个人信息（年龄、性别、身高、体重±5KG）发生了变化，为了更精准测量，建议您使用医疗级血压计对手表进行一次校准哦～～</string>
+    <string name="string_check_bp_long_time_txt">距离您上次校准已经过去了一个月喽，建议您每个月使用医疗级血压计对手表进行一次校准哦～～</string>
+    <string name="string_check_bp_change_device_txt">监测到您更换了手表，建议您再次使用医疗级血压计对新手表进行一次校准哦～～</string>
+    <string name="string_check_no_check_txt">手表暂不校准，并不影响使用，只是精准度存在少许偏差</string>
+
+    
+    <string name="string_bp_chekc_notice">注意事项：\n1.请在心情平和时，测量血压；\n2.测量血压时，请保持绑带与心脏同高。\n3.每次测量结束后，休息3-5分钟开始下一次测量</string>
+    <string name="string_bp_measure_desc">1.请在心情平和时，测量血压；\n2.手表戴在左侧手腕，松紧适度；\n3.测量时不要移动身体或讲话，保持静止。</string>
     <string name="string_sms_notify_desc">打开某类别的消息推送开关，使该项的消息在手表上提醒如果消息推送一次，可以重启通知权服务进行修复。</string>
 
     <string name="string_dfu_normal_desc">当前固件有新版本，如暂不升级，将会影响部分功能提醒哦</string>

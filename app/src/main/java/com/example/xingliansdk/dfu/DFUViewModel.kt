@@ -8,7 +8,7 @@
 //import android.os.Build
 //import androidx.lifecycle.*
 //import com.example.xingliansdk.dfu.service.DfuService
-//import com.example.xingliansdk.utils.ShowToast
+//import com.shon.connector.utils.ShowToast
 //import com.shon.connector.utils.TLog
 //import no.nordicsemi.android.dfu.DfuProgressListener
 //import no.nordicsemi.android.dfu.DfuServiceInitiator

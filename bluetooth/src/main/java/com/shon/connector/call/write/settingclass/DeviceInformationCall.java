@@ -1,6 +1,6 @@
 package com.shon.connector.call.write.settingclass;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.google.gson.Gson;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.BleWrite;

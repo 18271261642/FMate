@@ -7,11 +7,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
 import com.example.xingliansdk.R;
-import com.example.xingliansdk.utils.ShowToast;
 import com.hjq.shape.view.ShapeEditText;
 import com.hjq.shape.view.ShapeTextView;
 

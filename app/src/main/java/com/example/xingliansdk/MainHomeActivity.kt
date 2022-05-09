@@ -2,18 +2,15 @@ package com.example.xingliansdk
 
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.content.*
 import android.graphics.Color
 import android.net.Uri
 import android.os.*
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
@@ -22,39 +19,33 @@ import com.example.xingliansdk.bean.DeviceFirmwareBean
 import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
-import com.example.xingliansdk.dfu.DFUActivity
 import com.example.xingliansdk.dialog.UpdateDialogView
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
-import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
-import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
-import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
-import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
-import com.shon.connector.call.write.deviceclass.DeviceFirmwareCall
 import com.shon.connector.utils.HexDump
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_update_zip.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.text.DecimalFormat
 import java.util.*
-import kotlin.system.exitProcess
 
 
 public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,BleWrite.SpecifySleepSourceInterface{
@@ -536,7 +527,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         handler.postDelayed(Runnable {
             Log.e("三生三世","----isSYnc="+isSync)
             val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
-            BleWrite.writeCommByteArray(resultByte,false,this)
+            BleWrite.writeCommByteArray(resultByte,true,this)
         },1000)
 
     }
@@ -574,7 +565,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             Log.e("睡眠缓存","--222--睡眠-时间戳="+startLongTime+" "+endLongTime)
 
             if (startLongTime != null && endLongTime != null) {
-                BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)
+                BleWrite.writeSpecifySleepSourceCall(resultByte,true,startLongTime.toLong(),endLongTime.toLong(),this)
             }
         },1000)
     }

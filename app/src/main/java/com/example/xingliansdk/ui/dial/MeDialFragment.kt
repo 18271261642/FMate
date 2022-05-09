@@ -26,7 +26,6 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DownDialModel
 import com.example.xingliansdk.network.api.dialView.MeDialViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
-import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
 import com.example.xingliansdk.ui.setting.flash.FlashCall
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
@@ -36,6 +35,7 @@ import com.ly.genjidialog.extensions.newGenjiDialog
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_customize_dial.*
 import kotlinx.android.synthetic.main.activity_take_medicine_repeat.*

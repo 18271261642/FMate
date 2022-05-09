@@ -1,14 +1,11 @@
 package com.example.xingliansdk.ui.deviceSport
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView
-import androidx.annotation.RequiresApi
 import com.example.xingliansdk.R
-import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.WeekBean
 import com.example.xingliansdk.bean.YearBean
@@ -20,12 +17,10 @@ import com.example.xingliansdk.network.api.dailyActiveBean.DailyActiveModel
 import com.example.xingliansdk.network.api.dailyActiveBean.DailyActiveVoBean
 import com.example.xingliansdk.utils.DeviceSportAxisValueFormatter
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
-import com.example.xingliansdk.view.CustomBarChart
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.view.DateUtil.minusTime
-import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.github.mikephil.charting.charts.BarChart
@@ -39,12 +34,10 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.Fill
-import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
-import com.shon.connector.Config
 import kotlinx.android.synthetic.main.activity_device_sport_chart.*
 import me.hgj.jetpackmvvm.network.NetworkUtil
 import java.text.DecimalFormat

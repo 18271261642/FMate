@@ -1,14 +1,12 @@
 package com.example.xingliansdk.ui.dial
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.eventBus.DEVICE_BLE_OFF
-import com.example.xingliansdk.Constant
 import com.example.xingliansdk.R
 import com.example.xingliansdk.adapter.RecommendDialAdapter
 import com.example.xingliansdk.base.fragment.BaseFragment
@@ -20,7 +18,7 @@ import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewModel
 import com.example.xingliansdk.ui.dial.DialMarketActivity.Companion.downStatus
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.Constants

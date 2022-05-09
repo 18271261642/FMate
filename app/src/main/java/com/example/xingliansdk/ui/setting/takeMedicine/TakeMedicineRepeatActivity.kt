@@ -2,18 +2,14 @@ package com.example.xingliansdk.ui.setting.takeMedicine
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import androidx.core.widget.addTextChangedListener
 import com.example.xingliansdk.Config.eventBus.REMIND_TAKE_MEDICINE_REMINDER_PERIOD
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.dialog.BaseDialog
 import com.example.xingliansdk.dialog.MediaRepeatDialog
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout

@@ -1,12 +1,12 @@
 package com.example.xingliansdk.utils;
 
 import android.content.Context;
-import android.os.Environment;
 import android.widget.Toast;
 
 import com.example.xingliansdk.XingLianApplication;
 import com.example.xingliansdk.bean.HRVBean;
 import com.google.gson.Gson;
+import com.shon.connector.utils.ShowToast;
 import com.shon.connector.utils.TLog;
 
 import java.io.BufferedReader;

@@ -1,19 +1,15 @@
 package com.example.xingliansdk.ui.setting.account
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.text.TextUtils
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.*
 import com.gyf.barlibrary.ImmersionBar
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
-import kotlinx.android.synthetic.main.activity_find_phone_main.*
 import kotlinx.android.synthetic.main.activity_password_check.*
 import kotlinx.android.synthetic.main.activity_password_check.titleBar
 import kotlinx.android.synthetic.main.activity_password_check.tvLostPhone

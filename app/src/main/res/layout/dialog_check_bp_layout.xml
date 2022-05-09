@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/comm_bg_color"
+    android:orientation="vertical">
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/bpCheckTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionTextSize="24sp"
+        app:backcolor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="校准"
+        app:showHome="true"
+        app:titleTextColor01="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准方法："
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="用医疗级血压计与手表同时测量血压三次，并手动输入每次医疗级血压计的测量结果"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:textColor="#ff333333"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:lineSpacingExtra="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content"
+            android:text="@string/string_bp_chekc_notice"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="0dp"/>
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/checkBpStartTv"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="开始校准"
+        app:shape_radius="8dp"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:padding="8dp"
+        app:shape_solidColor="#5FDC9D"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+
+</LinearLayout>

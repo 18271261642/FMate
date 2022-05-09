@@ -8,7 +8,7 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.base.fragment.BaseFragment
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.gyf.barlibrary.ImmersionBar

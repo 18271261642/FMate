@@ -13,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.xingliansdk.Config
-import com.example.xingliansdk.base.activity.BaseVmActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.ext.getAppViewModel
 import com.example.xingliansdk.ext.getVmClazz
@@ -21,8 +20,8 @@ import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.network.manager.NetworkStateManager
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
-import com.example.xingliansdk.utils.ShowToast.showToastLong
+import com.shon.connector.utils.ShowToast
+import com.shon.connector.utils.ShowToast.showToastLong
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.LoadingDialogUtils
 import com.gyf.barlibrary.SimpleImmersionFragment

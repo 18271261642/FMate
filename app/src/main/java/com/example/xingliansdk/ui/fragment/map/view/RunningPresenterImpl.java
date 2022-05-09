@@ -18,7 +18,7 @@ import com.example.xingliansdk.ui.fragment.map.task.SNAsyncTask;
 import com.example.xingliansdk.ui.fragment.map.task.SNVTaskCallBack;
 import com.example.xingliansdk.utils.CountTimer;
 import com.example.xingliansdk.utils.ResUtil;
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.example.xingliansdk.utils.Utils;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;

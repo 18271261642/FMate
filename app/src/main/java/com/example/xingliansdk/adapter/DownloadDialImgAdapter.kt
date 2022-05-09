@@ -1,7 +1,6 @@
 package com.example.xingliansdk.adapter
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,10 +15,8 @@ import com.example.xingliansdk.ui.setting.flash.FlashCall
 import com.example.xingliansdk.utils.ExcelUtil
 import com.example.xingliansdk.utils.FileUtils
 import com.example.xingliansdk.utils.ImgUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DownloadProgressButton
-import com.google.gson.Gson
-import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean

@@ -3,7 +3,7 @@ package com.example.xingliansdk.network.api.helpView
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.requestCustom
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 
 open class HelpViewModel : BaseViewModel() {
     val resultHelp: MutableLiveData<Any> = MutableLiveData()

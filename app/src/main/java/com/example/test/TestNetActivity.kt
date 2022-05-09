@@ -98,10 +98,7 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
         }
 
         shareLogBtn.setOnClickListener {
-            val path =
-                Environment.getExternalStorageDirectory().path + "/aLog/log-" + DateUtil.getCurrDate() + ".txt"
-
-            LogcatHelper.shareFile(this, File(path))
+            measureBp()
         }
 
 
@@ -115,6 +112,23 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
     }
 
+
+    private fun measureBp(){
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x03)
+
+        var resultArray = CmdUtil.getFullPackage(cmdArray)
+
+        BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
+            override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -222,7 +236,7 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
             if (startLongTime != null && endLongTime != null) {
                 showLogTv.text = "wrete bytes= "+HexDump.bytesToString(resultByte)
-                BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)
+                BleWrite.writeSpecifySleepSourceCall(resultByte,true,startLongTime.toLong(),endLongTime.toLong(),this)
             }
 
     }

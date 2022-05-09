@@ -11,7 +11,7 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.setAllClock.AlarmClockBean
 import com.example.xingliansdk.network.api.setAllClock.SetAllClockViewModel
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.widget.TitleBarLayout

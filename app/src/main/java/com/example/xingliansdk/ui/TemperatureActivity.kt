@@ -7,7 +7,7 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.broadcast.BleBroadcastReceiver
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import kotlinx.android.synthetic.main.activity_main.*

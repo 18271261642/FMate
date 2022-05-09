@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.provider.Settings
 import android.text.TextUtils
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -12,7 +11,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.RecyclerView
 import com.example.phoneareacodelibrary.AreaCodeModel
 import com.example.phoneareacodelibrary.PhoneAreaCodeActivity
 import com.example.phoneareacodelibrary.SelectPhoneCode
@@ -32,6 +30,7 @@ import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*

@@ -15,14 +15,13 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.MD5Util
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bind_new_phone.*
 import kotlinx.android.synthetic.main.activity_bind_new_phone.tvPhoneCode
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 class BindNewPhoneActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {

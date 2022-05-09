@@ -20,9 +20,8 @@ import com.example.xingliansdk.ui.sleep.viewmodel.SleepViewModel
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.RecycleViewDivider
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
-import com.example.xingliansdk.view.IF
 import com.example.xingliansdk.view.SleepTodayView
 import com.example.xingliansdk.view.SleepViewData
 import com.example.xingliansdk.widget.TitleBarLayout

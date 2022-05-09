@@ -4,30 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.annotation.Nullable
 import androidx.core.widget.addTextChangedListener
 import com.example.phoneareacodelibrary.AreaCodeModel
 import com.example.phoneareacodelibrary.PhoneAreaCodeActivity
 import com.example.phoneareacodelibrary.SelectPhoneCode
-import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.MD5Util
-import com.example.xingliansdk.utils.ShowToast
-import com.google.gson.Gson
-import com.orhanobut.hawk.Hawk
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.edtPassword
 import kotlinx.android.synthetic.main.activity_login.imgBack
 import kotlinx.android.synthetic.main.activity_login.imgPassword
-import kotlinx.android.synthetic.main.activity_password.*
 
 
 class ForgetPasswordActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {

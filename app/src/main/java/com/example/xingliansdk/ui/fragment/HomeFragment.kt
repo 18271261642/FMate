@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.HOME_HISTORICAL_BIG_DATA_WEEK
-import com.example.xingliansdk.MainHomeActivity
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.XingLianApplication.Companion.getSelectedCalendar
@@ -27,7 +26,6 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.login.LoginBean
-import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.viewmodel.HomeViewModel
@@ -39,8 +37,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.*
-import com.shon.connector.call.CmdUtil
-import com.shon.connector.utils.HexDump
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.shon.connector.utils.TLog.Companion.error
 import kotlinx.android.synthetic.main.activity_home.*
@@ -219,8 +216,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                 4 -> {
                     JumpUtil.startBloodOxygenActivity(activity, mCardList[position])
                 }
-                5 -> {
-                    JumpUtil.startBloodPressureActivity(activity, mCardList[position])
+                5 -> {  //血压
+                   // JumpUtil.startBloodPressureActivity(activity, mCardList[position])
+
+                    JumpUtil.startNewBpActivity(activity, mCardList[position])
                 }
                 6 -> {
                     JumpUtil.startTempActivity(activity, mCardList[position])

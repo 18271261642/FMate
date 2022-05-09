@@ -25,11 +25,9 @@ import com.example.xingliansdk.bean.room.CustomizeDialBean
 import com.example.xingliansdk.bean.room.CustomizeDialDao
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
-import com.example.xingliansdk.listeners.OnGetImgWidthListener
 import com.example.xingliansdk.network.api.dialView.DetailDialViewModel
 import com.example.xingliansdk.pictureselector.GlideEngine
 import com.example.xingliansdk.ui.setting.flash.FlashCall
-import com.example.xingliansdk.ui.setting.flash.FlashWriteAssignInterface
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
@@ -38,11 +36,11 @@ import com.gyf.barlibrary.ImmersionBar
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import com.luck.picture.lib.tools.ToastUtils
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_customize_dial.*
 import kotlinx.android.synthetic.main.activity_customize_dial.titleBar

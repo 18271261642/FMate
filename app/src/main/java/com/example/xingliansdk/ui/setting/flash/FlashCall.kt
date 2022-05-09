@@ -3,15 +3,13 @@ package com.example.xingliansdk.ui.setting.flash
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import com.amap.api.mapcore.util.id
 import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.bean.FlashBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DetailDialViewApi
-import com.example.xingliansdk.utils.ShowToast
-import com.google.gson.Gson
+import com.shon.connector.utils.ShowToast
 import com.shon.bluetooth.core.call.WriteCall
 import com.shon.bluetooth.core.callback.WriteCallback
 import com.shon.bluetooth.core.gatt.CharacteristicGattCallback

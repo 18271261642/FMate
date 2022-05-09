@@ -1,9 +1,7 @@
 package com.example.xingliansdk.ui.dial
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.view.KeyEvent
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
@@ -13,17 +11,14 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DetailDialViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.ui.setting.flash.FlashCall
-import com.example.xingliansdk.ui.setting.flash.FlashWriteAssignInterface
-import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
-import com.luck.picture.lib.tools.ToastUtils
 import com.shon.bluetooth.DataDispatcher
-import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DialCustomBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.shon.net.DownLoadRequest
 import com.shon.net.callback.DownLoadCallback

@@ -16,6 +16,15 @@
     <color name="greenCCF9EC">#CCF9EC</color>
     <color name="color_F1F4F4">#F1F4F4</color>
     <color name="gray1">#F7F7F7</color>
+
+    <!--血压校准，未校准颜色-->
+    <color name="bp_no_check_color">#DEDEDE</color>
+    <color name="bp_checked_color">#5FDC9D</color>
+
+    <color name="comm_bg_color">#F2F3F5</color>
+    
+    <color name="bp_schedule_color">#1D8BEE</color>
+    <color name="bp_schedule_bg_color">#331d8bee</color>
     <!--底部导航菜单图标正常颜色-->
     <color name="bottom_nav_icon_dim">#999999</color>
     <!--底部导航菜单字体正常颜色-->

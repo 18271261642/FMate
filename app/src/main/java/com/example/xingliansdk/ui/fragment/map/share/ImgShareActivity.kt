@@ -2,26 +2,19 @@ package com.example.xingliansdk.ui.fragment.map.share
 
 import android.Manifest
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import com.bumptech.glide.Glide
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
-import com.example.xingliansdk.eventbus.SNEvent
-import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.ui.fragment.map.newmap.AmapHistorySportActivity
-import com.example.xingliansdk.utils.ExcelUtil.mapImgPath
 import com.example.xingliansdk.utils.FileUtils
 import com.example.xingliansdk.utils.ImgUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.example.xingliansdk.wxapi.LoginOrShareUtils
 import com.gyf.barlibrary.ImmersionBar
-import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.shon.connector.utils.TLog
 import com.sina.weibo.sdk.auth.AuthInfo
@@ -32,8 +25,6 @@ import com.sina.weibo.sdk.share.WbShareCallback
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 
 import kotlinx.android.synthetic.main.activity_img_share.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class ImgShareActivity : BaseActivity<BaseViewModel>(),View.OnClickListener,WbShareCallback {
 

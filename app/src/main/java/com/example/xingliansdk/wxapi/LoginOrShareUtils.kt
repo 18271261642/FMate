@@ -10,7 +10,7 @@ import com.example.xingliansdk.XingLianApplication.Companion.mTencent
 import com.example.xingliansdk.XingLianApplication.Companion.mWBAPI
 import com.example.xingliansdk.XingLianApplication.Companion.mwxAPI
 import com.example.xingliansdk.utils.FileUtils
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.sina.weibo.sdk.api.ImageObject
 import com.sina.weibo.sdk.api.WeiboMultiMessage

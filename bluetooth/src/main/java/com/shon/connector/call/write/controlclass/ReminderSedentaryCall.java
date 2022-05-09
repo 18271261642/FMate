@@ -1,14 +1,11 @@
 package com.shon.connector.call.write.controlclass;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.shon.connector.BleWrite;
 import com.shon.connector.Config;
 import com.shon.connector.call.CmdUtil;
-import com.shon.connector.utils.HexDump;
 import com.shon.connector.bean.TimeBean;
-import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.callback.WriteCallback;
-import com.shon.bluetooth.util.ByteUtil;
 
 /**
  * 3.3.15

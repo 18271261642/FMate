@@ -37,6 +37,7 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.shon.connector.Config
 import com.shon.connector.bean.PressureBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_pressure.*
 import java.util.*

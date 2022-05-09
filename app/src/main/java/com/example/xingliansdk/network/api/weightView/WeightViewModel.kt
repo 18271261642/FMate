@@ -7,7 +7,7 @@ import com.example.xingliansdk.network.requestCustomBig
 import com.example.xingliansdk.network.requestCustomWeight
 import com.example.xingliansdk.bean.UpdateWeight
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.shon.connector.utils.TLog
 

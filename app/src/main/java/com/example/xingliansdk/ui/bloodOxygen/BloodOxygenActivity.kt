@@ -14,13 +14,10 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.PopularScienceBean
 import com.example.xingliansdk.bean.SleepTypeBean
 import com.example.xingliansdk.bean.room.*
-import com.example.xingliansdk.network.api.heartView.HeartRateVoBean
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.ui.bloodOxygen.viewmodel.BloodOxygenViewModel
 import com.example.xingliansdk.utils.*
-import com.example.xingliansdk.view.CustomBarChart
 import com.example.xingliansdk.view.DateUtil
-import com.example.xingliansdk.view.IF
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -36,6 +33,7 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.TimeBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bloodoxygen.*
 import kotlinx.android.synthetic.main.activity_bloodoxygen.harts_hrr

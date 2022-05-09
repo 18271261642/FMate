@@ -2,19 +2,12 @@ package com.example.xingliansdk.network
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.xingliansdk.Config
-import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
-import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
-import com.orhanobut.hawk.Hawk
-import com.shon.bluetooth.BLEManager
 import com.shon.connector.utils.TLog
 import kotlinx.coroutines.launch
-import retrofit2.Call
 
 /**
  * code 码 说明

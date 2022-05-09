@@ -28,13 +28,13 @@ import com.example.xingliansdk.network.api.dialView.DialImgBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.meView.MeViewModel
 import com.example.xingliansdk.utils.*
-import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.DeviceInformationBean
 import com.shon.connector.call.write.dial.DialGetAssignCall
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_device_information.*
 import kotlinx.android.synthetic.main.activity_home.*
@@ -317,11 +317,16 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
     override fun onResume() {
         super.onResume()
-        // ShowToast.showToastLong("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")} ${
-        TLog.error("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")}  ${Hawk.get("type",-1)}")
-        // BleWrite.writeFlashGetDialCall(this)
-        if(!BleConnection.iFonConnectError)
-        BleWrite.writeForGetDeviceProperties(this, true)
+        try {
+            // ShowToast.showToastLong("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")} ${
+         //   TLog.error("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")}  ${Hawk.get("type",-1)}")
+            // BleWrite.writeFlashGetDialCall(this)
+            if(!BleConnection.iFonConnectError && XingLianApplication.mXingLianApplication.getDeviceConnStatus())
+                BleWrite.writeForGetDeviceProperties(this, true)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+
     }
 
     var electricity: Int = 0

@@ -1,4 +1,4 @@
-package com.example.xingliansdk.utils
+package com.shon.connector.utils
 
 import android.content.Context
 import android.view.Gravity
@@ -9,7 +9,7 @@ object ShowToast {
     var oldMsg=""
     var time:Long=0
     fun init(context: Context?) {
-        this.mContext = context
+        mContext = context
     }
 
     fun showToastLong(msg: String) {
@@ -37,14 +37,14 @@ object ShowToast {
         toast.setGravity(Gravity.CENTER, 0, 0)
         if(msg != oldMsg)
         {
-            oldMsg=msg
-            time=System.currentTimeMillis()
+            oldMsg =msg
+            time =System.currentTimeMillis()
             toast.show()
         }
         else if(System.currentTimeMillis() - time > 3000)
         {
-            oldMsg=msg
-            time=System.currentTimeMillis()
+            oldMsg =msg
+            time =System.currentTimeMillis()
             toast.show()
         }
 

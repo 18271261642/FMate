@@ -8,7 +8,7 @@ import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.requestCustom
 import com.example.xingliansdk.utils.ExcelUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.shon.connector.utils.TLog
 import com.shon.net.DownLoadRequest

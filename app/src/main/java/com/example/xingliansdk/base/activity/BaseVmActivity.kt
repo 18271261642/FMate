@@ -33,16 +33,13 @@ import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.network.manager.NetworkStateManager
 import com.example.xingliansdk.utils.HelpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.LoadingDialogUtils
-import com.example.xingliansdk.widget.LoginDialog
 import com.gyf.barlibrary.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import com.ly.genjidialog.GenjiDialog
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity

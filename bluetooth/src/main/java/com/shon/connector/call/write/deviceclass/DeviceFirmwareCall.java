@@ -1,10 +1,9 @@
 package com.shon.connector.call.write.deviceclass;
 
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.BleWrite;
@@ -12,9 +11,6 @@ import com.shon.connector.Config;
 import com.shon.connector.call.CmdUtil;
 import com.shon.connector.utils.HexDump;
 import com.shon.connector.utils.TLog;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 3.2.1-3.2.2

@@ -1,6 +1,6 @@
 package com.example.xingliansdk.wxapi;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.UiError;
 

@@ -38,6 +38,7 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.Config.ControlClass
 import com.shon.connector.bean.DataBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.sn.map.impl.GpsLocationImpl
 import com.sn.map.view.SNGaoDeMap
@@ -50,7 +51,6 @@ import kotlinx.android.synthetic.main.include_map.tvDistance
 import kotlinx.android.synthetic.main.include_map.tvPace
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
 import kotlin.collections.ArrayList
 
 

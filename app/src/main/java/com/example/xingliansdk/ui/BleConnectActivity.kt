@@ -20,7 +20,6 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.adapter.ScanAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
-import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.blecontent.BleConnection.connectDevice
 import com.example.xingliansdk.blecontent.BleConnection.iFOta
 import com.example.xingliansdk.blecontent.BleConnection.iFonConnectError
@@ -28,7 +27,7 @@ import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.livedata.ScannerLiveData
 import com.example.xingliansdk.utils.PermissionUtils
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog.Companion.error
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.gyf.barlibrary.ImmersionBar
@@ -37,7 +36,6 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
-import com.shon.bluetooth.BLEManager
 import com.shon.connector.Config
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_ble_conne.*

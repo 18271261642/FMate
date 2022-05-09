@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.shon.bluetooth.core.call.WriteCall;
+import com.shon.connector.bean.AutoBpStatusBean;
 import com.shon.connector.bean.BloodOxygenBean;
 import com.shon.connector.bean.DailyActiveBean;
 import com.shon.connector.bean.DataBean;
@@ -15,6 +16,7 @@ import com.shon.connector.bean.RemindTakeMedicineBean;
 import com.shon.connector.bean.SleepBean;
 import com.shon.connector.bean.SpecifySleepSourceBean;
 import com.shon.connector.bean.TimeBean;
+import com.shon.connector.call.listener.CommBackListener;
 import com.shon.connector.call.write.bigdataclass.BigDataHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyApneaHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyBloodOxygenHistoryCall;
@@ -36,6 +38,7 @@ import com.shon.connector.call.write.controlclass.FindDeviceSwitchCall;
 import com.shon.connector.call.write.controlclass.HeartRateAlarmSwitchCall;
 import com.shon.connector.call.write.controlclass.ReminderDrinkWaterCall;
 import com.shon.connector.call.write.controlclass.ReminderSedentaryCall;
+import com.shon.connector.call.write.controlclass.SetBpAutoMeasureCall;
 import com.shon.connector.call.write.controlclass.SwitchCall;
 import com.shon.connector.call.write.controlclass.IncomingCallCall;
 import com.shon.connector.call.write.controlclass.OTAUpdateCall;
@@ -808,7 +811,7 @@ public class BleWrite {
     public static void writeSpecifySleepSourceCall(byte[] bytes,boolean status,long startrTime,long endTime,SpecifySleepSourceInterface specifySleepSourceInterface){
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
-        //write.setTimeout(30000);
+        write.setTimeout(3000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new SpecifySleepSourceCall(address,specifySleepSourceInterface,startrTime,endTime,bytes));
@@ -1244,6 +1247,18 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.enqueue(new CommonWriteCall(address,writeArray,specifySleepSourceInterface));
 
     }
+
+
+    //设置血压自动测量状态
+    public static void writeSetAutoBpMeasureStatus(boolean status, AutoBpStatusBean autoBpStatusBean, CommBackListener commBackListener){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+           write.setTimeout(3000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new SetBpAutoMeasureCall(address,autoBpStatusBean,commBackListener));
+    }
+
 
     public interface EffectiveBloodPressureInterface {
         void EffectiveBloodPressureCallResult(  ArrayList<Integer> mList);

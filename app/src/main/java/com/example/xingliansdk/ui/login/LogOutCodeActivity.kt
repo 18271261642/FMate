@@ -8,12 +8,11 @@ import com.example.xingliansdk.ui.login.viewMode.LoginViewModel
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.MD5Util
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_log_out_code.*
-import kotlinx.android.synthetic.main.activity_login.*
 
 class LogOutCodeActivity : BaseActivity<LoginViewModel>() {
 

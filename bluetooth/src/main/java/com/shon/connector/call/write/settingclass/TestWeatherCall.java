@@ -1,9 +1,8 @@
 package com.shon.connector.call.write.settingclass;
 
-import com.example.xingliansdk.utils.ShowToast;
+import com.shon.connector.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.connector.Config;
-import com.shon.connector.call.CmdUtil;
 
 public class TestWeatherCall extends WriteCallback {
 

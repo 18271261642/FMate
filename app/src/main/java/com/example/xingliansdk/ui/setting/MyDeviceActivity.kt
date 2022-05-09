@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.xingliansdk.Config
-import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.DeviceFirmwareBean
@@ -34,12 +33,11 @@ import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.DataDispatcher
-import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.RemindTakeMedicineBean
 import com.shon.connector.bean.TimeBean
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
-import com.shon.net.callback.DownLoadCallback
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_my_device.*
 import kotlinx.android.synthetic.main.activity_my_device.titleBar
@@ -47,7 +45,6 @@ import kotlinx.android.synthetic.main.item_menu_duf_layout.*
 import kotlinx.android.synthetic.main.item_switch.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.jar.Manifest
 
 //手表设置页面
 class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener {
@@ -155,6 +152,8 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         settingWuRao.setOnClickListener(this)
         settingUIUpdate.setOnClickListener(this)
         settingHeartRateAlarmSwitch.setOnClickListener(this)
+
+        settingBpSetLayout.setOnClickListener(this)
 
     }
 
@@ -316,6 +315,10 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
 
     override fun onClick(v: View) {
         when (v.id) {
+            //血压设置
+                R.id.settingBpSetLayout->{
+                    JumpUtil.startToBpSetActivity(this)
+                }
             R.id.settingInformationReminder -> {
 //                val isGet = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
 //

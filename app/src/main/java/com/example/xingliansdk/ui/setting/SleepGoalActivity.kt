@@ -16,6 +16,9 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import kotlinx.android.synthetic.main.activity_sleep_goal.*
 
+/**
+ * 睡眠目标设置
+ */
 class SleepGoalActivity : BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeListener {
 
     var sleepGoal=0

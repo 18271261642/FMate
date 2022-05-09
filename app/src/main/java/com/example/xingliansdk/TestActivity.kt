@@ -2,12 +2,11 @@ package com.example.xingliansdk
 import android.os.Bundle
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.YearBean
-import com.example.xingliansdk.bean.room.AppDataBase.Companion.instance
 import com.example.xingliansdk.bean.room.MotionListBean
 import com.example.xingliansdk.bean.room.MotionListDao
 import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
 import com.example.xingliansdk.utils.FileUtils
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.view.DownloadProgressButton

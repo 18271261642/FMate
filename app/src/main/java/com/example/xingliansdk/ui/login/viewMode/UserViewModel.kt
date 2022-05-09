@@ -6,7 +6,7 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.login.LoginApi
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.requestCustom
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.shon.connector.utils.TLog
 import okhttp3.MultipartBody

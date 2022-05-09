@@ -16,6 +16,7 @@ import com.example.xingliansdk.network.api.homeView.HomeCardVoBean;
 import com.example.xingliansdk.ui.BleConnectActivity;
 import com.example.xingliansdk.ui.bloodOxygen.BloodOxygenActivity;
 import com.example.xingliansdk.ui.BloodPressureActivity;
+import com.example.xingliansdk.ui.bp.BpHomeActivity;
 import com.example.xingliansdk.ui.camera.CameraActivity;
 import com.example.xingliansdk.ui.device.BigDataIntervalActivity;
 import com.example.xingliansdk.ui.dial.CustomizeDialActivity;
@@ -33,6 +34,7 @@ import com.example.xingliansdk.ui.login.LoginActivity;
 import com.example.xingliansdk.ui.login.PasswordActivity;
 import com.example.xingliansdk.ui.login.SureLogOutActivity;
 import com.example.xingliansdk.ui.problemsFeedback.ProblemsFeedbackActivity;
+import com.example.xingliansdk.ui.setting.BpSettingActivity;
 import com.example.xingliansdk.ui.setting.DoNotDisturbActivity;
 import com.example.xingliansdk.ui.device.ModuleMeasurementListActivity;
 import com.example.xingliansdk.ui.device.OtherSettingActivity;
@@ -124,6 +126,10 @@ public class JumpUtil {
                 .putExtra("bean", mList));
     }
 
+
+    public static void startNewBpActivity(Context context,HomeCardVoBean.ListDTO mList){
+        context.startActivity(new Intent(context, BpHomeActivity.class).putExtra("bean",mList));
+    }
     /**
      * 睡眠
      *
@@ -267,6 +273,12 @@ public class JumpUtil {
         context.startActivity(new Intent(context, AlarmClockActivity.class)
                 .putExtra("type", type)
         );
+    }
+
+
+    //设置页面跳转到血压设置页面
+    public static void startToBpSetActivity(Context context){
+        context.startActivity(new Intent(context, BpSettingActivity.class));
     }
 
     public static void startScheduleActivity(Context context) {

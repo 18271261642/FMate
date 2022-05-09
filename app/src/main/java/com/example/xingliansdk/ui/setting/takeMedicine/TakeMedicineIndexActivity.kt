@@ -2,7 +2,6 @@ package com.example.xingliansdk.ui.setting.takeMedicine
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config
@@ -11,17 +10,15 @@ import com.example.xingliansdk.adapter.TakeMedicineAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.setAllClock.SetAllClockViewModel
 import com.example.xingliansdk.utils.JumpUtil
-import com.example.xingliansdk.utils.ShowToast
+import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
 import com.shon.connector.utils.TLog
-import com.example.xingliansdk.viewmodel.MainViewModel
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.RemindTakeMedicineBean
-import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_take_medicine_index.*
 
 /**
