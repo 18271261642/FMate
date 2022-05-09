@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="#F6F7F8"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F7F8"
+    android:orientation="vertical">
 
 
     <com.example.xingliansdk.widget.TitleBarLayout
@@ -38,88 +38,86 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#1D8BEE"
-                android:paddingBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/dp_10">
 
 
-            <include layout="@layout/comm_item_date_toggle_layout"/>
+                <include layout="@layout/comm_item_date_toggle_layout" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="08:30～09:00平均值"
                     android:textColor="#fffefefe"
-                    android:padding="5dp"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:textSize="16sp" />
 
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_detail_shoubiaobai"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="133/85 "
-                        android:textColor="#fffefefe"
-                        android:textSize="20sp"
-                        />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/icon_detail_shoubiaobai" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="133/85 "
+                            android:textColor="#fffefefe"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="mmHg"
+                            android:textColor="#fffefefe"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="mmHg"
-                        android:textColor="#fffefefe"
-                        android:textSize="16sp"/>
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/icon_detail_shoudongbai" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="133/85"
+                            android:textColor="#fffefefe"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="mmHg"
+                            android:textColor="#fffefefe"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_detail_shoudongbai"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="133/85"
-                        android:textColor="#fffefefe"
-                        android:textSize="20sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="mmHg"
-                        android:textColor="#fffefefe"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
-            </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/harts_hrr"
@@ -129,19 +127,30 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-
-              <include
-                  layout="@layout/item_new_bp_bot_desc_layout"/>
+                <include layout="@layout/item_new_bp_bot_desc_layout" />
 
             </LinearLayout>
 
             <include
-                android:layout_marginTop="16dp"
                 layout="@layout/item_blood_pressure_index"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginTop="16dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:text="血压记录"
+                android:textColor="@color/main_text_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ryBloodPressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
 
         </LinearLayout>
 
@@ -149,15 +158,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/bpHomeInputLayout"
@@ -168,25 +177,25 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shoudonghei"/>
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_shoudonghei" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="手动输入"
                 android:padding="3dp"
+                android:text="手动输入"
                 android:textColor="#ff333333"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="2" />
 
 
         <LinearLayout
@@ -198,25 +207,25 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shoubiaohei"/>
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_shoubiaohei" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="测量"
                 android:padding="3dp"
+                android:text="测量"
                 android:textColor="#ff333333"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
 
     </LinearLayout>

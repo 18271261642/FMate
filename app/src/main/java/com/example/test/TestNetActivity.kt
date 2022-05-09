@@ -114,7 +114,7 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
 
     private fun measureBp(){
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x03)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x03)
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
 

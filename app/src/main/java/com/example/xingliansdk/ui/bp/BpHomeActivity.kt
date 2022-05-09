@@ -6,8 +6,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
+import com.example.xingliansdk.adapter.BloodPressureHistoryAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.bean.room.BloodPressureHistoryBean
@@ -17,12 +19,13 @@ import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewMo
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.view.BpMeasureView
 import com.example.xingliansdk.view.DateUtil
+import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.shon.connector.utils.ShowToast
-import kotlinx.android.synthetic.main.activity_blood_pressure.*
+import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.titleBar
@@ -40,6 +43,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     //提示校准血压的dialog
     private var promptBpDialog : PromptCheckBpDialog ?= null
 
+    //手动输入的血压列表adapter
+    private lateinit var  mBloodPressureHistoryAdapter: BloodPressureHistoryAdapter
+    var bpList: ArrayList<BloodPressureHistoryBean> = arrayListOf()
 
     override fun layoutId(): Int {
       return R.layout.activity_new_bp_home_layout
@@ -52,23 +58,55 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         bpHomeInputLayout.setOnClickListener(this)
         bpHomeMeasureLayout.setOnClickListener(this)
 
-        img_left.setOnClickListener(this)
+
+        initData();
 
         showPromptDialog()
 
+        getDateBpData(DateUtil.getCurrDate())
+    }
+
+
+    private fun initData(){
+        val mLinearLayoutManager = LinearLayoutManager(this)
+        mLinearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        ryBloodPressure.layoutManager = mLinearLayoutManager
+        mBloodPressureHistoryAdapter = BloodPressureHistoryAdapter(bpList)
+        ryBloodPressure.adapter = mBloodPressureHistoryAdapter
 
     }
+
+
+
+    override fun createObserver() {
+        super.createObserver()
+        //返回指定日期的血压数据
+
+        mViewModel.resultGet.observe(this){
+            TLog.error("----获取血压返回="+Gson().toJson(it))
+        }
+
+    }
+
+    //获取指定日期的血压记录
+    private fun getDateBpData(dayStr : String){
+        mViewModel.getBloodPressure(dayStr)
+    }
+
+
+
+
 
     override fun onClick(v: View?) {
         if (v != null) {
             when(v.id){
-                R.id.img_left -> {
-                    XingLianApplication.getSelectedCalendar()?.add(Calendar.DAY_OF_MONTH, -1)
-                    imgReplicate.rotation=90f
-                    llBloodPressureIndex.visibility=View.GONE
-                   // setTitleDateData()
-
-                }
+//                R.id.img_left -> {
+//                    XingLianApplication.getSelectedCalendar()?.add(Calendar.DAY_OF_MONTH, -1)
+//                    imgReplicate.rotation=90f
+//                    llBloodPressureIndex.visibility=View.GONE
+//                   // setTitleDateData()
+//
+//                }
                 R.id.bpHomeInputLayout->{   //输入
                     showInputDialog()
                 }
