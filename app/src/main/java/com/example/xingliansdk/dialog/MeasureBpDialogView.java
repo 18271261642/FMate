@@ -72,12 +72,12 @@ public class MeasureBpDialogView extends AppCompatDialog {
             }
         });
 
-       // bpMeasureView.setProgress(70f);
+        //bpMeasureView.setProgress(70f);
     }
 
 
 
-    public void setMiddleSchedule(){
-        bpMeasureView.setProgressX(60 * 1000,false);
+    public void setMiddleSchedule(float progress){
+        bpMeasureView.setProgress(progress);
     }
 }

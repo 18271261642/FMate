@@ -29,6 +29,7 @@ import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.bean.TimeBean
 import com.shon.connector.call.CmdUtil
+import com.shon.connector.call.listener.MeasureBigBpListener
 import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_test_net_layout.*
@@ -114,20 +115,34 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
 
     private fun measureBp(){
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x03)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x0B)
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
 
-        BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
-            override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
-                TODO("Not yet implemented")
+
+        BleWrite.writeStartOrEndDetectBp(true,0x03,object : MeasureBigBpListener{
+            override fun measureStatus(status: Int) {
+                TLog.error("-----开始计时="+status)
             }
 
-            override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
-                TODO("Not yet implemented")
+            override fun measureBpResult(bpValue: MutableList<Int>?) {
+                TLog.error("--------结果="+Gson().toJson(bpValue))
+                BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
+                    override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
             }
+
 
         })
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

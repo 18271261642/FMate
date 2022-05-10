@@ -50,6 +50,7 @@
                 android:layout_weight="1" />
 
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/firstScheduleTv"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center"
@@ -57,9 +58,10 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:shape_radius="20dp"
-                app:shape_solidColor="#5FDC9D" />
+                app:shape_solidColor="@color/bp_no_check_color" />
 
             <View
+                android:id="@+id/firstScheduleLinView"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
@@ -67,6 +69,7 @@
                 android:background="@color/bp_no_check_color" />
 
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/secondScheduleTv"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center"
@@ -77,6 +80,7 @@
                 app:shape_solidColor="@color/bp_no_check_color" />
 
             <View
+                android:id="@+id/secondScheduleLinView"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
@@ -84,6 +88,7 @@
                 android:background="@color/bp_no_check_color" />
 
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/thirdScheduleTv"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center"
@@ -111,12 +116,13 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/firstScheduleTxtTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="第一次测量"
-                android:textColor="#ff333333"
+                android:textColor="@color/bp_no_check_color"
                 android:textSize="15sp" />
 
             <View
@@ -126,6 +132,7 @@
                 android:layout_weight="1.5" />
 
             <TextView
+                android:id="@+id/secondScheduleTxtTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -141,6 +148,7 @@
                 android:layout_weight="1.5" />
 
             <TextView
+                android:id="@+id/thirdScheduleTxtTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -183,6 +191,7 @@
 
 
             <TextView
+                android:id="@+id/checkBpStatusTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -306,9 +315,10 @@
         android:layout_height="0dp"/>
 
     <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/startCheckBpTv"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="第二次校准"
+        android:text="第一次校准"
         app:shape_radius="8dp"
         android:layout_gravity="center"
         android:textColor="@color/white"

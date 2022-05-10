@@ -15,6 +15,9 @@ open class JingfanBpViewModel : BaseViewModel(){
     val msgJf: MutableLiveData<String> = MutableLiveData()
 
 
+    val uploadJfBp : MutableLiveData<Any> = MutableLiveData()
+    val msgJfUploadBp : MutableLiveData<Any> = MutableLiveData()
+
     //标记惊帆血压
     fun markJFBpData(value: HashMap<String, String>){
         requestCustomWeight({
@@ -32,5 +35,21 @@ open class JingfanBpViewModel : BaseViewModel(){
     })
     }
 
+    //上传惊帆血压数据
+    fun uploadJFBpData(bpArray : IntArray,time : String){
+        requestCustomWeight({
+            jingfanBpApi.uploadJfBp(bpArray,time)
+        },
+            {uploadJfBp.postValue(it)},
+            {
+                    code, message ->
+                message?.let {
+                    resultJF.postValue(it)
+                    TLog.error("==" + Gson().toJson(it))
+                    ShowToast.showToastLong(it)
+
+                }
+            })
+    }
 
 }

@@ -31,6 +31,8 @@ public class SetBpAutoMeasureCall extends WriteCallback {
         TLog.Companion.error("-----设置血压自动测量状态="+address+" "+ ByteUtil.getHexString(result)+" "+uuid);
         if (!uuid.equalsIgnoreCase(Config.readCharacter))
             return false;
+
+
         if (result[8] == 0x07 && result[9] == Config.Expand.DEVICE_ACK) {
             switch (result[10]) {
                 case 0x01:

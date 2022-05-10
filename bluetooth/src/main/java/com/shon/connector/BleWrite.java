@@ -17,7 +17,9 @@ import com.shon.connector.bean.SleepBean;
 import com.shon.connector.bean.SpecifySleepSourceBean;
 import com.shon.connector.bean.TimeBean;
 import com.shon.connector.call.listener.CommBackListener;
+import com.shon.connector.call.listener.MeasureBigBpListener;
 import com.shon.connector.call.write.bigdataclass.BigDataHistoryCall;
+import com.shon.connector.call.write.bigdataclass.MeasureBpCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyApneaHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyBloodOxygenHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyBloodPressureHistoryCall;
@@ -1258,6 +1260,17 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new SetBpAutoMeasureCall(address,autoBpStatusBean,commBackListener));
     }
+
+    //设置开始或结束测量血压
+    public static void writeStartOrEndDetectBp(boolean status, int key, MeasureBigBpListener measureBigBpListener){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        write.setTimeout(50000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new MeasureBpCall(address,key,measureBigBpListener));
+    }
+
 
 
     public interface EffectiveBloodPressureInterface {

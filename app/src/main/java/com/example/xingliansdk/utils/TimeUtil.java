@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static java.lang.String.valueOf;
 
@@ -17,7 +18,7 @@ public class TimeUtil {
 
     public static String stampToDate(long s) {
         String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
         //如果它本来就是long类型的,则不用写这一步
         long lt = new Long(valueOf(s));
         Date date = new Date(lt);
