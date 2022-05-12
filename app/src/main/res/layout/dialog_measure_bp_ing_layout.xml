@@ -25,7 +25,6 @@
         android:orientation="vertical">
 
 
-
         <FrameLayout
             android:id="@+id/measureBpLayout"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -121,7 +120,7 @@
             android:layout_marginStart="5dp"
             android:textColor="#ff333333"
             android:textSize="20sp"
-            />
+            android:id="@+id/dialogMTmp1"/>
 
         <TextView
             android:layout_marginStart="5dp"
@@ -132,7 +131,7 @@
             android:textColor="#ff333333"
             android:lineSpacingExtra="3dp"
             android:textSize="18sp"
-            />
+            android:id="@+id/dialogMTmp2"/>
 
     </LinearLayout>
 

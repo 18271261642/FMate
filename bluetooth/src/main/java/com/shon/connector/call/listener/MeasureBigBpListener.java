@@ -6,5 +6,5 @@ public interface MeasureBigBpListener {
 
     void measureStatus(int status);
 
-    void measureBpResult(List<Integer> bpValue);
+    void measureBpResult(List<Integer> bpValue,String timeStr);
 }

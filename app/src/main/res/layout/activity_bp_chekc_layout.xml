@@ -221,6 +221,7 @@
             android:textSize="15sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inputHBpLayout"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_height="wrap_content"
@@ -239,6 +240,7 @@
 
 
             <TextView
+                android:id="@+id/checkHBpTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请输入收缩压"
@@ -268,6 +270,7 @@
             android:background="#EDEDED" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inputLBpLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp">
@@ -285,6 +288,7 @@
 
 
             <TextView
+                android:id="@+id/checkLBpTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请输入舒张压"

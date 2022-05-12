@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialog;
@@ -21,7 +22,8 @@ public  class MediaRepeatDialog extends AppCompatDialog implements View.OnClickL
         this.onMediaRepeatInputListener = onMediaRepeatInputListener;
     }
 
-
+    //标题
+    private TextView mediaDialogTitleTv;
     //输入框
     private ShapeEditText dialogMediaRepeatEdit;
     //确认按钮
@@ -41,9 +43,23 @@ public  class MediaRepeatDialog extends AppCompatDialog implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_media_repeat_layout);
 
+        mediaDialogTitleTv = findViewById(R.id.mediaDialogTitleTv);
         dialogMediaRepeatEdit = findViewById(R.id.dialogMediaRepeatEdit);
         dialogMediaRepeatTv = findViewById(R.id.dialogMediaRepeatTv);
         dialogMediaRepeatTv.setOnClickListener(this);
+    }
+
+    //设置标题
+    public void setTitleTxt(String txt){
+        if(mediaDialogTitleTv != null)
+            mediaDialogTitleTv.setText(txt);
+    }
+
+
+    //设置输入框hit显示
+    public void setContentHitTxt(String txt){
+        if(dialogMediaRepeatEdit != null)
+            dialogMediaRepeatEdit.setHint(txt);
     }
 
     @Override

@@ -58,6 +58,7 @@ fun <T> ViewModel.requestCustomWeight(
                 0->
                 {
                     TLog.error("网络异常")
+                    error.invoke(0,it.msg)
                     ShowToast.showToastLong("网络异常")
                 }
                 else -> error.invoke(it.code,it.msg)

@@ -1,9 +1,9 @@
 package com.shon.connector.call.write.bigdataclass;
 
-import android.util.Log;
 
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
+import com.shon.bluetooth.util.TimeU;
 import com.shon.connector.Config;
 import com.shon.connector.call.CmdUtil;
 import com.shon.connector.call.listener.MeasureBigBpListener;
@@ -25,12 +25,17 @@ public class MeasureBpCall extends WriteCallback {
     private final StringBuilder stringBuilder = new StringBuilder();
     private List<Integer> bpList = new ArrayList<>();
 
+    private String measureTime;
+
+    private int itemLength;
+
     public MeasureBpCall(String address, int measureKey, MeasureBigBpListener measureBigBpListener) {
         super(address);
         this.measureKey = measureKey;
         this.measureBigBpListener = measureBigBpListener;
         stringBuilder.delete(0,stringBuilder.length());
         bpList.clear();
+        measureTime = null;
     }
 
     @Override
@@ -76,11 +81,26 @@ public class MeasureBpCall extends WriteCallback {
 
         if(uuid.equalsIgnoreCase(Config.readCharacterBig)){ //血压大数据返回
             String byStr = ByteUtil.getHexString(result);
+
             if(result[8] == 0x03 && result[9] == 0x0C){
             //88 00 00 00 00 01 9E 3D 03 0C 01 00 06 04 01 2A 0D EB 9A ==18个长度
-                byte[] validByte = new byte[result.length-18];
-                System.arraycopy(result,19,validByte,0,validByte.length-1);
+                byte[] validByte = new byte[result.length-2];
+                System.arraycopy(result,22,validByte,0,validByte.length-1);
                 //stringBuilder.append(byStr.substring(18 * 2,byStr.length()));
+                if(bpList.size() == 0){
+                    int tim = HexDump.getIntFromBytes(result[15],result[16],result[17],result[18]);
+                    long constanceMils = 946656000L;
+                    measureTime = TimeU.getCurrTime(tim+constanceMils);
+                }
+
+                //长度
+                itemLength = HexDump.getIntFromBytes(result[20],result[21]);
+                byte[] firstValidByte = new byte[result.length-22];
+
+                System.arraycopy(result,22,firstValidByte,0,firstValidByte.length-1);
+
+                stringBuilder.append(ByteUtil.getHexString(firstValidByte));
+
 
                 for(int i = 0;i<validByte.length;i+=2){
                     if(i+1<validByte.length){
@@ -97,7 +117,7 @@ public class MeasureBpCall extends WriteCallback {
                 }
                 if(bpList.size()==6144){
                     if(measureBigBpListener != null)
-                        measureBigBpListener.measureBpResult(bpList);
+                        measureBigBpListener.measureBpResult(bpList,measureTime);
                     return true;
                 }
 
@@ -118,12 +138,16 @@ public class MeasureBpCall extends WriteCallback {
                 }
                 if(bpList.size()==6144){
                     if(measureBigBpListener != null)
-                        measureBigBpListener.measureBpResult(bpList);
+                        measureBigBpListener.measureBpResult(bpList,measureTime);
                     return true;
                 }
                 TLog.Companion.error("----22--结果血压大小="+bpList.size());
 
             }
+
+
+
+
 
         }
 

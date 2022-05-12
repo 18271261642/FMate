@@ -125,7 +125,7 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
                 TLog.error("-----开始计时="+status)
             }
 
-            override fun measureBpResult(bpValue: MutableList<Int>?) {
+            override fun measureBpResult(bpValue: MutableList<Int>?,time : String) {
                 TLog.error("--------结果="+Gson().toJson(bpValue))
                 BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
                     override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {

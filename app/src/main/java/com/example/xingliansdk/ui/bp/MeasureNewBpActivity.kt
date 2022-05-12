@@ -8,30 +8,35 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.MeasureBpDialogView
+import com.example.xingliansdk.dialog.OnCommDialogClickListener
+import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
+import com.example.xingliansdk.view.DateUtil
+import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
+import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
+import java.lang.StringBuilder
 
 /**
  * 测量血压界面
  * Created by Admin
  *Date 2022/5/7
  */
-class MeasureNewBpActivity : BaseActivity<BaseViewModel>(),MeasureBigBpListener{
+class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpListener{
 
 
-    var measureDialog : MeasureBpDialogView ?= null
+    private var measureDialog : MeasureBpDialogView ?= null
 
     var totalSecond = 0
 
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-
-            totalSecond++
+            totalSecond+=3
             startCountTime()
         }
     }
@@ -49,15 +54,47 @@ class MeasureNewBpActivity : BaseActivity<BaseViewModel>(),MeasureBigBpListener{
 
         measureBp()
 
-        if(measureDialog == null)
-          measureDialog = MeasureBpDialogView(this)
+        measureDialog = MeasureBpDialogView(this)
         measureDialog!!.show()
+        measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
+            override fun onConfirmClick(code: Int) {  //再次测量按钮
+                measureBp()
+            }
+
+            override fun onCancelClick(code: Int) {
+
+            }
+
+        })
 
 
     }
 
 
+    override fun createObserver() {
+        super.createObserver()
+
+        //成功返回
+        mViewModel.resultJF.observe(this){
+            TLog.error("---------后台返回="+ Gson().toJson(it))
+            if(measureDialog != null)
+                measureDialog?.setMeasureStatus(false)
+            stopMeasure()
+        }
+
+
+        //后台非成功返回
+        mViewModel.msgJf.observe(this){
+            TLog.error("---------后台飞200返回="+ Gson().toJson(it))
+          //  measureDialog?.setMeasureStatus(true)
+
+        }
+
+
+    }
+
     private fun measureBp(){
+        totalSecond = 0
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
 
     }
@@ -75,9 +112,23 @@ class MeasureNewBpActivity : BaseActivity<BaseViewModel>(),MeasureBigBpListener{
     }
 
     //测量结果
-    override fun measureBpResult(bpValue: MutableList<Int>?) {
+    override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
 
-        stopMeasure();
+        val hashMap = HashMap<String,String>()
+        hashMap["data"] = bpValue.toString()
+        hashMap["createTime"] = time
+
+        val stringBuilder = StringBuilder()
+        bpValue.forEachIndexed { index, i ->
+            if(index == bpValue.size-1){
+                stringBuilder.append(i)
+            }else{
+                stringBuilder.append(i)
+                stringBuilder.append(",")
+            }
+        }
+         mViewModel.uploadJFBpData(stringBuilder.toString(),DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"))
+        stopMeasure()
     }
 
 

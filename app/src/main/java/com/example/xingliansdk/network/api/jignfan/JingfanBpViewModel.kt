@@ -2,6 +2,7 @@ package com.example.xingliansdk.network.api.jignfan
 
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
+import com.example.xingliansdk.network.BaseResult
 import com.example.xingliansdk.network.api.jignfan.JingfanBpApi.Companion.jingfanBpApi
 import com.example.xingliansdk.network.requestCustomWeight
 import com.google.gson.Gson
@@ -19,9 +20,11 @@ open class JingfanBpViewModel : BaseViewModel(){
     val msgJfUploadBp : MutableLiveData<Any> = MutableLiveData()
 
     //标记惊帆血压
-    fun markJFBpData(value: HashMap<String, String>){
+    fun markJFBpData(data1 : String, data2 : String, data3 : String,sbp1 : Int,sbp2 : Int,sbp3 : Int,
+                     dbp1 : Int,dbp2 : Int,dbp3 : Int){
         requestCustomWeight({
-            jingfanBpApi.markJFBp(value)
+
+            jingfanBpApi.markJFBp(data1,data2,data3,sbp1,sbp2,sbp3,dbp1,dbp2,dbp3)
         },
             {resultJF.postValue(it)},
             {
@@ -36,7 +39,7 @@ open class JingfanBpViewModel : BaseViewModel(){
     }
 
     //上传惊帆血压数据
-    fun uploadJFBpData(bpArray : IntArray,time : String){
+    fun uploadJFBpData(bpArray : String,time : String){
         requestCustomWeight({
             jingfanBpApi.uploadJfBp(bpArray,time)
         },

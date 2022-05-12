@@ -1,5 +1,6 @@
 package com.example.xingliansdk.utils
 
+import org.apache.commons.lang.StringUtils
 import java.math.BigDecimal
 
 /**
@@ -78,4 +79,5 @@ object NumUtils {
         }
         return true
     }
+
 }

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.xingliansdk.R;
 import com.example.xingliansdk.view.BpMeasureView;
 import com.example.xingliansdk.widget.TitleBarLayout;
+import com.hjq.shape.view.ShapeTextView;
 
 import androidx.appcompat.app.AppCompatDialog;
 
@@ -18,13 +20,23 @@ import androidx.appcompat.app.AppCompatDialog;
  * Created by Admin
  * Date 2022/5/7
  */
-public class MeasureBpDialogView extends AppCompatDialog {
+public class MeasureBpDialogView extends AppCompatDialog implements View.OnClickListener {
 
     private TitleBarLayout measureBpTitleBar;
     //外圆进度条
     private BpMeasureView bpMeasureView;
     //状态
     private TextView dialogMeasureStatusTv;
+    //测量失败按钮
+    private ShapeTextView dialogMeasureFailTv;
+    private TextView dialogMTmp1,dialogMTmp2;
+
+
+    private OnCommDialogClickListener onCommDialogClickListener;
+
+    public void setOnCommDialogClickListener(OnCommDialogClickListener onCommDialogClickListener) {
+        this.onCommDialogClickListener = onCommDialogClickListener;
+    }
 
     public MeasureBpDialogView(Context context) {
         super(context);
@@ -53,6 +65,12 @@ public class MeasureBpDialogView extends AppCompatDialog {
         bpMeasureView = findViewById(R.id.bpMeasureView);
         dialogMeasureStatusTv = findViewById(R.id.dialogMeasureStatusTv);
         measureBpTitleBar = findViewById(R.id.measureBpTitleBar);
+        dialogMTmp1 = findViewById(R.id.dialogMTmp1);
+        dialogMTmp2 = findViewById(R.id.dialogMTmp2);
+        dialogMeasureFailTv = findViewById(R.id.dialogMeasureFailTv);
+
+        dialogMeasureFailTv.setOnClickListener(this);
+
 
         assert measureBpTitleBar != null;
         measureBpTitleBar.setTitleBarListener(new TitleBarLayout.TitleBarListener() {
@@ -76,8 +94,32 @@ public class MeasureBpDialogView extends AppCompatDialog {
     }
 
 
+    //设置测量状态，测量中和测量失败
+    public void setMeasureStatus(boolean isSuccess){
+        dialogMeasureFailTv.setVisibility(isSuccess ? View.GONE : View.VISIBLE);
+        dialogMTmp1.setVisibility(isSuccess ? View.VISIBLE : View.GONE);
+        dialogMTmp2.setVisibility(isSuccess ? View.VISIBLE : View.GONE);
+
+        if(!isSuccess){
+            dialogMeasureStatusTv.setText("测量失败");
+        }
+    }
+
 
     public void setMiddleSchedule(float progress){
         bpMeasureView.setProgress(progress);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        int vId = v.getId();
+        if(vId == R.id.dialogMeasureFailTv){
+            if(onCommDialogClickListener != null)
+                onCommDialogClickListener.onConfirmClick(0);
+            setMeasureStatus(true);
+
+
+        }
     }
 }
