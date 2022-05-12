@@ -3,6 +3,7 @@ package com.example.xingliansdk.network.api.jignfan
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.AppApi
 import com.example.xingliansdk.network.BaseResult
+import com.example.xingliansdk.ui.bp.MeasureBpBean
 import java.util.HashMap
 
 open class JingfanBpApi private constructor() : AppApi<JingfanBpInterface>(){
@@ -20,7 +21,7 @@ open class JingfanBpApi private constructor() : AppApi<JingfanBpInterface>(){
     }
 
 
-    suspend fun uploadJfBp(bpArray : String,time : String) : BaseResult<Any>{
+    suspend fun uploadJfBp(bpArray : String,time : String) : BaseResult<MeasureBpBean>{
         val data = apiInterface?.uploadJingfanBp(bpArray,time)
         return data!!
     }

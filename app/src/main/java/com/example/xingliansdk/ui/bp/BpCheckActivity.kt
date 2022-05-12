@@ -54,7 +54,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-
+            if(totalSecond >= 100)
+                totalSecond = 0
             totalSecond+=3
             startCountTime()
         }
@@ -89,21 +90,21 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         startCheckBpTv.text = "开始第一次校准"
         if(checkCount == 1){
             startCheckBpTv.text = "开始第二次校准"
-            firstScheduleTv.shapeDrawableBuilder.setSolidColor(R.color.bp_checked_color).intoBackground()
+            firstScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             firstScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 2){
             startCheckBpTv.text = "开始第三次校准"
             firstScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
-            secondScheduleTv.shapeDrawableBuilder.setSolidColor(R.color.bp_checked_color).intoBackground()
+            secondScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             secondScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 3){
             startCheckBpTv.text = "校准已完成"
             secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
-            thirdScheduleTv.shapeDrawableBuilder.setSolidColor(R.color.bp_checked_color).intoBackground()
+            thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             thirdScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
@@ -121,7 +122,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         //后台非成功返回
         mViewModel.msgJf.observe(this){
-            ShowToast.showToastShort("上传失败:"+it)
+            ShowToast.showToastLong("上传失败:"+it)
             TLog.error("---------后台飞200返回="+Gson().toJson(it))
         }
     }
@@ -153,6 +154,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
         if(checkCount >3)
             return
+        checkBpStatusTv.text = "测量成功"
         val hashMap = HashMap<String,String>()
         hashMap["data"] = bpValue.toString()
         hashMap["createTime"] = DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss")
@@ -206,7 +208,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     private fun stopMeasure(){
         handler.removeMessages(0x00)
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x0B)
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{

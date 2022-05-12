@@ -1,6 +1,7 @@
 package com.example.xingliansdk.ui.bp
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -19,6 +20,13 @@ import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewMo
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.view.BpMeasureView
 import com.example.xingliansdk.view.DateUtil
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
@@ -31,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.titleBar
 import kotlinx.android.synthetic.main.item_blood_pressure_index.*
 import java.util.*
+import kotlin.random.Random
 
 /**
  * 新版血压首页面
@@ -57,9 +66,10 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             .init()
         bpHomeInputLayout.setOnClickListener(this)
         bpHomeMeasureLayout.setOnClickListener(this)
-
+        imgReplicate.setOnClickListener(this)
 
         initData();
+
 
         showPromptDialog()
 
@@ -74,6 +84,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         mBloodPressureHistoryAdapter = BloodPressureHistoryAdapter(bpList)
         ryBloodPressure.adapter = mBloodPressureHistoryAdapter
 
+
+        //initLinChart()
     }
 
 
@@ -84,6 +96,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         mViewModel.resultGet.observe(this){
             TLog.error("----获取血压返回="+Gson().toJson(it))
+            if(it.list.isEmpty()){  //没有测量记录，提示校准
+                showPromptDialog()
+                return@observe
+            }
+
+
         }
 
     }
@@ -100,13 +118,18 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     override fun onClick(v: View?) {
         if (v != null) {
             when(v.id){
-//                R.id.img_left -> {
-//                    XingLianApplication.getSelectedCalendar()?.add(Calendar.DAY_OF_MONTH, -1)
-//                    imgReplicate.rotation=90f
-//                    llBloodPressureIndex.visibility=View.GONE
-//                   // setTitleDateData()
-//
-//                }
+                R.id.imgReplicate -> {
+                    if(llBloodPressureIndex.visibility==View.GONE)
+                    {
+                        imgReplicate.rotation=270f
+                        llBloodPressureIndex.visibility=View.VISIBLE
+                    }
+                    else
+                    {
+                        imgReplicate.rotation=90f
+                        llBloodPressureIndex.visibility=View.GONE
+                    }
+                }
                 R.id.bpHomeInputLayout->{   //输入
                     showInputDialog()
                 }
@@ -190,5 +213,97 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 }
             }
         }.showOnWindow(supportFragmentManager)
+    }
+
+
+    private fun initLinChart(){
+        bpHomeLinChartView.description.isEnabled = false
+        bpHomeLinChartView.setDrawBorders(false)
+        bpHomeLinChartView.axisRight.setDrawAxisLine(false)
+        bpHomeLinChartView.axisRight.setDrawLabels(false)
+
+        val xAxis = bpHomeLinChartView.xAxis
+
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.textColor = Color.parseColor("#EBEBEB")
+        xAxis.setDrawAxisLine(false)
+
+        val yLeft = bpHomeLinChartView.axisLeft
+        yLeft.labelCount = 2
+        yLeft.zeroLineWidth =1f
+        yLeft.enableGridDashedLine(10f, 10f, 0f);
+        initLinData(bpHomeLinChartView)
+    }
+
+    private fun initLinData(chart : LineChart){
+        val dataSets = ArrayList<ILineDataSet>()
+
+
+        val values1 = ArrayList<Entry>()
+
+        for (i in 0..11) {
+            values1.add(
+                Entry(
+                    i.toFloat(),
+                    ((Math.random() * 65).toInt() + 40).toFloat()
+                )
+            )
+        }
+
+        val d1 = LineDataSet(values1, "")
+        d1.lineWidth = 2.5f
+        d1.circleRadius = 4.5f
+        d1.highLightColor = Color.rgb(244, 117, 117)
+        d1.setDrawValues(false)
+
+
+        val values2 = ArrayList<Entry>()
+
+        for (i in 0..11) {
+            values2.add(Entry(i.toFloat(), values1[i].y - 30))
+        }
+
+        val d2 = LineDataSet(values2, "")
+        d2.lineWidth = 2.5f
+        d2.circleRadius = 4.5f
+        d2.highLightColor = Color.rgb(244, 117, 117)
+        d2.color = ColorTemplate.VORDIPLOM_COLORS[0]
+        d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+        d2.setDrawValues(false)
+
+        val sets = ArrayList<ILineDataSet>()
+        sets.add(d1)
+        sets.add(d2)
+        val data = LineData(sets)
+        chart.data = data
+        chart.invalidate()
+
+
+//
+//        for (z in 0..2) {
+//            val values = ArrayList<Entry>()
+//            for (i in 0 until 24) {
+//                val `val`: Float = Random(120).nextFloat()
+//                values.add(Entry(i.toFloat(), `val`.toFloat()))
+//            }
+//            val d = LineDataSet(values, "DataSet " + (z + 1))
+//            d.lineWidth = 2.5f
+//            d.circleRadius = 4f
+//            val color: Int = Color.WHITE
+//            d.color = color
+//            d.setCircleColor(color)
+//            dataSets.add(d)
+//        }
+//
+//        // make the first DataSet dashed
+//
+//        // make the first DataSet dashed
+////        (dataSets[0] as LineDataSet).enableDashedLine(10f, 10f, 0f)
+////        (dataSets[0] as LineDataSet).setColors(*ColorTemplate.VORDIPLOM_COLORS)
+////        (dataSets[0] as LineDataSet).setCircleColors(*ColorTemplate.VORDIPLOM_COLORS)
+//
+//        val data = LineData(dataSets)
+//        chart.data = data
+//        chart.invalidate()
     }
 }

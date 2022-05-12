@@ -9,45 +9,45 @@ import com.google.gson.Gson
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 
-open class JingfanBpViewModel : BaseViewModel(){
+open class JingfanBpViewModel : BaseViewModel() {
 
 
     val resultJF: MutableLiveData<Any> = MutableLiveData()
     val msgJf: MutableLiveData<String> = MutableLiveData()
 
 
-    val uploadJfBp : MutableLiveData<Any> = MutableLiveData()
-    val msgJfUploadBp : MutableLiveData<Any> = MutableLiveData()
+    val uploadJfBp: MutableLiveData<Any> = MutableLiveData()
+    val msgJfUploadBp: MutableLiveData<Any> = MutableLiveData()
 
     //标记惊帆血压
-    fun markJFBpData(data1 : String, data2 : String, data3 : String,sbp1 : Int,sbp2 : Int,sbp3 : Int,
-                     dbp1 : Int,dbp2 : Int,dbp3 : Int){
+    fun markJFBpData(
+        data1: String, data2: String, data3: String, sbp1: Int, sbp2: Int, sbp3: Int,
+        dbp1: Int, dbp2: Int, dbp3: Int
+    ) {
         requestCustomWeight({
 
-            jingfanBpApi.markJFBp(data1,data2,data3,sbp1,sbp2,sbp3,dbp1,dbp2,dbp3)
+            jingfanBpApi.markJFBp(data1, data2, data3, sbp1, sbp2, sbp3, dbp1, dbp2, dbp3)
         },
-            {resultJF.postValue(it)},
-            {
-            code, message ->
-        message?.let {
-            msgJf.postValue(it)
-            TLog.error("==" + Gson().toJson(it))
-            ShowToast.showToastLong(it)
+            { resultJF.postValue(it) },
+            { code, message ->
+                message?.let {
+                    msgJf.postValue(it)
+                    TLog.error("==" + Gson().toJson(it))
+                    ShowToast.showToastLong(it)
 
-        }
-    })
+                }
+            })
     }
 
     //上传惊帆血压数据
-    fun uploadJFBpData(bpArray : String,time : String){
+    fun uploadJFBpData(bpArray: String, time: String) {
         requestCustomWeight({
-            jingfanBpApi.uploadJfBp(bpArray,time)
+            jingfanBpApi.uploadJfBp(bpArray, time)
         },
-            {uploadJfBp.postValue(it)},
-            {
-                    code, message ->
+            { uploadJfBp.postValue(it) },
+            { code, message ->
                 message?.let {
-                    resultJF.postValue(it)
+                    msgJfUploadBp.postValue(it)
                     TLog.error("==" + Gson().toJson(it))
                     ShowToast.showToastLong(it)
 

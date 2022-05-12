@@ -46,6 +46,7 @@
             android:textColor="#5FDC9D"
             android:textSize="18sp"
             android:padding="8dp"
+            android:layout_gravity="center"
             android:gravity="center"
             app:shape_solidPressedColor="@color/wx_press_color"
             android:text="暂不校准"/>
@@ -53,7 +54,8 @@
         <View
             android:layout_width="1dp"
             android:background="@color/wx_bg_color"
-            android:layout_height="match_parent"/>
+            android:layout_gravity="center"
+            android:layout_height="25dp"/>
 
 
         <com.hjq.shape.view.ShapeTextView
@@ -61,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:padding="8dp"
+            android:layout_gravity="center"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textColor="#5FDC9D"

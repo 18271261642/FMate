@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="测量成功"
+                android:text=""
                 android:textColor="#1D8BEE"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"

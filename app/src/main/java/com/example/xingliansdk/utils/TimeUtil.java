@@ -12,6 +12,16 @@ import static java.lang.String.valueOf;
 public class TimeUtil {
 
 
+    public static long formatTimeToLong(String time){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm",Locale.CHINA);
+            return simpleDateFormat.parse(time).getTime()/1000;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
 
 
     /*

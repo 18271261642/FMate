@@ -1,24 +1,30 @@
 package com.example.xingliansdk.ui.bp
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.annotation.SuppressLint
+import android.os.*
+import android.view.View
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
+import com.example.xingliansdk.utils.GetJsonDataUtil
+import com.example.xingliansdk.utils.TimeUtil
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
+import com.shon.connector.utils.HexDump
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
+import kotlinx.android.synthetic.main.activity_card_edit.titleBar
+import kotlinx.android.synthetic.main.activity_measure_bp_layout.*
 import java.lang.StringBuilder
 
 /**
@@ -26,16 +32,20 @@ import java.lang.StringBuilder
  * Created by Admin
  *Date 2022/5/7
  */
-class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpListener{
+class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpListener,View.OnClickListener{
 
 
     private var measureDialog : MeasureBpDialogView ?= null
 
     var totalSecond = 0
 
+    var savePath : String ?= null
+
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
+            if(totalSecond>=100)
+                totalSecond = 0
             totalSecond+=3
             startCountTime()
         }
@@ -51,6 +61,10 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             .titleBar(titleBar)
             .init()
 
+        savePath = Environment.getExternalStorageDirectory().path+"/Download/";
+
+
+        measureBpAgainTv.setOnClickListener(this)
 
         measureBp()
 
@@ -62,7 +76,11 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
             override fun onCancelClick(code: Int) {
-
+                if(totalSecond != 0){
+                    ShowToast.showToastShort("正在测量中!")
+                    return
+                }
+                measureDialog?.dismiss()
             }
 
         })
@@ -75,21 +93,35 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         super.createObserver()
 
         //成功返回
-        mViewModel.resultJF.observe(this){
+        mViewModel.uploadJfBp.observe(this){
             TLog.error("---------后台返回="+ Gson().toJson(it))
+            if(measureDialog != null)
+                measureDialog?.dismiss()
+            stopMeasure(it as MeasureBpBean)
+            showResult(it)
+        }
+
+
+        //后台非成功返回
+        mViewModel.msgJfUploadBp.observe(this){
+            TLog.error("---------后台飞200返回="+ Gson().toJson(it))
+          //  measureDialog?.setMeasureStatus(true)
             if(measureDialog != null)
                 measureDialog?.setMeasureStatus(false)
             stopMeasure()
         }
 
 
-        //后台非成功返回
-        mViewModel.msgJf.observe(this){
-            TLog.error("---------后台飞200返回="+ Gson().toJson(it))
-          //  measureDialog?.setMeasureStatus(true)
+    }
 
-        }
 
+    @SuppressLint("SetTextI18n")
+    private fun showResult(measureBpBean: MeasureBpBean){
+        measureBpResultDayTv.text = measureBpBean.date
+        measureBpResultTimeTv.text = measureBpBean.time
+        measureBpResultHBpTv.text = (measureBpBean.sbp.toInt()).toString()+" mmHg"
+        measureBpResultLBpTv.text = measureBpBean.dbp.toInt().toString()+" mmHg"
+        measureBpResultHeartTv.text = measureBpBean.heartRate.toInt().toString() + " 次/分"
 
     }
 
@@ -127,14 +159,23 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                 stringBuilder.append(",")
             }
         }
-         mViewModel.uploadJFBpData(stringBuilder.toString(),DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"))
+
+        GetJsonDataUtil().writeTxtToFile("时间="+time+" "+Gson().toJson(stringBuilder.toString()),savePath,"signal_bp"+System.currentTimeMillis()+".json")
+
+         mViewModel.uploadJFBpData(stringBuilder.toString(),time)
         stopMeasure()
     }
 
 
-    private fun stopMeasure(){
+    private fun stopMeasure(measureBpBean: MeasureBpBean ){
         handler.removeMessages(0x00)
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x01)
+        //时间
+        var longTime = TimeUtil.formatTimeToLong(measureBpBean.date+" "+measureBpBean.time)
+        var timeArray = HexDump.toByteArray(longTime-946656000L)
+
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x07,0x02,0x00,0x07,timeArray[0],timeArray[1],timeArray[2],timeArray[3],
+            measureBpBean.sbp.toInt().toByte(),measureBpBean.dbp.toInt().toByte(),measureBpBean.heartRate.toInt().toByte()
+        )
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
@@ -147,5 +188,32 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
         })
+    }
+
+    private fun stopMeasure(){
+        handler.removeMessages(0x00)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
+
+        var resultArray = CmdUtil.getFullPackage(cmdArray)
+        BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
+            override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+
+            }
+
+            override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+
+            }
+
+        })
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id){
+            R.id.measureBpAgainTv->{
+                measureDialog?.show()
+                measureDialog?.setMiddleSchedule(-1f)
+                measureBp()
+            }
+        }
     }
 }

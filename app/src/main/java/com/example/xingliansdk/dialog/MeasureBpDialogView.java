@@ -76,7 +76,8 @@ public class MeasureBpDialogView extends AppCompatDialog implements View.OnClick
         measureBpTitleBar.setTitleBarListener(new TitleBarLayout.TitleBarListener() {
             @Override
             public void onBackClick() {
-                dismiss();
+                if(onCommDialogClickListener != null)
+                    onCommDialogClickListener.onCancelClick(0);
             }
 
             @Override

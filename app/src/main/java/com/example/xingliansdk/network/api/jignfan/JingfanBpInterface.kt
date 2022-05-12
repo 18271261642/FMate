@@ -2,6 +2,7 @@ package com.example.xingliansdk.network.api.jignfan
 
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.network.BaseResult
+import com.example.xingliansdk.ui.bp.MeasureBpBean
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -37,5 +38,5 @@ interface JingfanBpInterface {
         @Field("data") data: String,
         @Field("createTime") time : String
 
-    ): BaseResult<Any>
+    ): BaseResult<MeasureBpBean>
 }
