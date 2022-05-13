@@ -102,7 +102,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
         if(checkCount == 3){
-            startCheckBpTv.text = "校准已完成"
+            startCheckBpTv.text = "校准完成，点击提交"
             secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
             thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             thirdScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
@@ -117,6 +117,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         //成功返回
         mViewModel.resultJF.observe(this){
             TLog.error("---------后台返回="+Gson().toJson(it))
+            ShowToast.showToastLong("校准成功!")
+            finish()
         }
 
 
@@ -155,17 +157,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         if(checkCount >3)
             return
         checkBpStatusTv.text = "测量成功"
-        val hashMap = HashMap<String,String>()
-        hashMap["data"] = bpValue.toString()
-        hashMap["createTime"] = DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss")
-       // mViewModel.uploadJFBpData(bpValue.toIntArray(),DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"))
 
         var hbpStr = checkHBpTv.text.toString()
-        if(!StringUtils.isNumeric(hbpStr))
-            hbpStr = "120"
         var lbpStr = checkLBpTv.text.toString()
-        if(!StringUtils.isNumeric(lbpStr))
-            lbpStr = "80"
+        if(checkCount == 0){    //第一次测量不需要输入血压
+            if(!StringUtils.isNumeric(hbpStr))
+                hbpStr = "120"
+
+            if(!StringUtils.isNumeric(lbpStr))
+                lbpStr = "80"
+        }else{
+            if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
+                ShowToast.showToastShort("请输入正常血压!")
+                return
+            }
+        }
+
 
         val sb1 = StringBuilder()
 
@@ -196,9 +203,9 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
 
-        resultMap.put(("data"+(checkCount+1)),bpValue)
-        resultMap.put(("sbp"+(checkCount+1)),checkHBpTv.text.toString())
-        resultMap.put(("dbp"+(checkCount+1)),checkLBpTv.text.toString())
+        resultMap.put(("data"+(checkCount+1)),sb1)
+        resultMap.put(("sbp"+(checkCount+1)),hbpStr.toInt())
+        resultMap.put(("dbp"+(checkCount+1)),lbpStr.toInt())
 
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         checkCount++;
@@ -207,6 +214,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
     private fun stopMeasure(){
+        checkHBpTv.text = "请输入收缩压"
+        checkLBpTv.text = "请输入舒张压"
         handler.removeMessages(0x00)
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x0B)
 
@@ -233,15 +242,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.startCheckBpTv->{  //校准按钮
-
                 if(checkCount >3)
                     return
                 if(checkCount == 3){    //提交
                     if(thirdBpCheckBean != null){
-                        GetJsonDataUtil().writeTxtToFile(Gson().toJson(thirdBpCheckBean),savePath,("up_bp"+System.currentTimeMillis())+".json")
 
-                        mViewModel.markJFBpData(thirdBpCheckBean!!.data1,thirdBpCheckBean!!.data2,thirdBpCheckBean!!.data3,
-                            thirdBpCheckBean!!.sbp1,thirdBpCheckBean!!.sbp2,thirdBpCheckBean!!.sbp3,thirdBpCheckBean!!.dbp1,thirdBpCheckBean!!.dbp2,thirdBpCheckBean!!.dbp3)
+                        GetJsonDataUtil().writeTxtToFile(Gson().toJson(resultMap),savePath,("up_bp"+System.currentTimeMillis())+".json")
+
+                        if(resultMap["data1"] == null)
+                        {
+                            ShowToast.showToastShort("数据为空!")
+                            return
+                        }
+
+                        mViewModel.markJFBpData(resultMap)
+//                        mViewModel.markJFBpData(thirdBpCheckBean!!.data1,thirdBpCheckBean!!.data2,thirdBpCheckBean!!.data3,
+//                            thirdBpCheckBean!!.sbp1,thirdBpCheckBean!!.sbp2,thirdBpCheckBean!!.sbp3,thirdBpCheckBean!!.dbp1,thirdBpCheckBean!!.dbp2,thirdBpCheckBean!!.dbp3)
                     }
 
                     return
@@ -299,7 +315,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
             override fun startCheckClick() {
                 checkBpView.dismiss()
-
+                showMeasureDialog()
             }
 
         })
