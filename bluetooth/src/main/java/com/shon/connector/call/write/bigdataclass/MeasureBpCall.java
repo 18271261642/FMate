@@ -95,6 +95,8 @@ public class MeasureBpCall extends WriteCallback {
 
                 //长度
                 itemLength = HexDump.getIntFromBytes(result[20],result[21]);
+
+                TLog.Companion.error("------数组长度="+itemLength);
                 byte[] firstValidByte = new byte[result.length-22];
                 System.arraycopy(result,22,firstValidByte,0,firstValidByte.length-1);
                 stringBuilder.append(ByteUtil.getHexString(firstValidByte));
@@ -108,8 +110,8 @@ public class MeasureBpCall extends WriteCallback {
             byte[] itemArray = ByteUtil.hexStringToByte(stringBuilder.toString());
             if(itemArray == null)
                 return false;
-            if(itemLength == 0 || itemArray.length != itemLength)
-                return false;
+//            if(itemLength == 0 || itemArray.length != itemLength)
+//                return false;
             //一个包完整了
             for(int i = 0;i<itemArray.length;i+=4){
                 if(i+3<itemArray.length){
@@ -165,8 +167,6 @@ public class MeasureBpCall extends WriteCallback {
          */
 
         byte[] cmdArray = new byte[]{0x0B,0x01,0x01,0x00,0x01, (byte) measureKey};
-
-
 
         byte[] resultArray = CmdUtil.getFullPackage(cmdArray);
 

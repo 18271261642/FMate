@@ -38,12 +38,21 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     private var measureDialog : MeasureBpDialogView ?= null
 
     var totalSecond = 0
+    //记录超时的时间，2分钟
+    var timeOutSecond = 0
 
     var savePath : String ?= null
 
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
+            timeOutSecond++
+            if(timeOutSecond >=120){    //超时了
+                if(measureDialog != null)
+                    measureDialog?.setMeasureStatus(false)
+                stopMeasure()
+            }
+
             if(totalSecond>=100)
                 totalSecond = 0
             totalSecond+=3
@@ -70,6 +79,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
         measureDialog = MeasureBpDialogView(this)
         measureDialog!!.show()
+        measureDialog!!.setCancelable(false)
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {  //再次测量按钮
                 measureBp()
@@ -84,7 +94,6 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
         })
-
 
     }
 
@@ -108,6 +117,9 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
           //  measureDialog?.setMeasureStatus(true)
             if(measureDialog != null)
                 measureDialog?.setMeasureStatus(false)
+            measureDialog?.setCancelable(true)
+            totalSecond = 0
+            timeOutSecond = 0
             stopMeasure()
         }
 
@@ -140,6 +152,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     //开始测量
     override fun measureStatus(status: Int) {
+        timeOutSecond = 0
         startCountTime()
     }
 
@@ -163,15 +176,15 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         GetJsonDataUtil().writeTxtToFile("时间="+time+" "+Gson().toJson(stringBuilder.toString()),savePath,"signal_bp"+System.currentTimeMillis()+".json")
 
          mViewModel.uploadJFBpData(stringBuilder.toString(),time)
-        stopMeasure()
+        //stopMeasure()
     }
 
 
     private fun stopMeasure(measureBpBean: MeasureBpBean ){
         handler.removeMessages(0x00)
         //时间
-        var longTime = TimeUtil.formatTimeToLong(measureBpBean.date+" "+measureBpBean.time)
-        var timeArray = HexDump.toByteArray(longTime-946656000L)
+        val longTime = TimeUtil.formatTimeToLong(measureBpBean.date+" "+measureBpBean.time)
+        val timeArray = HexDump.toByteArray(longTime-946656000L)
 
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x07,0x02,0x00,0x07,timeArray[0],timeArray[1],timeArray[2],timeArray[3],
             measureBpBean.sbp.toInt().toByte(),measureBpBean.dbp.toInt().toByte(),measureBpBean.heartRate.toInt().toByte()
@@ -194,7 +207,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         handler.removeMessages(0x00)
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
 
-        var resultArray = CmdUtil.getFullPackage(cmdArray)
+        val resultArray = CmdUtil.getFullPackage(cmdArray)
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
             override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
 

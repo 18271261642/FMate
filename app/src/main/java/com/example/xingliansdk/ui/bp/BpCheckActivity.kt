@@ -9,6 +9,7 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.CheckBpDialogView
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.MediaRepeatDialog
+import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
 import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
@@ -132,6 +133,18 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     private fun showMeasureDialog(){
         measureDialog = MeasureBpDialogView(this)
         measureDialog!!.show()
+        measureDialog!!.setCancelable(false)
+        measureDialog!!.setMiddleSchedule(-1f)
+        measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
+            override fun onConfirmClick(code: Int) {
+
+            }
+
+            override fun onCancelClick(code: Int) {
+
+            }
+
+        })
         measureBp()
     }
 

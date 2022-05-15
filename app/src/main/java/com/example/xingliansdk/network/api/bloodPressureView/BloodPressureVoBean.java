@@ -6,6 +6,17 @@ public class BloodPressureVoBean {
 
     private List<ListDTO> list;
 
+    //是否需要校准血压
+    private boolean calibrationRequired;
+
+    public boolean isCalibrationRequired() {
+        return calibrationRequired;
+    }
+
+    public void setCalibrationRequired(boolean calibrationRequired) {
+        this.calibrationRequired = calibrationRequired;
+    }
+
     public List<ListDTO> getList() {
         return list;
     }
@@ -19,6 +30,7 @@ public class BloodPressureVoBean {
          * createTime : 2021-08-04 16:16:15
          * stampCreateTime : 1628064975
          * systolicPressure : 150
+         *     "dataSource": 0,         //数据来源     0手动输入    1惊帆
          * diastolicPressure : 80
          */
 
@@ -26,6 +38,15 @@ public class BloodPressureVoBean {
         private long stampCreateTime;
         private int systolicPressure;
         private int diastolicPressure;
+        private int dataSource; //来源
+
+        public int getDataSource() {
+            return dataSource;
+        }
+
+        public void setDataSource(int dataSource) {
+            this.dataSource = dataSource;
+        }
 
         public String getCreateTime() {
             return createTime;
@@ -58,5 +79,6 @@ public class BloodPressureVoBean {
         public void setDiastolicPressure(int diastolicPressure) {
             this.diastolicPressure = diastolicPressure;
         }
+        
     }
 }

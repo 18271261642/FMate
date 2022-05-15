@@ -210,7 +210,8 @@
         <!--新版血压主页面-->
         <activity android:name=".ui.bp.BpHomeActivity"/>
         <!--测量血压-->
-        <activity android:name=".ui.bp.MeasureNewBpActivity"/>
+        <activity android:name=".ui.bp.MeasureNewBpActivity"
+            android:turnScreenOn="true"/>
         <!--血压校准-->
         <activity android:name=".ui.bp.BpCheckActivity"/>
 

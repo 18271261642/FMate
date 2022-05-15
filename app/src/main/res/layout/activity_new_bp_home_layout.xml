@@ -42,14 +42,14 @@
                 android:paddingBottom="@dimen/dp_10">
 
 
-                <include layout="@layout/comm_item_date_toggle_layout" />
+                <include layout="@layout/comm_item_data_white_toggle_layout" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="08:30～09:00平均值"
+                    android:text=""
                     android:textColor="#fffefefe"
                     android:textSize="16sp" />
 
@@ -57,6 +57,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="invisible"
                     android:orientation="horizontal">
 
 
