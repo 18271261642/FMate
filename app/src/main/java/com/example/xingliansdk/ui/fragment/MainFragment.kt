@@ -25,6 +25,8 @@ class MainFragment : BaseFragment<MainViewModel>() {
             }
         }
         mainBottom.interceptLongClick(R.id.menu_main,R.id.menu_motion/*, R.id.menu_device*/, R.id.menu_me)
+
+
     }
 
 

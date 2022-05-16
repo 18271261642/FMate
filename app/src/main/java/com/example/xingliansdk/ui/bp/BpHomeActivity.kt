@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.BloodPressureHistoryAdapter
@@ -19,6 +20,8 @@ import com.example.xingliansdk.bean.room.BloodPressureHistoryDao
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.PromptCheckBpDialog
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
+import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.LineChart
@@ -37,6 +40,7 @@ import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
+import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_blood_pressure.*
@@ -118,7 +122,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
       //  showPromptDialog()
 
-        setTitleDateData()
+//        setTitleDateData()
 
        // getDateBpData(DateUtil.getCurrDate())
     }
@@ -132,10 +136,70 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         mBloodPressureHistoryAdapter = BloodPressureHistoryAdapter(bpList)
         ryBloodPressure.adapter = mBloodPressureHistoryAdapter
 
+        mBloodPressureHistoryAdapter.setOnDelListener(object :BloodPressureHistoryAdapter.onSwipeListener{
+            override fun onDel(pos: Int) {
+                TLog.error("点击删除")
+                if(pos>=0)
+                {
+                    if(!HelpUtil.netWorkCheck(this@BpHomeActivity)) {
+                        if(mBloodPressureHistoryAdapter.data[pos].type==0) {
+                            ShowToast.showToastLong(getString(R.string.err_network_delete))
+                            return
+                        }
+                    }
+                   // showWaitDialog("删除血压中...")
+                    var value = HashMap<String, String>()
+                    value["createTime"] = mBloodPressureHistoryAdapter.data[pos].startTime.toString()
+                    sDao.deleteTime(mBloodPressureHistoryAdapter.data[pos].startTime)
+                    mBloodPressureHistoryAdapter.notifyItemRemoved(pos)
+
+                    if(HelpUtil.netWorkCheck(this@BpHomeActivity)
+                        &&mBloodPressureHistoryAdapter.data[pos].type==0) {
+                        TLog.error("删除")
+                        mViewModel.deleteBloodPressure(value)
+                    }
+                    else
+                        hideWaitDialog()
+                    setTitleDateData()
+//                    if (mBloodPressureHistoryAdapter.data.size > 0)
+//                        homeCard(mBloodPressureHistoryAdapter.data[0].systolicBloodPressure,
+//                            mBloodPressureHistoryAdapter.data[0].diastolicBloodPressure)//如果最新一个被删除的时候 要更新首页
+//                    else
+//                        homeCard(0,0)//如果最新一个被删除的时候 要更新首页
+
+                }
+            }
+
+            override fun onClick(pos: Int) {
+                TLog.error("==mlsit=="+Gson().toJson(bpList[pos]))
+                mDiastolic = bpList[pos].diastolicBloodPressure
+                mEdtSystolic = bpList[pos].systolicBloodPressure
+                time = bpList[pos].startTime*1000
+                mViewModel.setBloodPressure(this@BpHomeActivity,bpList[pos].startTime,bpList[pos].systolicBloodPressure
+                    ,bpList[pos].diastolicBloodPressure)
+            }
+        })
 
         initLinChart()
+
+
+        //判断是否绑定手表，未绑定提示绑定
+        mDeviceInformationBean.name
     }
 
+
+    private fun vertifyBind(){
+        val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+        if(userInfo == null){
+
+            return
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setTitleDateData()
+    }
 
 
     private fun updateBpData(day : String){
@@ -165,6 +229,15 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 DateUtil.HH_MM,it.startTime*1000))
 
         }
+
+//        for(i in 1 until 48){
+//
+//            inputHeightBpList.add(130)
+//
+//            inputLowBpList.add(110)
+//
+//            xValue.add(i.toString())
+//        }
 
         initLinData(bpHomeLinChartView,heightList,lowBpList,inputHeightBpList,inputLowBpList)
     }
@@ -232,7 +305,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     }
                 }
                 R.id.bpHomeInputLayout->{   //输入
-                    showInputDialog()
+                 //   showInputDialog()
+                    startActivity(Intent(this,InputBpActivity::class.java))
                 }
                 R.id.bpHomeMeasureLayout->{ //测量
                     if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
@@ -240,7 +314,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                         return
                     }
                     if(isNeedCheckBp == false){
-                        showPromptDialog()
+                        showPromptDialog(false)
                         return
                     }
                     startActivity(Intent(this,MeasureNewBpActivity::class.java))
@@ -272,15 +346,20 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     }
 
 
-    private fun showPromptDialog(){
+    private fun showPromptDialog(isBind : Boolean){
         if(promptBpDialog == null){
             promptBpDialog = PromptCheckBpDialog(this,R.style.edit_AlertDialog_style)
         }
         promptBpDialog!!.show()
+        promptBpDialog!!.setTopTxtValue(if(isBind) resources.getString(R.string.string_no_bind_device_txt) else resources.getString(R.string.string_check_bp_first_user_txt))
+        promptBpDialog!!.setBotBtnTxt(if(isBind) "暂不绑定" else "暂不校准",if(isBind) "去绑定" else "去校准")
         promptBpDialog!!.setCancelable(false)
         promptBpDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {
                 promptBpDialog!!.dismiss()
+                if(isBind)
+                    finish()
+                else
                 startActivity(Intent(this@BpHomeActivity,BpCheckActivity::class.java))
             }
 
@@ -358,12 +437,16 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         bpHomeLinChartView.axisRight.setDrawLabels(false)
         bpHomeLinChartView.legend.isEnabled = false
 
+        bpHomeLinChartView.isScaleYEnabled = false
+        bpHomeLinChartView.setScaleEnabled(false)
+
         val xAxis = bpHomeLinChartView.xAxis
 
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.textColor = Color.parseColor("#EBEBEB")
         xAxis.setDrawGridLines(false)
-        xAxis.setDrawAxisLine(false)
+        xAxis.setDrawAxisLine(true)
+        xAxis.setDrawLabels(true)
 
         //右侧Y轴
         val yRight = bpHomeLinChartView.axisRight
@@ -433,27 +516,18 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     private fun initLinData(chart : LineChart,hbpList : ArrayList<Int>,lbpList : ArrayList<Int>,inputHList : ArrayList<Int>,inputLList : ArrayList<Int>){
         val dataSets = ArrayList<ILineDataSet>()
 
-        var tmpCount = 0
-        TLog.error("-----x轴="+Gson().toJson(xValue))
-        //x轴
-        if(xValue.size>0){
-            tmpCount = 0
-            val xAxis = bpHomeLinChartView.xAxis
-            xAxis.setValueFormatter { value, axis ->
-                if(tmpCount<xValue.size-1){
-                    var v = xValue[tmpCount]
-                    tmpCount++
-                    TLog.error("----22-x轴="+value+" "+v)
-                    return@setValueFormatter v.toString()
-                }else{
-                    return@setValueFormatter ""
-                }
 
 
-            }
+        //设置一页最大显示个数为6，超出部分就滑动
+       // float ratio = (float) xValueList.size()/(float) 6;
+        //显示的时候是按照多大的比率缩放显示,1f表示不放大缩小
+       // mLineChart.zoom(ratio,1f,0,0);
 
+        if(inputHList.size>7){
+            bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
+        }else{
+            bpHomeLinChartView.zoom(1f,1f,0f,0f)
         }
-
 
 
         //手动输入的高压
@@ -524,6 +598,33 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         sets.add(inputHD)
         sets.add(inputLD)
+
+
+
+
+
+        var tmpCount = 0
+        TLog.error("-----x轴="+Gson().toJson(xValue))
+        //x轴
+        if(xValue.size>0){
+            tmpCount = 0
+            val xAxis = bpHomeLinChartView.xAxis
+            xAxis.setValueFormatter { value, axis ->
+                if(tmpCount<xValue.size-1){
+                    var v = xValue[tmpCount]
+                    tmpCount++
+                    TLog.error("----22-x轴="+value+" "+v)
+                    return@setValueFormatter v.toString()
+                }else{
+                    return@setValueFormatter ""
+                }
+
+
+            }
+
+        }
+
+
 
         val data = LineData(sets)
         chart.data = data

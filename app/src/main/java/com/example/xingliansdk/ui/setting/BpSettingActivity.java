@@ -5,7 +5,9 @@ import android.os.Bundle;
 import com.example.xingliansdk.R;
 import com.example.xingliansdk.base.BaseActivity;
 import com.example.xingliansdk.base.viewmodel.BaseViewModel;
+import com.example.xingliansdk.ui.login.viewMode.UserViewModel;
 import com.example.xingliansdk.utils.HawkUtil;
+import com.example.xingliansdk.view.DateUtil;
 import com.example.xingliansdk.widget.TitleBarLayout;
 import com.github.iielse.switchbutton.SwitchView;
 import com.gyf.barlibrary.ImmersionBar;
@@ -17,7 +19,9 @@ import com.shon.connector.call.listener.CommBackListener;
 import com.shon.connector.utils.ShowToast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 
@@ -26,7 +30,7 @@ import androidx.annotation.Nullable;
  * Created by Admin
  * Date 2022/5/7
  */
-public class BpSettingActivity extends BaseActivity<BaseViewModel> {
+public class BpSettingActivity extends BaseActivity<UserViewModel> {
 
     private TitleBarLayout titleBar;
 
@@ -79,6 +83,14 @@ public class BpSettingActivity extends BaseActivity<BaseViewModel> {
         initData();
     }
 
+
+    @Override
+    public void createObserver() {
+        super.createObserver();
+
+
+
+    }
 
     private void initData(){
         if(autoBpStatusBean == null)
@@ -152,5 +164,19 @@ public class BpSettingActivity extends BaseActivity<BaseViewModel> {
                 }
             }
         });
+
+
+        HashMap<String,String> value = new HashMap<String, String>();
+        value.put("nickname",getMDeviceInformationBean().getName());
+        value.put("height",getMDeviceInformationBean().getHeight()+"");
+        value.put("weight",getMDeviceInformationBean().getWeight()+"");
+        value.put("createTime",(System.currentTimeMillis()/1000)+"");
+        value.put("age",getMDeviceInformationBean().getAge()+"");
+        value.put("sex",getMDeviceInformationBean().getSex()+"");
+        value.put("birthDate", DateUtil.getDate(DateUtil.YYYY_MM_DD, getMDeviceInformationBean().getBirth()));
+        value.put("blood_pressure_night_sleep_measurement",autoBpNightSwitch.isOpened() ? "1" : "2");
+        value.put("blood_pressure_non_sleep_measurement",autoBpNormalSwitch.isOpened() ? "1" : "2");
+        mViewModel.setUserInfo(value);
+
     }
 }

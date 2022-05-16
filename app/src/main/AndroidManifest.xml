@@ -215,6 +215,8 @@
         <!--血压校准-->
         <activity android:name=".ui.bp.BpCheckActivity"/>
 
+        <!--手动输入血压-->
+        <activity android:name=".ui.bp.InputBpActivity"/>
         <receiver
             android:name=".broadcast.BleBroadcastReceiver"
             android:enabled="true"

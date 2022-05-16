@@ -81,6 +81,12 @@ public class PromptCheckBpDialog extends AppCompatDialog implements View.OnClick
     }
 
 
+    //设置两个按钮文字
+    public void setBotBtnTxt(String rightTxt,String leftTxt){
+        dialogCheckBpNoTv.setText(rightTxt);
+        dialogCheckBpYetTv.setText(leftTxt);
+    }
+
     @Override
     public void onClick(View v) {
         int vId = v.getId();

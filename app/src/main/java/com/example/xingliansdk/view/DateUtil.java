@@ -117,6 +117,21 @@ public class DateUtil {
         return c.getTimeInMillis();
     }
 
+
+
+    public static long formatTimeStrToLong(String timeStr,String format){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format,Locale.CHINA);
+            return simpleDateFormat.parse(timeStr).getTime()/1000;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+
+
     /**
      * 获取想要的日期字符串
      *

@@ -1,0 +1,228 @@
+package com.example.xingliansdk.ui.bp
+
+import android.app.Dialog
+import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
+import com.bigkoo.pickerview.view.TimePickerView
+import com.example.xingliansdk.R
+import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.base.viewmodel.BaseViewModel
+import com.example.xingliansdk.bean.room.AppDataBase
+import com.example.xingliansdk.bean.room.BloodPressureHistoryBean
+import com.example.xingliansdk.bean.room.BloodPressureHistoryDao
+import com.example.xingliansdk.dialog.MediaRepeatDialog
+import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
+import com.example.xingliansdk.view.DateUtil
+import com.gyf.barlibrary.ImmersionBar
+import com.luck.picture.lib.tools.ToastUtils
+import com.shon.connector.utils.ShowToast
+import kotlinx.android.synthetic.main.activity_bp_chekc_layout.*
+import kotlinx.android.synthetic.main.activity_input_bp_layout.*
+import kotlinx.android.synthetic.main.activity_input_bp_layout.titleBar
+import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
+import org.apache.commons.lang.StringUtils
+import java.util.*
+
+
+/**
+ * 输入血压的页面
+ */
+class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListener{
+
+
+    private var pvTime: TimePickerView? = null
+
+    //选是日期还是时间
+    var isCheckDay = false
+
+    lateinit var sDao: BloodPressureHistoryDao
+
+    //输入血压弹窗
+    var inputDialog : MediaRepeatDialog?= null
+
+    override fun layoutId(): Int {
+        return R.layout.activity_input_bp_layout
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+
+        ImmersionBar.with(this)
+            .titleBar(titleBar)
+            .init()
+
+        inputBpDayLayout.setOnClickListener(this)
+        inputBpTimeLayout.setOnClickListener(this)
+        inputBpHbpLayout.setOnClickListener(this)
+        inputBpLBpLayout.setOnClickListener(this)
+        inputBpSubmitTv.setOnClickListener(this)
+
+        sDao = AppDataBase.instance.getBloodPressureHistoryDao()
+
+
+        inputBpDayTv.text = DateUtil.getCurrDate()
+        inputBpTimeTv.text = DateUtil.getCurrentTime()
+
+        initTimePicker()
+    }
+
+
+    override fun createObserver() {
+        super.createObserver()
+        mViewModel.resultSet.observe(this){
+            ShowToast.showToastShort("添加成功!")
+            finish()
+        }
+
+        mViewModel.msgSet.observe(this){
+            ShowToast.showToastLong("添加失败! "+it)
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        if (p0 != null) {
+            when (p0.id){
+                R.id.inputBpDayLayout->{    //选择日期
+                    isCheckDay = true
+                    initTimePicker()
+                    pvTime?.show()
+                }
+                R.id.inputBpTimeLayout->{   //选择时间
+                    isCheckDay = false
+                    initTimePicker()
+                    pvTime?.show()
+                }
+
+                R.id.inputBpHbpLayout->{    //输入收缩压
+
+                    inputBpData(0)
+                }
+
+                R.id.inputBpLBpLayout->{    //输入舒张压
+                    inputBpData(1)
+                }
+
+                R.id.inputBpSubmitTv->{ //保存
+                    saveInputBp()
+                }
+
+            }
+        }
+    }
+
+
+    private fun saveInputBp(){
+        //日期
+        var inputDayStr = inputBpDayTv.text.toString()
+        //时间
+        var inputTimeStr = inputBpTimeTv.text.toString()
+
+        //输入的血压值
+        var inputHbpStr = inputBpHBpTv.text.toString()
+        var inputLbpStr = inputBpLBpTv.text.toString()
+
+        if(inputHbpStr.contains("mmHg") && inputLbpStr.contains("mmHg")){
+            inputHbpStr = StringUtils.substringBefore(inputHbpStr,"m").trim()
+            inputLbpStr = StringUtils.substringBefore(inputLbpStr,"m").trim()
+        }
+
+        if(!StringUtils.isNumeric(inputHbpStr) || !StringUtils.isNumeric(inputLbpStr)){
+            ShowToast.showToastShort("请输入血压值!")
+            return
+        }
+
+        //格式化时间
+        var timeStr = "$inputDayStr $inputTimeStr"
+
+        var createTime = DateUtil.formatTimeStrToLong(timeStr,"yyyy-MM-dd HH:mm")
+        mViewModel.setBloodPressure(this@InputBpActivity,createTime,inputHbpStr.toInt(),inputLbpStr.toInt())
+        sDao.insert(
+            BloodPressureHistoryBean(
+                createTime, 0, 0, inputHbpStr.toInt(),inputLbpStr.toInt(),
+                timeStr
+            )
+        )
+    }
+
+
+
+
+
+    private var time = System.currentTimeMillis()
+    private fun initTimePicker() { //Dialog 模式下，在底部弹出
+
+        pvTime = TimePickerBuilder(this,
+            OnTimeSelectListener { date, v ->
+                if (date.time > time) {
+                    ShowToast.showToastLong("请选择正确的日期!")
+                    return@OnTimeSelectListener
+                }
+//                mDeviceInformationBean.age = DateUtil.getAge(date)
+//                mDeviceInformationBean.birth = DateUtil.convertDateToLong(date)
+                if(isCheckDay)
+                      inputBpDayTv.text = DateUtil.getDate("yyyy-MM-dd",date)
+                else
+                    inputBpTimeTv.text = DateUtil.getDate("HH:mm",date)
+            })
+            .setType(if(isCheckDay) booleanArrayOf(true,true,true,false,false,false) else booleanArrayOf(false,false,false,true,true,false))
+            .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。
+            .setItemVisibleCount(5) //若设置偶数，实际值会加1（比如设置6，则最大可见条目为7）
+            .setLineSpacingMultiplier(2.0f)
+            .isAlphaGradient(true)
+            .isCyclic(true)
+            .setDate(DateUtil.getCurrentCalendar(System.currentTimeMillis()))
+            .build()
+        val mDialog: Dialog = pvTime?.dialog!!
+        val params =
+            FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM
+            )
+        params.leftMargin = 0
+        params.rightMargin = 0
+        pvTime?.let { it.dialogContainerLayout.layoutParams = params }
+        val dialogWindow = mDialog.window
+        if (dialogWindow != null) {
+            dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim) //修改动画样式
+            dialogWindow.setGravity(Gravity.BOTTOM) //改成Bottom,底部显示
+            dialogWindow.setDimAmount(0.3f)
+        }
+    }
+
+    private fun inputBpData(type : Int){
+
+        inputDialog = MediaRepeatDialog(this,R.style.edit_AlertDialog_style)
+        inputDialog?.show()
+        inputDialog!!.setTitleTxt("输入血压值")
+        inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
+        inputDialog!!.setOnMediaRepeatInputListener {
+            inputDialog!!.dismiss()
+            var valueInteger = it.toInt()
+            if(type == 0){
+
+                if(valueInteger <40 || valueInteger > 250){
+                    ShowToast.showToastShort("请输入正确的收缩压!")
+                    return@setOnMediaRepeatInputListener
+                }
+                inputBpHBpTv.text = "$it mmHg"
+
+            }
+
+            else{
+                if(valueInteger <40 || valueInteger > 250){
+                    ShowToast.showToastShort("请输入正确的收缩压!")
+                    return@setOnMediaRepeatInputListener
+                }
+                inputBpLBpTv.text = "$it mmHg"
+            }
+
+        }
+    }
+
+}

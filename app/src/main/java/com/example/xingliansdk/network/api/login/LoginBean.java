@@ -258,6 +258,11 @@ public class LoginBean {
         private int timeFormat;// 时间制式
         private int heartRateThreshold;//心率报警临界值
 
+        //夜间睡眠血压测量 1关2开
+        private int bloodPressureNightSleepMeasurement;
+        //非睡眠状态血压测量 1关 2开
+        private int bloodPressureNonSleepMeasurement;
+
         public int getDistanceUnit() {
             return distanceUnit;
         }
@@ -392,6 +397,22 @@ public class LoginBean {
 
         public void setTurnScreen(String turnScreen) {
             this.turnScreen = turnScreen;
+        }
+
+        public int getBloodPressureNightSleepMeasurement() {
+            return bloodPressureNightSleepMeasurement;
+        }
+
+        public void setBloodPressureNightSleepMeasurement(int bloodPressureNightSleepMeasurement) {
+            this.bloodPressureNightSleepMeasurement = bloodPressureNightSleepMeasurement;
+        }
+
+        public int getBloodPressureNonSleepMeasurement() {
+            return bloodPressureNonSleepMeasurement;
+        }
+
+        public void setBloodPressureNonSleepMeasurement(int bloodPressureNonSleepMeasurement) {
+            this.bloodPressureNonSleepMeasurement = bloodPressureNonSleepMeasurement;
         }
     }
 
