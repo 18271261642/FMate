@@ -22,11 +22,14 @@ import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewMo
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.gson.Gson
@@ -44,6 +47,7 @@ import kotlinx.android.synthetic.main.activity_new_bp_home_layout.titleBar
 import kotlinx.android.synthetic.main.comm_item_data_white_toggle_layout.*
 import kotlinx.android.synthetic.main.comm_item_date_toggle_layout.*
 import kotlinx.android.synthetic.main.item_blood_pressure_index.*
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -76,6 +80,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     //手动输入的舒张压
     var inputLowBpList : ArrayList<Int> = arrayListOf();
 
+    //x轴数据 HH:mm格式
+    var xValue : ArrayList<String> = arrayListOf()
+
+    //是否需要校准，只判断当天的日期
+    private var isNeedCheckBp : Boolean ?= null
 
     override fun layoutId(): Int {
       return R.layout.activity_new_bp_home_layout
@@ -107,7 +116,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         initData();
 
-        showPromptDialog()
+      //  showPromptDialog()
 
         setTitleDateData()
 
@@ -134,6 +143,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         inputLowBpList.clear()
         heightList.clear()
         lowBpList.clear()
+        xValue.clear()
         bpList = sDao.getDayBloodPressureHistory(
             day
         ) as ArrayList<BloodPressureHistoryBean>
@@ -151,6 +161,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 heightList.add(it.systolicBloodPressure)
                 lowBpList.add(it.diastolicBloodPressure)
             }
+            xValue.add( DateUtil.getDate(
+                DateUtil.HH_MM,it.startTime*1000))
 
         }
 
@@ -165,8 +177,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         mViewModel.resultGet.observe(this){ it ->
             TLog.error("----获取血压返回="+Gson().toJson(it))
-            if(it.isCalibrationRequired){   //没有校准，需要校准
-                showPromptDialog()
+            if(it.isCalibrationRequired && currDayStr == DateUtil.getCurrDate()){   //没有校准，需要校准
+                isNeedCheckBp = true
+               // showPromptDialog()
             }
 
             if(it.list != null && it.list.size>0){
@@ -222,6 +235,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     showInputDialog()
                 }
                 R.id.bpHomeMeasureLayout->{ //测量
+                    if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+                        ShowToast.showToastShort("请连接设备")
+                        return
+                    }
+                    if(isNeedCheckBp == false){
+                        showPromptDialog()
+                        return
+                    }
                     startActivity(Intent(this,MeasureNewBpActivity::class.java))
                 }
             }
@@ -350,34 +371,60 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         //左侧Y轴
         val yLeft = bpHomeLinChartView.axisLeft
-        yLeft.labelCount = 2
+        yLeft.setLabelCount(15)
+       // yLeft.granularity = 50f
 
         //标线虚线
         yLeft.enableGridDashedLine(10f, 10f, 0f);
         //是否显示标线
         yLeft.setDrawGridLines(true)
-        yLeft.setDrawAxisLine(false)
-        yLeft.gridColor = Color.WHITE
+        yLeft.setDrawAxisLine(true)
+
+        yLeft.gridColor = Color.TRANSPARENT
         yLeft.textColor = Color.WHITE
-        yLeft.axisLineColor = R.color.white
+        yLeft.axisLineColor = Color.TRANSPARENT
         yLeft.isEnabled = true
 
 
-        var yHbpLimit = LimitLine(140f,"140")
+        yLeft.axisMaximum = 190f
+        yLeft.axisMinimum = 40f
+
+
+        yLeft.valueFormatter =
+            IAxisValueFormatter { value, axis ->
+                TLog.error("------yyyyyy="+value+" "+value.toInt())
+
+
+               // return@IAxisValueFormatter value.toInt().toString()
+                if(value.toInt() == 90 || value.toInt() == 140){
+                    yLeft.textColor = Color.WHITE
+                    yLeft.gridColor = Color.TRANSPARENT
+                    yLeft.setDrawGridLines(true)
+                    return@IAxisValueFormatter value.toInt().toString()
+                }else{
+
+                    return@IAxisValueFormatter ""
+                }
+            }
+
+
+        var yHbpLimit = LimitLine(140f,"")
         yHbpLimit.lineColor = Color.WHITE
         yHbpLimit.lineWidth = 1f
         yHbpLimit.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
         yHbpLimit.enableDashedLine(10f, 10f, 0f)
         yHbpLimit.textColor = Color.WHITE
-       //yLeft.addLimitLine(yHbpLimit)
+        yLeft.removeLimitLine(yHbpLimit)
+       yLeft.addLimitLine(yHbpLimit)
 
-        var yLbpLimit = LimitLine(90f,"90")
+        var yLbpLimit = LimitLine(90f,"")
         yLbpLimit.lineColor = Color.WHITE
         yLbpLimit.textColor = Color.WHITE
         yLbpLimit.labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
         yLbpLimit.lineWidth = 1f
         yLbpLimit.enableDashedLine(10f, 10f, 0f)
-     //   yLeft.addLimitLine(yLbpLimit)
+        yLeft.removeLimitLine(yLbpLimit)
+        yLeft.addLimitLine(yLbpLimit)
 
 
         initLinData(bpHomeLinChartView, arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf())
@@ -385,6 +432,29 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     private fun initLinData(chart : LineChart,hbpList : ArrayList<Int>,lbpList : ArrayList<Int>,inputHList : ArrayList<Int>,inputLList : ArrayList<Int>){
         val dataSets = ArrayList<ILineDataSet>()
+
+        var tmpCount = 0
+        TLog.error("-----x轴="+Gson().toJson(xValue))
+        //x轴
+        if(xValue.size>0){
+            tmpCount = 0
+            val xAxis = bpHomeLinChartView.xAxis
+            xAxis.setValueFormatter { value, axis ->
+                if(tmpCount<xValue.size-1){
+                    var v = xValue[tmpCount]
+                    tmpCount++
+                    TLog.error("----22-x轴="+value+" "+v)
+                    return@setValueFormatter v.toString()
+                }else{
+                    return@setValueFormatter ""
+                }
+
+
+            }
+
+        }
+
+
 
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
