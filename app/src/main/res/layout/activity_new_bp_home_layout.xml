@@ -128,7 +128,8 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <include layout="@layout/item_new_bp_bot_desc_layout" />
+                <include
+                    layout="@layout/item_new_bp_bot_desc_layout" />
 
             </LinearLayout>
 

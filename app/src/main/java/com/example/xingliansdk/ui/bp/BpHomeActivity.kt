@@ -2,12 +2,14 @@ package com.example.xingliansdk.ui.bp
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
@@ -22,6 +24,7 @@ import com.example.xingliansdk.dialog.PromptCheckBpDialog
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HelpUtil
+import com.example.xingliansdk.utils.MapUtils
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.LineChart
@@ -202,6 +205,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun updateBpData(day : String){
         inputHeightBpList.clear()
         inputLowBpList.clear()
@@ -216,19 +220,91 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         mBloodPressureHistoryAdapter.addData(bpList)
         mBloodPressureHistoryAdapter.notifyDataSetChanged()
 
+        var inputMap = MapUtils.get24HourMap()
+        var measureMap = MapUtils.get24HourMap();
+
+        //手动输入的每小时的集合
+        val inputHourMap = MapUtils.getHourMap()
+        //测量的每小时集合
+        val measureHourMap = MapUtils.getHourMap()
+
+
+
+
         //展示图表
         bpList.forEach {
+
+            //HH格式
+            val timeStr = DateUtil.getDate(
+                DateUtil.HOUR,it.startTime*1000)
+            //分钟
+            val timeMinuteStr = DateUtil.getDate(
+                DateUtil.MINUTE,it.startTime*1000)
+
+            TLog.error("----小时="+timeStr+" "+timeMinuteStr)
+
             if(it.type == 0){  //手动输入
-                inputHeightBpList.add(it.systolicBloodPressure)
-                inputLowBpList.add(it.diastolicBloodPressure)
+
+                if(inputHourMap[timeStr] != null){
+
+                    if(timeMinuteStr.toInt()< 30){//半小时以前
+                        val halfHourBefore = String.format("%02d",timeStr)+":30"
+
+                        TLog.error("-22---小时=$halfHourBefore")
+                    }else{  //以后
+                        val halfHourAfter = String.format("%02d",timeStr.toInt()+1)+":00"
+
+                        TLog.error("---33-小时=$halfHourAfter")
+                    }
+
+
+                    val sBpArray = inputHourMap[timeStr]
+                    val sSbp = sBpArray?.get(0)
+                    val sDbp = sBpArray?.get(1)
+                    val newArr = arrayOf(
+                        sSbp?.plus(it.systolicBloodPressure)?.div(2),
+                        sDbp?.plus(it.diastolicBloodPressure)?.div(2)
+                    )
+                    inputHourMap.put(timeStr,newArr)
+
+                }else{
+                inputHourMap[timeStr] = arrayOf(it.systolicBloodPressure,it.diastolicBloodPressure)
+                    inputMap[timeStr] = arrayOf(it.systolicBloodPressure,it.diastolicBloodPressure)
+                }
+
+                TLog.error("--------输入="+ Gson().toJson(inputMap)+"\n"+Gson().toJson(it))
             }else{  //测量
-                heightList.add(it.systolicBloodPressure)
-                lowBpList.add(it.diastolicBloodPressure)
+
+                if(measureHourMap[timeStr] != null){
+
+                }else{
+
+                }
+
             }
-            xValue.add( DateUtil.getDate(
-                DateUtil.HH_MM,it.startTime*1000))
 
         }
+
+        MapUtils.halfHourMap.forEachIndexed { index, s ->
+
+            xValue.add(s)
+            var tmpHP = 0
+            var tmpLP = 0
+
+
+//            inputMap.forEach { (t, u) ->
+//                TLog.error("-222--遍历="+t+" "+Arrays.toString(u))
+//                if(s.equals(t)){
+//                    tmpHP = u[0]
+//                    tmpLP = u[1]
+//                }
+//            }
+            inputHeightBpList.add(tmpHP)
+            inputLowBpList.add(tmpLP)
+
+        }
+
+        TLog.error("-----inputMap="+Gson().toJson(inputMap))
 
 //        for(i in 1 until 48){
 //
@@ -269,6 +345,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         }
 
     }
+
+
+
+
+
 
     //获取指定日期的血压记录
     private fun getDateBpData(dayStr : String){
@@ -447,6 +528,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawLabels(true)
+//        xAxis.axisMaxLabels = 48
+//        xAxis.setLabelCount(48,true)
 
         //右侧Y轴
         val yRight = bpHomeLinChartView.axisRight
@@ -475,7 +558,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         yLeft.valueFormatter =
             IAxisValueFormatter { value, axis ->
-                TLog.error("------yyyyyy="+value+" "+value.toInt())
+               // TLog.error("------yyyyyy="+value+" "+value.toInt())
 
 
                // return@IAxisValueFormatter value.toInt().toString()
@@ -526,13 +609,16 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         if(inputHList.size>7){
             bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
         }else{
-            bpHomeLinChartView.zoom(1f,1f,0f,0f)
+            bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
         }
 
 
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
+
+        TLog.error("---手动输入=高压="+Gson().to(inputHList))
         inputHList.forEachIndexed { index, i ->
+            TLog.error("----手动x="+index+" "+i)
             inputHeightValue.add(Entry(index.toFloat(),i.toFloat()))
         }
 
@@ -600,9 +686,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         sets.add(inputLD)
 
 
-
-
-
         var tmpCount = 0
         TLog.error("-----x轴="+Gson().toJson(xValue))
         //x轴
@@ -610,53 +693,21 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             tmpCount = 0
             val xAxis = bpHomeLinChartView.xAxis
             xAxis.setValueFormatter { value, axis ->
-                if(tmpCount<xValue.size-1){
-                    var v = xValue[tmpCount]
-                    tmpCount++
-                    TLog.error("----22-x轴="+value+" "+v)
-                    return@setValueFormatter v.toString()
-                }else{
+                val index = value.toInt()
+                if(index<0 || index >= xValue.size){
                     return@setValueFormatter ""
+                }else{
+                    return@setValueFormatter xValue.get(index)
                 }
 
-
             }
-
         }
-
 
 
         val data = LineData(sets)
         chart.data = data
         chart.invalidate()
 
-
-//
-//        for (z in 0..2) {
-//            val values = ArrayList<Entry>()
-//            for (i in 0 until 24) {
-//                val `val`: Float = Random(120).nextFloat()
-//                values.add(Entry(i.toFloat(), `val`.toFloat()))
-//            }
-//            val d = LineDataSet(values, "DataSet " + (z + 1))
-//            d.lineWidth = 2.5f
-//            d.circleRadius = 4f
-//            val color: Int = Color.WHITE
-//            d.color = color
-//            d.setCircleColor(color)
-//            dataSets.add(d)
-//        }
-//
-//        // make the first DataSet dashed
-//
-//        // make the first DataSet dashed
-////        (dataSets[0] as LineDataSet).enableDashedLine(10f, 10f, 0f)
-////        (dataSets[0] as LineDataSet).setColors(*ColorTemplate.VORDIPLOM_COLORS)
-////        (dataSets[0] as LineDataSet).setCircleColors(*ColorTemplate.VORDIPLOM_COLORS)
-//
-//        val data = LineData(dataSets)
-//        chart.data = data
-//        chart.invalidate()
     }
 
 
