@@ -33,6 +33,9 @@ class BloodPressureHistoryAdapter(data: MutableList<BloodPressureHistoryBean>) :
         if (item == null) {
             return
         }
+
+        var bpStatusImg = helper.getView<ImageView>(R.id.itemBpInputImg)
+
         var img = helper.getView<ImageView>(R.id.img)
         var tvNotUploaded = helper.getView<TextView>(R.id.tvNotUploaded)
         var btnDelete=helper.getView<Button>(R.id.btnDelete)
@@ -43,6 +46,9 @@ class BloodPressureHistoryAdapter(data: MutableList<BloodPressureHistoryBean>) :
         img.setImageResource(R.drawable.round_red)
         val SBP = item.systolicBloodPressure
         val DBP = item.diastolicBloodPressure
+
+        bpStatusImg.visibility = if(item.type == 0) View.VISIBLE else View.GONE
+
         if (SBP < 130) {
             when {
                 DBP in 85..89 -> {

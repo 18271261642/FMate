@@ -471,6 +471,28 @@ public class DateUtil {
     }
 
 
+
+    public static String getFormatHour(long time){
+        Date date = new Date(time);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+
+        //小时
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        //分钟
+        int minute = calendar.get(Calendar.MINUTE);
+        String resultHour;
+        if(minute<30){
+            resultHour = String.format("%02d",hour)+":"+"30";
+        }else{
+            resultHour = String.format("%02d",(hour+1))+":"+"00";
+        }
+
+        return resultHour;
+    }
+
+
+
     /**
      * 格式化日期时间
      *
