@@ -40,7 +40,7 @@ class BloodPressureHistoryAdapter(data: MutableList<BloodPressureHistoryBean>) :
         var tvNotUploaded = helper.getView<TextView>(R.id.tvNotUploaded)
         var btnDelete=helper.getView<Button>(R.id.btnDelete)
         if(item.type==1)
-            tvNotUploaded.visibility= View.VISIBLE
+            tvNotUploaded.visibility= View.GONE
         else
             tvNotUploaded.visibility= View.GONE
         img.setImageResource(R.drawable.round_red)

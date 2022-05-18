@@ -50,6 +50,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             if(timeOutSecond >=120){    //超时了
                 if(measureDialog != null)
                     measureDialog?.setMeasureStatus(false)
+                totalSecond = 0
                 stopMeasure()
             }
 

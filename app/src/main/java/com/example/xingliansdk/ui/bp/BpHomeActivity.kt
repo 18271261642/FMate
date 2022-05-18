@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.CalendarView
 import android.widget.EditText
@@ -20,11 +21,13 @@ import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.bean.room.BloodPressureHistoryBean
 import com.example.xingliansdk.bean.room.BloodPressureHistoryDao
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.PromptCheckBpDialog
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HelpUtil
+import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.MapUtils
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
@@ -98,6 +101,10 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     //是否需要校准，只判断当天的日期
     private var isNeedCheckBp = true
 
+
+    //最后一个有值的下标
+    private var lastValueMap = HashMap<Int,Int>()
+
     override fun layoutId(): Int {
       return R.layout.activity_new_bp_home_layout
     }
@@ -112,6 +119,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         commWhiteLeftImg.setOnClickListener(this)
         commWhiteRightImg.setOnClickListener(this)
 
+        imgReplicate.rotation=90f
+        llBloodPressureIndex.visibility=View.GONE
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -133,6 +142,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 //        setTitleDateData()
 
        // getDateBpData(DateUtil.getCurrDate())
+
+        //判断是否绑定手表，未绑定提示绑定
+        vertifyBind()
     }
 
 
@@ -191,22 +203,22 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         initLinChart()
 
 
-        //判断是否绑定手表，未绑定提示绑定
-        mDeviceInformationBean.name
+
     }
 
 
     private fun vertifyBind(){
         val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
-        if(userInfo == null){
-
-            return
+        TLog.error("----userInfp="+Gson().toJson(userInfo))
+        if(TextUtils.isEmpty(userInfo.user.mac)){
+            showPromptDialog(true)
         }
     }
 
     override fun onResume() {
         super.onResume()
         setTitleDateData()
+
     }
 
 
@@ -429,7 +441,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     startActivity(Intent(this,InputBpActivity::class.java))
                 }
                 R.id.bpHomeMeasureLayout->{ //测量
-                    if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+//                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+//                    TLog.error("----userInfp="+Gson().toJson(userInfo))
+//                    if(TextUtils.isEmpty(userInfo.user.mac)){
+//                        showPromptDialog(true)
+//                        return
+//                    }
+
+                    if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
                         ShowToast.showToastShort("请连接设备")
                         return
                     }
@@ -477,8 +496,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         promptBpDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {
                 promptBpDialog!!.dismiss()
-                if(isBind)
-                    finish()
+                if(isBind){
+
+                    if (!turnOnBluetooth()) {
+                        return
+                    }
+                    JumpUtil.startBleConnectActivity(this@BpHomeActivity)
+                }
+
                 else
                 startActivity(Intent(this@BpHomeActivity,BpCheckActivity::class.java))
             }
@@ -637,7 +662,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         initLinData(bpHomeLinChartView, arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf())
     }
 
-    private fun initLinData(chart : LineChart,hbpList : ArrayList<Int>,lbpList : ArrayList<Int>,inputHList : ArrayList<Int>,inputLList : ArrayList<Int>){
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initLinData(chart : LineChart, hbpList : ArrayList<Int>, lbpList : ArrayList<Int>, inputHList : ArrayList<Int>, inputLList : ArrayList<Int>){
         val dataSets = ArrayList<ILineDataSet>()
 
 
@@ -705,7 +731,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         inputHD.enableDashedHighlightLine(10f, 10f, 0f)
         inputHD.color = Color.WHITE
         inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        inputHD.setDrawValues(true)
+        inputHD.setDrawValues(false)
 
 
         //手动输入低压
@@ -735,6 +761,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 values1.add(Entry(index.toFloat(),i.toFloat()))
             }
         }
+
+
+       // lastValueMap[inputLowBpValue[inputLowBpValue.size-1].x.toInt()] = values1[values1.size-1].x.toInt()
 
         val d1 = LineDataSet(values1, "")
         d1.lineWidth = 2.0f
@@ -791,6 +820,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         chart.data = data
         chart.invalidate()
 
+
+        if(lastValueMap.size>0){
+
+            lastValueMap.forEach { (t, u) ->
+                showSelectData(t.toString(),u.toString())
+            }
+        }
+
     }
 
 
@@ -831,6 +868,38 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
 
+    private fun showSelectData(x : String,y : String){
+        try {
+            if (x != null) {
+               // bpCheckTimeTv.text = xValue.get(x.toInt())
+
+                heightList.forEachIndexed { index, i ->
+                    TLog.error("------高压====="+index+"-="+i)
+                }
+                //手动测量的高压集合
+                if(heightList.size>0 && x.toInt()<heightList.size-1){
+                    val tmpH = heightList[x.toInt()].toString()
+                    val tmpL = lowBpList[x.toInt()].toString()
+                    bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                }else{
+                    bpHomeMeasureSelectTv.text = "--"
+                }
+
+                //输入
+                if(inputHeightBpList.size>0 && y.toInt()<inputLowBpList.size-1){
+                    val tmpH = inputHeightBpList[y.toInt()].toString()
+                    val tmpL = inputLowBpList[y.toInt()].toString()
+                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                }else{
+                    bpHomeMeasureInputTv.text = "--"
+                }
+
+            }
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
+
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         try {
@@ -851,7 +920,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 }else{
                     bpHomeMeasureSelectTv.text = "--"
                 }
-
                 //输入
                 if(inputHeightBpList.size>0 && e.x.toInt()<inputLowBpList.size-1){
                     val tmpH = inputHeightBpList[e.x.toInt()].toString()
@@ -860,12 +928,10 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 }else{
                     bpHomeMeasureInputTv.text = "--"
                 }
-
             }
         }catch (e : Exception){
             e.printStackTrace()
         }
-
     }
 
     override fun onNothingSelected() {

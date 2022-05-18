@@ -90,7 +90,11 @@ public class MeasureBpCall extends WriteCallback {
                 if(bpList.size() == 0){
                     int tim = HexDump.getIntFromBytes(result[15],result[16],result[17],result[18]);
                     long constanceMils = 946656000L;
-                    measureTime = TimeU.getCurrTime(tim+constanceMils);
+                    long currLong = System.currentTimeMillis()/1000;
+                    if((tim+constanceMils)<currLong-10)
+                        tim = (int) (currLong-constanceMils);
+
+                    measureTime = TimeU.getCurrTime((long) tim +constanceMils);
                 }
 
                 //长度
