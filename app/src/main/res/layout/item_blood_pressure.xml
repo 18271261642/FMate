@@ -52,11 +52,23 @@
             android:text="mmHg"
             android:textColor="@color/bottom_nav_icon_dim"
             android:textSize="11sp" />
+
+        <ImageView
+            android:id="@+id/itemBpInputImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/icon__list_shoudonglan"/>
+
+
         <TextView
             android:id="@+id/tvNotUploaded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:gravity="center"
             android:layout_marginLeft="8dp"
             android:text="未上传成功"
