@@ -91,7 +91,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     var xValue : ArrayList<String> = arrayListOf()
 
     //是否需要校准，只判断当天的日期
-    private var isNeedCheckBp : Boolean ?= null
+    private var isNeedCheckBp = true
 
     override fun layoutId(): Int {
       return R.layout.activity_new_bp_home_layout
@@ -326,8 +326,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         mViewModel.resultGet.observe(this){ it ->
             TLog.error("----获取血压返回="+Gson().toJson(it))
-            if(it.isCalibrationRequired && currDayStr == DateUtil.getCurrDate()){   //没有校准，需要校准
-                isNeedCheckBp = true
+            if(!it.isCalibrationRequired && currDayStr == DateUtil.getCurrDate()){   //没有校准，需要校准
+                isNeedCheckBp = false
                // showPromptDialog()
             }
 
@@ -394,7 +394,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                         ShowToast.showToastShort("请连接设备")
                         return
                     }
-                    if(isNeedCheckBp == false){
+                    if(isNeedCheckBp){
                         showPromptDialog(false)
                         return
                     }
