@@ -118,9 +118,9 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
 
     private fun saveInputBp(){
         //日期
-        var inputDayStr = inputBpDayTv.text.toString()
+        val inputDayStr = inputBpDayTv.text.toString()
         //时间
-        var inputTimeStr = inputBpTimeTv.text.toString()
+        val inputTimeStr = inputBpTimeTv.text.toString()
 
         //输入的血压值
         var inputHbpStr = inputBpHBpTv.text.toString()

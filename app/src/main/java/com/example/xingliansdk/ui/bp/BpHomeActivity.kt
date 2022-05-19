@@ -143,8 +143,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
        // getDateBpData(DateUtil.getCurrDate())
 
-        //判断是否绑定手表，未绑定提示绑定
-        vertifyBind()
+
     }
 
 
@@ -441,12 +440,13 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     startActivity(Intent(this,InputBpActivity::class.java))
                 }
                 R.id.bpHomeMeasureLayout->{ //测量
-//                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
-//                    TLog.error("----userInfp="+Gson().toJson(userInfo))
-//                    if(TextUtils.isEmpty(userInfo.user.mac)){
-//                        showPromptDialog(true)
-//                        return
-//                    }
+                    //判断是否绑定手表，未绑定提示绑定
+                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+                    TLog.error("----userInfp="+Gson().toJson(userInfo))
+                    if(TextUtils.isEmpty(userInfo.user.mac)){
+                        showPromptDialog(true)
+                        return
+                    }
 
                     if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
                         ShowToast.showToastShort("请连接设备")
@@ -493,6 +493,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         promptBpDialog!!.setTopTxtValue(if(isBind) resources.getString(R.string.string_no_bind_device_txt) else resources.getString(R.string.string_check_bp_first_user_txt))
         promptBpDialog!!.setBotBtnTxt(if(isBind) "暂不绑定" else "暂不校准",if(isBind) "去绑定" else "去校准")
         promptBpDialog!!.setCancelable(false)
+        promptBpDialog!!.setVisibilityBotTv(!isBind)
         promptBpDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {
                 promptBpDialog!!.dismiss()
@@ -502,6 +503,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                         return
                     }
                     JumpUtil.startBleConnectActivity(this@BpHomeActivity)
+                    finish()
                 }
 
                 else
@@ -704,14 +706,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
 
-
-
-
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
-
-        val dd2 = LineDataSet(ArrayList<Entry>(),"")
-        dd2.color = Color.TRANSPARENT
 
         TLog.error("---手动输入=高压="+Gson().to(inputHList))
         inputHList.forEachIndexed { index, i ->
@@ -750,7 +746,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         //虚线
         inputLD.enableDashedLine(10f, 10f, 0f)
         inputLD.enableDashedHighlightLine(10f, 10f, 0f)
-        inputLD.color = Color.WHITE
+        inputLD.color = Color.parseColor("#FBD371")
         inputLD.setDrawValues(false)
 
 
@@ -789,15 +785,29 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
         d2.setDrawValues(false)
 
+
+
+        val tmp24EntryList = ArrayList<Entry>()
+        MapUtils.halfHourMap.forEachIndexed { index, s ->
+            tmp24EntryList.add(Entry(index.toFloat(),100f))
+        }
+        val dd2 = LineDataSet(tmp24EntryList,"")
+        dd2.color = Color.TRANSPARENT
+        dd2.lineWidth = 2.0f
+        dd2.circleRadius = 3.5f
+       // dd2.highLightColor = Color.rgb(244, 117, 117)
+        dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+        dd2.setDrawValues(false)
+
+
         val sets = ArrayList<ILineDataSet>()
         sets.add(d1)
         sets.add(d2)
-        sets.add(dd2)
 
         sets.add(inputHD)
         sets.add(inputLD)
 
-
+       // sets.add(dd2)
         var tmpCount = 0
         TLog.error("-----x轴="+Gson().toJson(xValue))
         //x轴
@@ -806,6 +816,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
             xAxis.setValueFormatter { value, axis ->
                 val index = value.toInt()
+                TLog.error("-----x轴index="+index+" "+axis.mEntries)
                 if(index<0 || index >= xValue.size){
                     return@setValueFormatter ""
                 }else{

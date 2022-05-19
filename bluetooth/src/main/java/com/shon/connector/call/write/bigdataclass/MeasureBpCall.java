@@ -60,6 +60,10 @@ public class MeasureBpCall extends WriteCallback {
                  * 0x05: 申报需要上传，如需开始上传，APP 务必调用接口 3.13.1 索引 0x01，状态 0x03 下发
                  */
                 switch (result[13]) {
+                    case 0x01:  //手表主动结束
+                        if(measureBigBpListener != null)
+                            measureBigBpListener.measureStatus(0x01);
+                        break;
                     case 0x02: //开始计时
                         if(measureBigBpListener != null)
                             measureBigBpListener.measureStatus(0x02);
@@ -95,6 +99,7 @@ public class MeasureBpCall extends WriteCallback {
                         tim = (int) (currLong-constanceMils);
 
                     measureTime = TimeU.getCurrTime((long) tim +constanceMils);
+                    TLog.Companion.error("------时间="+measureTime);
                 }
 
                 //长度
