@@ -95,14 +95,14 @@ public class MeasureBpCall extends WriteCallback {
                     int tim = HexDump.getIntFromBytes(result[15],result[16],result[17],result[18]);
 
                     int tim2 = HexDump.getIntFromBytes(result[18],result[17],result[16],result[15]);
-                    TLog.Companion.error("-----返回的时间="+tim);
+                    TLog.Companion.error("-----返回的时间="+tim+" "+tim2);
 
                     long constanceMils = 946656000L;
                     long currLong = System.currentTimeMillis()/1000;
                     if((tim+constanceMils)<currLong-10)
                         tim = (int) (currLong-constanceMils);
 
-                    measureTime = TimeU.getCurrTime((long) tim +constanceMils);
+                    measureTime = TimeU.getCurrTime(((long) tim +constanceMils) * 1000);
                     TLog.Companion.error("------时间="+measureTime);
 
                     TLog.Companion.error("-----返回的测量时间="+measureTime+" "+((long) tim +constanceMils));

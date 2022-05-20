@@ -153,7 +153,16 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         var endTime = DateUtil.getDate(DateUtil.YYYY_MM_DD, mEndTime)
         TLog.error("startTime++$startTime   ,endTime++$endTime")
         timeLong = (bean.endTime - bean.startTime)
+
+
+        TLog.error("---11---总的睡眠时长="+timeLong)
+
         var time = DateUtil.getTextTime(timeLong)
+
+        TLog.error("---22---总的睡眠时长="+time)
+
+
+
         tvSleepTime.text = HelpUtil.getSpan(
             time.substring(0, 2),
             time.substring(2, 4),

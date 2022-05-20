@@ -440,12 +440,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     startActivity(Intent(this,InputBpActivity::class.java))
                 }
                 R.id.bpHomeMeasureLayout->{ //测量
-                    //判断是否绑定手表，未绑定提示绑定
-                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
-                    TLog.error("----userInfp="+Gson().toJson(userInfo))
-                    if(TextUtils.isEmpty(userInfo.user.mac)){
-                        showPromptDialog(true)
-                        return
+                    if(!isConntinue){
+                        //判断是否绑定手表，未绑定提示绑定
+                        val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+                        TLog.error("----userInfp="+Gson().toJson(userInfo))
+                        if(TextUtils.isEmpty(userInfo.user.mac)){
+                            showPromptDialog(true)
+                            return
+                        }
                     }
 
                     if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
@@ -484,6 +486,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     }
 
+    private var isConntinue = false
+
 
     private fun showPromptDialog(isBind : Boolean){
         if(promptBpDialog == null){
@@ -511,7 +515,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             }
 
             override fun onCancelClick(code: Int) {
-
+                isConntinue  = true
             }
 
         })
@@ -674,13 +678,15 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         //显示的时候是按照多大的比率缩放显示,1f表示不放大缩小
        // mLineChart.zoom(ratio,1f,0,0);
         val xAxis = bpHomeLinChartView.xAxis
+        xAxis.setLabelCount(5,true)
+
         val maxLength = hbpList.size>inputHList.size
 
         val matrix = Matrix()
 
-        matrix.preScale(2.5f,1f)
-
-        bpHomeLinChartView.viewPortHandler.refresh(matrix,bpHomeLinChartView,false)
+//        matrix.preScale(2.5f,1f)
+//
+//        bpHomeLinChartView.viewPortHandler.refresh(matrix,bpHomeLinChartView,false)
 
 
 //        bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
