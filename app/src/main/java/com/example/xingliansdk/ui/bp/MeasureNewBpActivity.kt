@@ -48,9 +48,9 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             super.handleMessage(msg)
             timeOutSecond++
             if(timeOutSecond >=120){    //超时了
+                totalSecond = 0
                 if(measureDialog != null)
                     measureDialog?.setMeasureStatus(false)
-                totalSecond = 0
                 stopMeasure()
             }
 
@@ -153,8 +153,17 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     //开始测量
     override fun measureStatus(status: Int) {
-        timeOutSecond = 0
-        startCountTime()
+        if(status == 0x01){ //手表主动结束掉
+            totalSecond = 0
+            timeOutSecond = 0
+            if(measureDialog != null)
+                measureDialog?.setMeasureStatus(false)
+            stopMeasure()
+        }else{
+            timeOutSecond = 0
+            startCountTime()
+        }
+
     }
 
     //测量结果

@@ -40,7 +40,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     var resultMap = HashMap<String,Any>()
 
-
+    //记录超时的时间，2分钟
+    var timeOutSecond = 0
     var measureDialog : MeasureBpDialogView ?= null
 
     var totalSecond = 0
@@ -55,6 +56,15 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
+
+            timeOutSecond++
+            if(timeOutSecond >=120){    //超时了
+                if(measureDialog != null)
+                    measureDialog?.setMeasureStatus(false)
+                totalSecond = 0
+                stopMeasure()
+            }
+
             if(totalSecond >= 100)
                 totalSecond = 0
             totalSecond+=3
@@ -119,12 +129,14 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         mViewModel.resultJF.observe(this){
             TLog.error("---------后台返回="+Gson().toJson(it))
             ShowToast.showToastLong("校准成功!")
+            timeOutSecond = 0
             finish()
         }
 
 
         //后台非成功返回
         mViewModel.msgJf.observe(this){
+            timeOutSecond = 0
             ShowToast.showToastLong("上传失败:"+it)
             TLog.error("---------后台飞200返回="+Gson().toJson(it))
         }
@@ -158,12 +170,19 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
     private fun measureBp(){
+        timeOutSecond = 0
         startCountTime()
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
     }
 
     override fun measureStatus(status: Int) {
-
+        if(status == 0x01){ //手表主动结束掉
+            if(measureDialog != null)
+                measureDialog?.setMeasureStatus(false)
+            totalSecond = 0
+            timeOutSecond = 0
+            stopMeasure()
+        }
     }
 
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
