@@ -19,6 +19,8 @@ import com.example.xingliansdk.bean.DeviceFirmwareBean
 import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.broadcast.BluetoothMonitorReceiver
+import com.example.xingliansdk.dialog.MeasureBpPromptDialog
+import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.UpdateDialogView
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
@@ -29,6 +31,7 @@ import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.ui.BleConnectActivity
+import com.example.xingliansdk.ui.bp.MeasureNewBpActivity
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.example.xingliansdk.viewmodel.MainViewModel
@@ -68,6 +71,8 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     private var otaAlert : AlertDialog.Builder ?= null
 
     private var cusDufAlert : CusDfuAlertDialog ? = null
+
+    private var measureBpPromptDialog : MeasureBpPromptDialog ?= null
 
 
     val handler : Handler =  object : Handler(Looper.myLooper()!!){
@@ -162,6 +167,12 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
           }
       }
 
+//
+//        mainViewModel.resultSleep.observe(this){
+//            TLog.error("-------上传睡眠返回="+it.toString())
+//            val weatherService = XingLianApplication.getXingLianApplication().getWeatherService()
+//            weatherService?.getDevicePPG1CacheRecord()
+//        }
     }
 
 
@@ -393,6 +404,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
         val weatherIntentFilter = IntentFilter()
         weatherIntentFilter.addAction("com.example.xingliansdk.location")
+        weatherIntentFilter.addAction(com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION)
         registerReceiver(broadcastReceiver,weatherIntentFilter)
 
 //        bleListener1 = LocalBroadcastManager.getInstance(this)
@@ -588,28 +600,49 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             }
 
 
-        }
+            if(action == com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION){
 
-    }
+                val isRunn = Utils.isAppRunning(XingLianApplication.mXingLianApplication)
+                TLog.error("-----是否正在运行="+isRunn)
 
+                if(!isRunn)
+                    return
 
-    //每小时定位一次，发送天气
+                val typeCode = intent.getIntExtra("bp_status",0)
+                if(typeCode == 5 || typeCode == 9){
+                    measureBpPromptDialog = MeasureBpPromptDialog(
+                        this@MainHomeActivity,
+                        R.style.edit_AlertDialog_style)
+                    measureBpPromptDialog!!.show()
+                    measureBpPromptDialog!!.setOnCommDialogClickListener(object :
+                        OnCommDialogClickListener {
+                        override fun onConfirmClick(code: Int) {
+                            startActivity(Intent(
+                                XingLianApplication.mXingLianApplication,
+                                MeasureNewBpActivity::class.java))
+                        }
 
-    //每小时定位一次，发送天气
-    /**
-     * 通过Handler延迟发送消息的形式实现定时任务。
-     */
-    private val CHANGE_TIPS_TIMER_INTERVAL =  60 * 1000
+                        override fun onCancelClick(code: Int) {
 
-    //启动计时器任务
-    fun start24HourMethod() {
-        val mChangeTipsRunnable: Runnable = object : Runnable {
-            override fun run() {
-                //开始定位
-                BleWork().startLocation(this@MainHomeActivity)
-                handler.postDelayed(this, CHANGE_TIPS_TIMER_INTERVAL.toLong())
+                        }
+
+                    })
+                }
+
+                if(typeCode == 8){
+                    measureBpPromptDialog?.dismiss()
+                    startActivity(Intent(this@MainHomeActivity,MeasureNewBpActivity::class.java))
+                }
+
+                //超时，有弹窗取消弹窗
+                if(typeCode == 0x01){
+                    measureBpPromptDialog?.dismiss()
+                }
+
             }
+
         }
-        handler.post(mChangeTipsRunnable)
+
     }
+
 }

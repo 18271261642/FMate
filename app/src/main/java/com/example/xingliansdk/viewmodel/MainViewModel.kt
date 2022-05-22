@@ -12,6 +12,7 @@ import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherApi
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.requestCustom
+import com.example.xingliansdk.network.requestCustomBig
 import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
@@ -34,6 +35,9 @@ class MainViewModel : BaseViewModel() {
     val serverWeatherData : MutableLiveData<ServerWeatherBean> = MutableLiveData()
 
     val resultOta: MutableLiveData<OTAUpdateBean> = MutableLiveData()
+
+    val resultSleep: MutableLiveData<Any> = MutableLiveData()
+    val resultSleepMsg : MutableLiveData<String> = MutableLiveData()
 
     init {
         textValue.value = Hawk.get<Int>("step")
@@ -140,4 +144,21 @@ class MainViewModel : BaseViewModel() {
             }
         }
     }
+
+
+    fun postSleepSourceServer(remark : String,startTime : Long,endTime : Long,avgActive : IntArray,avgHeartRate : IntArray) {
+        requestCustomBig({
+            ServerWeatherApi.serverWeatherApi.postSleepSourcesData(remark,startTime,endTime,avgActive,avgHeartRate)
+        }, {
+            resultSleep.postValue(it)
+
+        }) { code, message ->
+            message?.let {
+                TLog.error("it=" + it)
+                resultSleepMsg.postValue(it)
+                //ShowToast.showToastLong(it)
+            }
+        }
+    }
+
 }

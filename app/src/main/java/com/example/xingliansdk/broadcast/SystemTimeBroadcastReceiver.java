@@ -24,7 +24,7 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if(action == null)
             return;
-        if(action.equals(Intent.ACTION_TIME_TICK)){
+        if(action.equals(Intent.ACTION_TIME_TICK)){   //每分钟
             long currTime = System.currentTimeMillis();
 
             int currMinute = (int) (currTime % 3600000);

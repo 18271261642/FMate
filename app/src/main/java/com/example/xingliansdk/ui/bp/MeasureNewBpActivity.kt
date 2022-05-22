@@ -83,6 +83,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         measureDialog!!.setCancelable(false)
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {  //再次测量按钮
+                TLog.error("------再次测量="+code)
                 measureBp()
             }
 
@@ -116,17 +117,21 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         mViewModel.msgJfUploadBp.observe(this){
             TLog.error("---------后台飞200返回="+ Gson().toJson(it))
           //  measureDialog?.setMeasureStatus(true)
-            if(measureDialog != null)
-                measureDialog?.setMeasureStatus(false)
-            measureDialog?.setCancelable(true)
-            totalSecond = 0
-            timeOutSecond = 0
-            stopMeasure()
+            showFailMeasure()
         }
 
 
     }
 
+
+    private fun showFailMeasure(){
+        if(measureDialog != null)
+            measureDialog?.setMeasureStatus(false)
+        measureDialog?.setCancelable(true)
+        totalSecond = 0
+        timeOutSecond = 0
+        stopMeasure()
+    }
 
     @SuppressLint("SetTextI18n")
     private fun showResult(measureBpBean: MeasureBpBean){
@@ -153,12 +158,9 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     //开始测量
     override fun measureStatus(status: Int) {
+        TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
-            totalSecond = 0
-            timeOutSecond = 0
-            if(measureDialog != null)
-                measureDialog?.setMeasureStatus(false)
-            stopMeasure()
+            showFailMeasure()
         }else{
             timeOutSecond = 0
             startCountTime()
@@ -183,7 +185,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
         }
 
-        GetJsonDataUtil().writeTxtToFile("时间="+time+" "+Gson().toJson(stringBuilder.toString()),savePath,"signal_bp"+System.currentTimeMillis()+".json")
+       // GetJsonDataUtil().writeTxtToFile("时间="+time+" "+Gson().toJson(stringBuilder.toString()),savePath,"signal_bp"+System.currentTimeMillis()+".json")
 
          mViewModel.uploadJFBpData(stringBuilder.toString(),time)
         //stopMeasure()

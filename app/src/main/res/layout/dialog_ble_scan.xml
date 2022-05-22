@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ad_layout"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="450dp"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginLeft="66dp"
-        android:layout_marginRight="66dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/shape_corner_gray_border"
         android:orientation="vertical">
 

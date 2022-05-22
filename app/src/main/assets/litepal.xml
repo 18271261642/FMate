@@ -2,11 +2,14 @@
 <litepal>
 <dbname value="starlink_db"/>
 
-    <version value = "1"/>
+    <version value = "3"/>
 
     <list>
         <!--地图运动数据-->
         <mapping class="com.example.xingliansdk.bean.db.AmapSportBean"/>
+
+        <mapping class="com.example.xingliansdk.ui.bp.PPG1CacheDb"/>
+
     </list>
 
 </litepal>

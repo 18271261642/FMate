@@ -46,6 +46,23 @@
         android:text="获取短信权限"/>
 
 
+
+
+    <Button
+        android:id="@+id/getBpRecordBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取血压设备目录"/>
+
+
+    <Button
+        android:id="@+id/getGoalBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取指定目录"/>
+
+
+
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

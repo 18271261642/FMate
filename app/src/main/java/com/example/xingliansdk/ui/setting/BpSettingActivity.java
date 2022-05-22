@@ -138,18 +138,13 @@ public class BpSettingActivity extends BaseActivity<UserViewModel> {
             autoBpStatusBean.setStartMinute(0x00);
             autoBpStatusBean.setEndHour(0x00);
             autoBpStatusBean.setEndMinute(0x00);
-            autoBpStatusBean.setBpInterval(0x30);
+            autoBpStatusBean.setBpInterval(0x05);
         }
 
 
         //夜间
         if(autoBpNightSwitch.isOpened()){
             autoBpStatusBean.setNightBpStatus((byte) 0x02);
-            autoBpStatusBean.setStartHour(0x00);
-            autoBpStatusBean.setStartMinute(0x00);
-            autoBpStatusBean.setEndHour(0x08);
-            autoBpStatusBean.setEndMinute(0x00);
-            autoBpStatusBean.setBpInterval(0x30);
         }
 
         BleWrite.writeSetAutoBpMeasureStatus(true, autoBpStatusBean, new CommBackListener() {

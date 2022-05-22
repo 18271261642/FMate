@@ -71,15 +71,15 @@ public  class MediaRepeatDialog extends AppCompatDialog implements View.OnClickL
             if(TextUtils.isEmpty(str))
                 return;
 
-            if(Integer.parseInt(str) == 0){
-                Toast.makeText(getContext(),"请输入正确的时间间隔!",Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(Integer.parseInt(str) > 255){
-                Toast.makeText(getContext(),"   周期天数不大于255天!",Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if(Integer.parseInt(str) == 0){
+//                Toast.makeText(getContext(),"请输入正确的时间间隔!",Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if(Integer.parseInt(str) > 255){
+//                Toast.makeText(getContext(),"   周期天数不大于255天!",Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             if(onMediaRepeatInputListener != null)
                 onMediaRepeatInputListener.backInputData(Integer.parseInt(str));

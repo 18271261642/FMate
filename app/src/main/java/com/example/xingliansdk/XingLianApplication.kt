@@ -1,6 +1,7 @@
 package com.example.xingliansdk
 
 import android.R
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.os.Bundle
@@ -9,6 +10,7 @@ import androidx.multidex.MultiDex
 import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
+import com.example.xingliansdk.dialog.MeasureBpPromptDialog
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SendWeatherService
 import com.example.xingliansdk.utils.*
@@ -32,7 +34,10 @@ import java.lang.ref.WeakReference
 import java.util.*
 import com.example.xingliansdk.utils.RemoteControlService
 import com.example.xingliansdk.utils.RemoteControlService.RCBinder
+import com.shon.connector.Config
 import com.shon.connector.utils.ShowToast
+import org.litepal.LitePal
+import org.litepal.LitePalApplication
 
 
 class XingLianApplication : BaseApp() {
@@ -95,6 +100,13 @@ class XingLianApplication : BaseApp() {
 
 
         private var musicControlService : RemoteControlService ?= null
+
+
+        //手表间隔提醒测量的弹窗
+        @SuppressLint("StaticFieldLeak")
+        private var measureBpPromptDialog : MeasureBpPromptDialog ?= null
+
+
 
         fun getSelectedCalendar(): Calendar? {
             return mSelectedCalendar
@@ -162,6 +174,7 @@ class XingLianApplication : BaseApp() {
         context = WeakReference(applicationContext)
         //蓝牙
         BLEManager.init(this)
+        LitePal.initialize(this)
         MultiDex.install(this)
         //适配器
         AutoSizeConfig.getInstance().unitsManager.setSupportDP(true)
@@ -197,6 +210,12 @@ class XingLianApplication : BaseApp() {
         intentFilter.addAction(Intent.ACTION_TIME_CHANGED)
         intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
         intentFilter.addAction(Intent.ACTION_TIME_TICK)
+
+        val bpIntentFilter = IntentFilter()
+        bpIntentFilter.addAction(Config.DEVICE_AUTO_MEASURE_BP_ACTION)
+
+        registerReceiver(broadcastReceiver,bpIntentFilter)
+
         registerReceiver(timeBroadcastReceiver,intentFilter)
 
         val musicIntent = Intent(this,RemoteControlService::class.java)
@@ -335,4 +354,15 @@ class XingLianApplication : BaseApp() {
         return isForceDial
     }
 
+
+    private  val broadcastReceiver = object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action ?: return
+            if(action == Config.DEVICE_AUTO_MEASURE_BP_ACTION){
+
+            }
+
+        }
+
+    }
 }

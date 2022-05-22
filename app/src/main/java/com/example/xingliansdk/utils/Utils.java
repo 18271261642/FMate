@@ -1,5 +1,7 @@
 package com.example.xingliansdk.utils;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.commons.lang.StringUtils;
@@ -10,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -34,6 +37,24 @@ public class Utils {
     //英制转公制
     public static double miToKm(double miValue){
         return mul(miValue,KmV,2);
+    }
+
+    //只需要获取当前的上下文，即可判断应用是否在前台
+    public static boolean isAppRunning(Context context) {
+        ActivityManager am = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = context.getPackageName();
+
+        //获取本App的唯一标识
+        int myPid = processInfos.get(0).pid;
+        //利用一个增强for循环取出手机里的所有进程
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            //通过比较进程的唯一标识和包名判断进程里是否存在该App
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

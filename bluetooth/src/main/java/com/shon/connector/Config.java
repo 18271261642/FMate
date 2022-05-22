@@ -2,6 +2,12 @@ package com.shon.connector;
 
 public class Config {
 
+
+
+
+    public static final String DEVICE_AUTO_MEASURE_BP_ACTION = "com.shon.connector.auto_measure_bp";
+
+
     /**
      * 温度最大值 当大于这个值时即温度为-温度
      */
@@ -442,6 +448,9 @@ public class Config {
          * 设备端主动上传设备端当前表盘 ID
          */
         public static final byte DEVICE_DIAL_ID = 0x0A;
+
+        //手表返回血压测量
+        public static final byte DEVICE_MEASURE_BP = 0x0B;
 
     }
 

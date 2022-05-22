@@ -3,24 +3,38 @@ package com.example.xingliansdk.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel;
+import com.example.xingliansdk.network.api.login.LoginBean;
 import com.example.xingliansdk.network.api.weather.bean.FutureWeatherBean;
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean;
 import com.example.xingliansdk.service.core.BaseService;
 import com.example.xingliansdk.service.work.BleWork;
+import com.example.xingliansdk.ui.bp.DbManager;
+import com.example.xingliansdk.ui.bp.PPG1CacheDb;
+import com.example.xingliansdk.utils.GetJsonDataUtil;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;
+import com.orhanobut.hawk.Hawk;
 import com.shon.bluetooth.util.ByteUtil;
+import com.shon.bluetooth.util.TimeU;
 import com.shon.connector.BleWrite;
 import com.shon.connector.Config;
 import com.shon.connector.call.CmdUtil;
+import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1CacheRecordCall;
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener;
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener;
+import com.shon.connector.call.write.controlclass.TurnOnScreenCall;
 import com.shon.connector.utils.HexDump;
+import com.shon.connector.utils.TLog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -32,10 +46,11 @@ import androidx.annotation.Nullable;
  * Created by Admin
  * Date 2022/3/16
  */
-public class SendWeatherService extends BaseService {
+public class SendWeatherService extends BaseService implements OnPPG1CacheRecordListener , OnPPG1BigDataListener {
 
     private static final String TAG = "SendWeatherService";
 
+    String savePath;
 
     private OnWeatherStatusListener onWeatherStatusListener;
 
@@ -45,17 +60,39 @@ public class SendWeatherService extends BaseService {
 
     private final IBinder iBinder = new SendWeatherBinder();
 
+
+    private List<byte[]> tmpPPgList;
+
     private final Handler handler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
+
+            if(msg.what == 0x00){
+                handler.removeMessages(0x00);
+                if(tmpPPgList == null || tmpPPgList.size()==0)
+                    return;
+                if(startIndex>tmpPPgList.size()-1)
+                    return;
+
+                byte[] timeI  = tmpPPgList.get(startIndex);
+                if(timeI == null)
+                    return;
+                getPPGData(timeI);
+            }
+
         }
     };
+
+
+    private void getPPGData(byte[] timeI){
+        BleWrite.writeGetTimePPG1BigData(true,timeI,this);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        savePath = Environment.getExternalStorageDirectory().getPath()+"/Download/";
         Log.e(TAG,"------onCreate-----");
     }
 
@@ -64,6 +101,8 @@ public class SendWeatherService extends BaseService {
     public IBinder onBind(Intent intent) {
         return iBinder;
     }
+
+
 
 
     public class SendWeatherBinder extends Binder{
@@ -377,8 +416,6 @@ public class SendWeatherService extends BaseService {
 
 
 
-
-
     private long getZeroMills() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY,0);
@@ -389,6 +426,131 @@ public class SendWeatherService extends BaseService {
     }
 
 
+    //获取PPG缓存目录
+    public void getDevicePPG1CacheRecord(){
+        BleWrite.writeGetPPG1CacheRecord(true,this);
+    }
 
+
+
+
+    //获取ppg缓存的记录，时间戳，然后再根据时间戳查询数据库是否有保存，没有保存就从手表中读取
+    @Override
+    public void backPPGCacheByteArray(List<byte[]> timeList) {
+        TLog.Companion.error("---11--PPG缓存目录="+new Gson().toJson(timeList));
+    }
+
+    @Override
+    public void backPPGCacheLongArray(List<Long> longList) {
+        long constanceMils = 946656000L;
+        long currYearM = 1640966400L; //2022-01-01
+        for(Long itemL : longList){
+            long normalLong = itemL+constanceMils;
+            if(normalLong > currYearM){
+
+            }
+            String itemTimeStr = TimeU.getCurrTime(((long) normalLong) * 1000);
+            TLog.Companion.error("---22--PPG缓存目录="+itemTimeStr);
+
+        }
+
+    }
+
+    @Override
+    public void backPPGCacheArray(List<byte[]> timeList, List<Long> longList) {
+        if(timeList == null || longList == null || timeList.isEmpty() || longList.isEmpty())
+            return;
+        findLocalDb(timeList,longList);
+    }
+
+
+    private void findLocalDb(List<byte[]> timeList, List<Long> longList){
+        long constanceMils = 946656000L;
+        long currYearM = 1640966400L; //2022-01-01
+
+
+        LoginBean loginBean = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(loginBean == null)
+            return;
+        String userId = loginBean.getUser().getUserId();
+        String mac = loginBean.getUser().getMac();
+        if(userId == null || mac == null)
+            return;
+        List<byte[]> noCacheList = new ArrayList<>();
+
+        for(int i = 0;i<longList.size();i++){
+            Long itemL = longList.get(i);
+            long normalLong = (itemL+constanceMils);
+            TLog.Companion.error("----normalLong="+normalLong);
+            if(normalLong > currYearM){
+                String itemTimeStr = TimeU.getCurrTime(((long) normalLong) * 1000);
+                PPG1CacheDb ppg1CacheDb = DbManager.getDbManager().getCurrTimePPGData(userId,mac,itemTimeStr);
+
+                //noCacheList.add(timeList.get(i));
+                TLog.Companion.error("-------未保存的="+itemTimeStr +" "+ByteUtil.getHexString(timeList.get(i)));
+                if(ppg1CacheDb == null){
+                    noCacheList.add(timeList.get(i));
+                    TLog.Companion.error("-------未保存的="+itemTimeStr +" "+ByteUtil.getHexString(timeList.get(i)));
+                }
+            }
+
+        }
+
+        if(noCacheList.size()>0){
+            getSpecifyPPG(noCacheList);
+        }
+
+        TLog.Companion.error("---22--PPG缓存目录未保存的时间戳="+new Gson().toJson(noCacheList));
+    }
+
+
+    private int startIndex = 0;
+
+    private void getSpecifyPPG(List<byte[]> list){
+        TLog.Companion.error("-------结果未保存的集合="+new Gson().toJson(list));
+        this.tmpPPgList = list;
+        startIndex = 0;
+        handler.sendEmptyMessage(0x00);
+    }
+
+    private final StringBuilder stringBuilder = new StringBuilder();
+    //指定的时间戳ppg大数据返回
+    @Override
+    public void backPPG1BigData(List<Integer> bigPpgList, String itemTimeStr) {
+        stringBuilder.delete(0,stringBuilder.length());
+        LoginBean loginBean = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(loginBean == null)
+            return;
+        String userId = loginBean.getUser().getUserId();
+        String mac = loginBean.getUser().getMac();
+        if(userId == null || mac == null)
+            return;
+        PPG1CacheDb ppg1CacheDb = new PPG1CacheDb();
+        ppg1CacheDb.setUserId(userId);
+        ppg1CacheDb.setDeviceMac(mac);
+        ppg1CacheDb.setPpgTimeStr(itemTimeStr);
+        ppg1CacheDb.setDayStr(DateUtil.getCurrDate());
+        ppg1CacheDb.setDbStatus("0");
+        ppg1CacheDb.setBbpDataList(bigPpgList);
+        boolean isSave = DbManager.getDbManager().savePPBBpData(ppg1CacheDb);
+        TLog.Companion.error("-------保存到数据库="+itemTimeStr+" "+isSave);
+
+
+        new GetJsonDataUtil().writeTxtToFile(new Gson().toJson(ppg1CacheDb),savePath,"specify_ppg"+itemTimeStr+DateUtil.getDate("HH:m:ss",System.currentTimeMillis())+".json");
+
+        for(int i = 0;i<bigPpgList.size();i++){
+            if(i == bigPpgList.size()-1){
+                stringBuilder.append(i);
+            }else{
+                stringBuilder.append(i);
+                stringBuilder.append(",");
+            }
+        }
+        TLog.Companion.error("-------上传参数="+stringBuilder.toString());
+        new JingfanBpViewModel().uploadJFBpData(stringBuilder.toString(),itemTimeStr);
+
+        startIndex++;
+        handler.sendEmptyMessageDelayed(0x00,2000);
+    }
 
 }

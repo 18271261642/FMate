@@ -186,6 +186,8 @@ dependencies {
 
     // Shape 框架：https://github.com/getActivity/ShapeView
     implementation 'com.github.getActivity:ShapeView:6.2'
+
+    implementation 'org.litepal.guolindev:core:3.2.0'
 }
 
  

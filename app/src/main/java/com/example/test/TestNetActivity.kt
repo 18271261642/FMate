@@ -30,6 +30,8 @@ import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.bean.TimeBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener
 import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_test_net_layout.*
@@ -109,6 +111,71 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
                 var conT =  permissions.toString()
                 showLogTv.text = "permission="+conT+" "+isSms
             }
+        }
+
+
+        getBpRecordBtn.setOnClickListener {
+
+            BleWrite.writeGetPPG1CacheRecord(true,object : OnPPG1CacheRecordListener{
+                override fun backPPGCacheByteArray(timeList: MutableList<ByteArray>?) {
+
+                }
+
+                override fun backPPGCacheLongArray(longList: MutableList<Long>?) {
+
+                }
+
+                override fun backPPGCacheArray(
+                    timeList: MutableList<ByteArray>?,
+                    longList: MutableList<Long>?
+                ) {
+                   
+                }
+
+
+            })
+
+
+//            val bpCmd = byteArrayOf(0x02,0x11,0x00)
+//
+//            val resultA = CmdUtil.getFullPackage(bpCmd)
+//
+//            BleWrite.writeCommByteArray(resultA,true,object : BleWrite.SpecifySleepSourceInterface {
+//                override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+//
+//                }
+//
+//                override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+//
+//                }
+//
+//            })
+        }
+
+
+        getGoalBtn.setOnClickListener {
+
+
+            BleWrite.writeGetTimePPG1BigData(true, byteArrayOf(0x2A,0x1A, 0xE8.toByte(),0x00)
+            )
+            { bigPpgList, itemTimeStr ->
+
+                TLog.error("---------指定的ppg大数据=" + itemTimeStr + " " + bigPpgList?.size)
+            }
+
+//            val bpCmd = byteArrayOf(0x02,0x13,0x2A,0x1A, 0xE8.toByte(),0x00)
+//            val resultA = CmdUtil.getFullPackage(bpCmd)
+//            BleWrite.writeCommByteArray(resultA,true,object : BleWrite.SpecifySleepSourceInterface {
+//                override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+//
+//                }
+//
+//                override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+//
+//                }
+//
+//            })
+
         }
 
     }

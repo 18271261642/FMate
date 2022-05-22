@@ -108,6 +108,16 @@ public class MeasureBpDialogView extends AppCompatDialog implements View.OnClick
     }
 
 
+    public void setMeasureStatus(boolean isSuccess,boolean again){
+        dialogMeasureFailTv.setVisibility(isSuccess ? View.GONE : View.VISIBLE);
+        dialogMTmp1.setVisibility(isSuccess ? View.VISIBLE : View.GONE);
+        dialogMTmp2.setVisibility(isSuccess ? View.VISIBLE : View.GONE);
+
+        dialogMeasureStatusTv.setText(isSuccess ? "测量中" : "测量失败");
+
+    }
+
+
     public void setMiddleSchedule(float progress){
         bpMeasureView.setProgress(progress);
     }
@@ -117,9 +127,9 @@ public class MeasureBpDialogView extends AppCompatDialog implements View.OnClick
     public void onClick(View v) {
         int vId = v.getId();
         if(vId == R.id.dialogMeasureFailTv){
+            setMeasureStatus(true,true);
             if(onCommDialogClickListener != null)
                 onCommDialogClickListener.onConfirmClick(0);
-            setMeasureStatus(true);
         }
     }
 }

@@ -472,6 +472,21 @@ public class DateUtil {
 
 
 
+    public static String getDate(long timeMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeMillis);
+        //小时
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.MILLISECOND);
+
+        return String.format("%02d",hour)+":"+String.format("%02d",minute);
+
+    }
+
+
+
+    //处理血压的时间 HH:mm格式，小于30分钟处理为HH:30 大于处理成HH+1:00
     public static String getFormatHour(long time){
         Date date = new Date(time);
         Calendar calendar = Calendar.getInstance();

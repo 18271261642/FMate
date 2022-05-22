@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:shape_radius="5dp"
+    android:layout_gravity="center"
+    android:padding="10dp"
+    app:shape_solidColor="@color/white"
+    android:layout_height="150dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="测量一下血压吧~"
+        android:textColor="#ff333333"
+        android:lineSpacingExtra="5dp"
+        android:gravity="center"
+
+        android:textSize="17sp"
+        android:id="@+id/dialogCheckBpTopTxtTv"/>
+
+
+    <TextView
+        android:id="@+id/dialogCheckBpBotTxtTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_margin="5dp"
+        android:text="@string/string_check_no_check_txt"
+        android:textColor="#ff666666"
+        android:textSize="15sp"
+        />
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/dialogCheckBpNoTv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#5FDC9D"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:shape_solidPressedColor="@color/wx_press_color"
+            android:text="暂不校准"/>
+
+        <View
+            android:layout_width="1dp"
+            android:background="@color/wx_bg_color"
+            android:layout_gravity="center"
+            android:layout_height="25dp"/>
+
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/dialogCheckBpYetTv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textColor="#5FDC9D"
+            android:textSize="18sp"
+            app:shape_solidPressedColor="@color/wx_press_color"
+            android:text="去校准"/>
+
+    </LinearLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>

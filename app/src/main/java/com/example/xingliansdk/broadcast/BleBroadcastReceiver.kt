@@ -103,6 +103,24 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
     override fun NotifyCallResult(key: Byte, type: Int, Status: Int) {
         TLog.error("广播","NotifyCallResult ="+key+" "+type +" "+Status)
         when (key) {
+            Config.ActiveUpload.DEVICE_MEASURE_BP->{    //手表返回测量血压
+                if(type == 9){  //手表按血压测量按键返回标识，此时app收到后弹窗测量的弹窗，用户点击测量，进入测量页面
+                    sendActionBroadCast(9)
+                }
+
+                if(type == 5){  //app弹窗提示测量
+                    sendActionBroadCast(5)
+                }
+
+                if(type == 8){
+                    sendActionBroadCast(8)
+                }
+
+                if(type == 0x01){   //血压测量超时，app有弹窗取消弹窗
+                    sendActionBroadCast(0x01)
+                }
+            }
+
             Config.ActiveUpload.DEVICE_FIND_PHONE -> //寻找手机
             {
 
@@ -209,5 +227,13 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
             }
 
         }
+    }
+
+
+    private fun sendActionBroadCast(type : Int){
+        val intent = Intent();
+        intent.setAction(Config.DEVICE_AUTO_MEASURE_BP_ACTION)
+        intent.putExtra("bp_status",type)
+        mContext.sendBroadcast(intent)
     }
 }

@@ -32,6 +32,10 @@ import com.shon.connector.call.write.bigdataclass.Specify.SpecifySportsHistoryCa
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyStressFatigueHistoryCall;
 import com.shon.connector.call.write.bigdataclass.Specify.SpecifyTemperatureHistoryCall;
 import com.shon.connector.call.write.bigdataclass.effective.EffectiveBloodPressureCall;
+import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1BigDataCall;
+import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1CacheRecordCall;
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener;
+import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener;
 import com.shon.connector.call.write.controlclass.BloodOxygenSwitchCall;
 import com.shon.connector.call.write.controlclass.CameraSwitchCall;
 import com.shon.connector.call.write.controlclass.DisconnectBluetoothShutdownCall;
@@ -1271,6 +1275,29 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.enqueue(new MeasureBpCall(address,key,measureBigBpListener));
     }
 
+
+
+    //获取 PPG1 缓存大数据记录
+    public static void writeGetPPG1CacheRecord(boolean status, OnPPG1CacheRecordListener onPPG1CacheRecordListener){
+
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        write.setTimeout(5 * 1000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new GetPPG1CacheRecordCall(address,onPPG1CacheRecordListener));
+    }
+
+
+    //获取指定的PPG1缓存大数据
+    public static void writeGetTimePPG1BigData(boolean status, byte[] timeArray,OnPPG1BigDataListener onPPG1BigDataListener){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        write.setTimeout(100 * 1000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new GetPPG1BigDataCall(address,timeArray,onPPG1BigDataListener));
+    }
 
 
     public interface EffectiveBloodPressureInterface {

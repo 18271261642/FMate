@@ -32,14 +32,12 @@ import com.example.xingliansdk.utils.MapUtils
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
@@ -61,7 +59,6 @@ import kotlinx.android.synthetic.main.comm_item_data_white_toggle_layout.*
 import kotlinx.android.synthetic.main.comm_item_date_toggle_layout.*
 import kotlinx.android.synthetic.main.item_blood_pressure_index.*
 import java.lang.Exception
-import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -251,12 +248,26 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         //测量的血压
         val resultMeasureHourMap = HashMap<String,IntArray>()
 
+        //排序 根据时间戳排序
+        bpList.sortedBy {
+            it.startTime
+        }
 
+        if(bpList.size==0){
+            initLinData(bpHomeLinChartView,
+                heightList,lowBpList,inputHeightBpList,inputLowBpList)
+            return
+        }
+        //第一个有效值的值
+        val firstValue = bpList[bpList.size-1]
+
+        val firstResultHourStr = DateUtil.getFormatHour(firstValue.startTime * 1000)
+
+
+        TLog.error("-------第一个有效值的值="+firstResultHourStr)
 
         //展示图表
         bpList.forEach {
-
-            TLog.error("----排序="+it.dateTime)
 
             //HH格式
             val timeStr = DateUtil.getDate(
@@ -368,7 +379,54 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         }
 
-        initLinData(bpHomeLinChartView,heightList,lowBpList,inputHeightBpList,inputLowBpList)
+
+        val tmpXVList = mutableListOf<String>()
+
+        //截取X轴，从第一个不为0的值开始，到23:30
+        var tmpIndex = 0
+        xValue.forEachIndexed { index, s ->
+
+            if(s == firstResultHourStr){
+                tmpIndex = index;
+            }
+        }
+
+        tmpXVList.addAll(xValue)
+        xValue.clear()
+
+        xValue.addAll(tmpXVList.subList(tmpIndex,tmpXVList.size-1))
+
+
+        val tmpInputList :  ArrayList<Int> = arrayListOf()
+        val tmpInputLowList : ArrayList<Int> = arrayListOf()
+
+        tmpInputList.addAll(inputHeightBpList)
+        inputHeightBpList.clear()
+
+        inputHeightBpList.addAll(tmpInputList.subList(tmpIndex,tmpXVList.size-1))
+
+        tmpInputLowList.addAll(inputLowBpList)
+        inputLowBpList.clear()
+        inputLowBpList.addAll(tmpInputLowList.subList(tmpIndex,tmpXVList.size-1))
+
+
+
+        //测量的
+        val tmpMHList : ArrayList<Int> = arrayListOf()
+        val tmpMLList : ArrayList<Int> = arrayListOf()
+        tmpMHList.addAll(heightList)
+        heightList.clear()
+        heightList.addAll(tmpMHList.subList(tmpIndex,tmpXVList.size-1))
+
+
+        tmpMLList.addAll(lowBpList)
+        lowBpList.clear()
+        lowBpList.addAll(tmpMLList.subList(tmpIndex,tmpXVList.size-1))
+
+        TLog.error("------处理后的血压轴="+Gson().toJson(xValue))
+
+        initLinData(bpHomeLinChartView,
+            heightList,lowBpList,inputHeightBpList,inputLowBpList)
     }
 
 
@@ -439,26 +497,25 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                  //   showInputDialog()
                     startActivity(Intent(this,InputBpActivity::class.java))
                 }
-                R.id.bpHomeMeasureLayout->{ //测量
-                    if(!isConntinue){
-                        //判断是否绑定手表，未绑定提示绑定
-                        val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
-                        TLog.error("----userInfp="+Gson().toJson(userInfo))
-                        if(TextUtils.isEmpty(userInfo.user.mac)){
-                            showPromptDialog(true)
-                            return
-                        }
+                R.id.bpHomeMeasureLayout-> { //测量
+                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+                    TLog.error("----userInfp=" + Gson().toJson(userInfo)+"\n"+isConntinue)
+                    if (TextUtils.isEmpty(userInfo.user.mac) ) {
+                        showPromptDialog(true)
+                        return
                     }
 
-                    if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
+                    if (!XingLianApplication.getXingLianApplication()
+                            .getDeviceConnStatus() || BleConnection.iFonConnectError
+                    ) {
                         ShowToast.showToastShort("请连接设备")
                         return
                     }
-                    if(isNeedCheckBp){
+                    if (isNeedCheckBp && !isConntinue) {
                         showPromptDialog(false)
                         return
                     }
-                    startActivity(Intent(this,MeasureNewBpActivity::class.java))
+                    startActivity(Intent(this, MeasureNewBpActivity::class.java))
                 }
             }
         }
@@ -515,6 +572,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             }
 
             override fun onCancelClick(code: Int) {
+                if(!isBind)
                 isConntinue  = true
             }
 
@@ -602,7 +660,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         xAxis.setDrawLabels(true)
         xAxis.setCenterAxisLabels(true)
 //        xAxis.axisMaxLabels = 48
-//        xAxis.setLabelCount(48,true)
+        xAxis.setLabelCount(8,true)
+
 
         //右侧Y轴
         val yRight = bpHomeLinChartView.axisRight
@@ -668,6 +727,10 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         initLinData(bpHomeLinChartView, arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf())
     }
 
+    //用于计算第一个点的下标，0到48
+    private var firstNoZero = 0
+    private var firstNoData : String ?= null
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initLinData(chart : LineChart, hbpList : ArrayList<Int>, lbpList : ArrayList<Int>, inputHList : ArrayList<Int>, inputLList : ArrayList<Int>){
         val dataSets = ArrayList<ILineDataSet>()
@@ -678,7 +741,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         //显示的时候是按照多大的比率缩放显示,1f表示不放大缩小
        // mLineChart.zoom(ratio,1f,0,0);
         val xAxis = bpHomeLinChartView.xAxis
-        xAxis.setLabelCount(5,true)
 
         val maxLength = hbpList.size>inputHList.size
 
@@ -689,33 +751,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 //        bpHomeLinChartView.viewPortHandler.refresh(matrix,bpHomeLinChartView,false)
 
 
-//        bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
-
-
-
-
-//        if(maxLength){
-//            if(hbpList.size>7){
-//                bpHomeLinChartView.zoom(2f,1f,0f,0f)
-//            }else{
-//                xAxis.setLabelCount(7,true)
-//                bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
-//            }
-//        }else{
-//            if(inputHList.size>7){
-//                bpHomeLinChartView.zoom(2f,1f,0f,0f)
-//            }else{
-//                xAxis.setLabelCount(7,true)
-//                bpHomeLinChartView.zoom(1.5f,1f,0f,0f)
-//            }
-//        }
-
-
-
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
 
         TLog.error("---手动输入=高压="+Gson().to(inputHList))
+
         inputHList.forEachIndexed { index, i ->
             if(i != 0){
                 TLog.error("---不为0-手动x="+index+" "+i)
@@ -725,16 +765,15 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         }
 
         val inputHD = LineDataSet(inputHeightValue,"")
-        inputHD.lineWidth = 1.5f
+        inputHD.lineWidth = 2.5f
         inputHD.circleRadius = 3.5f
         inputHD.highLightColor = Color.rgb(244, 117, 117)
         //虚线
-        inputHD.enableDashedLine(10f, 10f, 0f)
-        inputHD.enableDashedHighlightLine(10f, 10f, 0f)
+//        inputHD.enableDashedLine(10f, 10f, 0f)
+//        inputHD.enableDashedHighlightLine(10f, 10f, 0f)
         inputHD.color = Color.WHITE
-        inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+       // inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         inputHD.setDrawValues(false)
-
 
         //手动输入低压
         val inputLowBpValue = ArrayList<Entry>()
@@ -746,12 +785,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         }
 
         val inputLD = LineDataSet(inputLowBpValue,"")
-        inputLD.lineWidth = 1.5f
+        inputLD.lineWidth = 2.5f
         inputLD.circleRadius = 3.5f
         inputLD.highLightColor = Color.rgb(244, 117, 117)
+
         //虚线
-        inputLD.enableDashedLine(10f, 10f, 0f)
-        inputLD.enableDashedHighlightLine(10f, 10f, 0f)
+//        inputLD.enableDashedLine(10f, 10f, 0f)
+       // inputLD.enableDashedHighlightLine(10f, 10f, 0f)
+        inputLD.circleHoleColor = Color.TRANSPARENT
         inputLD.color = Color.parseColor("#FBD371")
         inputLD.setDrawValues(false)
 
@@ -770,13 +811,13 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         val d1 = LineDataSet(values1, "")
         d1.lineWidth = 2.0f
         d1.circleRadius = 3.5f
+        //d1.enableDashedLine(10f, 10f, 0f)
         d1.highLightColor = Color.rgb(244, 117, 117)
         d1.color = Color.parseColor("#71FBEE")
         d1.setDrawValues(false)
 
         //低压
         val values2 = ArrayList<Entry>()
-
         lbpList.forEachIndexed { index, i ->
             if(i != 0){
                 values2.add(Entry(index.toFloat(),i.toFloat()))
@@ -794,15 +835,18 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
         val tmp24EntryList = ArrayList<Entry>()
-        MapUtils.halfHourMap.forEachIndexed { index, s ->
+        xValue.forEachIndexed { index, s ->
             tmp24EntryList.add(Entry(index.toFloat(),100f))
         }
         val dd2 = LineDataSet(tmp24EntryList,"")
         dd2.color = Color.TRANSPARENT
         dd2.lineWidth = 2.0f
-        dd2.circleRadius = 3.5f
-       // dd2.highLightColor = Color.rgb(244, 117, 117)
-        dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+        dd2.circleRadius = 1f
+        dd2.highLightColor = Color.rgb(0, 0, 0)
+        //dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+
+        dd2.setCircleColor(Color.TRANSPARENT)
+        dd2.circleHoleColor = Color.TRANSPARENT
         dd2.setDrawValues(false)
 
 
@@ -813,22 +857,28 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         sets.add(inputHD)
         sets.add(inputLD)
 
-       // sets.add(dd2)
+        sets.add(dd2)
         var tmpCount = 0
         TLog.error("-----x轴="+Gson().toJson(xValue))
         //x轴
         if(xValue.size>0){
             tmpCount = 0
 
+            xAxis.valueFormatter = BPXValueFormatter(xValue)
+
             xAxis.setValueFormatter { value, axis ->
                 val index = value.toInt()
-                TLog.error("-----x轴index="+index+" "+axis.mEntries)
+                TLog.error("-----x轴index="+index+" "+axis.mEntries[0])
                 if(index<0 || index >= xValue.size){
                     return@setValueFormatter ""
                 }else{
-                    return@setValueFormatter xValue.get(index)
+                    val tmpIndex = value % xValue.size
+                    if(tmpIndex >=0){
+                        return@setValueFormatter xValue.get(index)
+                    }else{
+                        return@setValueFormatter ""
+                    }
                 }
-
             }
         }
 
@@ -839,11 +889,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
         if(lastValueMap.size>0){
-
             lastValueMap.forEach { (t, u) ->
                 showSelectData(t.toString(),u.toString())
             }
         }
+
 
     }
 

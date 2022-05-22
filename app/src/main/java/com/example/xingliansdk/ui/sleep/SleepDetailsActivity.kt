@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.sleep
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -406,10 +407,13 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun sleepData(
         bean: SleepListBean
     ) {
         val time = (bean.endTime - bean.startTime) / 60
+
+
         TLog.error("bean.startTime++" + bean.startTime)
         TLog.error("bean.startTime++" + bean.endTime)
         TLog.error(
@@ -418,15 +422,15 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
                 ((bean.startTime) * 1000L)
             )
         )
-        tvFallAsleep.text =
-            DateUtil.getDate(
-                DateUtil.MM_AND_DD,
-                (bean.startTime) * 1000L
-            ) + "\n" +
-                    DateUtil.getDate(
-                        DateUtil.HH_MM,
-                        (bean.startTime) * 1000L
-                    ) + "入睡"
+//        tvFallAsleep.text =
+//            DateUtil.getDate(
+//                DateUtil.MM_AND_DD,
+//                (bean.startTime) * 1000L
+//            ) + "\n" +
+//                    DateUtil.getDate(
+//                        DateUtil.HH_MM,
+//                        (bean.startTime) * 1000L
+//                    ) + "入睡"
         tvWakeUp.text =
             DateUtil.getDate(
                 DateUtil.MM_AND_DD,
@@ -436,6 +440,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
                         DateUtil.HH_MM,
                         (bean.endTime) * 1000L
                     ) + "醒来"
+
+
+
         var time1Start = 0
         val mList: MutableList<Float> = ArrayList()
         var typeOne = 0f
@@ -443,6 +450,10 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         var typeThree = 0f
         var typeThird = 0f
         var numberWake = 0
+
+        //入睡时间
+        var fallAsleepTime = 0f
+
         mSleepChildList.forEachIndexed { index, stepChildBean ->
             if (stepChildBean.duration >= 0 && stepChildBean.type != 0) {
                 when (stepChildBean.type) {
@@ -452,6 +463,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
                     4 -> {
                         typeThird += stepChildBean.duration
                         numberWake++
+                    }
+                    5->{    //入睡时间
+                        fallAsleepTime+=stepChildBean.duration
                     }
                 }
                 var time1 = DateUtil.getDate(
@@ -475,14 +489,64 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         mList.add(typeTwo)
         mList.add(typeThree)
         mList.add(typeThird)
-        TLog.error("time++$time")
-        var deepSleep = mList[0].toLong() * 100 / time
-        var lightSleep = mList[1].toLong() * 100 / time
-        var eyeSleep = mList[2].toLong() * 100 / time
+
+        //入睡时间=总的时间-入睡时间
+        val resultFallSleepTime = ((bean.startTime) )+(fallAsleepTime.toLong()*60 )
+
+        val countTimeValue = mList[0].toLong()+mList[1].toLong()+mList[2].toLong()
+
+
+        //mList.add(fallAsleepTime)
+        TLog.error("time++$countTimeValue")
+        val deepSleep = (mList[0].toLong() * 100 / countTimeValue).toInt()
+        val lightSleep = (mList[1].toLong() * 100 / countTimeValue).toInt()
+        val eyeSleep = (mList[2].toLong() * 100 / countTimeValue).toInt()
         tvDeepSleep.text = HelpUtil.getSpan(deepSleep.toString(), "%", 11)
         tvLightSleep.text = HelpUtil.getSpan(lightSleep.toString(), "%", 11)
         tvEyeSleep.text = HelpUtil.getSpan(eyeSleep.toString(), "%", 11)
         tvWideAwake.text = HelpUtil.getSpan(numberWake.toString(), "次", 11)
+
+
+
+
+        TLog.error("-------resultFallSleepTime="+resultFallSleepTime.toLong())
+
+        tvFallAsleep.text =
+            DateUtil.getDate(
+                DateUtil.MM_AND_DD,
+                resultFallSleepTime.toLong()*1000
+            ) + "\n" +
+                    DateUtil.getDate(
+                        resultFallSleepTime*1000
+                    ) + "入睡"
+
+//        TLog.error("-----------深睡时长="+mList[0].toLong()+" 潜水="+mList[1].toLong()+" 快速眼动="+mList[2])
+
+        val startTime = DateUtil.getDate(DateUtil.YYYY_MM_DD_HH_MM, mStartTime)
+        val endTime = DateUtil.getDate(DateUtil.YYYY_MM_DD, mEndTime)
+        TLog.error("startTime++$startTime   ,endTime++$endTime")
+        timeLong = ((bean.endTime - bean.startTime) -(fallAsleepTime * 60)  - (typeThird*60)).toLong()
+
+
+        TLog.error("---11---总的睡眠时长="+timeLong)
+
+        val countTime = DateUtil.getTextTime(timeLong)
+
+        TLog.error("---22---总的睡眠时长="+countTime)
+
+
+        tvSleepTime.text = HelpUtil.getSpan(
+            countTime.substring(0, 2),
+            countTime.substring(2, 4),
+            countTime.substring(4, 6),
+            countTime.substring(6, 8),
+            R.color.main_text_color,
+            12
+        )
+
+
+
+
         // setAdapterDate(mList, time, numberWake, bean)
         if (!mSleepList.isNullOrEmpty() || mSleepList.size > 0)
             dataSource.add(mSleepList)

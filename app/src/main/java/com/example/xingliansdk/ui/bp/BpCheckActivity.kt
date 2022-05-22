@@ -203,6 +203,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 ShowToast.showToastShort("请输入正常血压!")
                 return
             }
+
+
         }
 
 
@@ -328,6 +330,12 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
+
+            if(it.toInt() <40 || it > 250){
+                ShowToast.showToastShort("请输入正确的收缩压!")
+                return@setOnMediaRepeatInputListener
+            }
+
             if(type == 0)
                 checkHBpTv.text = it.toString()
             else
