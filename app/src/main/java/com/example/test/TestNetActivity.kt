@@ -15,6 +15,7 @@ import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.service.OnWeatherStatusListener
 import com.example.xingliansdk.service.work.BleWork
+import com.example.xingliansdk.ui.bp.DbManager
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.LogcatHelper
 import com.example.xingliansdk.view.CusDfuAlertDialog
@@ -178,6 +179,14 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
         }
 
+
+
+
+        getAllDbPPGBtn.setOnClickListener {
+            XingLianApplication.getXingLianApplication().getWeatherService()?.uploadPPGCacheData()
+          //  showLogTv.text = ""+Gson().toJson(DbManager.getDbManager().allPPGData)
+        }
+
     }
 
 
@@ -188,7 +197,7 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
 
         BleWrite.writeStartOrEndDetectBp(true,0x03,object : MeasureBigBpListener{
-            override fun measureStatus(status: Int) {
+            override fun measureStatus(status: Int,deviceTime : String) {
                 TLog.error("-----开始计时="+status)
             }
 

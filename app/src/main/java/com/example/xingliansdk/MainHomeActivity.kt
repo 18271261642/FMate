@@ -31,6 +31,7 @@ import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.ui.BleConnectActivity
+import com.example.xingliansdk.ui.bp.MeasureBpBean
 import com.example.xingliansdk.ui.bp.MeasureNewBpActivity
 import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
@@ -41,22 +42,27 @@ import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
+import com.shon.connector.call.listener.MeasureBigBpListener
 import com.shon.connector.utils.HexDump
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_update_zip.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.StringBuilder
 import java.text.DecimalFormat
 import java.util.*
 
 
-public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,BleWrite.SpecifySleepSourceInterface{
+public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,
+    BleWrite.SpecifySleepSourceInterface, MeasureBigBpListener {
     var exitTime = 0L
     var bleListener:BluetoothMonitorReceiver?=null
 
     var devicePropertiesBean : DevicePropertiesBean ?= null
 
+    //手表按按键测量血压的时间，上传后台
+    var deviceMeasureTime : String ?= null
 
     var bleListener1: LocalBroadcastManager? = null
     var bluetoothMonitorReceiver: BluetoothMonitorReceiver? = null
@@ -166,6 +172,14 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
               updateDialog(it.ota,it.isForceUpdate)
           }
       }
+
+        mViewModel.uploadJfBp.observe(this){
+            stopMeasure(it as MeasureBpBean)
+        }
+
+        mViewModel.msgJfUploadBp.observe(this){
+
+        }
 
 //
 //        mainViewModel.resultSleep.observe(this){
@@ -608,8 +622,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 if(!isRunn)
                     return
 
+
                 val typeCode = intent.getIntExtra("bp_status",0)
-                if(typeCode == 5 || typeCode == 9){
+                if(typeCode == 5 ){
+
                     measureBpPromptDialog = MeasureBpPromptDialog(
                         this@MainHomeActivity,
                         R.style.edit_AlertDialog_style)
@@ -629,7 +645,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                     })
                 }
 
-                if(typeCode == 8){
+                if(typeCode == 8 ){
                     measureBpPromptDialog?.dismiss()
                     startActivity(Intent(this@MainHomeActivity,MeasureNewBpActivity::class.java))
                 }
@@ -639,10 +655,73 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                     measureBpPromptDialog?.dismiss()
                 }
 
+                if(typeCode == 0x09){
+                    measureBp()
+                }
+
             }
 
         }
 
+    }
+
+
+    //开始测量血压
+    private fun measureBp(){
+       // totalSecond = 0
+        BleWrite.writeStartOrEndDetectBp(true,0x03,this)
+
+    }
+
+
+    override fun measureStatus(status: Int,deviceTime : String) {
+        if(status == 0x02){
+            this.deviceMeasureTime = deviceTime;
+        }
+        if(status == 0x01){ //手表主动终止
+
+        }
+    }
+
+    //测量结果
+    override fun measureBpResult(bpValue: MutableList<Int>?, timeStr: String) {
+        val stringBuilder = StringBuilder()
+        bpValue?.forEachIndexed { index, i ->
+            if(index == bpValue.size-1){
+                stringBuilder.append(i)
+            }else{
+                stringBuilder.append(i)
+                stringBuilder.append(",")
+            }
+        }
+        if(deviceMeasureTime != null){
+            mViewModel.uploadJFBpData(stringBuilder.toString(), deviceMeasureTime!!)
+        }
+
+    }
+
+    //上传成功返回测量结果给手表
+    private fun stopMeasure(measureBpBean: MeasureBpBean){
+        handler.removeMessages(0x00)
+        //时间
+        val longTime = TimeUtil.formatTimeToLong(deviceMeasureTime,0)
+        val timeArray = HexDump.toByteArray(longTime-946656000L)
+
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x07,0x02,0x00,0x07,timeArray[0],timeArray[1],timeArray[2],timeArray[3],
+            measureBpBean.sbp.toInt().toByte(),measureBpBean.dbp.toInt().toByte(),measureBpBean.heartRate.toInt().toByte()
+        )
+
+        val resultArray = CmdUtil.getFullPackage(cmdArray)
+        BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
+            override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
+
+            }
+
+            override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
+
+            }
+
+        })
     }
 
 }

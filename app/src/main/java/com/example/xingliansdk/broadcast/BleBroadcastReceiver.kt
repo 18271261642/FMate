@@ -112,7 +112,7 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     sendActionBroadCast(5)
                 }
 
-                if(type == 8){
+                if(type == 8){  //直接测量
                     sendActionBroadCast(8)
                 }
 

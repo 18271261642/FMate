@@ -1265,6 +1265,14 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.enqueue(new SetBpAutoMeasureCall(address,autoBpStatusBean,commBackListener));
     }
 
+    public static void setWriteTimeOut(int timeOut){
+        WriteCall write = new WriteCall(address);
+        write.setTimeout(timeOut);
+    }
+
+
+
+
     //设置开始或结束测量血压
     public static void writeStartOrEndDetectBp(boolean status, int key, MeasureBigBpListener measureBigBpListener){
         WriteCall write = new WriteCall(address);

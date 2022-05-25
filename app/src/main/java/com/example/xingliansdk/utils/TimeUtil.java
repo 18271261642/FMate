@@ -24,6 +24,18 @@ public class TimeUtil {
     }
 
 
+    public static long formatTimeToLong(String time,int zero){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.CHINA);
+            return simpleDateFormat.parse(time).getTime()/1000;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+
     /*
      * 将时间戳转换为时间
      *

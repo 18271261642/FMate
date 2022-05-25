@@ -1,6 +1,8 @@
 package com.shon.connector.call.write.bigdataclass;
 
 
+import android.text.format.DateUtils;
+
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.bluetooth.util.TimeU;
@@ -64,11 +66,17 @@ public class MeasureBpCall extends WriteCallback {
                 switch (result[13]) {
                     case 0x01:  //手表主动结束
                         if(measureBigBpListener != null)
-                            measureBigBpListener.measureStatus(0x01);
+                            measureBigBpListener.measureStatus(0x01, TimeU.getCurrTime(System.currentTimeMillis()));
                         break;
                     case 0x02: //开始计时
-                        if(measureBigBpListener != null)
-                            measureBigBpListener.measureStatus(0x02);
+                        if(measureBigBpListener != null){
+                            int tim = HexDump.getIntFromBytes(result[17],result[18],result[19],result[20]);
+                            TLog.Companion.error("-----返回的时间="+tim);
+                            long constanceMils = 946656000L;
+                            String deviceTime = TimeU.getCurrTime(((long) tim +constanceMils) * 1000);
+                            measureBigBpListener.measureStatus(0x02,deviceTime);
+                        }
+
                         break;
 
                     case 0x03:
@@ -87,6 +95,9 @@ public class MeasureBpCall extends WriteCallback {
 
         if(uuid.equalsIgnoreCase(Config.readCharacterBig)){ //血压大数据返回
             String byStr = ByteUtil.getHexString(result);
+
+            if(Config.IS_APP_STOP_MEASURE_BP)
+                return true;
 
             if(result[8] == 0x03 && result[9] == 0x0C){
             //88 00 00 00 00 01 9E 3D 03 0C 01 00 06 04 01 2A 0D EB 9A ==18个长度

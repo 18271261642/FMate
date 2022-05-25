@@ -53,6 +53,9 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     var savePath : String ?= null
 
+    //手表测量血压的时间，上传后台
+    var deviceMeasureTime : String ?= null
+
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -175,7 +178,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
     }
 
-    override fun measureStatus(status: Int) {
+    override fun measureStatus(status: Int ,deviceTime : String) {
         if(status == 0x01){ //手表主动结束掉
             if(measureDialog != null)
                 measureDialog?.setMeasureStatus(false)
@@ -183,6 +186,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             timeOutSecond = 0
             stopMeasure()
         }
+        this.deviceMeasureTime = deviceTime
     }
 
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {

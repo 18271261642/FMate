@@ -58,4 +58,49 @@ public class DbManager {
     }
 
 
+    //查询所有的pppg
+    public List<PPG1CacheDb> getAllPPGData(){
+        List<PPG1CacheDb> list = LitePal.findAll(PPG1CacheDb.class);
+        return list;
+    }
+
+
+    public List<PPG1CacheDb> getDayPPGData(String userId,String mac,String day){
+        try {
+            String whereStr = "userId = ? and deviceMac = ? and dayStr = ?";
+            List<PPG1CacheDb> list = LitePal.where(whereStr,userId,mac,day).find(PPG1CacheDb.class);
+            return list == null || list.isEmpty() ? null : list;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    public List<PPG1CacheDb> getDayPPGData(String userId,String mac,String day,String stauts){
+        try {
+            String whereStr = "userId = ? and deviceMac = ? and dayStr = ? and dbStatus = ?";
+            List<PPG1CacheDb> list = LitePal.where(whereStr,userId,mac,day,stauts).find(PPG1CacheDb.class);
+            return list == null || list.isEmpty() ? null : list;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    public void updatePPGStatus(String userId,String mac,String itemTime,int status){
+        String whereStr = "userId = ? and deviceMac = ? and ppgTimeStr = ?";
+        PPG1CacheDb ppg1CacheDb = getCurrTimePPGData(userId,mac,itemTime);
+
+        if(ppg1CacheDb != null){
+            ppg1CacheDb.setDbStatus(String.valueOf(status));
+
+            boolean isS = ppg1CacheDb.saveOrUpdate("dbStatus=?",String.valueOf(status));
+        }
+    }
+
+
 }

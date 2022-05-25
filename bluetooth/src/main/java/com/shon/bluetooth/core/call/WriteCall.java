@@ -7,6 +7,7 @@ import com.shon.bluetooth.BLEManager;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.BleLog;
 import com.shon.bluetooth.util.ByteUtil;
+import com.shon.connector.Config;
 import com.shon.connector.utils.TLog;
 
 public final class WriteCall extends BaseCall<WriteCallback, WriteCall> {
@@ -44,7 +45,12 @@ public final class WriteCall extends BaseCall<WriteCallback, WriteCall> {
             BleLog.e("Writer write()   writeCharacteristic  " + writeCharacteristic);
             if (writeCharacteristic){
 //                TLog.Companion.error("WriteCall writeCharacteristic++"+writeCharacteristic);
-                startTimer();
+                if(Config.IS_APP_STOP_MEASURE_BP){
+                    BLEManager.getInstance().getDataDispatcher().startSendNext(true);
+                }else {
+                    startTimer();
+                }
+
             }else {
                 BLEManager.getInstance().getDataDispatcher().startSendNext(true);
             }

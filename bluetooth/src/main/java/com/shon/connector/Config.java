@@ -2,7 +2,8 @@ package com.shon.connector;
 
 public class Config {
 
-
+    //app是否停止测量血压
+    public static  boolean IS_APP_STOP_MEASURE_BP = false;
 
 
     public static final String DEVICE_AUTO_MEASURE_BP_ACTION = "com.shon.connector.auto_measure_bp";

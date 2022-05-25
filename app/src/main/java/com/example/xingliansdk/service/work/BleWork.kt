@@ -32,10 +32,12 @@ import com.example.xingliansdk.utils.CountTimer.OnCountTimerListener
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
+import com.shon.HawConstant
 import com.shon.connector.BleWrite
 import com.shon.connector.BleWrite.*
 import com.shon.connector.Config
 import com.shon.connector.bean.*
+import com.shon.connector.call.listener.CommBackListener
 import com.shon.connector.call.write.dial.DialGetAssignCall
 import com.shon.connector.utils.TLog
 import com.shon.connector.utils.TLog.Companion.error
@@ -172,6 +174,24 @@ class BleWork : IWork, OnCountTimerListener,
         writeTurnOnScreenCall(userInfo.userConfig.turnScreen.toInt().toByte())
         drinkWater()
         sedentary()
+
+
+
+    }
+
+    //设置夜间血压测量状态
+    private fun setNightMeasureBp(){
+       val autoBpStatusBean = AutoBpStatusBean()
+        //白天的间隔
+       autoBpStatusBean.startHour = 0x08
+        autoBpStatusBean.startMinute = 0x00
+        autoBpStatusBean.endHour = 0x17
+        autoBpStatusBean.endMinute = 0x3B
+        autoBpStatusBean.bpInterval = 0x03
+        autoBpStatusBean.normalBpStatus = userInfo.userConfig.bloodPressureNonSleepMeasurement.toByte()
+        autoBpStatusBean.nightBpStatus = userInfo.userConfig.bloodPressureNightSleepMeasurement.toByte()
+        BleWrite.writeSetAutoBpMeasureStatus(true,autoBpStatusBean
+        ) { }
 
     }
 

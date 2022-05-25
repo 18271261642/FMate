@@ -1,6 +1,6 @@
 package com.example.xingliansdk
 
-import android.R
+import android.R;
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
@@ -11,6 +11,8 @@ import com.example.xingliansdk.base.BaseApp
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
 import com.example.xingliansdk.dialog.MeasureBpPromptDialog
+import com.example.xingliansdk.network.RequestHandler
+import com.example.xingliansdk.network.RequestServer
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SendWeatherService
 import com.example.xingliansdk.utils.*
@@ -34,10 +36,20 @@ import java.lang.ref.WeakReference
 import java.util.*
 import com.example.xingliansdk.utils.RemoteControlService
 import com.example.xingliansdk.utils.RemoteControlService.RCBinder
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonToken
+import com.hjq.gson.factory.GsonFactory
+import com.hjq.http.EasyConfig
+import com.hjq.http.config.IRequestInterceptor
+import com.hjq.http.model.BodyType
+import com.hjq.http.model.HttpHeaders
+import com.hjq.http.model.HttpParams
+import com.hjq.http.request.HttpRequest
 import com.shon.connector.Config
 import com.shon.connector.utils.ShowToast
+import okhttp3.OkHttpClient
 import org.litepal.LitePal
-import org.litepal.LitePalApplication
+import java.lang.IllegalArgumentException
 
 
 class XingLianApplication : BaseApp() {
@@ -225,6 +237,37 @@ class XingLianApplication : BaseApp() {
         bindService(weatherIntnet,weatherServiceConnection(),Context.BIND_AUTO_CREATE)
 
 
+        // 网络请求框架初始化
+
+        // 网络请求框架初始化
+        val okHttpClient = OkHttpClient.Builder()
+            .build()
+
+        EasyConfig.with(okHttpClient) // 是否打印日志
+            .setLogEnabled(true) // 设置服务器配置
+            .setServer(RequestServer(BodyType.FORM)) // 设置请求处理策略
+            .setHandler(RequestHandler(mXingLianApplication)) // 设置请求重试次数
+            .setRetryCount(1)
+            .setInterceptor(object : IRequestInterceptor {
+                override fun interceptArguments(
+                    httpRequest: HttpRequest<*>,
+                    params: HttpParams,
+                    headers: HttpHeaders
+                ) {
+                    headers.put("timestamp", System.currentTimeMillis().toString())
+                }
+            })
+            .into()
+        // 设置 Json 解析容错监听
+        // 设置 Json 解析容错监听
+        GsonFactory.setJsonCallback { typeToken: TypeToken<*>, fieldName: String, jsonToken: JsonToken ->
+            // 上报到 Bugly 错误列表
+            CrashReport.postCatchedException(
+                IllegalArgumentException(
+                    "类型解析异常：$typeToken#$fieldName，后台返回的类型为：$jsonToken"
+                )
+            )
+        }
 
     }
 

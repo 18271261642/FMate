@@ -8,8 +8,13 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.xingliansdk.network.RequestServer;
+import com.example.xingliansdk.network.api.jignfan.JfLastPPGApi;
+import com.example.xingliansdk.network.api.jignfan.JingfanBpAPI;
+import com.example.xingliansdk.network.api.jignfan.JingfanBpApi;
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel;
 import com.example.xingliansdk.network.api.login.LoginBean;
 import com.example.xingliansdk.network.api.weather.bean.FutureWeatherBean;
@@ -21,12 +26,20 @@ import com.example.xingliansdk.ui.bp.PPG1CacheDb;
 import com.example.xingliansdk.utils.GetJsonDataUtil;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.hjq.http.EasyConfig;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.lifecycle.LifecycleService;
+import com.hjq.http.listener.OnHttpListener;
+import com.hjq.http.model.BodyType;
 import com.orhanobut.hawk.Hawk;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.bluetooth.util.TimeU;
 import com.shon.connector.BleWrite;
 import com.shon.connector.Config;
+import com.shon.connector.bean.SpecifySleepSourceBean;
 import com.shon.connector.call.CmdUtil;
+import com.shon.connector.call.listener.MeasureBigBpListener;
 import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1CacheRecordCall;
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener;
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener;
@@ -34,23 +47,30 @@ import com.shon.connector.call.write.controlclass.TurnOnScreenCall;
 import com.shon.connector.utils.HexDump;
 import com.shon.connector.utils.TLog;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModel;
 
 
 /**
  * Created by Admin
  * Date 2022/3/16
  */
-public class SendWeatherService extends BaseService implements OnPPG1CacheRecordListener , OnPPG1BigDataListener {
+public class SendWeatherService extends LifecycleService implements OnPPG1CacheRecordListener , OnPPG1BigDataListener, MeasureBigBpListener {
 
     private static final String TAG = "SendWeatherService";
 
     String savePath;
+
+    private final StringBuilder logSb = new StringBuilder();
 
     private OnWeatherStatusListener onWeatherStatusListener;
 
@@ -61,6 +81,9 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
     private final IBinder iBinder = new SendWeatherBinder();
 
 
+    private List<PPG1CacheDb> uploadDbPPgList;
+    private int ppgIndex = 0;
+
     private List<byte[]> tmpPPgList;
 
     private final Handler handler = new Handler(Looper.getMainLooper()){
@@ -70,16 +93,44 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
 
             if(msg.what == 0x00){
                 handler.removeMessages(0x00);
-                if(tmpPPgList == null || tmpPPgList.size()==0)
+                if(tmpPPgList == null || tmpPPgList.size()==0){
+                   // uploadPPGCacheData();
+                   // new GetJsonDataUtil().writeTxtToFile(logSb.toString(),savePath,"ppg_complete"+DateUtil.getCurrentTime()+".json");
                     return;
-                if(startIndex>tmpPPgList.size()-1)
+                }
+                if(startIndex>tmpPPgList.size()-1){
+                   // uploadPPGCacheData();
+                 //   new GetJsonDataUtil().writeTxtToFile(logSb.toString()+"结束了1",savePath,"ppg_complete"+DateUtil.getCurrentTime()+".json");
                     return;
+                }
 
                 byte[] timeI  = tmpPPgList.get(startIndex);
-                if(timeI == null)
+                if(timeI == null){
+                  //  uploadPPGCacheData();
+                //    new GetJsonDataUtil().writeTxtToFile(logSb.toString()+"结束了2",savePath,"ppg_complete"+DateUtil.getCurrentTime()+".json");
                     return;
+                }
                 getPPGData(timeI);
             }
+
+            if(msg.what == 0x01){
+                if(uploadDbPPgList == null || uploadDbPPgList.size() == 0){
+                    return;
+                }
+                if(ppgIndex>uploadDbPPgList.size()-1){
+                    TLog.Companion.error("---------没有了-----");
+                    //获取最后一条记录，发给手表
+
+                    return;
+                }
+
+                PPG1CacheDb pb = uploadDbPPgList.get(ppgIndex);
+                if(pb != null){
+                    uploadAllPPGSource(pb,ppgIndex == uploadDbPPgList.size()-1);
+                }
+
+            }
+
 
         }
     };
@@ -145,8 +196,8 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
 
     }
 
-    public String getWeatherData(){
-        return new Gson().toJson(tmpServerBean);
+    public void getWeatherData(){
+      // new GetJsonDataUtil().writeTxtToFile("dddd",savePath,"123.json");
     }
 
 
@@ -428,20 +479,29 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
 
     //获取PPG缓存目录
     public void getDevicePPG1CacheRecord(){
+        logSb.delete(0,logSb.length());
         BleWrite.writeGetPPG1CacheRecord(true,this);
     }
 
+
+
+    //后台测量血压
+    public void backStartMeasureBp(boolean isStart){
+        BleWrite.writeStartOrEndDetectBp(true,0x01,this);
+    }
 
 
 
     //获取ppg缓存的记录，时间戳，然后再根据时间戳查询数据库是否有保存，没有保存就从手表中读取
     @Override
     public void backPPGCacheByteArray(List<byte[]> timeList) {
+
         TLog.Companion.error("---11--PPG缓存目录="+new Gson().toJson(timeList));
     }
 
     @Override
     public void backPPGCacheLongArray(List<Long> longList) {
+        logSb.append("PPG缓存时间戳="+new Gson().toJson(longList)+"\n");
         long constanceMils = 946656000L;
         long currYearM = 1640966400L; //2022-01-01
         for(Long itemL : longList){
@@ -451,6 +511,7 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
             }
             String itemTimeStr = TimeU.getCurrTime(((long) normalLong) * 1000);
             TLog.Companion.error("---22--PPG缓存目录="+itemTimeStr);
+            logSb.append("PPG缓存目录="+itemTimeStr+"\n");
 
         }
 
@@ -486,19 +547,24 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
                 String itemTimeStr = TimeU.getCurrTime(((long) normalLong) * 1000);
                 PPG1CacheDb ppg1CacheDb = DbManager.getDbManager().getCurrTimePPGData(userId,mac,itemTimeStr);
 
-                //noCacheList.add(timeList.get(i));
+              //  noCacheList.add(timeList.get(i));
                 TLog.Companion.error("-------未保存的="+itemTimeStr +" "+ByteUtil.getHexString(timeList.get(i)));
                 if(ppg1CacheDb == null){
                     noCacheList.add(timeList.get(i));
-                    TLog.Companion.error("-------未保存的="+itemTimeStr +" "+ByteUtil.getHexString(timeList.get(i)));
+                    TLog.Companion.error("----22---未保存的="+itemTimeStr +" "+ByteUtil.getHexString(timeList.get(i)));
                 }
             }
 
         }
-
+        logSb.append("PPG缓存目录未保存的时间戳="+new Gson().toJson(noCacheList)+"\n");
         if(noCacheList.size()>0){
             getSpecifyPPG(noCacheList);
+        }else{
+            uploadPPGCacheData();
+          //  new GetJsonDataUtil().writeTxtToFile(logSb.toString(),savePath,"ppg_f"+DateUtil.getCurrentTime()+".json");
         }
+
+
 
         TLog.Companion.error("---22--PPG缓存目录未保存的时间戳="+new Gson().toJson(noCacheList));
     }
@@ -517,6 +583,13 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
     //指定的时间戳ppg大数据返回
     @Override
     public void backPPG1BigData(List<Integer> bigPpgList, String itemTimeStr) {
+
+        logSb.append("指定返回目录="+itemTimeStr+" "+new Gson().toJson(bigPpgList)+"\n");
+        logSb.append("----------------------------------"+"\n");
+
+       // new GetJsonDataUtil().writeTxtToFile(logSb.toString(),savePath,"ppg_2"+DateUtil.getCurrentTime()+".json");
+
+
         stringBuilder.delete(0,stringBuilder.length());
         LoginBean loginBean = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
         if(loginBean == null)
@@ -534,23 +607,195 @@ public class SendWeatherService extends BaseService implements OnPPG1CacheRecord
         ppg1CacheDb.setBbpDataList(bigPpgList);
         boolean isSave = DbManager.getDbManager().savePPBBpData(ppg1CacheDb);
         TLog.Companion.error("-------保存到数据库="+itemTimeStr+" "+isSave);
-
-
-        new GetJsonDataUtil().writeTxtToFile(new Gson().toJson(ppg1CacheDb),savePath,"specify_ppg"+itemTimeStr+DateUtil.getDate("HH:m:ss",System.currentTimeMillis())+".json");
+        logSb.append("保存到数据库"+new Gson().toJson(ppg1CacheDb)+"\n");
 
         for(int i = 0;i<bigPpgList.size();i++){
             if(i == bigPpgList.size()-1){
-                stringBuilder.append(i);
+                stringBuilder.append(bigPpgList.get(i));
             }else{
-                stringBuilder.append(i);
+                stringBuilder.append(bigPpgList.get(i));
                 stringBuilder.append(",");
             }
         }
         TLog.Companion.error("-------上传参数="+stringBuilder.toString());
         new JingfanBpViewModel().uploadJFBpData(stringBuilder.toString(),itemTimeStr);
-
+        logSb.append("上传"+itemTimeStr+" "+stringBuilder.toString()+"\n");
         startIndex++;
         handler.sendEmptyMessageDelayed(0x00,2000);
     }
 
+
+
+
+    @Override
+    public void measureStatus(int status,String deviceTime) {
+
+    }
+
+    @Override
+    public void measureBpResult(List<Integer> bpValue, String timeStr) {
+
+    }
+
+
+    public void uploadPPGCacheData(){
+        ppgIndex = 0;
+        LoginBean loginBean = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(loginBean == null)
+            return;
+        String userId = loginBean.getUser().getUserId();
+        String mac = loginBean.getUser().getMac();
+        if(userId == null || mac == null)
+            return;
+        List<PPG1CacheDb> list = DbManager.getDbManager().getDayPPGData(userId,mac,DateUtil.getCurrDate(),"0");
+        if(list == null || list.size() == 0)
+            return;
+
+        TLog.Companion.error("----未上传大熊="+list.size());
+        PPG1CacheDb pd = list.get(0);
+        TLog.Companion.error("-----自知则知之="+pd.getDayStr()+" "+pd.getPpgTimeStr()+" "+pd.getDbStatus());
+        this.uploadDbPPgList = list;
+        handler.sendEmptyMessageDelayed(0x01,1000);
+    }
+
+
+    private void uploadAllPPGSource(PPG1CacheDb ppg1CacheDb,boolean is){
+        StringBuilder sb = new StringBuilder();
+        String timeStr = ppg1CacheDb.getPpgTimeStr();
+        List<Integer> bgL = ppg1CacheDb.getBbpDataList();
+        for (int i = 0; i < bgL.size(); i++) {
+            if (i == bgL.size() - 1) {
+                sb.append(bgL.get(i));
+            } else {
+                sb.append(bgL.get(i));
+                sb.append(",");
+            }
+        }
+
+        uplaods(ppg1CacheDb,sb.toString(),timeStr);
+    }
+
+    private void uplaods(PPG1CacheDb pd,String data,String timeStr){
+
+        JingfanBpAPI jingfanBpAPI = new JingfanBpAPI();
+        jingfanBpAPI.setBp(data,timeStr);
+        String token = null;
+        LoginBean mLoginBean= Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(mLoginBean!=null&&mLoginBean.getToken()!=null)
+            token=mLoginBean.getToken();
+        String mac=Hawk.get("address","");
+
+
+        EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
+                .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
+
+        EasyHttp.post(this).api(jingfanBpAPI).request(new OnHttpListener<String>() {
+            @Override
+            public void onSucceed(String result) {
+                TLog.Companion.error("---------上传="+result);
+                PPG1CacheDb ppd = new PPG1CacheDb();
+                ppd.setBbpDataList(pd.getBbpDataList());
+                ppd.setUserId(pd.getUserId());
+                ppd.setDayStr(pd.getDayStr());
+                ppd.setDeviceMac(pd.getDeviceMac());
+                ppd.setPpgTimeStr(pd.getPpgTimeStr());
+                ppd.setDbStatus(pd.getDbStatus());
+                int upS = ppd.updateAll("ppgTimeStr = ? and dbStatus = ?",pd.getPpgTimeStr(),"1");
+
+                TLog.Companion.error("------改变数据库状态---上传="+upS);
+                ppgIndex++;
+                handler.sendEmptyMessageDelayed(0x01,1000);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                TLog.Companion.error("---------上传Exception="+e.getMessage());
+                ppgIndex++;
+                handler.sendEmptyMessageDelayed(0x01,1000);
+            }
+        });
+    }
+
+
+
+    //获取当天的最后一条后台记录，发给手表
+    private void getLastPPGRecord(String day){
+        String token = null;
+        LoginBean mLoginBean= Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(mLoginBean!=null&&mLoginBean.getToken()!=null)
+            token=mLoginBean.getToken();
+        String mac=Hawk.get("address","");
+
+        JfLastPPGApi jfLastPPGApi = new JfLastPPGApi();
+        jfLastPPGApi.getLastData(day);
+        EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
+                .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
+
+        EasyHttp.get(this).api(jfLastPPGApi).request(new OnHttpListener<String>() {
+            @Override
+            public void onSucceed(String result) {
+                if(result == null)
+                    return;
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if(jsonObject.getInt("code") == 200){
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String listStr = data.getString("list");
+                        if(listStr != null){
+                            List<JfLastPPGApi.PPGBean> list = new Gson().fromJson(listStr,new TypeToken<List<JfLastPPGApi.PPGBean>>(){}.getType());
+
+                            if(list != null && list.size()>0){
+                                long lastTime = list.get(0).getStampCreateTime();
+
+                            }
+                        }
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(Exception e) {
+
+            }
+        });
+
+    }
+
+
+    private void sendTimeToDevice(JfLastPPGApi.PPGBean db ,long time){
+        //时间
+
+        byte[] timeArray = HexDump.toByteArray(time-946656000L);
+
+        byte[] cmdArray = new byte[]{0x0B, 0x01, 0x01, 0x00, 0x01, 0x07, 0x02, 0x00, 0x07, timeArray[0], timeArray[1], timeArray[2], timeArray[3],
+                (byte) db.getSystolicPressure(), (byte)db.getDiastolicPressure(), 80
+        };
+
+        byte[] resultArray = CmdUtil.getFullPackage(cmdArray);
+        BleWrite.writeCommByteArray(resultArray, true, new BleWrite.SpecifySleepSourceInterface() {
+            @Override
+            public void backSpecifySleepSourceBean(SpecifySleepSourceBean specifySleepSourceBean) {
+
+            }
+
+            @Override
+            public void backStartAndEndTime(byte[] startTime, byte[] endTime) {
+
+            }
+        });
+
+
+    }
 }

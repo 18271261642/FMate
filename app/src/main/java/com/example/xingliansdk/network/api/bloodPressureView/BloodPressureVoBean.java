@@ -9,12 +9,23 @@ public class BloodPressureVoBean {
     //是否需要校准血压
     private boolean calibrationRequired;
 
+    //校准信息
+    private String calibrationReason;
+
     public boolean isCalibrationRequired() {
         return calibrationRequired;
     }
 
     public void setCalibrationRequired(boolean calibrationRequired) {
         this.calibrationRequired = calibrationRequired;
+    }
+
+    public String getCalibrationReason() {
+        return calibrationReason;
+    }
+
+    public void setCalibrationReason(String calibrationReason) {
+        this.calibrationReason = calibrationReason;
     }
 
     public List<ListDTO> getList() {

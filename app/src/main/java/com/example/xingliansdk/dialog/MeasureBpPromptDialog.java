@@ -94,7 +94,7 @@ public class MeasureBpPromptDialog extends AppCompatDialog implements View.OnCli
 
     private void stopMeasure(){
 
-        byte[] cmdArray = new byte[]{0x0B,0x01,0x01,0x00,0x01,0x01};
+        byte[] cmdArray = new byte[]{0x0B,0x01,0x01,0x00,0x01,0x0c};
 
         byte[] resultArray = CmdUtil.getFullPackage(cmdArray);
         BleWrite.writeCommByteArray(resultArray, true, new BleWrite.SpecifySleepSourceInterface() {

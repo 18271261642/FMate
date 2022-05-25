@@ -203,6 +203,17 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
         inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
+
+            //输入的血压值
+            var inputHbpStr = inputBpHBpTv.text.toString()
+            var inputLbpStr = inputBpLBpTv.text.toString()
+
+            if(inputHbpStr.contains("mmHg") && inputLbpStr.contains("mmHg")){
+                inputHbpStr = StringUtils.substringBefore(inputHbpStr,"m").trim()
+                inputLbpStr = StringUtils.substringBefore(inputLbpStr,"m").trim()
+            }
+
+
             var valueInteger = it.toInt()
             if(type == 0){
 
@@ -210,15 +221,31 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
                     ShowToast.showToastShort("请输入正确的收缩压!")
                     return@setOnMediaRepeatInputListener
                 }
+
+                if(StringUtils.isNumeric(inputLbpStr)){
+                    if(inputLbpStr.toInt()>valueInteger){
+                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        return@setOnMediaRepeatInputListener
+                    }
+                }
+
                 inputBpHBpTv.text = "$it mmHg"
 
             }
 
             else{
                 if(valueInteger <40 || valueInteger > 250){
-                    ShowToast.showToastShort("请输入正确的收缩压!")
+                    ShowToast.showToastShort("请输入正确的舒张压!")
                     return@setOnMediaRepeatInputListener
                 }
+
+                if(StringUtils.isNumeric(inputHbpStr)){
+                    if(inputHbpStr.toInt()<it){
+                        ShowToast.showToastShort("请输入正确的舒张压!")
+                        return@setOnMediaRepeatInputListener
+                    }
+                }
+
                 inputBpLBpTv.text = "$it mmHg"
             }
 

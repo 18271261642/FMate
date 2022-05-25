@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.shon.connector.Config;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.Device;
 import com.shon.bluetooth.core.Result;
@@ -56,10 +57,11 @@ public class DataDispatcher {
 
 
     public synchronized void startSendNext(boolean isFinish) {
+        BleLog.e("startSendNext=" + isFinish + " ;   call = " + (tempCall == null ? "tempCall=null了":tempCall.getAddress()));
         if (tempCall != null) {
-            BleLog.d("startSendNext ++++" + isFinish + " ;   call = " + tempCall.getAddress());
+            BleLog.e("startSendNext ++++" + isFinish + " ;   call = " + tempCall.getAddress());
         }else {
-            BleLog.d("startSendNext ++++" + isFinish );
+            BleLog.e("startSendNext ++++" + isFinish );
         }
 
         if (isFinish) {
@@ -70,7 +72,12 @@ public class DataDispatcher {
 
         }
         if (tempCall != null) {
-            return;
+            if(Config.IS_APP_STOP_MEASURE_BP){
+                tempCall = null;
+            }else{
+                return;
+            }
+
         }
         BleLog.d("startSendNext  callDeque.size " + callDeque.size() );
         if (callDeque.size() ==0){

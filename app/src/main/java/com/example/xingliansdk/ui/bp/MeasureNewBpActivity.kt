@@ -1,6 +1,8 @@
 package com.example.xingliansdk.ui.bp
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.app.AlertDialog
 import android.os.*
 import android.view.View
 import com.example.xingliansdk.R
@@ -9,13 +11,17 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.shon.HawConstant
+import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
+import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
@@ -37,27 +43,40 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     private var measureDialog : MeasureBpDialogView ?= null
 
+    private val instant by lazy { this }
+
     var totalSecond = 0
     //记录超时的时间，2分钟
     var timeOutSecond = 0
 
     var savePath : String ?= null
 
+    //手表测量血压的时间，上传后台
+    var deviceMeasureTime : String ?= null
+
+    private var alertDialog : AlertDialog.Builder ?=null
+
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            timeOutSecond++
-            if(timeOutSecond >=120){    //超时了
-                totalSecond = 0
-                if(measureDialog != null)
-                    measureDialog?.setMeasureStatus(false)
-                stopMeasure()
+            if(msg.what == 0x01){
+
             }
 
-            if(totalSecond>=100)
-                totalSecond = 0
-            totalSecond+=3
-            startCountTime()
+            if(msg.what == 0x00){
+                timeOutSecond++
+                if(timeOutSecond >=120){    //超时了
+                    totalSecond = 0
+                    showMeasureDialog(false)
+                    stopMeasure(false)
+                }
+
+                if(totalSecond>=100)
+                    totalSecond = 0
+                totalSecond+=3
+                startCountTime()
+            }
+
         }
     }
 
@@ -76,11 +95,23 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
         measureBpAgainTv.setOnClickListener(this)
 
+
+        //BLEManager.getInstance().dataDispatcher.clearAll()
         measureBp()
 
+        showMeasureDialog(true)
+
+    }
+
+
+    private fun showMeasureDialog(isFail : Boolean){
         measureDialog = MeasureBpDialogView(this)
         measureDialog!!.show()
         measureDialog!!.setCancelable(false)
+        if(!isFail){
+            measureDialog!!.setMeasureStatus(false)
+        }
+
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {  //再次测量按钮
                 TLog.error("------再次测量="+code)
@@ -89,15 +120,15 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
             override fun onCancelClick(code: Int) {
                 if(totalSecond != 0){
-                    ShowToast.showToastShort("正在测量中!")
+                    backAlert()
                     return
                 }
                 measureDialog?.dismiss()
             }
 
         })
-
     }
+
 
 
     override fun createObserver() {
@@ -125,12 +156,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
 
     private fun showFailMeasure(){
-        if(measureDialog != null)
-            measureDialog?.setMeasureStatus(false)
-        measureDialog?.setCancelable(true)
+
+        showMeasureDialog(false)
+
         totalSecond = 0
         timeOutSecond = 0
-        stopMeasure()
+        stopMeasure(false)
     }
 
     @SuppressLint("SetTextI18n")
@@ -152,16 +183,18 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     private fun startCountTime(){
         if(measureDialog != null)
             measureDialog!!.setMiddleSchedule(totalSecond.toFloat())
+
         handler.sendEmptyMessageDelayed(0x00,1000)
 
     }
 
     //开始测量
-    override fun measureStatus(status: Int) {
+    override fun measureStatus(status: Int,deviceTime : String) {
         TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
             showFailMeasure()
         }else{
+            this.deviceMeasureTime = deviceTime
             timeOutSecond = 0
             startCountTime()
         }
@@ -186,8 +219,10 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         }
 
        // GetJsonDataUtil().writeTxtToFile("时间="+time+" "+Gson().toJson(stringBuilder.toString()),savePath,"signal_bp"+System.currentTimeMillis()+".json")
+        if(deviceMeasureTime != null){
+            mViewModel.uploadJFBpData(stringBuilder.toString(), deviceMeasureTime!!)
+        }
 
-         mViewModel.uploadJFBpData(stringBuilder.toString(),time)
         //stopMeasure()
     }
 
@@ -195,7 +230,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     private fun stopMeasure(measureBpBean: MeasureBpBean ){
         handler.removeMessages(0x00)
         //时间
-        val longTime = TimeUtil.formatTimeToLong(measureBpBean.date+" "+measureBpBean.time)
+        val longTime = TimeUtil.formatTimeToLong(deviceMeasureTime,0)
         val timeArray = HexDump.toByteArray(longTime-946656000L)
 
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x07,0x02,0x00,0x07,timeArray[0],timeArray[1],timeArray[2],timeArray[3],
@@ -209,17 +244,18 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
             override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
-
+1
             }
 
         })
     }
 
-    private fun stopMeasure(){
-        handler.removeMessages(0x00)
+    private fun stopMeasure(isFinish : Boolean){
+        //handler.removeMessages(0x00)
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
 
         val resultArray = CmdUtil.getFullPackage(cmdArray)
+        TLog.error("-----sssss="+resultArray)
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
             override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
 
@@ -230,6 +266,14 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
         })
+
+        if(isFinish){
+            measureDialog?.cancel()
+            Config.IS_APP_STOP_MEASURE_BP = false
+            AppActivityManager.getInstance().finishActivity(this@MeasureNewBpActivity)
+
+        }
+
     }
 
     override fun onClick(p0: View?) {
@@ -241,4 +285,34 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
         }
     }
+
+    private fun stop(){
+        totalSecond = 0
+        //记录超时的时间，2分钟
+       timeOutSecond = 0
+        Config.IS_APP_STOP_MEASURE_BP = true
+        stopMeasure(true)
+    }
+
+
+    private fun backAlert(){
+        if(alertDialog == null){
+            alertDialog = AlertDialog.Builder(this@MeasureNewBpActivity)
+        }
+        alertDialog!!.setTitle("提醒")
+        alertDialog!!.setMessage("是否要终止测量?")
+        alertDialog!!.setPositiveButton("确定"
+        ) { p0, p1 ->
+            p0.cancel()
+
+            TLog.error("---------终止测量-------")
+            stop()
+          // handler.sendEmptyMessage(0x01)
+        }.setNegativeButton("取消"
+        ) { p0, p1 ->
+            p0.cancel()
+        }
+        alertDialog!!.create().show()
+    }
+
 }

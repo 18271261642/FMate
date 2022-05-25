@@ -2,6 +2,7 @@ package com.example.xingliansdk.ui.bp
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
@@ -25,6 +26,7 @@ import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.PromptCheckBpDialog
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
+import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HelpUtil
 import com.example.xingliansdk.utils.JumpUtil
@@ -97,6 +99,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     //是否需要校准，只判断当天的日期
     private var isNeedCheckBp = true
+    //需要校准的提示文字
+    private var checkDescStr : String ?= null
 
 
     //最后一个有值的下标
@@ -132,6 +136,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         })
 
+        var bean = intent.getSerializableExtra("bean") as HomeCardVoBean.ListDTO
+        var toDayTime = System.currentTimeMillis()
+        if (bean.startTime > 0)
+            toDayTime = bean.startTime * 1000L
+        XingLianApplication.setSelectedCalendar(DateUtil.getCurrentCalendar(toDayTime))
+
         initData();
 
       //  showPromptDialog()
@@ -155,14 +165,22 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         mBloodPressureHistoryAdapter.setOnDelListener(object :BloodPressureHistoryAdapter.onSwipeListener{
             override fun onDel(pos: Int) {
                 TLog.error("点击删除")
+
                 if(pos>=0)
                 {
+
                     if(!HelpUtil.netWorkCheck(this@BpHomeActivity)) {
                         if(mBloodPressureHistoryAdapter.data[pos].type==0) {
                             ShowToast.showToastLong(getString(R.string.err_network_delete))
                             return
                         }
                     }
+
+                    if(mBloodPressureHistoryAdapter.data[pos].type==1) {
+                        ShowToast.showToastLong("无法删除哦!")
+                        return
+                    }
+
                    // showWaitDialog("删除血压中...")
                     var value = HashMap<String, String>()
                     value["createTime"] = mBloodPressureHistoryAdapter.data[pos].startTime.toString()
@@ -439,6 +457,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             TLog.error("----获取血压返回="+Gson().toJson(it))
             if(!it.isCalibrationRequired && currDayStr == DateUtil.getCurrDate()){   //没有校准，需要校准
                 isNeedCheckBp = false
+                this.checkDescStr = it.calibrationReason
                // showPromptDialog()
             }
 
@@ -500,7 +519,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 R.id.bpHomeMeasureLayout-> { //测量
                     val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
                     TLog.error("----userInfp=" + Gson().toJson(userInfo)+"\n"+isConntinue)
-                    if (TextUtils.isEmpty(userInfo.user.mac) ) {
+                    if (TextUtils.isEmpty(userInfo.user.mac) ) {    //绑定
                         showPromptDialog(true)
                         return
                     }
@@ -555,6 +574,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         promptBpDialog!!.setBotBtnTxt(if(isBind) "暂不绑定" else "暂不校准",if(isBind) "去绑定" else "去校准")
         promptBpDialog!!.setCancelable(false)
         promptBpDialog!!.setVisibilityBotTv(!isBind)
+        if(!isBind){
+            promptBpDialog!!.setTopTxtValue(checkDescStr)
+        }
         promptBpDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {
                 promptBpDialog!!.dismiss()
@@ -731,6 +753,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     private var firstNoZero = 0
     private var firstNoData : String ?= null
 
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initLinData(chart : LineChart, hbpList : ArrayList<Int>, lbpList : ArrayList<Int>, inputHList : ArrayList<Int>, inputLList : ArrayList<Int>){
         val dataSets = ArrayList<ILineDataSet>()
@@ -751,6 +774,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 //        bpHomeLinChartView.viewPortHandler.refresh(matrix,bpHomeLinChartView,false)
 
 
+
+
+
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
 
@@ -764,128 +790,132 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         }
 
-        val inputHD = LineDataSet(inputHeightValue,"")
-        inputHD.lineWidth = 2.5f
-        inputHD.circleRadius = 3.5f
-        inputHD.highLightColor = Color.rgb(244, 117, 117)
-        //虚线
-//        inputHD.enableDashedLine(10f, 10f, 0f)
-//        inputHD.enableDashedHighlightLine(10f, 10f, 0f)
-        inputHD.color = Color.WHITE
-       // inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-        inputHD.setDrawValues(false)
 
-        //手动输入低压
-        val inputLowBpValue = ArrayList<Entry>()
-        inputLList.forEachIndexed { index, i ->
-            if(i != 0){
-                inputLowBpValue.add(Entry(index.toFloat(),i.toFloat()))
-            }
+          val inputHD = LineDataSet(inputHeightValue,"")
 
-        }
+           inputHD.lineWidth = 2.5f
+           inputHD.circleRadius = 3.5f
+           inputHD.highLightColor = Color.rgb(244, 117, 117)
+           inputHD.formLineDashEffect = DashPathEffect(floatArrayOf(10f,5f),0f)
+           inputHD.formLineWidth = 1f
+           //虚线
+//           inputHD.enableDashedLine(10f, 10f, 0f)
+//           inputHD.enableDashedHighlightLine(10f, 10f, 0f)
+           inputHD.color =Color.parseColor("#FBD371")
+           // inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+           inputHD.setDrawValues(false)
 
-        val inputLD = LineDataSet(inputLowBpValue,"")
-        inputLD.lineWidth = 2.5f
-        inputLD.circleRadius = 3.5f
-        inputLD.highLightColor = Color.rgb(244, 117, 117)
+           //手动输入低压
+           val inputLowBpValue = ArrayList<Entry>()
+           inputLList.forEachIndexed { index, i ->
+               if(i != 0){
+                   inputLowBpValue.add(Entry(index.toFloat(),i.toFloat()))
+               }
 
-        //虚线
+           }
+
+           val inputLD = LineDataSet(inputLowBpValue,"")
+           inputLD.lineWidth = 2.5f
+           inputLD.circleRadius = 3.5f
+           inputLD.highLightColor = Color.rgb(244, 117, 117)
+
+           //虚线
 //        inputLD.enableDashedLine(10f, 10f, 0f)
-       // inputLD.enableDashedHighlightLine(10f, 10f, 0f)
-        inputLD.circleHoleColor = Color.TRANSPARENT
-        inputLD.color = Color.parseColor("#FBD371")
-        inputLD.setDrawValues(false)
+           inputLD.enableDashedHighlightLine(10f, 10f, 0f)
+           inputLD.circleHoleColor = Color.TRANSPARENT
+           inputLD.color = Color.parseColor("#FBD371")
+           inputLD.setDrawValues(false)
 
 
-        val values1 = ArrayList<Entry>()
-        //高压
-        hbpList.forEachIndexed { index, i ->
-            if(i != 0){
-                values1.add(Entry(index.toFloat(),i.toFloat()))
-            }
-        }
+           val values1 = ArrayList<Entry>()
+           //高压
+           hbpList.forEachIndexed { index, i ->
+               if(i != 0){
+                   values1.add(Entry(index.toFloat(),i.toFloat()))
+               }
+           }
 
 
-       // lastValueMap[inputLowBpValue[inputLowBpValue.size-1].x.toInt()] = values1[values1.size-1].x.toInt()
+           // lastValueMap[inputLowBpValue[inputLowBpValue.size-1].x.toInt()] = values1[values1.size-1].x.toInt()
 
-        val d1 = LineDataSet(values1, "")
-        d1.lineWidth = 2.0f
-        d1.circleRadius = 3.5f
-        //d1.enableDashedLine(10f, 10f, 0f)
-        d1.highLightColor = Color.rgb(244, 117, 117)
-        d1.color = Color.parseColor("#71FBEE")
-        d1.setDrawValues(false)
+           val d1 = LineDataSet(values1, "")
+           d1.lineWidth = 2.0f
+           d1.circleRadius = 2.5f
+           // d1.enableDashedLine(10f, 10f, 5f)
+           d1.highLightColor = Color.rgb(244, 117, 117)
+           d1.color = Color.parseColor("#71FBEE")
+           d1.setDrawValues(false)
 
-        //低压
-        val values2 = ArrayList<Entry>()
-        lbpList.forEachIndexed { index, i ->
-            if(i != 0){
-                values2.add(Entry(index.toFloat(),i.toFloat()))
-            }
-        }
+           //低压
+           val values2 = ArrayList<Entry>()
+           lbpList.forEachIndexed { index, i ->
+               if(i != 0){
+                   values2.add(Entry(index.toFloat(),i.toFloat()))
+               }
+           }
 
-        val d2 = LineDataSet(values2, "")
-        d2.lineWidth = 2.0f
-        d2.circleRadius = 3.5f
-        d2.highLightColor = Color.rgb(244, 117, 117)
-        d2.color = Color.parseColor("#FBD371")
-        d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
-        d2.setDrawValues(false)
-
-
-
-        val tmp24EntryList = ArrayList<Entry>()
-        xValue.forEachIndexed { index, s ->
-            tmp24EntryList.add(Entry(index.toFloat(),100f))
-        }
-        val dd2 = LineDataSet(tmp24EntryList,"")
-        dd2.color = Color.TRANSPARENT
-        dd2.lineWidth = 2.0f
-        dd2.circleRadius = 1f
-        dd2.highLightColor = Color.rgb(0, 0, 0)
-        //dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
-
-        dd2.setCircleColor(Color.TRANSPARENT)
-        dd2.circleHoleColor = Color.TRANSPARENT
-        dd2.setDrawValues(false)
+           val d2 = LineDataSet(values2, "")
+           d2.lineWidth = 2.0f
+           d2.circleRadius = 2.5f
+           d2.highLightColor = Color.rgb(244, 117, 117)
+           d2.color = Color.parseColor("#FBD371")
+           d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+           d2.setDrawValues(false)
 
 
-        val sets = ArrayList<ILineDataSet>()
-        sets.add(d1)
-        sets.add(d2)
 
-        sets.add(inputHD)
-        sets.add(inputLD)
+           val tmp24EntryList = ArrayList<Entry>()
+           xValue.forEachIndexed { index, s ->
+               tmp24EntryList.add(Entry(index.toFloat(),100f))
+           }
+           val dd2 = LineDataSet(tmp24EntryList,"")
+           dd2.color = Color.TRANSPARENT
+           dd2.lineWidth = 2.0f
+           dd2.circleRadius = 1f
+           dd2.highLightColor = Color.rgb(0, 0, 0)
+           //dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
 
-        sets.add(dd2)
-        var tmpCount = 0
-        TLog.error("-----x轴="+Gson().toJson(xValue))
-        //x轴
-        if(xValue.size>0){
-            tmpCount = 0
-
-            xAxis.valueFormatter = BPXValueFormatter(xValue)
-
-            xAxis.setValueFormatter { value, axis ->
-                val index = value.toInt()
-                TLog.error("-----x轴index="+index+" "+axis.mEntries[0])
-                if(index<0 || index >= xValue.size){
-                    return@setValueFormatter ""
-                }else{
-                    val tmpIndex = value % xValue.size
-                    if(tmpIndex >=0){
-                        return@setValueFormatter xValue.get(index)
-                    }else{
-                        return@setValueFormatter ""
-                    }
-                }
-            }
-        }
+           dd2.setCircleColor(Color.TRANSPARENT)
+           dd2.circleHoleColor = Color.TRANSPARENT
+           dd2.setDrawValues(false)
 
 
-        val data = LineData(sets)
-        chart.data = data
-        chart.invalidate()
+           val sets = ArrayList<ILineDataSet>()
+           sets.add(d1)
+           sets.add(d2)
+
+           sets.add(inputHD!!)
+           sets.add(inputLD)
+
+           sets.add(dd2)
+           var tmpCount = 0
+           TLog.error("-----x轴="+Gson().toJson(xValue))
+           //x轴
+           if(xValue.size>0){
+               tmpCount = 0
+
+               xAxis.valueFormatter = BPXValueFormatter(xValue)
+
+               xAxis.setValueFormatter { value, axis ->
+                   val index = value.toInt()
+                   //  TLog.error("-----x轴index="+index+" "+axis.mEntries[0])
+                   if(index<0 || index >= xValue.size){
+                       return@setValueFormatter ""
+                   }else{
+                       val tmpIndex = value % xValue.size
+                       if(tmpIndex >=0){
+                           return@setValueFormatter xValue.get(index)
+                       }else{
+                           return@setValueFormatter ""
+                       }
+                   }
+               }
+           }
+
+           val data = LineData(sets)
+           chart.data = data
+           chart.invalidate()
+
 
 
         if(lastValueMap.size>0){
@@ -976,7 +1006,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 bpCheckTimeTv.text = xValue.get(e.x.toInt())
 
                 heightList.forEachIndexed { index, i ->
-                    TLog.error("------高压====="+index+"-="+i)
+                    //TLog.error("------高压====="+index+"-="+i)
                 }
 
                 //手动测量的高压集合

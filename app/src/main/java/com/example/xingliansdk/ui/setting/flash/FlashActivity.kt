@@ -24,6 +24,9 @@ import kotlinx.android.synthetic.main.activity_flash.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+/**
+ * 更新flash
+ */
 class FlashActivity : BaseActivity<FlashViewModel>(),
     BleWrite.FlashErasureAssignInterface, DownLoadCallback {
     lateinit var bean: UIUpdateBean

@@ -308,6 +308,7 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             tvWideAwake.text ="--" //HelpUtil.getSpan("--", "次", 11)
             tvSleepTime.text = ""
 
+            sleepRoundTime.text = "--"
             return
         } else {
             pieChart.visibility = View.GONE
@@ -506,7 +507,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         tvEyeSleep.text = HelpUtil.getSpan(eyeSleep.toString(), "%", 11)
         tvWideAwake.text = HelpUtil.getSpan(numberWake.toString(), "次", 11)
 
-
+        sleepRoundTime.text = HelpUtil.getSpan(fallAsleepTime.toInt().toString(), "分钟", 11)
+        //入睡时长
+     //   sleepRoundTime.text = fallAsleepTime.toString() +"分钟"
 
 
         TLog.error("-------resultFallSleepTime="+resultFallSleepTime.toLong())

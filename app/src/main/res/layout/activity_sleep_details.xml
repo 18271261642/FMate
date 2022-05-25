@@ -524,6 +524,23 @@
                 android:gravity="center"
                 >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="入睡时长"
+                    android:textSize="11sp"
+                    android:textColor="@color/sub_text_color"
+                    />
+                <TextView
+                    android:id="@+id/sleepRoundTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textColor="@color/main_text_color"
+                    />
+
+
             </LinearLayout>
         </LinearLayout>
 <!--        <androidx.constraintlayout.widget.ConstraintLayout-->

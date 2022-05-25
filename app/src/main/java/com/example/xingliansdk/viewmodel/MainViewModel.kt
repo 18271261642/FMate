@@ -5,6 +5,7 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.callback.UnPeekLiveData
 import com.example.xingliansdk.network.api.appUpdate.AppUpdateApi
 import com.example.xingliansdk.network.api.appUpdate.AppUpdateBean
+import com.example.xingliansdk.network.api.jignfan.JingfanBpApi
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mainView.MainApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
@@ -13,6 +14,7 @@ import com.example.xingliansdk.network.api.weather.ServerWeatherApi
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.network.requestCustom
 import com.example.xingliansdk.network.requestCustomBig
+import com.example.xingliansdk.network.requestCustomWeight
 import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
@@ -38,6 +40,9 @@ class MainViewModel : BaseViewModel() {
 
     val resultSleep: MutableLiveData<Any> = MutableLiveData()
     val resultSleepMsg : MutableLiveData<String> = MutableLiveData()
+
+    val uploadJfBp: MutableLiveData<Any> = MutableLiveData()
+    val msgJfUploadBp: MutableLiveData<Any> = MutableLiveData()
 
     init {
         textValue.value = Hawk.get<Int>("step")
@@ -159,6 +164,22 @@ class MainViewModel : BaseViewModel() {
                 //ShowToast.showToastLong(it)
             }
         }
+    }
+
+    //上传惊帆血压数据
+    fun uploadJFBpData(bpArray: String, time: String) {
+        requestCustomWeight({
+            JingfanBpApi.jingfanBpApi.uploadJfBp(bpArray, time)
+        },
+            { uploadJfBp.postValue(it) },
+            { code, message ->
+                message?.let {
+                    msgJfUploadBp.postValue(it)
+                    TLog.error("==" + Gson().toJson(it))
+                    ShowToast.showToastLong(it)
+
+                }
+            })
     }
 
 }

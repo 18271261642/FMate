@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MeasureBigBpListener {
 
-    void measureStatus(int status);
+    void measureStatus(int status,String measureDeviceTime);
 
     void measureBpResult(List<Integer> bpValue,String timeStr);
 }

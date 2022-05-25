@@ -136,9 +136,9 @@ public class BpSettingActivity extends BaseActivity<UserViewModel> {
             autoBpStatusBean.setNormalBpStatus((byte) 0x02);
             autoBpStatusBean.setStartHour(0x08);
             autoBpStatusBean.setStartMinute(0x00);
-            autoBpStatusBean.setEndHour(0x00);
-            autoBpStatusBean.setEndMinute(0x00);
-            autoBpStatusBean.setBpInterval(0x05);
+            autoBpStatusBean.setEndHour(0x17);
+            autoBpStatusBean.setEndMinute(0x3B);
+            autoBpStatusBean.setBpInterval(0x03);
         }
 
 
@@ -147,6 +147,7 @@ public class BpSettingActivity extends BaseActivity<UserViewModel> {
             autoBpStatusBean.setNightBpStatus((byte) 0x02);
         }
 
+        HawConstant.saveAutoBpData(autoBpStatusBean);
         BleWrite.writeSetAutoBpMeasureStatus(true, autoBpStatusBean, new CommBackListener() {
             @Override
             public void commWriteBackData(Object object) {

@@ -1,6 +1,7 @@
 package com.example.xingliansdk.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.example.xingliansdk.view.BpMeasureView;
 import com.example.xingliansdk.widget.TitleBarLayout;
 import com.hjq.shape.view.ShapeTextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialog;
 
 /**
@@ -30,6 +32,9 @@ public class MeasureBpDialogView extends AppCompatDialog implements View.OnClick
     //测量失败按钮
     private ShapeTextView dialogMeasureFailTv;
     private TextView dialogMTmp1,dialogMTmp2;
+
+
+    private AlertDialog.Builder alert;
 
 
     private OnCommDialogClickListener onCommDialogClickListener;
@@ -131,5 +136,26 @@ public class MeasureBpDialogView extends AppCompatDialog implements View.OnClick
             if(onCommDialogClickListener != null)
                 onCommDialogClickListener.onConfirmClick(0);
         }
+    }
+
+
+    private void showAlertDialog(){
+        alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("提醒");
+        alert.setMessage("是否终止测量？");
+        alert.setPositiveButton("是", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if(onCommDialogClickListener != null)
+                    onCommDialogClickListener.onCancelClick(1);
+            }
+        }).setNegativeButton("否", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.create().show();
     }
 }
