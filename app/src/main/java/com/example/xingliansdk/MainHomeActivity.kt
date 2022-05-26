@@ -651,13 +651,15 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                     startActivity(Intent(this@MainHomeActivity,MeasureNewBpActivity::class.java))
                 }
 
-                //超时，有弹窗取消弹窗
-                if(typeCode == 0x01){
+                //超时，有弹窗取消弹窗 //有弹窗 取消弹窗
+                if(typeCode == 0x01 || typeCode == 10){
                     measureBpPromptDialog?.dismiss()
                 }
 
                 if(typeCode == 0x09){
-                    measureBp()
+                   // measureBp()
+                    com.shon.connector.Config.isNeedTimeOut = true
+                    XingLianApplication.mXingLianApplication.getWeatherService()?.backStartMeasureBp(true)
                 }
 
             }

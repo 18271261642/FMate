@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
 import com.shon.connector.Config;
 import com.shon.connector.utils.TLog;
 import com.shon.bluetooth.core.Device;
@@ -71,6 +72,9 @@ public class DataDispatcher {
 //            callDeque.removeFirst();
 
         }
+
+
+        TLog.Companion.error("------Config.IS_APP_STOP_MEASURE_BP="+Config.IS_APP_STOP_MEASURE_BP);
         if (tempCall != null) {
             if(Config.IS_APP_STOP_MEASURE_BP){
                 tempCall = null;
@@ -79,11 +83,18 @@ public class DataDispatcher {
             }
 
         }
-        BleLog.d("startSendNext  callDeque.size " + callDeque.size() );
-        if (callDeque.size() ==0){
-          //  TLog.Companion.error("重置为true");
-            callDequeStatus=true;
-            return;
+        BleLog.e("--startSendNext  callDeque.size " + callDeque.size() );
+
+        if (callDeque.size() ==0 ){
+            if(Config.isNeedTimeOut){
+
+            }else{
+                //  TLog.Companion.error("重置为true");
+                callDequeStatus=true;
+
+                return;
+            }
+
         }
         else
         {
@@ -132,10 +143,32 @@ public class DataDispatcher {
         }
     }
 
+
+    private void continueCall(){
+        if(tempCall == null)
+            return;
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (tempCall instanceof NotifyCall) {
+            ((NotifyCall) tempCall).changeSate();
+        }
+        if (tempCall instanceof WriteCall) {
+            ((WriteCall) tempCall).write();
+        }
+        if (tempCall instanceof ReadCall) {
+            ((ReadCall) tempCall).startRead();
+        }
+    }
+
+
+
 //    Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public void onReceivedResult(Result value) {
-//        TLog.Companion.log(" value++"+ByteUtil.getHexString(value.getBytes()));
+        TLog.Companion.log(" value++"+ByteUtil.getHexString(value.getBytes()));
 //        resultMutableLiveData.postValue(value);
 //        resultDeque.add(value);
 //        handlerResult();
@@ -179,6 +212,8 @@ public class DataDispatcher {
         }
         //TLog.Companion.error("tempResult+="+tempResult.toString());
         boolean finish = handlerResult(tempResult);
+
+        TLog.Companion.error("----finish="+finish);
         if (finish) {
             tempResult = null;
             if(resultDeque!=null)
@@ -189,9 +224,20 @@ public class DataDispatcher {
 
     private synchronized boolean handlerResult(Result result) {
 
+        TLog.Companion.error("--------handlerResult是否为null="+(result == null)+" ");
+
+        if(result != null){
+            TLog.Companion.error("------result="+new Gson().toJson(result));
+        }
+
+        if(result == null )
+            return true;
         byte[] bytes = result.getBytes();
+        if(bytes == null)
+            return true;
         String setValue = ByteUtil.getHexString(bytes);
         String address = result.getAddress();
+        TLog.Companion.error("-----address="+address);
         String uuid=result.getUuid();
 //        if(TextUtils.isEmpty(uuid))
 //            return true;
@@ -201,7 +247,7 @@ public class DataDispatcher {
 //            return true;
 //        }
         int type = result.getType();
-//        TLog.Companion.error("type==="+type);
+        TLog.Companion.error("---type==="+type);
         if (type == BluetoothGattCharacteristic.PROPERTY_WRITE) {
 //            TLog.Companion.error("BluetoothGattCharacteristic.PROPERTY_WRITE 进入");
             WriteCallback writeCall = getWriteCallByWriteData(address, setValue);
@@ -268,7 +314,7 @@ public class DataDispatcher {
                 //  break;
             }
            else if (tempCall instanceof ReadCall) {
-             //   TLog.Companion.error("ReadCall链接的时候==");
+                TLog.Companion.error("---ReadCall链接的时候==");
 
                 ReadCallback readCallback = (ReadCallback) tempCall.getCallBack();
                 if(!TextUtils.isEmpty(uuid))
@@ -303,6 +349,9 @@ public class DataDispatcher {
 
         if (type == BluetoothGattCharacteristic.PROPERTY_NOTIFY) {
             for (Listener listener : listeners) {
+
+                TLog.Companion.error("-----listener.getAddress()="+listener.getAddress());
+
                 if (!TextUtils.equals(address, listener.getAddress())) {
                     continue;
                 }
@@ -313,9 +362,15 @@ public class DataDispatcher {
                     break;
                 }
                 boolean process = callBack.process(address, bytes,uuid);
-                if (process) {
-                    break;
+                TLog.Companion.error("------process="+process);
+                if(Config.isNeedTimeOut){
+
+                }else{
+                    if (process) {
+                        break;
+                    }
                 }
+
             }
         }
 

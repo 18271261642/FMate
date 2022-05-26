@@ -83,7 +83,7 @@ public class CharacteristicGattCallback  {
     }
 
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-//        BleLog.d("CharacteristicGattCallback :: 开始onCharacteristicChanged ");
+        BleLog.d("CharacteristicGattCallback :: 开始onCharacteristicChanged ");
         String address = gatt.getDevice().getAddress();
         byte[] value = characteristic.getValue();
         UUID uuid=characteristic.getUuid();//获取不同的uuid

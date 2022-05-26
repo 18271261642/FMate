@@ -121,13 +121,19 @@ public abstract class BaseCall<T extends ICallback, C> implements ICall<T> {
         if (handler != null) {
             return;
         }
+
+//        BLEManager.getInstance().getDataDispatcher().startSendNext(true);
+
         handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(!Config.isNeedTimeOut){
-                    ((OnTimeout)callBack).onTimeout();
+                   // ((OnTimeout)callBack).onTimeout();
                     BLEManager.getInstance().getDataDispatcher().startSendNext(true);
+                }else{
+                    BLEManager.getInstance().getDataDispatcher().clear("");
+                    //BLEManager.getInstance().getDataDispatcher().startSendNext(false);
                 }
                 BleLog.e("----time out "+ getClass().getName());
 

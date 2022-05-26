@@ -55,6 +55,13 @@ public class XLNotifyCall extends NotifyCallback {
                 //8800000000000D640B02010001080200042A1C0653
 
                 //8800000000000D800B02010001050200042A1D338E
+
+                //拒绝 88000000000006030B020100010A
+
+                if(result.length>13 && result[8] == 0x0B && result[13] == 0x0A){    //手表拒绝，app有弹窗就取消弹窗
+                    mInterface.NotifyCallResult(result[8], 10,-1);
+                }
+
                 if(result.length>13 && result[8] == 0x0B && result[13] == 0x09){    //手表按钮测量血压，手表返回，app弹窗提醒
                     mInterface.NotifyCallResult(result[8], 0x09,-1);
 

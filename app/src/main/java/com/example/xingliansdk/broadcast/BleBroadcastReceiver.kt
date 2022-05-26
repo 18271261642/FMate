@@ -119,6 +119,10 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                 if(type == 0x01){   //血压测量超时，app有弹窗取消弹窗
                     sendActionBroadCast(0x01)
                 }
+                if(type == 10){ //拒绝
+                    sendActionBroadCast(10)
+                }
+
             }
 
             Config.ActiveUpload.DEVICE_FIND_PHONE -> //寻找手机

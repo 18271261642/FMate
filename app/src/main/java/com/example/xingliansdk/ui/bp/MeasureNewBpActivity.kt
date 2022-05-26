@@ -7,27 +7,21 @@ import android.os.*
 import android.view.View
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
-import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
 import com.example.xingliansdk.utils.AppActivityManager
-import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
 import com.example.xingliansdk.utils.Utils
-import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
-import com.shon.HawConstant
 import com.shon.bluetooth.BLEManager
-import com.shon.bluetooth.util.ByteUtil
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
 import com.shon.connector.utils.HexDump
-import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
 import kotlinx.android.synthetic.main.activity_card_edit.titleBar
@@ -119,6 +113,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             if(!isFail){
                 measureDialog!!.setMeasureStatus(false,false)
                 measureDialog!!.setMiddleSchedule(-1f)
+                totalSecond = 0
             }
 
             measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
@@ -128,11 +123,13 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                 }
 
                 override fun onCancelClick(code: Int) {
-                    if(totalSecond != 0){
+                    TLog.error("-----totalSecond="+totalSecond)
+                    if(timeOutSecond != 0){
                         backAlert()
                         return
                     }
                     measureDialog?.dismiss()
+                    AppActivityManager.getInstance().finishActivity(this@MeasureNewBpActivity)
                 }
 
             })
@@ -150,8 +147,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         //成功返回
         mViewModel.uploadJfBp.observe(this){
             TLog.error("---------后台返回="+ Gson().toJson(it))
+            Config.isNeedTimeOut = false
+            Config.DEVICE_AUTO_MEASURE_BP_ACTION
             if(measureDialog != null)
                 measureDialog?.dismiss()
+            totalSecond = 0
+            timeOutSecond = 0
             stopMeasure(it as MeasureBpBean)
             showResult(it)
         }
@@ -160,8 +161,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         //后台非成功返回
         mViewModel.msgJfUploadBp.observe(this){
             TLog.error("---------后台飞200返回="+ Gson().toJson(it))
+            Config.isNeedTimeOut = false
           //  measureDialog?.setMeasureStatus(true)
+            totalSecond = 0
+            timeOutSecond = 0
             showFailMeasure()
+            stopMeasure(false)
         }
 
 
@@ -170,6 +175,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     private fun showFailMeasure(){
 
+        handler.removeMessages(0x00)
         showMeasureDialog(false)
 
         totalSecond = 0
@@ -188,7 +194,8 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     }
 
     private fun measureBp(){
-        Config.isNeedTimeOut = true
+        com.shon.connector.Config.isNeedTimeOut = true
+        Config.isNeedTimeOut = false
         BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
         timeOutSecond = 0
@@ -208,9 +215,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     override fun measureStatus(status: Int,deviceTime : String) {
         TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
+            totalSecond = 0
+            timeOutSecond = 0
             showFailMeasure()
         }else{
             this.deviceMeasureTime = deviceTime
+            totalSecond = 0
             timeOutSecond = 0
             startCountTime()
         }
@@ -267,7 +277,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     }
 
     private fun stopMeasure(isFinish : Boolean){
-        //handler.removeMessages(0x00)
+        handler.removeMessages(0x00)
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
 
         val resultArray = CmdUtil.getFullPackage(cmdArray)

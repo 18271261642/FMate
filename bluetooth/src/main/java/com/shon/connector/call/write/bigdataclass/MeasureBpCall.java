@@ -96,8 +96,8 @@ public class MeasureBpCall extends WriteCallback {
         if(uuid.equalsIgnoreCase(Config.readCharacterBig)){ //血压大数据返回
             String byStr = ByteUtil.getHexString(result);
 
-            if(Config.IS_APP_STOP_MEASURE_BP)
-                return true;
+//            if(Config.IS_APP_STOP_MEASURE_BP)
+//                return true;
 
             if(result[8] == 0x03 && result[9] == 0x0C){
             //88 00 00 00 00 01 9E 3D 03 0C 01 00 06 04 01 2A 0D EB 9A ==18个长度
@@ -160,7 +160,7 @@ public class MeasureBpCall extends WriteCallback {
 
             if(bpList.size() == 6144){  //已经取完整
                 if(measureBigBpListener != null)
-                    measureBigBpListener.measureBpResult(bpList,measureTime);
+                    measureBigBpListener.measureBpResult(bpList,measureTime == null ? TimeU.getCurrTime(System.currentTimeMillis()):measureTime);
 
                 return true;
             }

@@ -137,7 +137,7 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
         }
 
         //格式化时间
-        var timeStr = "$inputDayStr $inputTimeStr"
+        val timeStr = "$inputDayStr $inputTimeStr"
 
         var createTime = DateUtil.formatTimeStrToLong(timeStr,"yyyy-MM-dd HH:mm")
         mViewModel.setBloodPressure(this@InputBpActivity,createTime,inputHbpStr.toInt(),inputLbpStr.toInt())
@@ -155,6 +155,10 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
 
     private var time = System.currentTimeMillis()
     private fun initTimePicker() { //Dialog 模式下，在底部弹出
+
+        var selectTime = inputBpDayTv.text.toString()
+
+
 
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
@@ -208,13 +212,16 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
             var inputHbpStr = inputBpHBpTv.text.toString()
             var inputLbpStr = inputBpLBpTv.text.toString()
 
-            if(inputHbpStr.contains("mmHg") && inputLbpStr.contains("mmHg")){
+            if(inputHbpStr.contains("mmHg") ){
                 inputHbpStr = StringUtils.substringBefore(inputHbpStr,"m").trim()
+
+            }
+
+            if( inputLbpStr.contains("mmHg")){
                 inputLbpStr = StringUtils.substringBefore(inputLbpStr,"m").trim()
             }
 
-
-            var valueInteger = it.toInt()
+            val valueInteger = it.toInt()
             if(type == 0){
 
                 if(valueInteger <40 || valueInteger > 250){
@@ -227,9 +234,10 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
                         ShowToast.showToastShort("请输入正确的收缩压!")
                         return@setOnMediaRepeatInputListener
                     }
+                    inputBpHBpTv.text = "$valueInteger mmHg"
+                }else{
+                    inputBpHBpTv.text = "$valueInteger mmHg"
                 }
-
-                inputBpHBpTv.text = "$it mmHg"
 
             }
 
@@ -240,13 +248,16 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
                 }
 
                 if(StringUtils.isNumeric(inputHbpStr)){
-                    if(inputHbpStr.toInt()<it){
+                    if(inputHbpStr.toInt()<valueInteger){
                         ShowToast.showToastShort("请输入正确的舒张压!")
                         return@setOnMediaRepeatInputListener
                     }
+                    inputBpLBpTv.text = "$valueInteger mmHg"
+                }else{
+                    inputBpLBpTv.text = "$valueInteger mmHg"
                 }
 
-                inputBpLBpTv.text = "$it mmHg"
+
             }
 
         }

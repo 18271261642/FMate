@@ -19,7 +19,9 @@ import com.example.xingliansdk.network.api.weather.bean.FutureWeatherBean;
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean;
 import com.example.xingliansdk.service.work.BleWork;
 import com.example.xingliansdk.ui.bp.DbManager;
+import com.example.xingliansdk.ui.bp.MeasureBpBean;
 import com.example.xingliansdk.ui.bp.PPG1CacheDb;
+import com.example.xingliansdk.utils.TimeUtil;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +31,7 @@ import com.hjq.http.lifecycle.LifecycleService;
 import com.hjq.http.listener.OnHttpListener;
 import com.hjq.http.model.BodyType;
 import com.orhanobut.hawk.Hawk;
+import com.shon.bluetooth.BLEManager;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.bluetooth.util.TimeU;
 import com.shon.connector.BleWrite;
@@ -61,6 +64,11 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     private static final String TAG = "SendWeatherService";
 
     String savePath;
+
+
+    //手表按按键测量血压的时间，上传后台
+    private String  deviceMeasureTime ;
+
 
     private final StringBuilder logSb = new StringBuilder();
 
@@ -479,7 +487,8 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
     //后台测量血压
     public void backStartMeasureBp(boolean isStart){
-        BleWrite.writeStartOrEndDetectBp(true,0x01,this);
+        BLEManager.getInstance().dataDispatcher.clear("");
+        BleWrite.writeStartOrEndDetectBp(true,isStart ? 0x03 : 0x01,this);
     }
 
 
@@ -619,15 +628,79 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
 
 
+
+    //后台测量血压
     @Override
     public void measureStatus(int status,String deviceTime) {
+        if(status == 0x02){
+            this.deviceMeasureTime = deviceTime;
+        }
+        if(status == 0x01){ //手表主动终止
 
+        }
     }
 
+    //后台测量血压，大数据返回
     @Override
     public void measureBpResult(List<Integer> bpValue, String timeStr) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0;i<bpValue.size();i++){
+            int v = bpValue.get(i);
+            if(i <bpValue.size()-1){
+                stringBuilder.append(v);
+            }else{
+                stringBuilder.append(v);
+                stringBuilder.append(",");
+            }
+        }
+        if(deviceMeasureTime != null){
+          uploadJFBpData(stringBuilder.toString(), deviceMeasureTime);
+        }
+    }
+
+    //后台测量上传
+    private void uploadJFBpData(String str,String time){
+        JfBpApi jfBpApi = new JfBpApi();
+        jfBpApi.setBp(str,time);
+        String token = null;
+        LoginBean mLoginBean= Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
+        if(mLoginBean!=null&&mLoginBean.getToken()!=null)
+            token=mLoginBean.getToken();
+        String mac=Hawk.get("address","");
+
+
+        EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
+                .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
+
+        EasyHttp.post(this).api(jfBpApi).request(new OnHttpListener<String>() {
+            @Override
+            public void onSucceed(String result) {
+                TLog.Companion.error("---------上传="+result);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if(jsonObject.getInt("code") == 200){
+                        MeasureBpBean measureBpBean = new Gson().fromJson(jsonObject.getString("data"),MeasureBpBean.class);
+                        stopMeasure(measureBpBean);
+                    }else{
+                        backStartMeasureBp(false);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                TLog.Companion.error("---------上传Exception="+e.getMessage());
+                backStartMeasureBp(false);
+            }
+        });
+
 
     }
+
+
 
 
     public void uploadPPGCacheData(){
@@ -768,7 +841,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
     private void sendTimeToDevice(JfLastPPGApi.PPGBean db ,long time){
         //时间
-
         byte[] timeArray = HexDump.toByteArray(time-946656000L);
 
         byte[] cmdArray = new byte[]{0x0B, 0x01, 0x01, 0x00, 0x01, 0x07, 0x02, 0x00, 0x07, timeArray[0], timeArray[1], timeArray[2], timeArray[3],
@@ -788,6 +860,34 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             }
         });
 
-
     }
+
+
+    //上传成功返回测量结果给手表
+    private void stopMeasure(MeasureBpBean measureBpBean){
+
+        //时间
+        long longTime = TimeUtil.formatTimeToLong(deviceMeasureTime,0);
+        byte[] timeArray = HexDump.toByteArray(longTime-946656000L);
+
+        byte[] cmdArray = new byte[]{0x0B, 0x01, 0x01, 0x00, 0x01, 0x07, 0x02, 0x00, 0x07, timeArray[0], timeArray[1], timeArray[2], timeArray[3],
+                (byte) measureBpBean.getSbp(), (byte) measureBpBean.getDbp(), (byte) measureBpBean.getHeartRate()
+        };
+
+        byte[] resultArray = CmdUtil.getFullPackage(cmdArray);
+        BleWrite.writeCommByteArray(resultArray,true,new  BleWrite.SpecifySleepSourceInterface(){
+            @Override
+            public void backSpecifySleepSourceBean(SpecifySleepSourceBean specifySleepSourceBean) {
+
+            }
+
+            @Override
+            public void backStartAndEndTime(byte[] startTime, byte[] endTime) {
+
+            }
+
+        });
+    }
+
+
 }
