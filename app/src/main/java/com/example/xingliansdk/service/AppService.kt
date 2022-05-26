@@ -12,7 +12,7 @@ import com.example.xingliansdk.utils.HelpUtil
 import com.shon.connector.utils.TLog
 
 @Works([BleWork::class,WeatherWork::class])
-class AppService: BaseService() {
+open class AppService: BaseService() {
 
     override fun onCreate() {
 //        TLog.error("启动")

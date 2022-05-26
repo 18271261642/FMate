@@ -621,11 +621,12 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
                 if(!isRunn)
                     return
-
+                val isForeground = Utils.isForeground(this@MainHomeActivity,MainHomeActivity::class.java.name)
 
                 val typeCode = intent.getIntExtra("bp_status",0)
                 if(typeCode == 5 ){
-
+                    if(!isForeground)
+                        return
                     measureBpPromptDialog = MeasureBpPromptDialog(
                         this@MainHomeActivity,
                         R.style.edit_AlertDialog_style)

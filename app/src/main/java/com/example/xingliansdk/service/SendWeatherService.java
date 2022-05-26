@@ -1,6 +1,5 @@
 package com.example.xingliansdk.service;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Environment;
@@ -13,17 +12,14 @@ import android.util.Log;
 
 import com.example.xingliansdk.network.RequestServer;
 import com.example.xingliansdk.network.api.jignfan.JfLastPPGApi;
-import com.example.xingliansdk.network.api.jignfan.JingfanBpAPI;
-import com.example.xingliansdk.network.api.jignfan.JingfanBpApi;
+import com.example.xingliansdk.network.api.jignfan.JfBpApi;
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel;
 import com.example.xingliansdk.network.api.login.LoginBean;
 import com.example.xingliansdk.network.api.weather.bean.FutureWeatherBean;
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean;
-import com.example.xingliansdk.service.core.BaseService;
 import com.example.xingliansdk.service.work.BleWork;
 import com.example.xingliansdk.ui.bp.DbManager;
 import com.example.xingliansdk.ui.bp.PPG1CacheDb;
-import com.example.xingliansdk.utils.GetJsonDataUtil;
 import com.example.xingliansdk.view.DateUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,10 +36,8 @@ import com.shon.connector.Config;
 import com.shon.connector.bean.SpecifySleepSourceBean;
 import com.shon.connector.call.CmdUtil;
 import com.shon.connector.call.listener.MeasureBigBpListener;
-import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1CacheRecordCall;
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener;
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener;
-import com.shon.connector.call.write.controlclass.TurnOnScreenCall;
 import com.shon.connector.utils.HexDump;
 import com.shon.connector.utils.TLog;
 
@@ -56,15 +50,13 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModel;
 
 
 /**
  * Created by Admin
  * Date 2022/3/16
  */
-public class SendWeatherService extends LifecycleService implements OnPPG1CacheRecordListener , OnPPG1BigDataListener, MeasureBigBpListener {
+public class SendWeatherService extends AppService implements OnPPG1CacheRecordListener , OnPPG1BigDataListener, MeasureBigBpListener {
 
     private static final String TAG = "SendWeatherService";
 
@@ -677,8 +669,8 @@ public class SendWeatherService extends LifecycleService implements OnPPG1CacheR
 
     private void uplaods(PPG1CacheDb pd,String data,String timeStr){
 
-        JingfanBpAPI jingfanBpAPI = new JingfanBpAPI();
-        jingfanBpAPI.setBp(data,timeStr);
+        JfBpApi jfBpApi = new JfBpApi();
+        jfBpApi.setBp(data,timeStr);
         String token = null;
         LoginBean mLoginBean= Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
         if(mLoginBean!=null&&mLoginBean.getToken()!=null)
@@ -689,7 +681,7 @@ public class SendWeatherService extends LifecycleService implements OnPPG1CacheR
         EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
                 .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
 
-        EasyHttp.post(this).api(jingfanBpAPI).request(new OnHttpListener<String>() {
+        EasyHttp.post(this).api(jfBpApi).request(new OnHttpListener<String>() {
             @Override
             public void onSucceed(String result) {
                 TLog.Companion.error("---------上传="+result);

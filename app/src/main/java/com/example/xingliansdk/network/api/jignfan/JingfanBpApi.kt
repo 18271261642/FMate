@@ -6,7 +6,7 @@ import com.example.xingliansdk.network.BaseResult
 import com.example.xingliansdk.ui.bp.MeasureBpBean
 import java.util.HashMap
 
-open class JingfanBpApi() : AppApi<JingfanBpInterface>(){
+open class JingfanBpApi private constructor(): AppApi<JingfanBpInterface>(){
 
 
     companion object{

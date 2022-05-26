@@ -206,7 +206,7 @@
 
 
         <!--血压设置页面-->
-        <activity android:name=".ui.setting.BpSettingActivity"/>
+        <activity android:name=".ui.bp.BpSettingActivity"/>
         <!--新版血压主页面-->
         <activity android:name=".ui.bp.BpHomeActivity"/>
         <!--测量血压-->

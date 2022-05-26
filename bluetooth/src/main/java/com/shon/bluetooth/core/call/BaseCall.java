@@ -15,6 +15,7 @@ import com.shon.bluetooth.core.Device;
 import com.shon.bluetooth.core.callback.ICallback;
 import com.shon.bluetooth.core.callback.OnTimeout;
 import com.shon.bluetooth.util.BleLog;
+import com.shon.connector.Config;
 import com.shon.connector.utils.TLog;
 
 import java.util.UUID;
@@ -124,9 +125,12 @@ public abstract class BaseCall<T extends ICallback, C> implements ICall<T> {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((OnTimeout)callBack).onTimeout();
+                if(!Config.isNeedTimeOut){
+                    ((OnTimeout)callBack).onTimeout();
+                    BLEManager.getInstance().getDataDispatcher().startSendNext(true);
+                }
                 BleLog.e("----time out "+ getClass().getName());
-                BLEManager.getInstance().getDataDispatcher().startSendNext(true);
+
             }
         },delayTime);
     }

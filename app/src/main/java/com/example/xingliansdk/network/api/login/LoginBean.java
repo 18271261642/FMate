@@ -259,9 +259,9 @@ public class LoginBean {
         private int heartRateThreshold;//心率报警临界值
 
         //夜间睡眠血压测量 1关2开
-        private int bloodPressureNightSleepMeasurement;
+        private int bloodPressureNightMeasurement;
         //非睡眠状态血压测量 1关 2开
-        private int bloodPressureNonSleepMeasurement;
+        private int bloodPressureDaytimeMeasurement;
 
         public int getDistanceUnit() {
             return distanceUnit;
@@ -399,20 +399,20 @@ public class LoginBean {
             this.turnScreen = turnScreen;
         }
 
-        public int getBloodPressureNightSleepMeasurement() {
-            return bloodPressureNightSleepMeasurement;
+        public int getBloodPressureNightMeasurement() {
+            return bloodPressureNightMeasurement;
         }
 
-        public void setBloodPressureNightSleepMeasurement(int bloodPressureNightSleepMeasurement) {
-            this.bloodPressureNightSleepMeasurement = bloodPressureNightSleepMeasurement;
+        public void setBloodPressureNightMeasurement(int bloodPressureNightMeasurement) {
+            this.bloodPressureNightMeasurement = bloodPressureNightMeasurement;
         }
 
-        public int getBloodPressureNonSleepMeasurement() {
-            return bloodPressureNonSleepMeasurement;
+        public int getBloodPressureDaytimeMeasurement() {
+            return bloodPressureDaytimeMeasurement;
         }
 
-        public void setBloodPressureNonSleepMeasurement(int bloodPressureNonSleepMeasurement) {
-            this.bloodPressureNonSleepMeasurement = bloodPressureNonSleepMeasurement;
+        public void setBloodPressureDaytimeMeasurement(int bloodPressureDaytimeMeasurement) {
+            this.bloodPressureDaytimeMeasurement = bloodPressureDaytimeMeasurement;
         }
     }
 

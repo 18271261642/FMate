@@ -175,7 +175,7 @@ class BleWork : IWork, OnCountTimerListener,
         drinkWater()
         sedentary()
 
-
+        setNightMeasureBp()
 
     }
 
@@ -188,8 +188,8 @@ class BleWork : IWork, OnCountTimerListener,
         autoBpStatusBean.endHour = 0x17
         autoBpStatusBean.endMinute = 0x3B
         autoBpStatusBean.bpInterval = 0x03
-        autoBpStatusBean.normalBpStatus = userInfo.userConfig.bloodPressureNonSleepMeasurement.toByte()
-        autoBpStatusBean.nightBpStatus = userInfo.userConfig.bloodPressureNightSleepMeasurement.toByte()
+        autoBpStatusBean.normalBpStatus = userInfo.userConfig.bloodPressureDaytimeMeasurement.toByte()
+        autoBpStatusBean.nightBpStatus = userInfo.userConfig.bloodPressureNightMeasurement.toByte()
         BleWrite.writeSetAutoBpMeasureStatus(true,autoBpStatusBean
         ) { }
 

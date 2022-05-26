@@ -101,22 +101,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     private fun showBpSchedule(){
 
-        startCheckBpTv.text = "开始第一次校准"
+        startCheckBpTv.text = "开始第一次测量"
         if(checkCount == 1){
-            startCheckBpTv.text = "开始第二次校准"
+            startCheckBpTv.text = "开始第二次测量"
             firstScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             firstScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 2){
-            startCheckBpTv.text = "开始第三次校准"
+            startCheckBpTv.text = "开始第三次测量"
             firstScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
             secondScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             secondScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 3){
-            startCheckBpTv.text = "校准完成，点击提交"
+            startCheckBpTv.text = "提交并校准"
             secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
             thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             thirdScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
@@ -151,8 +151,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         measureDialog!!.setCancelable(false)
         measureDialog!!.setMiddleSchedule(-1f)
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
-            override fun onConfirmClick(code: Int) {
-
+            override fun onConfirmClick(code: Int) { //再次测量
+                measureBp()
             }
 
             override fun onCancelClick(code: Int) {
@@ -181,7 +181,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     override fun measureStatus(status: Int ,deviceTime : String) {
         if(status == 0x01){ //手表主动结束掉
             if(measureDialog != null)
-                measureDialog?.setMeasureStatus(false)
+                measureDialog?.setMeasureStatus(false,false)
             totalSecond = 0
             timeOutSecond = 0
             stopMeasure()

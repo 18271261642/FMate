@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
  * Created by Admin
  * Date 2022/5/25
  */
-public class JingfanBpAPI implements IRequestApi {
+public class JfBpApi implements IRequestApi {
 
 
 
@@ -30,7 +30,7 @@ public class JingfanBpAPI implements IRequestApi {
     private String mac;
 
 
-    public JingfanBpAPI setBp(String data,String time){
+    public JfBpApi setBp(String data, String time){
         this.data = data;
         this.createTime = time;
 

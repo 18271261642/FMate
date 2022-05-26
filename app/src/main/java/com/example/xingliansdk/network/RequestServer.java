@@ -36,11 +36,7 @@ public class RequestServer implements IRequestServer {
 
     @Override
     public String getHost() {
-       if(BuildConfig.BUILD_TYPE.equals("debug")){
-            return BuildConfig.baseUrlDev;
-        }else{
-            return BuildConfig.baseUrl;
-        }
+        return XingLianApplication.baseUrl;
 
     }
 

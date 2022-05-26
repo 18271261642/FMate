@@ -3,15 +3,12 @@ package com.example.xingliansdk.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.example.xingliansdk.MainHomeActivity;
 import com.example.xingliansdk.TestActivity;
 import com.example.xingliansdk.bean.MapMotionBean;
 import com.example.xingliansdk.bean.SleepTypeBean;
 import com.example.xingliansdk.dfu.DFUActivity;
-import com.example.xingliansdk.network.api.dialView.RecommendDialBean;
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean;
 import com.example.xingliansdk.ui.BleConnectActivity;
 import com.example.xingliansdk.ui.bloodOxygen.BloodOxygenActivity;
@@ -34,13 +31,12 @@ import com.example.xingliansdk.ui.login.LoginActivity;
 import com.example.xingliansdk.ui.login.PasswordActivity;
 import com.example.xingliansdk.ui.login.SureLogOutActivity;
 import com.example.xingliansdk.ui.problemsFeedback.ProblemsFeedbackActivity;
-import com.example.xingliansdk.ui.setting.BpSettingActivity;
+import com.example.xingliansdk.ui.bp.BpSettingActivity;
 import com.example.xingliansdk.ui.setting.DoNotDisturbActivity;
 import com.example.xingliansdk.ui.device.ModuleMeasurementListActivity;
 import com.example.xingliansdk.ui.device.OtherSettingActivity;
 import com.example.xingliansdk.ui.device.ReminderPushListActivity;
 import com.example.xingliansdk.ui.deviceSport.DeviceSportChartActivity;
-import com.example.xingliansdk.ui.exerciseRecord.ExerciseRecordActivity;
 import com.example.xingliansdk.ui.fragment.home.CardEditActivity;
 import com.example.xingliansdk.ui.heartrate.HeartRateActivity;
 import com.example.xingliansdk.ui.heartrate.RealTimeHeartRateActivity;
@@ -77,10 +73,6 @@ import com.example.xingliansdk.ui.weight.WeightActivity;
 import com.shon.connector.utils.TLog;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-
-import static me.hgj.jetpackmvvm.network.NetworkUtil.url;
 
 public class JumpUtil {
 

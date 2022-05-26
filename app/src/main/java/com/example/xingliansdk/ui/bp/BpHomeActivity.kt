@@ -455,12 +455,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         mViewModel.resultGet.observe(this){ it ->
             TLog.error("----获取血压返回="+Gson().toJson(it))
-            if(!it.isCalibrationRequired && currDayStr == DateUtil.getCurrDate()){   //没有校准，需要校准
+            if(!it.isCalibrationRequired ){   //没有校准，需要校准
                 isNeedCheckBp = false
-                this.checkDescStr = it.calibrationReason
+
                // showPromptDialog()
             }
-
+            this.checkDescStr = it.calibrationReason
             if(it.list != null && it.list.size>0){
                 it.list.forEach {
                     sDao.insert(
@@ -594,8 +594,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             }
 
             override fun onCancelClick(code: Int) {
-                if(!isBind)
-                isConntinue  = true
+                if(!isBind){
+                    isConntinue  = true
+                    startActivity(Intent(this@BpHomeActivity, MeasureNewBpActivity::class.java))
+                }
+
             }
 
         })
@@ -857,8 +860,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            val d2 = LineDataSet(values2, "")
            d2.lineWidth = 2.0f
            d2.circleRadius = 2.5f
+
            d2.highLightColor = Color.rgb(244, 117, 117)
+
            d2.color = Color.parseColor("#FBD371")
+
+
            d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
            d2.setDrawValues(false)
 
@@ -872,7 +879,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            dd2.color = Color.TRANSPARENT
            dd2.lineWidth = 2.0f
            dd2.circleRadius = 1f
-           dd2.highLightColor = Color.rgb(0, 0, 0)
+           dd2.highLightColor = Color.rgb(255, 255, 255)
            //dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
 
            dd2.setCircleColor(Color.TRANSPARENT)

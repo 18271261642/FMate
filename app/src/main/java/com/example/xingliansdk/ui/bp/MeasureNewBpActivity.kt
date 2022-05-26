@@ -14,6 +14,7 @@ import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
 import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
+import com.example.xingliansdk.utils.Utils
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
@@ -67,8 +68,9 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                 timeOutSecond++
                 if(timeOutSecond >=120){    //超时了
                     totalSecond = 0
+                    timeOutSecond = 0
                     showMeasureDialog(false)
-                    stopMeasure(false)
+                   // stopMeasure(false)
                 }
 
                 if(totalSecond>=100)
@@ -95,7 +97,6 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
         measureBpAgainTv.setOnClickListener(this)
 
-
         //BLEManager.getInstance().dataDispatcher.clearAll()
         measureBp()
 
@@ -105,28 +106,40 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
 
     private fun showMeasureDialog(isFail : Boolean){
-        measureDialog = MeasureBpDialogView(this)
-        measureDialog!!.show()
-        measureDialog!!.setCancelable(false)
-        if(!isFail){
-            measureDialog!!.setMeasureStatus(false)
+        try {
+            val isForeground = Utils.isForeground(this@MeasureNewBpActivity, MeasureNewBpActivity::class.java.name)
+            if(!isForeground)
+                return
+            if(measureDialog == null){
+                measureDialog = MeasureBpDialogView(this)
+            }
+
+            measureDialog!!.show()
+            measureDialog!!.setCancelable(false)
+            if(!isFail){
+                measureDialog!!.setMeasureStatus(false,false)
+                measureDialog!!.setMiddleSchedule(-1f)
+            }
+
+            measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
+                override fun onConfirmClick(code: Int) {  //再次测量按钮
+                    TLog.error("------再次测量="+code)
+                    measureBp()
+                }
+
+                override fun onCancelClick(code: Int) {
+                    if(totalSecond != 0){
+                        backAlert()
+                        return
+                    }
+                    measureDialog?.dismiss()
+                }
+
+            })
+        }catch (e : Exception){
+            e.printStackTrace()
         }
 
-        measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
-            override fun onConfirmClick(code: Int) {  //再次测量按钮
-                TLog.error("------再次测量="+code)
-                measureBp()
-            }
-
-            override fun onCancelClick(code: Int) {
-                if(totalSecond != 0){
-                    backAlert()
-                    return
-                }
-                measureDialog?.dismiss()
-            }
-
-        })
     }
 
 
@@ -161,7 +174,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
         totalSecond = 0
         timeOutSecond = 0
-        stopMeasure(false)
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -175,7 +188,10 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     }
 
     private fun measureBp(){
+        Config.isNeedTimeOut = true
+        BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
+        timeOutSecond = 0
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
 
     }
@@ -237,7 +253,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             measureBpBean.sbp.toInt().toByte(),measureBpBean.dbp.toInt().toByte(),measureBpBean.heartRate.toInt().toByte()
         )
 
-        var resultArray = CmdUtil.getFullPackage(cmdArray)
+        val resultArray = CmdUtil.getFullPackage(cmdArray)
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
             override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
 
@@ -292,6 +308,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
        timeOutSecond = 0
         Config.IS_APP_STOP_MEASURE_BP = true
         stopMeasure(true)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Config.isNeedTimeOut = false
     }
 
 

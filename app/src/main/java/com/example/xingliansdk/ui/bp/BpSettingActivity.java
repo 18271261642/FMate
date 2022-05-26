@@ -1,17 +1,14 @@
-package com.example.xingliansdk.ui.setting;
+package com.example.xingliansdk.ui.bp;
 
 import android.os.Bundle;
 
 import com.example.xingliansdk.R;
 import com.example.xingliansdk.base.BaseActivity;
-import com.example.xingliansdk.base.viewmodel.BaseViewModel;
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel;
-import com.example.xingliansdk.utils.HawkUtil;
 import com.example.xingliansdk.view.DateUtil;
 import com.example.xingliansdk.widget.TitleBarLayout;
 import com.github.iielse.switchbutton.SwitchView;
 import com.gyf.barlibrary.ImmersionBar;
-import com.luck.picture.lib.tools.ToastUtils;
 import com.shon.HawConstant;
 import com.shon.connector.BleWrite;
 import com.shon.connector.bean.AutoBpStatusBean;
@@ -21,7 +18,6 @@ import com.shon.connector.utils.ShowToast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 
@@ -170,8 +166,8 @@ public class BpSettingActivity extends BaseActivity<UserViewModel> {
         value.put("age",getMDeviceInformationBean().getAge()+"");
         value.put("sex",getMDeviceInformationBean().getSex()+"");
         value.put("birthDate", DateUtil.getDate(DateUtil.YYYY_MM_DD, getMDeviceInformationBean().getBirth()));
-        value.put("blood_pressure_night_sleep_measurement",autoBpNightSwitch.isOpened() ? "1" : "2");
-        value.put("blood_pressure_non_sleep_measurement",autoBpNormalSwitch.isOpened() ? "1" : "2");
+        value.put("bloodPressureNightMeasurement",autoBpNightSwitch.isOpened() ? "2" : "1");
+        value.put("bloodPressureDaytimeMeasurement",autoBpNormalSwitch.isOpened() ? "2" : "1");
         mViewModel.setUserInfo(value);
 
     }

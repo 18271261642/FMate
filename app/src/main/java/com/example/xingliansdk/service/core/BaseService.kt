@@ -5,9 +5,10 @@ import android.content.Intent
 import android.os.IBinder
 import com.example.xingliansdk.service.core.annotation.Works
 import com.example.xingliansdk.service.work.BleWork
+import com.hjq.http.lifecycle.LifecycleService
 
 
-open class BaseService : Service() {
+open class BaseService : LifecycleService() {
 
     private var privateIWork : BleWork ?= null
 
