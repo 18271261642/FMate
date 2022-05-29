@@ -1280,6 +1280,7 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.setTimeout(80 * 1000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.cancelTimer();
         write.enqueue(new MeasureBpCall(address,key,measureBigBpListener));
     }
 

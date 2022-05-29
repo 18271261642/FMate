@@ -307,6 +307,9 @@ public class DataDispatcher {
         if(tempCall!=null&&tempCall.getAddress()!=null)
         if (TextUtils.equals(address, tempCall.getAddress())) {
             if (tempCall instanceof NotifyCall) {
+
+                TLog.Companion.error("--tempCall-NotifyCall==");
+
                 NotifyCallback callBack = (NotifyCallback) tempCall.getCallBack();
                 callBack.onChangeResult(true);
                 ((NotifyCall) tempCall).cancelTimer();
