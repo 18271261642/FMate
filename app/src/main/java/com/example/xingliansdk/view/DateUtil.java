@@ -500,7 +500,8 @@ public class DateUtil {
         if(minute<30){
             resultHour = String.format("%02d",hour)+":"+"30";
         }else{
-            resultHour = String.format("%02d",(hour+1))+":"+"00";
+            int tmpHour = hour+1;
+            resultHour = tmpHour == 24 ? "23:59" : String.format("%02d",(tmpHour))+":"+"00";
         }
 
         return resultHour;
