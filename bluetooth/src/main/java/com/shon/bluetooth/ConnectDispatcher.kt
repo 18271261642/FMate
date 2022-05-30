@@ -11,6 +11,7 @@ import com.shon.bluetooth.core.Connect
 import com.shon.bluetooth.core.ConnectedDevices
 import com.shon.bluetooth.core.Device
 import com.shon.bluetooth.util.BleLog
+import com.shon.connector.Config
 import java.util.*
 
 /**
@@ -212,6 +213,8 @@ class ConnectDispatcher internal constructor() {
             }
             device.connected = false
             isConnected = false
+            //手表主动终止
+            Config.isNeedTimeOut = false
             //这句话先注释放这里 也是我自己添加的
             // device = Device()
         }

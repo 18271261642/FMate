@@ -26,6 +26,7 @@ import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.PromptCheckBpDialog
 import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureViewModel
+import com.example.xingliansdk.network.api.bloodPressureView.BloodPressureVoBean
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.HelpUtil
@@ -105,6 +106,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     //最后一个有值的下标
     private var lastValueMap = HashMap<Int,Int>()
+    private var lastValidValue = 0
+
+
 
     override fun layoutId(): Int {
       return R.layout.activity_new_bp_home_layout
@@ -237,7 +241,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun updateBpData(day : String){
+    private fun updateBpData(list : List<BloodPressureVoBean.ListDTO>){
         inputHeightBpList.clear()
         inputLowBpList.clear()
         heightList.clear()
@@ -250,11 +254,25 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         bpHomeMeasureSelectTv.text = "--"
         bpHomeMeasureInputTv.text = "--"
 
-        bpList = sDao.getDayBloodPressureHistory(
-            day
-        ) as ArrayList<BloodPressureHistoryBean>
+//        bpList = sDao.getDayBloodPressureHistory(
+//            day
+//        ) as ArrayList<BloodPressureHistoryBean>
 
 
+        var tmpBpList = ArrayList<BloodPressureHistoryBean>()
+        list.forEach {
+            var bp = BloodPressureHistoryBean(
+                it.stampCreateTime, 0, it.dataSource , it.systolicPressure, it.diastolicPressure,
+                it.createTime
+            )
+
+            TLog.error("--------bpppp="+it.toString()+" "+Gson().toJson(bp))
+            tmpBpList.add(bp)
+        }
+
+
+        bpList = tmpBpList
+        TLog.error("------DB="+Gson().toJson(bpList))
 
         mBloodPressureHistoryAdapter.data.clear()
         mBloodPressureHistoryAdapter.addData(bpList)
@@ -272,6 +290,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         }
 
         if(bpList.size==0){
+            lastValidValue = 0
             initLinData(bpHomeLinChartView,
                 heightList,lowBpList,inputHeightBpList,inputLowBpList)
             return
@@ -285,25 +304,35 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         val lastValue = bpList[0]
         val lastResultHourStr = DateUtil.getFormatHour(lastValue.startTime * 1000)
 
-        TLog.error("-------第一个有效值的值="+firstResultHourStr)
+        TLog.error("-------第一个有效值的值="+firstResultHourStr+" Size="+bpList.size)
+
+
+//        bpList.forEachIndexed { index, bp ->
+//
+//
+//        }
 
         //展示图表
-        bpList.forEach {
+        bpList.forEachIndexed {index, bp ->
 
             //HH格式
             val timeStr = DateUtil.getDate(
-                DateUtil.HOUR, it.startTime * 1000
+                DateUtil.HOUR, bp.startTime * 1000
             )
             //分钟
             val timeMinuteStr = DateUtil.getDate(
-                DateUtil.MINUTE, it.startTime * 1000
+                DateUtil.MINUTE, bp.startTime * 1000
             )
 
-            val resultHourStr = DateUtil.getFormatHour(it.startTime * 1000)
+            var resultHourStr = DateUtil.getFormatHour(bp.startTime * 1000)
 
-            TLog.error("----小时=$timeStr $timeMinuteStr $resultHourStr")
+            TLog.error("----小时=$timeStr $timeMinuteStr $resultHourStr" +" type="+bp.type)
 
-            if (it.type == 0) {   //手动输入
+            if (bp.type == 0) {   //手动输入
+
+                TLog.error("--11----inputDataaaa="+Gson().toJson(resultInputHourMap))
+
+
                 if (resultInputHourMap[resultHourStr] != null) {
                     val bpArray = resultInputHourMap[resultHourStr]
                     //高压
@@ -311,9 +340,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     //低压
                     val lBp = bpArray?.get(1)?.toInt()
 
-                    val tmpHBp = hBp?.plus(it.systolicBloodPressure)
+                    val tmpHBp = hBp?.plus(bp.systolicBloodPressure)
 
-                    val tmpLBp = lBp?.plus(it.diastolicBloodPressure)
+                    val tmpLBp = lBp?.plus(bp.diastolicBloodPressure)
 
                     val tmpBpArray = tmpHBp?.div(2)
                         ?.let { it1 ->
@@ -323,11 +352,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
                     resultInputHourMap[resultHourStr] = tmpBpArray as IntArray
                 } else {
-                    val intarrays = intArrayOf(it.systolicBloodPressure, it.diastolicBloodPressure)
+                    val intarrays = intArrayOf(bp.systolicBloodPressure, bp.diastolicBloodPressure)
                     resultInputHourMap[resultHourStr] = intarrays
 
                 }
-
+                TLog.error("--22----inputDataaaa="+Gson().toJson(resultInputHourMap))
             } else {
                 if(resultMeasureHourMap[resultHourStr] != null){
                     val bpArray = resultMeasureHourMap[resultHourStr]
@@ -336,9 +365,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     //低压
                     val lBp = bpArray?.get(1)?.toInt()
 
-                    val tmpHBp = hBp?.plus(it.systolicBloodPressure)
+                    val tmpHBp = hBp?.plus(bp.systolicBloodPressure)
 
-                    val tmpLBp = lBp?.plus(it.diastolicBloodPressure)
+                    val tmpLBp = lBp?.plus(bp.diastolicBloodPressure)
 
                     val tmpBpArray = tmpHBp?.div(2)
                         ?.let { it1 ->
@@ -349,7 +378,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     resultMeasureHourMap[resultHourStr] = tmpBpArray as IntArray
 
                 }else{
-                    val intarrays = intArrayOf(it.systolicBloodPressure, it.diastolicBloodPressure)
+                    val intarrays = intArrayOf(bp.systolicBloodPressure, bp.diastolicBloodPressure)
                     resultMeasureHourMap.put(resultHourStr,intarrays)
                 }
 
@@ -421,7 +450,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         tmpXVList.addAll(xValue)
         xValue.clear()
 
-        xValue.addAll(tmpXVList.subList(tmpIndex,tmpXVList.size-1))
+        lastValidValue = tmpLastIndex - tmpIndex
+
+        xValue.addAll(tmpXVList.subList(tmpIndex,tmpLastIndex+1))
 
 
         val tmpInputList :  ArrayList<Int> = arrayListOf()
@@ -430,11 +461,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         tmpInputList.addAll(inputHeightBpList)
         inputHeightBpList.clear()
 
-        inputHeightBpList.addAll(tmpInputList.subList(tmpIndex,tmpXVList.size-1))
+        inputHeightBpList.addAll(tmpInputList.subList(tmpIndex,tmpLastIndex+1))
 
         tmpInputLowList.addAll(inputLowBpList)
         inputLowBpList.clear()
-        inputLowBpList.addAll(tmpInputLowList.subList(tmpIndex,tmpXVList.size-1))
+        inputLowBpList.addAll(tmpInputLowList.subList(tmpIndex,tmpLastIndex+1))
 
 
 
@@ -443,12 +474,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         val tmpMLList : ArrayList<Int> = arrayListOf()
         tmpMHList.addAll(heightList)
         heightList.clear()
-        heightList.addAll(tmpMHList.subList(tmpIndex,tmpXVList.size-1))
+        heightList.addAll(tmpMHList.subList(tmpIndex,tmpLastIndex+1))
 
 
         tmpMLList.addAll(lowBpList)
         lowBpList.clear()
-        lowBpList.addAll(tmpMLList.subList(tmpIndex,tmpXVList.size-1))
+        lowBpList.addAll(tmpMLList.subList(tmpIndex,tmpLastIndex+1))
 
         TLog.error("------处理后的血压轴="+Gson().toJson(xValue))
 
@@ -480,7 +511,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     )
                 }
             }
-            currDayStr?.let { it1 -> updateBpData(it1) }
+            updateBpData(it.list)
         }
 
     }
@@ -738,24 +769,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
 
-        val tmp24EntryList = ArrayList<Entry>()
-        xValue.forEachIndexed { index, s ->
-            tmp24EntryList.add(Entry(index.toFloat(),100f))
-        }
-        val dd2 = LineDataSet(tmp24EntryList,"")
-        dd2.color = Color.WHITE
-        dd2.lineWidth = 2.0f
-        dd2.circleRadius = 1f
-        dd2.highLightColor = Color.rgb(255, 255, 255)
-        dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
-        dd2.enableDashedLine(15f, 10f, 0f)
-        // dd2.setCircleColor(Color.TRANSPARENT)
-        dd2.circleHoleColor = Color.TRANSPARENT
-        dd2.setDrawValues(false)
-
-
-
-
         //手动输入的高压
         val inputHeightValue = ArrayList<Entry>()
 
@@ -773,14 +786,16 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
           val inputHD = LineDataSet(inputHeightValue,"")
 
            inputHD.lineWidth = 1.5f
-           inputHD.circleRadius = 2.5f
-           inputHD.highLightColor = Color.rgb(255, 255, 255)
+           inputHD.circleRadius = 2.0f
+          // inputHD.highLightColor = Color.rgb(255, 255, 255)
            inputHD.formLineDashEffect = DashPathEffect(floatArrayOf(10f,5f),0f)
            inputHD.formLineWidth = 1f
            //虚线
-           inputHD.enableDashedLine(15f, 10f, 0f)
+           inputHD.enableDashedLine(10f, 10f, 0f)
+            inputHD.circleHoleColor = Color.TRANSPARENT
 //           inputHD.enableDashedHighlightLine(10f, 10f, 0f)
            inputHD.color =Color.parseColor("#71FBEE")
+            inputHD.circleColors = arrayListOf(Color.parseColor("#71FBEE"))
            // inputHD.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
            inputHD.setDrawValues(false)
 
@@ -795,14 +810,15 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
            val inputLD = LineDataSet(inputLowBpValue,"")
            inputLD.lineWidth = 1.5f
-           inputLD.circleRadius = 2.5f
-           inputLD.highLightColor = Color.rgb(244, 117, 117)
+           inputLD.circleRadius = 2.0f
+          // inputLD.highLightColor = Color.rgb(244, 117, 117)
 
            //虚线
-            inputLD.enableDashedLine(15f, 10f, 0f)
+            inputLD.enableDashedLine(10f, 10f, 0f)
            inputLD.enableDashedHighlightLine(10f, 10f, 0f)
            inputLD.circleHoleColor = Color.TRANSPARENT
            inputLD.color = Color.parseColor("#FBD371")
+           inputLD.circleColors = arrayListOf(Color.parseColor("#FBD371"))
            inputLD.setDrawValues(false)
 
 
@@ -818,11 +834,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            // lastValueMap[inputLowBpValue[inputLowBpValue.size-1].x.toInt()] = values1[values1.size-1].x.toInt()
 
            val d1 = LineDataSet(values1, "")
-           d1.lineWidth = 2.0f
+           d1.lineWidth = 1.5f
            d1.circleRadius = 2.5f
             d1.circleHoleColor = Color.parseColor("#71FBEE")
            // d1.enableDashedLine(10f, 10f, 5f)
-           d1.highLightColor = Color.rgb(244, 117, 117)
+         //  d1.highLightColor = Color.rgb(244, 117, 117)
            d1.color = Color.parseColor("#71FBEE")
            d1.setDrawValues(false)
 
@@ -837,17 +853,33 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            val d2 = LineDataSet(values2, "")
            d2.lineWidth = 2.0f
            d2.circleRadius = 2.5f
-           d2.highLightColor = Color.rgb(244, 117, 117)
+          // d2.highLightColor = Color.rgb(244, 117, 117)
 
            d2.color = Color.parseColor("#FBD371")
-          d2.circleHoleColor = Color.parseColor("#71FBEE")
+          d2.circleHoleColor = Color.parseColor("#FBD371")
            d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
            d2.setDrawValues(false)
 
 
 
+        val tmp24EntryList = ArrayList<Entry>()
+        xValue.forEachIndexed { index, s ->
+            tmp24EntryList.add(Entry(index.toFloat(),100f))
+        }
+        val dd2 = LineDataSet(tmp24EntryList,"")
+        dd2.color = Color.parseColor("#1D8BEE")
+        dd2.lineWidth = -1f
+        dd2.circleRadius = 1f
+        //dd2.highLightColor = Color.rgb(255, 255, 255)
+        dd2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+        // dd2.enableDashedLine(15f, 10f, 0f)
+        dd2.setCircleColor(Color.TRANSPARENT)
+        dd2.circleHoleColor = Color.TRANSPARENT
+        dd2.setDrawValues(false)
 
-           val sets = ArrayList<ILineDataSet>()
+
+
+        val sets = ArrayList<ILineDataSet>()
            sets.add(d1)
            sets.add(d2)
 
@@ -884,13 +916,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            chart.invalidate()
 
 
-
-        if(lastValueMap.size>0){
-            lastValueMap.forEach { (t, u) ->
-                showSelectData(t.toString(),u.toString())
-            }
-        }
-
+        showSelectData()
 
     }
 
@@ -932,33 +958,34 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
 
-    private fun showSelectData(x : String,y : String){
+    private fun showSelectData(){
         try {
-            if (x != null) {
-               // bpCheckTimeTv.text = xValue.get(x.toInt())
+            if(lastValidValue<xValue.size){
 
-                heightList.forEachIndexed { index, i ->
-                    TLog.error("------高压====="+index+"-="+i)
+                if(lastValidValue+1 <=xValue.size-1){
+                    bpCheckTimeTv.text = xValue.get(lastValidValue) +"~"+xValue.get(lastValidValue+1)
+                }else{
+                    bpCheckTimeTv.text = xValue[lastValidValue]
                 }
+
+            }
                 //手动测量的高压集合
-                if(heightList.size>0 && x.toInt()<heightList.size-1){
-                    val tmpH = heightList[x.toInt()].toString()
-                    val tmpL = lowBpList[x.toInt()].toString()
+                if(heightList.size>0 && lastValidValue<heightList.size-1){
+                    val tmpH = heightList[lastValidValue].toString()
+                    val tmpL = lowBpList[lastValidValue].toString()
                     bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
                 }else{
                     bpHomeMeasureSelectTv.text = "--"
                 }
 
                 //输入
-                if(inputHeightBpList.size>0 && y.toInt()<inputLowBpList.size-1){
-                    val tmpH = inputHeightBpList[y.toInt()].toString()
-                    val tmpL = inputLowBpList[y.toInt()].toString()
+                if(inputHeightBpList.size>0 && lastValidValue<inputLowBpList.size-1){
+                    val tmpH = inputHeightBpList[lastValidValue].toString()
+                    val tmpL = inputLowBpList[lastValidValue].toString()
                     bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
                 }else{
                     bpHomeMeasureInputTv.text = "--"
                 }
-
-            }
         }catch (e : Exception){
             e.printStackTrace()
         }

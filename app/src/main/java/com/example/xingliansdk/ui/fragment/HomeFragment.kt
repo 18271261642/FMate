@@ -34,6 +34,7 @@ import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.*
@@ -292,12 +293,21 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+
+        //
+        if(Config.isNeedTimeOut){
+            handler.sendEmptyMessage(0x00)
+            ShowToast.showToastShort("正在测量血压，请稍后!")
+            return
+        }
+
 //        TLog.error("进行刷新不判断")
 //        if(!isRefresh) {
 //            TLog.error("进行刷新")
         TLog.error("mHomeCardVoBean====+" + Gson().toJson(mHomeCardVoBean))
 //        mSwipeRefreshLayout.finishRefresh(60000)
         //handler.sendEmptyMessageDelayed(0x00,15 * 1000)
+       // BLEManager.getInstance().dataDispatcher.clear("")
         setPopularAdapter()
         homeBleWrite()
 //        }

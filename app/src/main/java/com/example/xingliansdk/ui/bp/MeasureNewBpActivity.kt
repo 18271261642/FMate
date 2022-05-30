@@ -194,8 +194,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     }
 
     private fun measureBp(){
-        com.shon.connector.Config.isNeedTimeOut = true
-        Config.isNeedTimeOut = false
+        Config.isNeedTimeOut = true
         BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
         timeOutSecond = 0

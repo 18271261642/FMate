@@ -627,6 +627,9 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 if(typeCode == 5 ){
                     if(!isForeground)
                         return
+                    if(measureBpPromptDialog != null && measureBpPromptDialog!!.isShowing){
+                        measureBpPromptDialog!!.dismiss()
+                    }
                     measureBpPromptDialog = MeasureBpPromptDialog(
                         this@MainHomeActivity,
                         R.style.edit_AlertDialog_style)

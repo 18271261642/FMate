@@ -20,6 +20,9 @@ interface BloodPressureHistoryDao: BaseDao<BloodPressureHistoryBean> {
     @Query("select * from BloodPressureHistoryBean where dateTime  like '%' || :dateTime || '%' order by startTime desc")
     fun getDayBloodPressureHistory(dateTime:String): MutableList<BloodPressureHistoryBean>
 
+    @Query("select * from BloodPressureHistoryBean where dateTime= :dateTime")
+    fun getBpByDateDesc(dateTime:String):MutableList<BloodPressureHistoryBean>
+
     @Query("select * from BloodPressureHistoryBean order by startTime desc ")
     fun getAllByDateDesc():MutableList<BloodPressureHistoryBean>
     @Query("delete  from BloodPressureHistoryBean where startTime == :time")

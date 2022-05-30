@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.bp
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.*
 import android.view.View
@@ -11,12 +12,15 @@ import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.MediaRepeatDialog
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.network.api.jignfan.JingfanBpViewModel
+import com.example.xingliansdk.utils.AppActivityManager
 import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
+import com.example.xingliansdk.utils.Utils
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.BleWrite
+import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
@@ -56,6 +60,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     //手表测量血压的时间，上传后台
     var deviceMeasureTime : String ?= null
 
+    private var alertDialog : AlertDialog.Builder ?=null
+
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -65,7 +71,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 if(measureDialog != null)
                     measureDialog?.setMeasureStatus(false)
                 totalSecond = 0
-                stopMeasure()
+                stopMeasure(false)
             }
 
             if(totalSecond >= 100)
@@ -93,8 +99,6 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         savePath = Environment.getExternalStorageDirectory().path+"/Download/";
 
-
-        showBpSchedule()
 
         showGuidDialog()
     }
@@ -145,22 +149,39 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
     }
 
-    private fun showMeasureDialog(){
+    private fun showMeasureDialog(isMeasureFail : Boolean){
+
+        val isForeground = Utils.isForeground(this@BpCheckActivity, BpCheckActivity::class.java.name)
+        if(!isForeground)
+            return
+        if(measureDialog == null){
+            measureDialog = MeasureBpDialogView(this)
+        }
         measureDialog = MeasureBpDialogView(this)
         measureDialog!!.show()
         measureDialog!!.setCancelable(false)
-        measureDialog!!.setMiddleSchedule(-1f)
+        if(!isMeasureFail){ //failed
+            measureDialog!!.setMeasureStatus(false,false)
+            measureDialog!!.setMiddleSchedule(-1f)
+            totalSecond = 0
+            timeOutSecond = 0
+        }
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) { //再次测量
                 measureBp()
             }
 
             override fun onCancelClick(code: Int) {
-
+                if(timeOutSecond !=0){
+                    backAlert()
+                    return
+                }
+                measureDialog!!.dismiss()
+                showGuidDialog()
             }
 
         })
-        measureBp()
+
     }
 
 
@@ -173,18 +194,20 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
     private fun measureBp(){
+        Config.isNeedTimeOut = true
         timeOutSecond = 0
+        totalSecond = 0
         startCountTime()
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
     }
 
     override fun measureStatus(status: Int ,deviceTime : String) {
         if(status == 0x01){ //手表主动结束掉
-            if(measureDialog != null)
-                measureDialog?.setMeasureStatus(false,false)
+            Config.isNeedTimeOut = false
+            showMeasureDialog(false)
             totalSecond = 0
             timeOutSecond = 0
-            stopMeasure()
+            stopMeasure(false)
         }
         this.deviceMeasureTime = deviceTime
     }
@@ -207,8 +230,6 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 ShowToast.showToastShort("请输入正常血压!")
                 return
             }
-
-
         }
 
 
@@ -247,11 +268,11 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         checkCount++;
-        stopMeasure();
+        stopMeasure(false);
     }
 
 
-    private fun stopMeasure(){
+    private fun stopMeasure(isOut : Boolean){
         checkHBpTv.text = "请输入收缩压"
         checkLBpTv.text = "请输入舒张压"
         handler.removeMessages(0x00)
@@ -268,13 +289,19 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             }
         })
 
-        if(measureDialog != null){
-            measureDialog?.setMiddleSchedule(-1f)
-            measureDialog?.dismiss()
+        if(isOut){
+            Config.IS_APP_STOP_MEASURE_BP = false
+            AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+        }else{
+            if(measureDialog != null){
+                measureDialog?.setMiddleSchedule(-1f)
+                measureDialog?.dismiss()
+            }
+
+            showBpSchedule()
         }
 
 
-        showBpSchedule()
     }
 
     override fun onClick(p0: View?) {
@@ -307,13 +334,13 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     return
                 }
 
-                var lbpStr = checkLBpTv.text.toString()
+                val lbpStr = checkLBpTv.text.toString()
                 if(!StringUtils.isNumeric(lbpStr)){
                     ShowToast.showToastShort("请输入舒张!")
                     return
                 }
-
-                showMeasureDialog()
+                measureBp()
+                showMeasureDialog(true)
             }
             R.id.inputHBpLayout->{  //输入收缩压
                 inputBpData(0)
@@ -355,13 +382,49 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         checkBpView.setOnCheckBpDialogListener(object : CheckBpDialogView.OnCheckBpDialogListener{
             override fun backImgClick() {
                 checkBpView.dismiss()
+                Config.IS_APP_STOP_MEASURE_BP = false
+                AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
             }
 
             override fun startCheckClick() {
                 checkBpView.dismiss()
-                showMeasureDialog()
+                measureBp()
+                showMeasureDialog(true)
             }
 
         })
+    }
+
+    private fun stop(){
+        totalSecond = 0
+        //记录超时的时间，2分钟
+        timeOutSecond = 0
+        Config.IS_APP_STOP_MEASURE_BP = true
+        stopMeasure(true)
+    }
+
+    private fun backAlert(){
+        if(alertDialog == null){
+            alertDialog = AlertDialog.Builder(this@BpCheckActivity)
+        }
+        alertDialog!!.setTitle("提醒")
+        alertDialog!!.setMessage("是否要终止测量?")
+        alertDialog!!.setPositiveButton("确定"
+        ) { p0, p1 ->
+            p0.cancel()
+
+            TLog.error("---------终止测量-------")
+            stop()
+            // handler.sendEmptyMessage(0x01)
+        }.setNegativeButton("取消"
+        ) { p0, p1 ->
+            p0.cancel()
+        }
+        alertDialog!!.create().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Config.isNeedTimeOut = false
     }
 }

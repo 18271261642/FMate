@@ -487,7 +487,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
     //后台测量血压
     public void backStartMeasureBp(boolean isStart){
-        BLEManager.getInstance().dataDispatcher.clear("");
+       Config.isNeedTimeOut = true;
         BleWrite.writeStartOrEndDetectBp(true,isStart ? 0x03 : 0x01,this);
     }
 
@@ -636,17 +636,18 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             this.deviceMeasureTime = deviceTime;
         }
         if(status == 0x01){ //手表主动终止
-
+            Config.isNeedTimeOut = false;
         }
     }
 
     //后台测量血压，大数据返回
     @Override
     public void measureBpResult(List<Integer> bpValue, String timeStr) {
+        Config.isNeedTimeOut = false;
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0;i<bpValue.size();i++){
             int v = bpValue.get(i);
-            if(i <bpValue.size()-1){
+            if(i ==bpValue.size()-1){
                 stringBuilder.append(v);
             }else{
                 stringBuilder.append(v);

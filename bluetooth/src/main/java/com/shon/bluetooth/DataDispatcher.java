@@ -249,6 +249,7 @@ public class DataDispatcher {
         int type = result.getType();
         TLog.Companion.error("---type==="+type);
         if (type == BluetoothGattCharacteristic.PROPERTY_WRITE) {
+            TLog.Companion.error("----PROPERTY_WRITE==");
 //            TLog.Companion.error("BluetoothGattCharacteristic.PROPERTY_WRITE 进入");
             WriteCallback writeCall = getWriteCallByWriteData(address, setValue);
             if (writeCall != null) {
@@ -317,7 +318,7 @@ public class DataDispatcher {
                 //  break;
             }
            else if (tempCall instanceof ReadCall) {
-                TLog.Companion.error("---ReadCall链接的时候==");
+                TLog.Companion.error("---ReadCall===");
 
                 ReadCallback readCallback = (ReadCallback) tempCall.getCallBack();
                 if(!TextUtils.isEmpty(uuid))
@@ -330,6 +331,7 @@ public class DataDispatcher {
 
             }
            else if (tempCall instanceof WriteCall) {
+                TLog.Companion.error("---WriteCall===");
               //  BleLog.d("DataDispatcher WriteCall : process " + type);
                 WriteCallback writeCall = (WriteCallback) tempCall.getCallBack();
                 if(!TextUtils.isEmpty(uuid))
@@ -338,6 +340,9 @@ public class DataDispatcher {
 //                         TLog.Companion.error("=="+ tempCall);
                          if(tempCall !=null) {
                              ((BaseCall<?, ?>) tempCall).cancelTimer();
+
+                             TLog.Companion.error("---WriteCall---cancelTime===");
+
                              startSendNext(true);
                          }
                     }
@@ -360,6 +365,8 @@ public class DataDispatcher {
                 }
 
                 ICallback callBack = listener.getCallBack();
+
+
                 if(TextUtils.isEmpty(uuid))
                 {
                     break;
