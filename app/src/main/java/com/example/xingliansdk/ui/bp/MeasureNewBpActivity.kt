@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.os.*
 import android.view.View
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.OnCommDialogClickListener
@@ -22,6 +23,7 @@ import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
 import com.shon.connector.utils.HexDump
+import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
 import kotlinx.android.synthetic.main.activity_card_edit.titleBar
@@ -59,6 +61,16 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
             if(msg.what == 0x00){
+
+                //判断是否断开
+                    if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+                        ShowToast.showToastLong("已断开连接!")
+                        measureDialog?.cancel()
+                        Config.IS_APP_STOP_MEASURE_BP = false
+                        AppActivityManager.getInstance().finishActivity(this@MeasureNewBpActivity)
+                        return
+                    }
+
                 timeOutSecond++
                 if(timeOutSecond >=120){    //超时了
                     totalSecond = 0

@@ -1277,7 +1277,7 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
     public static void writeStartOrEndDetectBp(boolean status, int key, MeasureBigBpListener measureBigBpListener){
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
-        write.setTimeout(80 * 1000);
+        write.setTimeout(5 * 1000);
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.cancelTimer();

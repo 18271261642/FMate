@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.*
 import android.view.View
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.dialog.CheckBpDialogView
@@ -65,7 +66,13 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-
+            if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+                ShowToast.showToastLong("已断开连接!")
+                measureDialog?.cancel()
+                Config.IS_APP_STOP_MEASURE_BP = false
+                AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+                return
+            }
             timeOutSecond++
             if(timeOutSecond >=120){    //超时了
                 if(measureDialog != null)
