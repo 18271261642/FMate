@@ -156,18 +156,27 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
     private var time = System.currentTimeMillis()
     private fun initTimePicker() { //Dialog 模式下，在底部弹出
 
-        var selectTime = inputBpDayTv.text.toString()
+        //已经选择的日期
+        val selectDate = inputBpDayTv.text.toString()
+        //已经选择的时间
+        val selectTime = inputBpTimeTv.text.toString()
 
+        //将时间格式化，转换为long，比较大小
 
 
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
-                if (date.time > time) {
+                
+                val checkDate = DateUtil.getDate("yyyy-MM-dd",date)
+                val checkTime = DateUtil.getDate("HH:mm",date)
+
+                val selectTimeLong = DateUtil.formatTimeStrToLong("$checkDate $checkTime","yyyy-MM-dd HH:mm")
+
+                if(selectTimeLong > time){
                     ShowToast.showToastLong("请选择正确的日期!")
                     return@OnTimeSelectListener
                 }
-//                mDeviceInformationBean.age = DateUtil.getAge(date)
-//                mDeviceInformationBean.birth = DateUtil.convertDateToLong(date)
+
                 if(isCheckDay)
                       inputBpDayTv.text = DateUtil.getDate("yyyy-MM-dd",date)
                 else
