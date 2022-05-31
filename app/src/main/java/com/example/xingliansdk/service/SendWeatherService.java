@@ -488,6 +488,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     //后台测量血压
     public void backStartMeasureBp(boolean isStart){
        Config.isNeedTimeOut = true;
+        BLEManager.getInstance().dataDispatcher.clear("");
         BleWrite.writeStartOrEndDetectBp(true,isStart ? 0x03 : 0x01,this);
     }
 

@@ -570,7 +570,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                         ShowToast.showToastShort("请连接设备")
                         return
                     }
-                    if (isNeedCheckBp && !isConntinue) {
+                    if (isNeedCheckBp ) {
                         showPromptDialog(false)
                         return
                     }
@@ -635,7 +635,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
             override fun onCancelClick(code: Int) {
                 if(!isBind){
-                    isConntinue  = true
                     startActivity(Intent(this@BpHomeActivity, MeasureNewBpActivity::class.java))
                 }
 

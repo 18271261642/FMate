@@ -145,6 +145,7 @@ class BpSettingActivity : BaseActivity<UserViewModel>() {
         value["age"] = mDeviceInformationBean.age.toString() + ""
         value["sex"] = mDeviceInformationBean.sex.toString() + ""
         value["birthDate"] = DateUtil.getDate(DateUtil.YYYY_MM_DD, mDeviceInformationBean.birth)
+
         value["bloodPressureNightMeasurement"] = if (autoBpNightSwitch.isOpened) "2" else "1"
         value["bloodPressureDaytimeMeasurement"] = if (autoBpNormalSwitch.isOpened) "2" else "1"
         mViewModel.setUserInfo(value)

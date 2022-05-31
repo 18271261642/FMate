@@ -76,6 +76,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                     totalSecond = 0
                     timeOutSecond = 0
                     showMeasureDialog(false)
+                    return
                    // stopMeasure(false)
                 }
 

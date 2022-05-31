@@ -18,8 +18,10 @@ import com.example.xingliansdk.utils.GetJsonDataUtil
 import com.example.xingliansdk.utils.TimeUtil
 import com.example.xingliansdk.utils.Utils
 import com.example.xingliansdk.view.DateUtil
+import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
@@ -28,6 +30,7 @@ import com.shon.connector.call.listener.MeasureBigBpListener
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bp_chekc_layout.*
+import kotlinx.android.synthetic.main.activity_dial_details.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.titleBar
 import org.apache.commons.lang.StringUtils
@@ -108,6 +111,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
         showGuidDialog()
+
+
+        titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener{
+            override fun onBackClick() {
+               showGuidDialog()
+            }
+
+            override fun onActionImageClick() {
+
+            }
+
+            override fun onActionClick() {
+
+            }
+
+        })
     }
 
     private fun showBpSchedule(){
@@ -283,9 +302,10 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         checkHBpTv.text = "请输入收缩压"
         checkLBpTv.text = "请输入舒张压"
         handler.removeMessages(0x00)
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x0B)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
+        BLEManager.getInstance().dataDispatcher.clear("")
         BleWrite.writeCommByteArray(resultArray,true,object : BleWrite.SpecifySleepSourceInterface{
             override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
 
@@ -406,6 +426,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         totalSecond = 0
         //记录超时的时间，2分钟
         timeOutSecond = 0
+        Config.isNeedTimeOut = false
         Config.IS_APP_STOP_MEASURE_BP = true
         stopMeasure(true)
     }
