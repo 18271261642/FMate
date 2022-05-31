@@ -183,13 +183,21 @@ class BleWork : IWork, OnCountTimerListener,
     private fun setNightMeasureBp(){
        val autoBpStatusBean = AutoBpStatusBean()
         //白天的间隔
+
+        var userInfos: LoginBean = Hawk.get(USER_INFO, LoginBean())
+
+
        autoBpStatusBean.startHour = 0x08
         autoBpStatusBean.startMinute = 0x00
         autoBpStatusBean.endHour = 0x17
         autoBpStatusBean.endMinute = 0x3B
         autoBpStatusBean.bpInterval = 0x03
-        autoBpStatusBean.normalBpStatus = userInfo.userConfig.bloodPressureDaytimeMeasurement.toByte()
-        autoBpStatusBean.nightBpStatus = userInfo.userConfig.bloodPressureNightMeasurement.toByte()
+        autoBpStatusBean.normalBpStatus = userInfos.userConfig.bloodPressureDaytimeMeasurement.toByte()
+        autoBpStatusBean.nightBpStatus = userInfos.userConfig.bloodPressureNightMeasurement.toByte()
+
+
+        TLog.error("----------网络夜间血压="+autoBpStatusBean.toString())
+
         BleWrite.writeSetAutoBpMeasureStatus(true,autoBpStatusBean
         ) { }
 

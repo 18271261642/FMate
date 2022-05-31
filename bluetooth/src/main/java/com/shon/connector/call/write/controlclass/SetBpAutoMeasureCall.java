@@ -1,5 +1,6 @@
 package com.shon.connector.call.write.controlclass;
 
+import com.shon.connector.utils.HexDump;
 import com.shon.connector.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
@@ -63,7 +64,6 @@ public class SetBpAutoMeasureCall extends WriteCallback {
         byte[] statusByte = new byte[]{Config.ControlClass.COMMAND,0x12,autoBpStatusBean.getNightBpStatus(),
                 autoBpStatusBean.getNormalBpStatus(), (byte) autoBpStatusBean.getStartHour(), (byte) autoBpStatusBean.getStartMinute(),
                 (byte) autoBpStatusBean.getEndHour(), (byte) autoBpStatusBean.getEndMinute(), (byte) autoBpStatusBean.getBpInterval()};
-
         return CmdUtil.getFullPackage(statusByte);
     }
 }

@@ -93,4 +93,18 @@ public class AutoBpStatusBean {
     public void setBpInterval(int bpInterval) {
         this.bpInterval = bpInterval;
     }
+
+
+    @Override
+    public String toString() {
+        return "AutoBpStatusBean{" +
+                "nightBpStatus=" + nightBpStatus +
+                ", normalBpStatus=" + normalBpStatus +
+                ", startHour=" + startHour +
+                ", startMinute=" + startMinute +
+                ", endHour=" + endHour +
+                ", endMinute=" + endMinute +
+                ", bpInterval=" + bpInterval +
+                '}';
+    }
 }

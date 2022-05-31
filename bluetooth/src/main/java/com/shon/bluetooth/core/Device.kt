@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import com.shon.connector.utils.TLog
 import com.shon.bluetooth.util.BleLog
+import com.shon.connector.Config
 
 /**
  * Auth : xiao.yunfei
@@ -38,6 +39,7 @@ class ConnectedDevices {
 
     fun onDeviceDisConnect(bluetoothDevice: BluetoothDevice, gatt: BluetoothGatt) {
         val address = bluetoothDevice.address
+        Config.isNeedTimeOut = false
         TLog.error("onDeviceDisConnect  ++$address")
         getDevice(address)?.let {
             BleLog.d("设备断开连接，回调给已存在列表中的设备")

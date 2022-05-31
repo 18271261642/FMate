@@ -26,10 +26,12 @@ import com.example.xingliansdk.blecontent.BleConnection.iFonConnectError
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.livedata.ScannerLiveData
+import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.utils.PermissionUtils
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog.Companion.error
 import com.example.xingliansdk.viewmodel.MainViewModel
+import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.ly.genjidialog.GenjiDialog
 import com.ly.genjidialog.extensions.convertListenerFun
@@ -238,6 +240,16 @@ class BleConnectActivity :
             eventBus.DEVICE_CONNECT_HOME -> {
                 ShowToast.showToastLong(getString(R.string.bind_success))
                 error("HomeFragment BleConnectActivity==$connect")
+
+                val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
+
+              TLog.error("--------绑定成功后="+Gson().toJson(userInfo)+"\n"+Hawk.get("address", ""))
+                if(userInfo != null){
+                    userInfo.user.mac =  Hawk.get("address", "")
+                    Hawk.put(com.example.xingliansdk.Config.database.USER_INFO,userInfo)
+                }
+
+
 
                 if(baseDialog.isShowing)
                 hideWaitDialog()

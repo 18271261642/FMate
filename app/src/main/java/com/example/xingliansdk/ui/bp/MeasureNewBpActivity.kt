@@ -227,6 +227,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     override fun measureStatus(status: Int,deviceTime : String) {
         TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
+            Config.isNeedTimeOut = false
             totalSecond = 0
             timeOutSecond = 0
             showFailMeasure()

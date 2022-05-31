@@ -455,6 +455,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         xValue.addAll(tmpXVList.subList(tmpIndex,tmpLastIndex+1))
 
 
+
+
+
         val tmpInputList :  ArrayList<Int> = arrayListOf()
         val tmpInputLowList : ArrayList<Int> = arrayListOf()
 
@@ -480,6 +483,14 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         tmpMLList.addAll(lowBpList)
         lowBpList.clear()
         lowBpList.addAll(tmpMLList.subList(tmpIndex,tmpLastIndex+1))
+
+
+        if(xValue.size<7){
+            MapUtils.halfHourMap.forEachIndexed { index, str ->
+
+            }
+
+        }
 
         TLog.error("------处理后的血压轴="+Gson().toJson(xValue))
 
@@ -557,9 +568,11 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     startActivity(Intent(this,InputBpActivity::class.java))
                 }
                 R.id.bpHomeMeasureLayout-> { //测量
-                    val userInfo = Hawk.get(Config.database.USER_INFO, LoginBean())
+
+                    var bindMac = Hawk.get("address", "")
+
                     TLog.error("----userInfp=" + Gson().toJson(userInfo)+"\n"+isConntinue)
-                    if (TextUtils.isEmpty(userInfo.user.mac) ) {    //绑定
+                    if (TextUtils.isEmpty(bindMac) ) {    //绑定
                         showPromptDialog(true)
                         return
                     }
@@ -835,9 +848,10 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            val d1 = LineDataSet(values1, "")
            d1.lineWidth = 1.5f
            d1.circleRadius = 2.5f
-            d1.circleHoleColor = Color.parseColor("#71FBEE")
+           // d1.circleHoleColor = Color.parseColor("#71FBEE")
            // d1.enableDashedLine(10f, 10f, 5f)
          //  d1.highLightColor = Color.rgb(244, 117, 117)
+        d1.setDrawCircleHole(false)
            d1.color = Color.parseColor("#71FBEE")
            d1.setDrawValues(false)
 
@@ -850,12 +864,12 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            }
 
            val d2 = LineDataSet(values2, "")
-           d2.lineWidth = 2.0f
+           d2.lineWidth = 1.5f
            d2.circleRadius = 2.5f
           // d2.highLightColor = Color.rgb(244, 117, 117)
-
+            d2.setDrawCircleHole(false)
            d2.color = Color.parseColor("#FBD371")
-          d2.circleHoleColor = Color.parseColor("#FBD371")
+         // d2.circleHoleColor = Color.parseColor("#FBD371")
            d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
            d2.setDrawValues(false)
 

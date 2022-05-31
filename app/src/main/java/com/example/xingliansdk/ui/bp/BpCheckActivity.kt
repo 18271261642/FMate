@@ -44,7 +44,7 @@ import java.lang.StringBuilder
 class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener ,View.OnClickListener{
 
     //第几次校准
-    private var checkCount = 0;
+    private var checkCount = 1;
 
     var resultMap = HashMap<String,Any>()
 
@@ -69,25 +69,30 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     private val handler : Handler = object :  Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
-                ShowToast.showToastLong("已断开连接!")
-                measureDialog?.cancel()
-                Config.IS_APP_STOP_MEASURE_BP = false
-                AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
-                return
-            }
-            timeOutSecond++
-            if(timeOutSecond >=120){    //超时了
-                if(measureDialog != null)
-                    measureDialog?.setMeasureStatus(false)
-                totalSecond = 0
-                stopMeasure(false)
+            if(msg.what == 0x00){
+                if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+                    ShowToast.showToastLong("已断开连接!")
+                    measureDialog?.cancel()
+                    Config.IS_APP_STOP_MEASURE_BP = false
+                    AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+                    return
+                }
+                timeOutSecond++
+                if(timeOutSecond >=120){    //超时了
+                    if(measureDialog != null)
+                        measureDialog?.setMeasureStatus(false)
+                    timeOutSecond = 0
+                    totalSecond = 0
+                    stopMeasure(false)
+                    return
+                }
+
+                if(totalSecond >= 100)
+                    totalSecond = 0
+                totalSecond+=3
+                startCountTime()
             }
 
-            if(totalSecond >= 100)
-                totalSecond = 0
-            totalSecond+=3
-            startCountTime()
         }
     }
 
@@ -224,39 +229,50 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         timeOutSecond = 0
         totalSecond = 0
         startCountTime()
+        BLEManager.getInstance().dataDispatcher.clear("")
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
     }
 
     override fun measureStatus(status: Int ,deviceTime : String) {
+        TLog.error("---------测量状态="+status)
         if(status == 0x01){ //手表主动结束掉
+            handler.removeMessages(0x00)
             Config.isNeedTimeOut = false
-            showMeasureDialog(false)
             totalSecond = 0
             timeOutSecond = 0
-            stopMeasure(false)
+           // stopMeasure(false)
+            showMeasureDialog(false)
         }
         this.deviceMeasureTime = deviceTime
     }
 
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
+
+        TLog.error("---------校准测量次数="+time)
+
         if(checkCount >3)
             return
         checkBpStatusTv.text = "测量成功"
 
-        var hbpStr = checkHBpTv.text.toString()
-        var lbpStr = checkLBpTv.text.toString()
-        if(checkCount == 0){    //第一次测量不需要输入血压
-            if(!StringUtils.isNumeric(hbpStr))
-                hbpStr = "120"
+//        var hbpStr = checkHBpTv.text.toString()
+//        var lbpStr = checkLBpTv.text.toString()
+//        if(checkCount == 0){    //第一次测量不需要输入血压
+//            if(!StringUtils.isNumeric(hbpStr))
+//                hbpStr = "120"
+//
+//            if(!StringUtils.isNumeric(lbpStr))
+//                lbpStr = "80"
+//        }else{
+//            if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
+//                ShowToast.showToastShort("请输入正常血压!")
+//                return
+//            }
+//        }
 
-            if(!StringUtils.isNumeric(lbpStr))
-                lbpStr = "80"
-        }else{
-            if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
-                ShowToast.showToastShort("请输入正常血压!")
-                return
-            }
-        }
+//        if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
+//            ShowToast.showToastShort("请输入正常血压!")
+//            return
+//        }
 
 
         val sb1 = StringBuilder()
@@ -270,30 +286,10 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             }
         }
 
-        if(checkCount == 0){
-            thirdBpCheckBean?.data1 = sb1.toString()
-            thirdBpCheckBean?.sbp1 = hbpStr.toInt()
-            thirdBpCheckBean?.dbp1 = lbpStr.toInt()
-        }
-
-        if(checkCount == 1){
-            thirdBpCheckBean?.data2 = sb1.toString()
-            thirdBpCheckBean?.sbp2 = hbpStr.toInt()
-            thirdBpCheckBean?.dbp2 = lbpStr.toInt()
-        }
-        if(checkCount == 2){
-            thirdBpCheckBean?.data3 = sb1.toString()
-            thirdBpCheckBean?.sbp3 = hbpStr.toInt()
-            thirdBpCheckBean?.dbp3 = lbpStr.toInt()
-        }
-
-
-        resultMap.put(("data"+(checkCount+1)),sb1)
-        resultMap.put(("sbp"+(checkCount+1)),hbpStr.toInt())
-        resultMap.put(("dbp"+(checkCount+1)),lbpStr.toInt())
+        resultMap.put(("data"+(checkCount)),sb1)
 
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
-        checkCount++;
+
         stopMeasure(false);
     }
 
@@ -302,7 +298,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         checkHBpTv.text = "请输入收缩压"
         checkLBpTv.text = "请输入舒张压"
         handler.removeMessages(0x00)
-        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,0x01)
+        val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,if(isOut) 0x01 else 0x0B)
 
         var resultArray = CmdUtil.getFullPackage(cmdArray)
         BLEManager.getInstance().dataDispatcher.clear("")
@@ -318,7 +314,11 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         if(isOut){
             Config.IS_APP_STOP_MEASURE_BP = false
-            AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+           // AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+            measureDialog?.dismiss()
+            showGuidDialog()
+
+
         }else{
             if(measureDialog != null){
                 measureDialog?.setMiddleSchedule(-1f)
@@ -336,7 +336,27 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             R.id.startCheckBpTv->{  //校准按钮
                 if(checkCount >3)
                     return
+
+                var hbpStr = checkHBpTv.text.toString()
+                if(!StringUtils.isNumeric(hbpStr)){
+                    ShowToast.showToastShort("请输入收缩压!")
+                    return
+                }
+
+                val lbpStr = checkLBpTv.text.toString()
+                if(!StringUtils.isNumeric(lbpStr)){
+                    ShowToast.showToastShort("请输入舒张!")
+                    return
+                }
+
                 if(checkCount == 3){    //提交
+
+                        thirdBpCheckBean?.sbp3 = hbpStr.toInt()
+                        thirdBpCheckBean?.dbp3 = lbpStr.toInt()
+                        resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
+                        resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
+
+
                     if(thirdBpCheckBean != null){
 
                         GetJsonDataUtil().writeTxtToFile(Gson().toJson(resultMap),savePath,("up_bp"+System.currentTimeMillis())+".json")
@@ -355,17 +375,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     return
                 }
 
-                var hbpStr = checkHBpTv.text.toString()
-                if(!StringUtils.isNumeric(hbpStr)){
-                    ShowToast.showToastShort("请输入收缩压!")
-                    return
+                if(checkCount == 1){    //第一次校准玩，输入值后开启第二次校准
+                    thirdBpCheckBean?.sbp1 = hbpStr.toInt()
+                    thirdBpCheckBean?.dbp1 = lbpStr.toInt()
+                    resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
+                    resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
+                    checkCount++;
                 }
 
-                val lbpStr = checkLBpTv.text.toString()
-                if(!StringUtils.isNumeric(lbpStr)){
-                    ShowToast.showToastShort("请输入舒张!")
-                    return
+                if(checkCount == 2){
+                    thirdBpCheckBean?.sbp2 = hbpStr.toInt()
+                    thirdBpCheckBean?.dbp2 = lbpStr.toInt()
+                    resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
+                    resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
                 }
+
+
                 measureBp()
                 showMeasureDialog(true)
             }

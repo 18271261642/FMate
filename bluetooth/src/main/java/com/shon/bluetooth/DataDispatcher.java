@@ -60,7 +60,7 @@ public class DataDispatcher {
     public synchronized void startSendNext(boolean isFinish) {
         BleLog.e("startSendNext=" + isFinish + " ;   call = " + (tempCall == null ? "tempCall=null了":tempCall.getAddress()));
         if (tempCall != null) {
-            BleLog.e("startSendNext ++++" + isFinish + " ;   call = " + tempCall.getAddress());
+            BleLog.e("----startSendNext =" + isFinish + " ;   call = " + tempCall.getAddress()+" ="+callDeque.size());
         }else {
             BleLog.e("startSendNext ++++" + isFinish );
         }
@@ -86,15 +86,8 @@ public class DataDispatcher {
         BleLog.e("--startSendNext  callDeque.size " + callDeque.size() );
 
         if (callDeque.size() ==0 ){
-            if(Config.isNeedTimeOut){
-
-            }else{
-                //  TLog.Companion.error("重置为true");
-                callDequeStatus=true;
-
-                return;
-            }
-
+            callDequeStatus=true;
+            return;
         }
         else
         {
@@ -341,7 +334,7 @@ public class DataDispatcher {
                          if(tempCall !=null) {
                              ((BaseCall<?, ?>) tempCall).cancelTimer();
 
-                             TLog.Companion.error("---WriteCall---cancelTime===");
+                             //TLog.Companion.error("---WriteCall---cancelTime===");
 
                              startSendNext(true);
                          }
@@ -358,7 +351,7 @@ public class DataDispatcher {
         if (type == BluetoothGattCharacteristic.PROPERTY_NOTIFY) {
             for (Listener listener : listeners) {
 
-                TLog.Companion.error("-----listener.getAddress()="+listener.getAddress());
+               // TLog.Companion.error("-----listener.getAddress()="+listener.getAddress());
 
                 if (!TextUtils.equals(address, listener.getAddress())) {
                     continue;
@@ -372,7 +365,7 @@ public class DataDispatcher {
                     break;
                 }
                 boolean process = callBack.process(address, bytes,uuid);
-                TLog.Companion.error("------process="+process);
+               // TLog.Companion.error("------process="+process);
                 if(Config.isNeedTimeOut){
 
                 }else{

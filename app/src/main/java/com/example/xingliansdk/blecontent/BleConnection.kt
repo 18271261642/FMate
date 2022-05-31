@@ -126,6 +126,7 @@ object BleConnection {
 
                     BLEManager.getInstance().disconnectDevice(address)
                     iFonConnectError = true
+                    Config.isNeedTimeOut = false
                     Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=true")
                     //断开链接的回调
                     TLog.error("connectDevice 的  onConnectError 断开的")
