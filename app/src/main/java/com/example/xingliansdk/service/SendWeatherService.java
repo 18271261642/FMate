@@ -562,7 +562,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         if(noCacheList.size()>0){
             getSpecifyPPG(noCacheList);
         }else{
-            uploadPPGCacheData();
+           // uploadPPGCacheData();
           //  new GetJsonDataUtil().writeTxtToFile(logSb.toString(),savePath,"ppg_f"+DateUtil.getCurrentTime()+".json");
         }
 

@@ -187,8 +187,11 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         if(measureDialog == null){
             measureDialog = MeasureBpDialogView(this)
         }
-        measureDialog = MeasureBpDialogView(this)
-        measureDialog!!.show()
+        //measureDialog = MeasureBpDialogView(this)
+        if(!measureDialog!!.isShowing){
+            measureDialog!!.show()
+        }
+
         measureDialog!!.setCancelable(false)
         if(!isMeasureFail){ //failed
             measureDialog!!.setMeasureStatus(false,false)
@@ -265,7 +268,18 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
         resultMap.put(("data"+(checkCount)),sb1)
-
+        TLog.error("----11---dialog是否为空="+(measureDialog == null))
+        if(measureDialog != null){
+            handler.removeMessages(0x00)
+            measureDialog?.setMiddleSchedule(-1f)
+            measureDialog?.dismiss()
+            measureDialog?.cancel()
+            measureDialog?.hide()
+            TLog.error("----22---dialog是否为空="+(measureDialog == null))
+        }else{
+            showMeasureDialog(false)
+            measureDialog?.dismiss()
+        }
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         showBpSchedule()
         stopMeasure(false);
