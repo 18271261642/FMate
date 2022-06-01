@@ -188,6 +188,10 @@ class XingLianApplication : BaseApp() {
         BLEManager.init(this)
         LitePal.initialize(this)
         MultiDex.install(this)
+
+        val intent = Intent(getContext(), AppService::class.java)
+        startService(intent)
+
         //适配器
         AutoSizeConfig.getInstance().unitsManager.setSupportDP(true)
             .setSupportSP(true).supportSubunits = Subunits.PT

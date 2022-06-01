@@ -848,11 +848,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            val d1 = LineDataSet(values1, "")
            d1.lineWidth = 1.5f
            d1.circleRadius = 2.5f
-           // d1.circleHoleColor = Color.parseColor("#71FBEE")
-           // d1.enableDashedLine(10f, 10f, 5f)
-         //  d1.highLightColor = Color.rgb(244, 117, 117)
-        d1.setDrawCircleHole(false)
+           d1.setDrawCircleHole(false)
            d1.color = Color.parseColor("#71FBEE")
+            d1.setCircleColor(Color.parseColor("#71FBEE"))
            d1.setDrawValues(false)
 
            //低压
@@ -870,7 +868,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
             d2.setDrawCircleHole(false)
            d2.color = Color.parseColor("#FBD371")
          // d2.circleHoleColor = Color.parseColor("#FBD371")
-           d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0])
+           d2.setCircleColor(Color.parseColor("#FBD371"))
            d2.setDrawValues(false)
 
 

@@ -79,8 +79,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 }
                 timeOutSecond++
                 if(timeOutSecond >=120){    //超时了
-                    if(measureDialog != null)
-                        measureDialog?.setMeasureStatus(false)
+                   showMeasureDialog(false)
                     timeOutSecond = 0
                     totalSecond = 0
                     stopMeasure(false)
@@ -248,32 +247,11 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
 
-        TLog.error("---------校准测量次数="+time)
+        TLog.error("---------校准测量次数="+time+" checkCount="+checkCount)
 
         if(checkCount >3)
             return
         checkBpStatusTv.text = "测量成功"
-
-//        var hbpStr = checkHBpTv.text.toString()
-//        var lbpStr = checkLBpTv.text.toString()
-//        if(checkCount == 0){    //第一次测量不需要输入血压
-//            if(!StringUtils.isNumeric(hbpStr))
-//                hbpStr = "120"
-//
-//            if(!StringUtils.isNumeric(lbpStr))
-//                lbpStr = "80"
-//        }else{
-//            if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
-//                ShowToast.showToastShort("请输入正常血压!")
-//                return
-//            }
-//        }
-
-//        if(!StringUtils.isNumeric(hbpStr) || !StringUtils.isNumeric(lbpStr)){
-//            ShowToast.showToastShort("请输入正常血压!")
-//            return
-//        }
-
 
         val sb1 = StringBuilder()
 
@@ -289,7 +267,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         resultMap.put(("data"+(checkCount)),sb1)
 
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
-
+        showBpSchedule()
         stopMeasure(false);
     }
 
@@ -325,7 +303,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 measureDialog?.dismiss()
             }
 
-            showBpSchedule()
+
         }
 
 
@@ -353,8 +331,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
                         thirdBpCheckBean?.sbp3 = hbpStr.toInt()
                         thirdBpCheckBean?.dbp3 = lbpStr.toInt()
-                        resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
-                        resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
+                        resultMap.put(("sbp3"),hbpStr.toInt())
+                        resultMap.put(("dbp3"),lbpStr.toInt())
 
 
                     if(thirdBpCheckBean != null){
@@ -378,16 +356,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                 if(checkCount == 1){    //第一次校准玩，输入值后开启第二次校准
                     thirdBpCheckBean?.sbp1 = hbpStr.toInt()
                     thirdBpCheckBean?.dbp1 = lbpStr.toInt()
-                    resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
-                    resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
+                    resultMap.put(("sbp1"),hbpStr.toInt())
+                    resultMap.put(("dbp1"),lbpStr.toInt())
                     checkCount++;
+
+                    measureBp()
+                    showMeasureDialog(true)
+
+                    return
                 }
 
                 if(checkCount == 2){
                     thirdBpCheckBean?.sbp2 = hbpStr.toInt()
                     thirdBpCheckBean?.dbp2 = lbpStr.toInt()
-                    resultMap.put(("sbp"+(checkCount)),hbpStr.toInt())
-                    resultMap.put(("dbp"+(checkCount)),lbpStr.toInt())
+                    resultMap.put(("sbp2"),hbpStr.toInt())
+                    resultMap.put(("dbp2"),lbpStr.toInt())
+                    checkCount++;
                 }
 
 
