@@ -211,6 +211,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
         timeOutSecond = 0
+        handler.sendEmptyMessage(0x00)
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
 
     }
@@ -218,7 +219,6 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     private fun startCountTime(){
         if(measureDialog != null)
             measureDialog!!.setMiddleSchedule(totalSecond.toFloat())
-
         handler.sendEmptyMessageDelayed(0x00,1000)
 
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.xingliansdk.Config;
 import com.example.xingliansdk.blesend.BleSend;
 import com.example.xingliansdk.service.work.BleWork;
 import com.example.xingliansdk.view.DateUtil;
@@ -31,7 +32,11 @@ public class SystemTimeBroadcastReceiver extends BroadcastReceiver {
 
 
             if(currMinute < 60000){     //整点
-                new BleWork().startLocation(context);
+               // new BleWork().startLocation(context);
+
+                Intent intent1 = new Intent();
+                intent1.setAction(Config.WEATHER_START_LOCATION_ACTION);
+                context.sendBroadcast(intent1);
             }
         }
 

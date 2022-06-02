@@ -27,6 +27,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
+import com.example.xingliansdk.service.AmapLocationService
 import com.example.xingliansdk.service.AppService
 import com.example.xingliansdk.service.SNAccessibilityService
 import com.example.xingliansdk.service.work.BleWork
@@ -55,7 +56,9 @@ import java.util.*
 
 
 public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,
-    BleWrite.SpecifySleepSourceInterface, MeasureBigBpListener {
+    BleWrite.SpecifySleepSourceInterface, MeasureBigBpListener ,AmapLocationService.OnLocationListener{
+
+
     var exitTime = 0L
     var bleListener:BluetoothMonitorReceiver?=null
 
@@ -79,6 +82,11 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     private var cusDufAlert : CusDfuAlertDialog ? = null
 
     private var measureBpPromptDialog : MeasureBpPromptDialog ?= null
+
+
+
+    //定位，获取经纬度，用于天气
+    private var amapLocationService : AmapLocationService ?=null
 
 
     val handler : Handler =  object : Handler(Looper.myLooper()!!){
@@ -418,18 +426,9 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
         val weatherIntentFilter = IntentFilter()
         weatherIntentFilter.addAction("com.example.xingliansdk.location")
+        weatherIntentFilter.addAction(Config.WEATHER_START_LOCATION_ACTION)
         weatherIntentFilter.addAction(com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION)
         registerReceiver(broadcastReceiver,weatherIntentFilter)
-
-//        bleListener1 = LocalBroadcastManager.getInstance(this)
-//        bluetoothMonitorReceiver = BluetoothMonitorReceiver()
-//        val intentFilter1 = IntentFilter()
-//        // 监视蓝牙设备与APP连接的状态
-//        intentFilter1.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-//        intentFilter1.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-//        // 注册广播
-//        bleListener1?.registerReceiver(bluetoothMonitorReceiver!!, intentFilter)
-
     }
 
 
@@ -463,6 +462,8 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 if(tmpDeviceBean.productNumber != null){
                     mDeviceFirmwareBean = tmpDeviceBean
                     getLastOta()
+
+                    startLocal()
                 }
             }
 
@@ -471,7 +472,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 Log.e("主页","----eventBus---定位成功="+Hawk.get("city"))
                 if(event.code == Config.eventBus.LOCATION_INFO){
                     val local: String = event.data as String
-                    mViewModel.getWeatherServer(local)
+                   // mViewModel.getWeatherServer(local)
                     //start24HourMethod()
                 }
             }
@@ -501,9 +502,15 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(bleListener)
-        bleListener1?.unregisterReceiver(bluetoothMonitorReceiver!!)
-        unregisterReceiver(broadcastReceiver)
+        try {
+            unregisterReceiver(bleListener)
+            bleListener1?.unregisterReceiver(bluetoothMonitorReceiver!!)
+            unregisterReceiver(broadcastReceiver)
+            stopLocal()
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+
     }
 
 
@@ -604,10 +611,15 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
            val action = intent?.action ?: return
 
             Log.e("主页定位成功","-----acion="+action)
+
+            if(action == Config.WEATHER_START_LOCATION_ACTION){
+                startLocal()
+            }
+
             if(action == "com.example.xingliansdk.location"){
                 val longitude = intent.getDoubleExtra("longitude",0.0)
                 val latitude = intent.getDoubleExtra("latitude",0.0)
-                mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
+               // mViewModel.getWeatherServer(decimalFormat.format(longitude)+","+decimalFormat.format(latitude))
 
 
              //   XingLianApplication.getXingLianApplication().getWeatherService()?.start24HourMethod()
@@ -672,12 +684,6 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     }
 
 
-    //开始测量血压
-    private fun measureBp(){
-       // totalSecond = 0
-        BleWrite.writeStartOrEndDetectBp(true,0x03,this)
-
-    }
 
 
     override fun measureStatus(status: Int,deviceTime : String) {
@@ -730,4 +736,27 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         })
     }
 
+    //返回经纬度
+    override fun backLocalLatLon(lat: Double, lon: Double,city : String) {
+         Hawk.put("city",city)
+        mViewModel.getWeatherServer(decimalFormat.format(lon)+","+decimalFormat.format(lat))
+        stopLocal()
+    }
+
+
+    //开始定位
+    private fun startLocal(){
+        if(amapLocationService == null){
+            amapLocationService = AmapLocationService(this)
+        }
+        amapLocationService!!.setOnLocationListener(this)
+        amapLocationService!!.startLocation()
+    }
+
+    private fun stopLocal(){
+        if(amapLocationService != null){
+            amapLocationService!!.stopLocation()
+            amapLocationService!!.destroyLocation()
+        }
+    }
 }

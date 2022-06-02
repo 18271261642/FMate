@@ -82,7 +82,7 @@
             <View
                 android:id="@+id/secondScheduleLinView"
                 android:layout_width="0dp"
-                android:layout_height="2dp"
+                android:layout_height="5dp"
                 android:layout_gravity="center"
                 android:layout_weight="1.5"
                 android:background="@color/bp_no_check_color" />
