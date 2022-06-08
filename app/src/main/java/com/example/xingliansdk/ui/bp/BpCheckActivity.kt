@@ -234,7 +234,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
        // measureDialog = MeasureBpDialogView(this)
-        measureDialog!!.show()
+        //measureDialog!!.show()
         measureDialog!!.setCancelable(false)
         if(!isMeasureFail){ //failed
             measureDialog!!.setMeasureStatus(false,false)

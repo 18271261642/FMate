@@ -207,11 +207,12 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     }
 
     private fun measureBp(){
+        timeOutSecond = 1
         Config.isNeedTimeOut = true
         BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
         timeOutSecond = 0
-        handler.sendEmptyMessage(0x00)
+      //  handler.sendEmptyMessage(0x00)
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
 
     }
