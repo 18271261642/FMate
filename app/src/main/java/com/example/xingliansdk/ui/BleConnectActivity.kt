@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui
 
+import android.Manifest
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.graphics.Color
@@ -33,6 +34,7 @@ import com.shon.connector.utils.TLog.Companion.error
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.XXPermissions
 import com.ly.genjidialog.GenjiDialog
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
@@ -104,6 +106,14 @@ class BleConnectActivity :
             TLog.error("点了+"+showOnWindow)
             showOnWindow?.showOnWindow(supportFragmentManager)
         }
+        
+        
+        try {
+            XXPermissions.with(this).permission(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->  }
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+        
     }
 
     override fun createObserver() {

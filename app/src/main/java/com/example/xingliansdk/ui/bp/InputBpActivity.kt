@@ -22,6 +22,7 @@ import com.example.xingliansdk.view.DateUtil
 import com.gyf.barlibrary.ImmersionBar
 import com.luck.picture.lib.tools.ToastUtils
 import com.shon.connector.utils.ShowToast
+import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bp_chekc_layout.*
 import kotlinx.android.synthetic.main.activity_input_bp_layout.*
 import kotlinx.android.synthetic.main.activity_input_bp_layout.titleBar
@@ -156,31 +157,45 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
     private var time = System.currentTimeMillis()
     private fun initTimePicker() { //Dialog 模式下，在底部弹出
 
-        //已经选择的日期
-        val selectDate = inputBpDayTv.text.toString()
-        //已经选择的时间
-        val selectTime = inputBpTimeTv.text.toString()
+
 
         //将时间格式化，转换为long，比较大小
 
 
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
+
+                //已经选择的日期
+                val selectDate = inputBpDayTv.text.toString()
+                //已经选择的时间
+                val selectTime = inputBpTimeTv.text.toString()
                 
                 val checkDate = DateUtil.getDate("yyyy-MM-dd",date)
                 val checkTime = DateUtil.getDate("HH:mm",date)
 
                 val selectTimeLong = DateUtil.formatTimeStrToLong("$checkDate $checkTime","yyyy-MM-dd HH:mm")
 
-                if(selectTimeLong > time){
-                    ShowToast.showToastLong("请选择正确的日期!")
-                    return@OnTimeSelectListener
-                }
+                TLog.error("--------选择时间="+selectTimeLong +" "+time)
 
-                if(isCheckDay)
-                      inputBpDayTv.text = DateUtil.getDate("yyyy-MM-dd",date)
-                else
-                    inputBpTimeTv.text = DateUtil.getDate("HH:mm",date)
+
+                if(isCheckDay){
+                    val localTime =  DateUtil.formatTimeStrToLong("$checkDate $selectTime","yyyy-MM-dd HH:mm")
+                    if(localTime >time / 1000){
+                        ShowToast.showToastLong("请选择正确的日期!")
+                        return@OnTimeSelectListener
+                    }
+
+                    inputBpDayTv.text = checkDate
+                }
+                else{
+                    val localTime2 =  DateUtil.formatTimeStrToLong("$selectDate $checkTime","yyyy-MM-dd HH:mm")
+                    if(localTime2 >time / 1000){
+                        ShowToast.showToastLong("请选择正确的日期!")
+                        return@OnTimeSelectListener
+                    }
+                inputBpTimeTv.text = checkTime
+            }
+
             })
             .setType(if(isCheckDay) booleanArrayOf(true,true,true,false,false,false) else booleanArrayOf(false,false,false,true,true,false))
             .isDialog(true) //默认设置false ，内部实现将DecorView 作为它的父控件。

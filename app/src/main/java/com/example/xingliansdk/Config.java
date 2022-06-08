@@ -1,6 +1,11 @@
 package com.example.xingliansdk;
 
 public class Config {
+
+    //开始定位的action
+    public static final String WEATHER_START_LOCATION_ACTION = "com.example.xingliansdk.start";
+
+
     /**
      * 数据库的 类名
      */

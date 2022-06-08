@@ -927,7 +927,26 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
            chart.invalidate()
 
 
-        showSelectData()
+
+        //手动测量的高压集合
+        if(values1.size>0){
+            val tmpH = values1[values1.size-1].y.toInt().toString()
+            val tmpL = values2[values2.size-1].y.toInt().toString()
+            bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+        }else{
+            bpHomeMeasureSelectTv.text = "--"
+        }
+
+        //输入
+        if(inputHeightValue.size>0){
+            val tmpH = inputHeightValue[inputHeightValue.size-1].y.toInt().toString()
+            val tmpL = inputLowBpValue[inputLowBpValue.size-1].y.toInt().toString()
+            bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+        }else{
+            bpHomeMeasureInputTv.text = "--"
+        }
+
+      //  showSelectData()
 
     }
 
@@ -1020,7 +1039,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 }
 
                 //手动测量的高压集合
-                if(heightList.size>0 && e.x.toInt()<heightList.size-1){
+                if(heightList.size>0 && e.x.toInt()<=heightList.size-1){
                     val tmpH = heightList[e.x.toInt()].toString()
                     val tmpL = lowBpList[e.x.toInt()].toString()
                     bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
@@ -1028,7 +1047,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     bpHomeMeasureSelectTv.text = "--"
                 }
                 //输入
-                if(inputHeightBpList.size>0 && e.x.toInt()<inputLowBpList.size-1){
+                if(inputHeightBpList.size>0 && e.x.toInt()<=inputLowBpList.size-1){
                     val tmpH = inputHeightBpList[e.x.toInt()].toString()
                     val tmpL = inputLowBpList[e.x.toInt()].toString()
                     bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "

@@ -3,6 +3,7 @@ package com.example.xingliansdk.ui.bp
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.*
+import android.text.TextUtils
 import android.view.View
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
@@ -78,6 +79,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     return
                 }
                 timeOutSecond++
+                TLog.error("---timeOutSecond="+timeOutSecond)
                 if(timeOutSecond >=120){    //超时了
                    showMeasureDialog(false)
                     timeOutSecond = 0
@@ -119,6 +121,41 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener{
             override fun onBackClick() {
+                if(checkCount == 3){
+                    checkCount--
+                    resultMap.put("data3","")
+                    resultMap.put(("sbp3"),"")
+                    resultMap.put(("dbp3"),"")
+
+                    checkHBpTv.text = "请输入收缩压"
+                    checkLBpTv.text = "请输入舒张压"
+
+                    secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_no_check_color))
+                    thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
+                    thirdScheduleTxtTv.setTextColor(resources.getColor(R.color.bp_no_check_color))
+
+                    showBpSchedule()
+                    return
+                }
+                if(checkCount == 2){
+                    checkCount--
+                    resultMap.put("data2","")
+                    resultMap.put(("sbp2"),"")
+                    resultMap.put(("dbp2"),"")
+
+                    checkHBpTv.text = "请输入收缩压"
+                    checkLBpTv.text = "请输入舒张压"
+
+                    secondScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
+                    secondScheduleTxtTv.setTextColor(resources.getColor(R.color.bp_no_check_color))
+
+                    firstScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_no_check_color))
+
+                    showBpSchedule()
+                    return
+                }
+
+
                showGuidDialog()
             }
 
@@ -134,6 +171,10 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
     }
 
     private fun showBpSchedule(){
+
+//        firstScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
+//        firstScheduleTxtTv.setTextColor(resources.getColor(R.color.bp_no_check_color))
+
 
         startCheckBpTv.text = "开始第一次测量"
         if(checkCount == 1){
@@ -192,12 +233,16 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             measureDialog!!.show()
         }
 
+       // measureDialog = MeasureBpDialogView(this)
+        measureDialog!!.show()
         measureDialog!!.setCancelable(false)
         if(!isMeasureFail){ //failed
             measureDialog!!.setMeasureStatus(false,false)
             measureDialog!!.setMiddleSchedule(-1f)
             totalSecond = 0
             timeOutSecond = 0
+        }else{
+            measureDialog!!.setMeasureStatus(true,false)
         }
         measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) { //再次测量
@@ -268,18 +313,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
         resultMap.put(("data"+(checkCount)),sb1)
-        TLog.error("----11---dialog是否为空="+(measureDialog == null))
-        if(measureDialog != null){
-            handler.removeMessages(0x00)
-            measureDialog?.setMiddleSchedule(-1f)
-            measureDialog?.dismiss()
-            measureDialog?.cancel()
-            measureDialog?.hide()
-            TLog.error("----22---dialog是否为空="+(measureDialog == null))
-        }else{
-            showMeasureDialog(false)
-            measureDialog?.dismiss()
-        }
+
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         showBpSchedule()
         stopMeasure(false);
@@ -353,7 +387,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
                         GetJsonDataUtil().writeTxtToFile(Gson().toJson(resultMap),savePath,("up_bp"+System.currentTimeMillis())+".json")
 
-                        if(resultMap["data1"] == null)
+                        if(TextUtils.isEmpty(resultMap["data3"].toString()))
                         {
                             ShowToast.showToastShort("数据为空!")
                             return
