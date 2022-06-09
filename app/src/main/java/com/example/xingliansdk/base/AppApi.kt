@@ -8,6 +8,7 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import com.shon.net.BaseApi
 import com.shon.net.OkHttpClientBuild
+import com.shon.net.interceptor.LoggingInterceptor
 import com.shon.net.interceptor.TokenAddInterceptor
 import com.shon.net.interceptor.TokenErrorInterceptor
 import okhttp3.OkHttpClient
@@ -33,6 +34,7 @@ abstract class AppApi<T>:BaseApi<T>(XingLianApplication.baseUrl) {
 //            TLog.error("mac=="+mac)
             val defaultBuild = OkHttpClientBuild.getDefaultBuild()
             defaultBuild.addInterceptor(headAddInterceptor(token,mac.toLowerCase(Locale.CHINA))) //设置 Token拦截器, 添加 token 使用
+        //    defaultBuild.addInterceptor(LoggingInterceptor())
           //  defaultBuild.addInterceptor(TokenErrorInterceptor(this)) //设置 返回 Token失效 拦截器
             return defaultBuild.build()
         }

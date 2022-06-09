@@ -206,7 +206,7 @@ public class DataDispatcher {
         //TLog.Companion.error("tempResult+="+tempResult.toString());
         boolean finish = handlerResult(tempResult);
 
-        TLog.Companion.error("----finish="+finish);
+//        TLog.Companion.error("----finish="+finish);
         if (finish) {
             tempResult = null;
             if(resultDeque!=null)
@@ -217,10 +217,10 @@ public class DataDispatcher {
 
     private synchronized boolean handlerResult(Result result) {
 
-        TLog.Companion.error("--------handlerResult是否为null="+(result == null)+" ");
+       // TLog.Companion.error("--------handlerResult是否为null="+(result == null)+" ");
 
         if(result != null){
-            TLog.Companion.error("------result="+new Gson().toJson(result));
+           // TLog.Companion.error("------result="+new Gson().toJson(result));
         }
 
         if(result == null )
@@ -230,7 +230,7 @@ public class DataDispatcher {
             return true;
         String setValue = ByteUtil.getHexString(bytes);
         String address = result.getAddress();
-        TLog.Companion.error("-----address="+address);
+       // TLog.Companion.error("-----address="+address);
         String uuid=result.getUuid();
 //        if(TextUtils.isEmpty(uuid))
 //            return true;
@@ -240,9 +240,9 @@ public class DataDispatcher {
 //            return true;
 //        }
         int type = result.getType();
-        TLog.Companion.error("---type==="+type);
+       // TLog.Companion.error("---type==="+type);
         if (type == BluetoothGattCharacteristic.PROPERTY_WRITE) {
-            TLog.Companion.error("----PROPERTY_WRITE==");
+           // TLog.Companion.error("----PROPERTY_WRITE==");
 //            TLog.Companion.error("BluetoothGattCharacteristic.PROPERTY_WRITE 进入");
             WriteCallback writeCall = getWriteCallByWriteData(address, setValue);
             if (writeCall != null) {
@@ -302,7 +302,7 @@ public class DataDispatcher {
         if (TextUtils.equals(address, tempCall.getAddress())) {
             if (tempCall instanceof NotifyCall) {
 
-                TLog.Companion.error("--tempCall-NotifyCall==");
+               // TLog.Companion.error("--tempCall-NotifyCall==");
 
                 NotifyCallback callBack = (NotifyCallback) tempCall.getCallBack();
                 callBack.onChangeResult(true);
@@ -311,7 +311,7 @@ public class DataDispatcher {
                 //  break;
             }
            else if (tempCall instanceof ReadCall) {
-                TLog.Companion.error("---ReadCall===");
+               // TLog.Companion.error("---ReadCall===");
 
                 ReadCallback readCallback = (ReadCallback) tempCall.getCallBack();
                 if(!TextUtils.isEmpty(uuid))
@@ -324,7 +324,7 @@ public class DataDispatcher {
 
             }
            else if (tempCall instanceof WriteCall) {
-                TLog.Companion.error("---WriteCall===");
+               // TLog.Companion.error("---WriteCall===");
               //  BleLog.d("DataDispatcher WriteCall : process " + type);
                 WriteCallback writeCall = (WriteCallback) tempCall.getCallBack();
                 if(!TextUtils.isEmpty(uuid))

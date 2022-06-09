@@ -3,11 +3,13 @@ package com.example.xingliansdk.ui.bp
 import android.os.Bundle
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.login.viewMode.UserViewModel
 import com.example.xingliansdk.view.DateUtil
 import com.example.xingliansdk.widget.TitleBarLayout.TitleBarListener
 import com.github.iielse.switchbutton.SwitchView
 import com.gyf.barlibrary.ImmersionBar
+import com.orhanobut.hawk.Hawk
 import com.shon.HawConstant
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.AutoBpStatusBean
@@ -73,9 +75,13 @@ class BpSettingActivity : BaseActivity<UserViewModel>() {
 
 
         val saveBp = HawConstant.getAutoBpStatusData()
-        if (saveBp != null) {
-            autoBpNightSwitch.isOpened = saveBp.nightBpStatus.toInt() == 0x02
-            autoBpNormalSwitch.isOpened = saveBp.normalBpStatus.toInt() == 0x02
+
+        val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
+        if(userInfo != null){
+            val isNormal = userInfo.userConfig.bloodPressureDaytimeMeasurement
+            val isNight = userInfo.userConfig.bloodPressureNightMeasurement
+            autoBpNightSwitch.isOpened = isNight == 0x02
+            autoBpNormalSwitch.isOpened =isNormal == 0x02
         }else{
             autoBpNightSwitch.isOpened = false
             autoBpNormalSwitch.isOpened = false

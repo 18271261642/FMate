@@ -87,7 +87,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     stopMeasure(false)
                     return
                 }
-
+                timeOutSecond++
                 if(totalSecond >= 100)
                     totalSecond = 0
                 totalSecond+=3
@@ -313,7 +313,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         }
 
         resultMap.put(("data"+(checkCount)),sb1)
-
+        handler.removeMessages(0x00)
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         showBpSchedule()
         stopMeasure(false);

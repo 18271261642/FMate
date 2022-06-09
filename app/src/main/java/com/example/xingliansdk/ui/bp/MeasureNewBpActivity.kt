@@ -61,7 +61,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
             }
 
             if(msg.what == 0x00){
-
+                TLog.error("-----handler="+timeOutSecond)
                 //判断是否断开
                     if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
                         ShowToast.showToastLong("已断开连接!")
@@ -71,7 +71,6 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                         return
                     }
 
-                timeOutSecond++
                 if(timeOutSecond >=120){    //超时了
                     totalSecond = 0
                     timeOutSecond = 0
@@ -79,7 +78,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                     return
                    // stopMeasure(false)
                 }
-
+                timeOutSecond++
                 if(totalSecond>=100)
                     totalSecond = 0
                 totalSecond+=3
@@ -127,12 +126,16 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
                 measureDialog!!.setMeasureStatus(false,false)
                 measureDialog!!.setMiddleSchedule(-1f)
                 totalSecond = 0
+                timeOutSecond = 0
+            }else{
+                measureDialog!!.setMeasureStatus(true,false)
             }
 
             measureDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
                 override fun onConfirmClick(code: Int) {  //再次测量按钮
                     TLog.error("------再次测量="+code)
                     measureBp()
+                    showMeasureDialog(true)
                 }
 
                 override fun onCancelClick(code: Int) {
@@ -187,10 +190,8 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
 
     private fun showFailMeasure(){
-
         handler.removeMessages(0x00)
         showMeasureDialog(false)
-
         totalSecond = 0
         timeOutSecond = 0
 
@@ -211,8 +212,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         Config.isNeedTimeOut = true
         BLEManager.getInstance().dataDispatcher.clear("")
         totalSecond = 0
-        timeOutSecond = 0
-      //  handler.sendEmptyMessage(0x00)
+      //  timeOutSecond = 0
         BleWrite.writeStartOrEndDetectBp(true,0x03,this)
 
     }
@@ -220,7 +220,10 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     private fun startCountTime(){
         if(measureDialog != null)
             measureDialog!!.setMiddleSchedule(totalSecond.toFloat())
-        handler.sendEmptyMessageDelayed(0x00,1000)
+        handler.postDelayed(Runnable {
+            handler.sendEmptyMessage(0x00)
+        },1000)
+
 
     }
 
@@ -229,6 +232,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
             Config.isNeedTimeOut = false
+            handler.removeMessages(0x00)
             totalSecond = 0
             timeOutSecond = 0
             showFailMeasure()
@@ -243,7 +247,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
 
     //测量结果
     override fun measureBpResult(bpValue: MutableList<Int>,time : String) {
-
+        handler.removeMessages(0x00)
         val hashMap = HashMap<String,String>()
         hashMap["data"] = bpValue.toString()
         hashMap["createTime"] = time
@@ -319,8 +323,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
     override fun onClick(p0: View?) {
         when (p0?.id){
             R.id.measureBpAgainTv->{
-                measureDialog?.show()
-                measureDialog?.setMiddleSchedule(-1f)
+                showMeasureDialog(true)
                 measureBp()
             }
         }

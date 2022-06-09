@@ -254,12 +254,10 @@ class BleConnectActivity :
                 val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
 
               TLog.error("--------绑定成功后="+Gson().toJson(userInfo)+"\n"+Hawk.get("address", ""))
-                if(userInfo != null){
-                    userInfo.user.mac =  Hawk.get("address", "")
-                    Hawk.put(com.example.xingliansdk.Config.database.USER_INFO,userInfo)
-                }
-
-
+//                if(userInfo != null){
+//                    userInfo.user.mac =  Hawk.get("address", "")
+//                    Hawk.put(com.example.xingliansdk.Config.database.USER_INFO,userInfo)
+//                }
 
                 if(baseDialog.isShowing)
                 hideWaitDialog()

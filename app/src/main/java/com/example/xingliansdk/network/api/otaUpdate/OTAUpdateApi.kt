@@ -4,13 +4,14 @@ import android.os.Build
 import android.util.Config
 import com.example.xingliansdk.BuildConfig
 import com.example.xingliansdk.XingLianApplication
+import com.example.xingliansdk.base.AppApi
 import com.example.xingliansdk.network.BaseResult
 import com.example.xingliansdk.network.api.weather.bean.WeatherBean
 import com.shon.connector.bean.DataBean
 import com.shon.connector.utils.TLog
 import com.shon.net.BaseApi
 
-class OTAUpdateApi private constructor():BaseApi<OTAInterface>(XingLianApplication.baseUrl){
+class OTAUpdateApi private constructor():AppApi<OTAInterface>(){
     companion object{
         val otaUpdateApi:OTAUpdateApi by lazy { OTAUpdateApi() }
     }

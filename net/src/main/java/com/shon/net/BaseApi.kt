@@ -1,6 +1,7 @@
 package com.shon.net
 
 import android.text.TextUtils
+import com.shon.net.interceptor.LoggingInterceptor
 import com.shon.net.interceptor.TokenAddInterceptor
 import com.shon.net.interceptor.TokenErrorInterceptor
 import com.shon.net.util.RetrofitLog
@@ -104,6 +105,8 @@ abstract class BaseApi<ApiImp>(private val baseUrl: String) : ITokenHandler {
         get() {
             val defaultBuild = OkHttpClientBuild.getDefaultBuild()
             defaultBuild.addInterceptor(getTokenInterceptor(cacheToken)) //设置 Token拦截器, 添加 token 使用
+          //  defaultBuild.addInterceptor(headAddInterceptor(token,mac.toLowerCase(Locale.CHINA))) //设置 Token拦截器, 添加 token 使用
+                defaultBuild.addInterceptor(LoggingInterceptor())
           //  defaultBuild.addInterceptor(TokenErrorInterceptor(this)) //设置 返回 Token失效 拦截器
             return defaultBuild.build()
         }
