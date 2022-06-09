@@ -78,7 +78,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
                     return
                 }
-                timeOutSecond++
+
                 TLog.error("---timeOutSecond="+timeOutSecond)
                 if(timeOutSecond >=120){    //超时了
                    showMeasureDialog(false)
@@ -174,6 +174,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 //        firstScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
 //        firstScheduleTxtTv.setTextColor(resources.getColor(R.color.bp_no_check_color))
+
 
 
         startCheckBpTv.text = "开始第一次测量"
