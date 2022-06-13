@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -312,7 +313,12 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
     protected fun showWaitDialog(msg: String) {
 //        if (dialog.isShowing)
 //            return
-        baseDialog = LoadingDialogUtils.createLoadingDialog(this, msg)
+        try {
+            baseDialog = LoadingDialogUtils.createLoadingDialog(this, msg)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+
     }
 
     protected fun showWaitDialog() {

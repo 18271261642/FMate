@@ -32,6 +32,7 @@ import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_bp_chekc_layout.*
 import kotlinx.android.synthetic.main.activity_dial_details.*
+import kotlinx.android.synthetic.main.activity_input_bp_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.titleBar
 import org.apache.commons.lang.StringUtils
@@ -92,6 +93,10 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     totalSecond = 0
                 totalSecond+=3
                 startCountTime()
+            }
+
+            if(msg.what == 0x01){
+                finish()
             }
 
         }
@@ -209,7 +214,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             TLog.error("---------后台返回="+Gson().toJson(it))
             ShowToast.showToastLong("校准成功!")
             timeOutSecond = 0
-            finish()
+
+           handler.sendEmptyMessage(0x01)
         }
 
 
@@ -274,7 +280,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     private fun measureBp(){
         Config.isNeedTimeOut = true
-        timeOutSecond = 0
+        timeOutSecond = 1
         totalSecond = 0
         startCountTime()
         BLEManager.getInstance().dataDispatcher.clear("")
@@ -447,15 +453,51 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
 
+            //输入的血压值
+            var inputHbpStr = checkHBpTv.text.toString()
+            var inputLbpStr = checkLBpTv.text.toString()
+
+            if(inputHbpStr.contains("mmHg") ){
+                inputHbpStr = StringUtils.substringBefore(inputHbpStr,"m").trim()
+
+            }
+
+            if( inputLbpStr.contains("mmHg")){
+                inputLbpStr = StringUtils.substringBefore(inputLbpStr,"m").trim()
+            }
+
+
             if(it.toInt() <40 || it > 250){
                 ShowToast.showToastShort("请输入正确的收缩压!")
                 return@setOnMediaRepeatInputListener
             }
 
-            if(type == 0)
-                checkHBpTv.text = it.toString()
-            else
-                checkLBpTv.text = it.toString()
+            if(type == 0){
+                if(StringUtils.isNumeric(inputLbpStr)){
+                    if(inputLbpStr.toInt()>it){
+                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        return@setOnMediaRepeatInputListener
+                    }
+                    checkHBpTv.text = it.toString()
+                }else{
+                    checkHBpTv.text = it.toString()
+                }
+
+            }
+            else{
+
+                if(StringUtils.isNumeric(inputHbpStr)){
+                    if(inputHbpStr.toInt()<it){
+                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        return@setOnMediaRepeatInputListener
+                    }
+                    checkLBpTv.text = it.toString()
+                }else{
+                    checkLBpTv.text = it.toString()
+                }
+
+            }
+
         }
     }
 

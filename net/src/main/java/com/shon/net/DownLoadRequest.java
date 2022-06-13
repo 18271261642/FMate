@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.shon.net.callback.DownLoadCallback;
 import com.shon.net.interceptor.TokenAddInterceptor;
+import com.shon.net.interceptor.headAddInterceptor;
 import com.shon.net.util.NetExecutors;
 import com.shon.net.util.RetrofitLog;
 
@@ -52,6 +53,7 @@ public class DownLoadRequest extends BaseApi<DownLoadApi> {
     private OkHttpClient.Builder builder;
     private DownLoadApi downLoadApi;
     private String token;
+    private String mac;
 
     /**
      * 根据下载地址 初始化 DownLoadRequest
@@ -74,6 +76,20 @@ public class DownLoadRequest extends BaseApi<DownLoadApi> {
                 .build();
     }
 
+
+    public DownLoadRequest(String token, String mac,String downLoadUrl) {
+        super("");
+        this.currentBaseUrl = downLoadUrl;
+        this.token = token;
+        this.mac = mac;
+
+        mRetrofit = new Retrofit.Builder()
+                .client(getOkHttpClient())
+                .baseUrl(getDownLoadBaseUrl())
+                .build();
+    }
+
+
     /**
      * 此处需要自己实现 OkHttpClient， 所以重写此方法。
      * 如无需要，请勿重写此方法
@@ -88,6 +104,8 @@ public class DownLoadRequest extends BaseApi<DownLoadApi> {
         if (!TextUtils.isEmpty(token)) {
             builder.addInterceptor(new TokenAddInterceptor(token));         //设置Token拦截器
         }
+
+        builder.addInterceptor(new headAddInterceptor(token,mac));
         return builder.build();
     }
 

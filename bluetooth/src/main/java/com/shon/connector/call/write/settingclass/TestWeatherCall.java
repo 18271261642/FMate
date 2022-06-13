@@ -1,8 +1,10 @@
 package com.shon.connector.call.write.settingclass;
 
+import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.utils.ShowToast;
 import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.connector.Config;
+import com.shon.connector.utils.TLog;
 
 public class TestWeatherCall extends WriteCallback {
 
@@ -19,7 +21,7 @@ public class TestWeatherCall extends WriteCallback {
     public boolean process(String address, byte[] result, String uuid) {
         if (!uuid.equalsIgnoreCase(Config.readCharacter))
             return false;
-//        TLog.Companion.error("获取到最终的数据长度_++" + ByteUtil.getHexString(result));//获取到最终的长度
+        TLog.Companion.error("天气翻身返回=" + ByteUtil.getHexString(result));//获取到最终的长度
         if (result[8] == Config.DEVICE_COMMAND_ACK && result[9] == Config.DEVICE_KEY_ACK) {
             switch (result[10]) {
                 case 0x01:

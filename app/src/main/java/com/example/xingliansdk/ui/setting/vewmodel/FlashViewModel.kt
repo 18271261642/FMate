@@ -37,4 +37,12 @@ class FlashViewModel :BaseViewModel() {
         ,callback
         )
     }
+
+
+    fun downLoadBin(bean: UIUpdateBean,mac : String,token : String,callback:DownLoadCallback){
+        DownLoadRequest(token,mac,bean.ota).startDownLoad(
+            "${ExcelUtil.filePath}/${bean?.fileName}"
+            ,callback
+        )
+    }
 }

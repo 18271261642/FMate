@@ -39,10 +39,11 @@ public class DashedLineView extends View {
         super.onDraw(canvas);
         Paint paint = new Paint();
 
-        paint.setStrokeWidth(6f);
+        paint.setStrokeWidth(12f);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setTextSize(20f);
 
-        paint.setColor(Color.WHITE);//颜色可以自己设置
+        paint.setColor(Color.parseColor("#71FBEE"));//颜色可以自己设置
 
         Path path = new Path();
 

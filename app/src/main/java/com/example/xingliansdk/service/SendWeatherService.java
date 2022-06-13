@@ -218,6 +218,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             //Log.e("111","-----相差="+currTimeLong)
 
             byte[] timeByte = HexDump.toByteArray(currTimeLong);
+            TLog.Companion.error("-------当天天气时间戳="+HexDump.bytesToString(timeByte));
             stringBuffer.append(HexDump.bytesToString(timeByte));
 
             //天气类型 一个byte
@@ -281,13 +282,22 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
             byte[] resultB = CmdUtil.getFullPackage(wArray);
             Log.e("天气", "----11--转换当天=" + ByteUtil.getHexString(resultB));
-            BleWrite.writeWeatherCall(resultB, false);
+           // BLEManager.getInstance().dataDispatcher.clear("");
+            // 880000000000225704070100142A36F5800300FA012C0104000E005804052713093100066DF157335E02
+            // 880000000000222B04070100142A37E90004FFFF0136010EFFFF005806052713093100066DF157335E02
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    BleWrite.writeWeatherCall(resultB, false);
+                }
+            },1000);
+
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     writeOtherDayWeather(weatherBean,cityArray);
                 }
-            },1000);
+            },3000);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -890,6 +900,8 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
         });
     }
+
+
 
 
 }

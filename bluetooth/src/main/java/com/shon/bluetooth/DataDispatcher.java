@@ -74,7 +74,7 @@ public class DataDispatcher {
         }
 
 
-        TLog.Companion.error("------Config.IS_APP_STOP_MEASURE_BP="+Config.IS_APP_STOP_MEASURE_BP);
+       // TLog.Companion.error("------Config.IS_APP_STOP_MEASURE_BP="+Config.IS_APP_STOP_MEASURE_BP);
         if (tempCall != null) {
             if(Config.IS_APP_STOP_MEASURE_BP){
                 tempCall = null;

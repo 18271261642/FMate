@@ -2,6 +2,8 @@ package com.example.xingliansdk.utils;
 
 import android.annotation.SuppressLint;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,5 +93,23 @@ public class TimeUtil {
         //date.getTime()是现在的毫秒数，它 减去 当天零点到现在的毫秒数（ 现在的毫秒数%一天总的毫秒数，取余。），理论上等于零点的毫秒数，不过这个毫秒数是UTC+0时区的。
         //减8个小时的毫秒值是为了解决时区的问题。
         return (date.getTime() - (date.getTime()%l) - 8* 60 * 60 *1000-day*l);
+    }
+
+
+
+    public static String getSpecifyHour(String timeStr){
+        //获取时 分
+        String hourStr = StringUtils.substringBefore(timeStr,":");
+        //分
+        String minuteStr = StringUtils.substringAfter(timeStr,":");
+
+        int hour = Integer.parseInt(hourStr.trim());
+        int minute = Integer.parseInt(minuteStr.trim());
+        int time = hour * 60 + minute;
+        int tmpTime = time - 30;
+        int tmpHour = tmpTime / 60;
+        int tmpMinute = tmpTime % 60;
+
+        return String.format("%02d",tmpHour)+":"+String.format("%02d",tmpMinute);
     }
 }

@@ -191,7 +191,7 @@ class BleWork : IWork, OnCountTimerListener,
         autoBpStatusBean.startMinute = 0x00
         autoBpStatusBean.endHour = 0x17
         autoBpStatusBean.endMinute = 0x3B
-        autoBpStatusBean.bpInterval = 0x03
+        autoBpStatusBean.bpInterval = 0x1E
         autoBpStatusBean.normalBpStatus = userInfos.userConfig.bloodPressureDaytimeMeasurement.toByte()
         autoBpStatusBean.nightBpStatus = userInfos.userConfig.bloodPressureNightMeasurement.toByte()
 
@@ -621,6 +621,9 @@ class BleWork : IWork, OnCountTimerListener,
         mList: ArrayList<Int>
     ) {
         val name: String = Gson().toJson(mList)
+
+        TLog.error("------温度返回=="+endTime)
+
         getTemp(
             XingLianApplication.TIME_START + startTime,
             XingLianApplication.TIME_START + endTime, mList

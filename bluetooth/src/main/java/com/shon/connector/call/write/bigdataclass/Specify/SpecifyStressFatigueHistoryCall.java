@@ -132,10 +132,10 @@ public class SpecifyStressFatigueHistoryCall extends WriteCallback {
     public void onTimeout() {
        // ShowToast.INSTANCE.showToastLong("压力 超时  马上执行了重发机制 isFinishFlag+"+isFinishFlag);
       TLog.Companion.error("压力 超时  马上执行了重发机制 isFinishFlag+"+isFinishFlag);
-        BleWrite.writeSpecifyStressFatigueHistoryCall(
-                startTime, endTime,
-                mInterface,true
-        );
+//        BleWrite.writeSpecifyStressFatigueHistoryCall(
+//                startTime, endTime,
+//                mInterface,true
+//        );
     }
 
 }

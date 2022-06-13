@@ -10,7 +10,7 @@
     <com.example.xingliansdk.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
-
+        app:iconHome="@drawable/ic_white_back_img"
         android:layout_height="?actionBarSize"
         app:backcolor="@color/bp_schedule_color"
         app:homeBackClick="true"
@@ -50,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="--"
                     android:textColor="#fffefefe"
                     android:textSize="16sp" />
 

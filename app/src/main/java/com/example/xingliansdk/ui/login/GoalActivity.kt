@@ -33,12 +33,12 @@ class GoalActivity :  BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeList
         seekBarSports.setOnSeekBarChangeListener(this)
         seekBarSports.progress = (mDeviceInformationBean.exerciseSteps / 1000).toInt()
         mStr = SpannableString("${seekBarSports.progress * 1000}")
-        mStr.setSpan(
-            AbsoluteSizeSpan(48, true),
-            0,
-            mStr.length - 1,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+//        mStr.setSpan(
+//            AbsoluteSizeSpan(48, true),
+//            0,
+//            mStr.length - 1,
+//            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
         tvSport.text = mStr
 
         seekBarSleepTime.setOnSeekBarChangeListener(this)
@@ -74,7 +74,7 @@ class GoalActivity :  BaseActivity<UserViewModel>(), SeekBar.OnSeekBarChangeList
     }
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         if (seekBar.id==R.id.seekBarSports) {
-            mStr = SpannableString("${progress * 1000}步")
+            mStr = SpannableString("${progress * 1000}")
             mStr.setSpan(
                 AbsoluteSizeSpan(48, true),
                 0,

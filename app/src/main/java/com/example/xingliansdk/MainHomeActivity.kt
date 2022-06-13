@@ -451,7 +451,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             Config.eventBus.DEVICE_FIRMWARE->{
                 val tmpDeviceBean = event.data as DeviceFirmwareBean
                 Log.e("主页","------设备固件信息="+tmpDeviceBean.toString())
-
+                startLocal()
                 devicePropertiesBean = Hawk.get(
                     Config.database.DEVICE_ATTRIBUTE_INFORMATION,
                     DevicePropertiesBean(0, 0, 0, 0)
@@ -462,8 +462,6 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 if(tmpDeviceBean.productNumber != null){
                     mDeviceFirmwareBean = tmpDeviceBean
                     getLastOta()
-
-                    startLocal()
                 }
             }
 
@@ -738,6 +736,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
     //返回经纬度
     override fun backLocalLatLon(lat: Double, lon: Double,city : String) {
+        TLog.error("-----定位获取天气="+lat+" "+city)
          Hawk.put("city",city)
         mViewModel.getWeatherServer(decimalFormat.format(lon)+","+decimalFormat.format(lat))
         stopLocal()
@@ -756,7 +755,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     private fun stopLocal(){
         if(amapLocationService != null){
             amapLocationService!!.stopLocation()
-            amapLocationService!!.destroyLocation()
+            //amapLocationService!!.destroyLocation()
         }
     }
 }

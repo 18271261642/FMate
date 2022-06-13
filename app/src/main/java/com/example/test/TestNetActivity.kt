@@ -83,8 +83,9 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
 
         testNetBtn.setOnClickListener {
-
-            BleWork().startLocation(this)
+            val intent = Intent()
+            intent.action = com.example.xingliansdk.Config.WEATHER_START_LOCATION_ACTION
+           sendBroadcast(intent)
            // mViewModel.getWeatherServer("113.88,22.55")
         }
 

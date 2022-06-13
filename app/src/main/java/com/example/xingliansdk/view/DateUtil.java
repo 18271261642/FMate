@@ -501,7 +501,7 @@ public class DateUtil {
             resultHour = String.format("%02d",hour)+":"+"30";
         }else{
             int tmpHour = hour+1;
-            resultHour = tmpHour == 24 ? "23:59" : String.format("%02d",(tmpHour))+":"+"00";
+            resultHour = tmpHour == 24 ? "24:00" : String.format("%02d",(tmpHour))+":"+"00";
         }
 
         return resultHour;

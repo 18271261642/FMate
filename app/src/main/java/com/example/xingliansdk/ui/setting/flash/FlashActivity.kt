@@ -9,12 +9,14 @@ import com.example.xingliansdk.bean.FlashBean
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.UIUpdate.UIUpdateBean
+import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.ui.setting.MyDeviceActivity
 import com.example.xingliansdk.ui.setting.vewmodel.FlashViewModel
 import com.example.xingliansdk.utils.FileUtils
 import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.gyf.barlibrary.ImmersionBar
+import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.utils.HexDump
@@ -103,8 +105,19 @@ class FlashActivity : BaseActivity<FlashViewModel>(),
     override fun onResultErasure(key: Int) {
         if (key == 2) {
             if (bean != null && bean.ota.isNotEmpty()) {
-                mViewModel.downLoadBin(bean, this)
+                // mViewModel.downLoadBin(bean, this)
+
+                var mac = Hawk.get("address", "")
+
+                val mLoginBean = Hawk.get<LoginBean>(Config.database.USER_INFO)
+
+                if (mLoginBean != null && mLoginBean.token != null) {
+                    var token = mLoginBean.token as String
+                    mViewModel.downLoadBin(bean, mac, token, this)
+                }
+
             }
+
         } else
             ShowToast.showToastLong("不支持擦写FLASH数据")
     }

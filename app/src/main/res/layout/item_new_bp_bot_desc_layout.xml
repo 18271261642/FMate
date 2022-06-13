@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手表测量"
-            android:textColor="#fffefefe"
+            android:textColor="#71FBEE"
             android:textSize="11sp" />
     </LinearLayout>
 
@@ -96,7 +96,7 @@
 
         <com.example.xingliansdk.view.DashedLineView
             android:layout_width="16dp"
-            android:layout_height="1dp"/>
+            android:layout_height="3dp"/>
 
         <View
             android:layout_width="10dp"
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手动输入"
-            android:textColor="#fffefefe"
+            android:textColor="#71FBEE"
             android:textSize="11sp" />
     </LinearLayout>
 

@@ -365,7 +365,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 tvReconnection?.text = "重新连接"
                 tvDele?.visibility = View.VISIBLE
                // imgDevice?.setImageResource(R.mipmap.img_product_disconnect)
-
+                if(activity == null || activity!!.isFinishing)
+                    return
                 imgDevice.setImageResource(R.mipmap.img_product_connect)
                 imgDevice?.alpha = 0.5f
 
