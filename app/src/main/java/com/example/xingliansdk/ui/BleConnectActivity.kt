@@ -142,6 +142,8 @@ class BleConnectActivity :
                 .setServiceUuid(ParcelUuid.fromString(Config.OTAServiceUUID))
                 .build()
         )
+        //汇顶平台ota模式下uuid
+        filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(Config.GOODX_OTA_SERVICE_UUID)).build())
         scanner.startScan(filters, mScanSettings, mScanCallback)
     }
 

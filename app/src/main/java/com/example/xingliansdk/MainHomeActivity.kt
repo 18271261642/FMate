@@ -8,9 +8,11 @@ import android.net.Uri
 import android.os.*
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.KeyEvent
+import android.view.TextureView
 import androidx.activity.OnBackPressedCallback
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
@@ -151,7 +153,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
             if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
-                showOtaAlert(it.isForceUpdate)
+                showOtaAlert(it.isForceUpdate,it.platform)
             }
 
         }
@@ -234,7 +236,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
 
     //手表ota更新
-    private fun showOtaAlert(isFocus : Boolean){
+    private fun showOtaAlert(isFocus : Boolean,platform : String){
         var currPower = 100
         if(devicePropertiesBean != null){
             currPower = devicePropertiesBean!!.electricity
@@ -253,12 +255,25 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             override fun onSUreClick() {
                 cusDufAlert!!.dismiss()
                 var adRes = Hawk.get("address","")
-                JumpUtil.startOTAActivity(instance,adRes.toUpperCase(Locale.CHINA)
-                    ,Hawk.get("name")
-                    ,mDeviceFirmwareBean.productNumber
-                    ,mDeviceFirmwareBean.version
-                    ,true
-                )
+
+                if(!TextUtils.isEmpty(platform) && platform == "GR5515"){
+                    JumpUtil.startGoodxOTAActivity(instance,adRes.toUpperCase(Locale.CHINA)
+                        ,Hawk.get("name")
+                        ,mDeviceFirmwareBean.productNumber
+                        ,mDeviceFirmwareBean.version
+                        ,true
+                    )
+                }
+
+                if(!TextUtils.isEmpty(platform) && platform=="NORDIC52840"){
+                    JumpUtil.startOTAActivity(instance,adRes.toUpperCase(Locale.CHINA)
+                        ,Hawk.get("name")
+                        ,mDeviceFirmwareBean.productNumber
+                        ,mDeviceFirmwareBean.version
+                        ,true
+                    )
+                }
+
             }
 
         })

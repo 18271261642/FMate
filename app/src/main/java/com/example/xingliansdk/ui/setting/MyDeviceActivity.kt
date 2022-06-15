@@ -5,6 +5,7 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -57,6 +58,8 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     private var electricity=0
 
 
+    //哪个平台
+    private var isPlatform = ""
 
     override fun layoutId() = R.layout.activity_my_device
     override fun initView(savedInstanceState: Bundle?) {
@@ -79,7 +82,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     override fun onResume() {
         super.onResume()
         //查询是否有固件更新
-       // mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
+        mViewModel.findUpdate(mDeviceFirmwareBean.productNumber,mDeviceFirmwareBean.version)
     }
 
 
@@ -95,38 +98,15 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         }
 
         mViewModel.result.observe(this){
-            val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
-            dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
+            if(it.platform != null){
+                isPlatform = it.platform
+            }
+
+//            val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
+//            dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
 
         }
    }
-
-
-    private fun showOtaAlert(isFocus : Boolean) {
-
-        cusDufAlert = CusDfuAlertDialog(this)
-        cusDufAlert!!.show()
-        cusDufAlert!!.setCancelable(false)
-        cusDufAlert!!.setNormalShow(isFocus)
-        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
-            override fun onCancelClick() {
-                cusDufAlert!!.dismiss()
-            }
-
-            override fun onSUreClick() {
-                cusDufAlert!!.dismiss()
-                JumpUtil.startOTAActivity(
-                    instance,
-                    Hawk.get("address"),
-                    Hawk.get("name"),
-                    mDeviceFirmwareBean.productNumber,
-                    mDeviceFirmwareBean.version,
-                    true
-                )
-            }
-
-        })
-    }
 
 
     private fun initOnclick() {
@@ -365,13 +345,27 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
 
                 BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
                 Hawk.put("d_battery",electricity)
-                JumpUtil.startOTAActivity(this,Hawk.get("address")
-                    ,Hawk.get("name")
-                    ,mDeviceFirmwareBean.productNumber
-                    ,mDeviceFirmwareBean.version
-                    ,true
-                )
 
+                mDeviceFirmwareBean = Hawk.get("DeviceFirmwareBean", DeviceFirmwareBean())
+
+
+                if(!TextUtils.isEmpty(isPlatform) && isPlatform == "GR5515"){
+                    JumpUtil.startGoodxOTAActivity(this,Hawk.get("address")
+                        ,Hawk.get("name")
+                        ,mDeviceFirmwareBean.productNumber
+                        ,mDeviceFirmwareBean.version
+                        ,true
+                    )
+                }
+
+                if(!TextUtils.isEmpty(isPlatform) && isPlatform=="NORDIC52840"){
+                    JumpUtil.startOTAActivity(this,Hawk.get("address")
+                        ,Hawk.get("name")
+                        ,mDeviceFirmwareBean.productNumber
+                        ,mDeviceFirmwareBean.version
+                        ,true
+                    )
+                }
 
 //                var status = Hawk.get("ELECTRICITY_STATUS",0)
 //                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08
@@ -416,12 +410,22 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 }
 
                 BleConnection.startOTAActivity=false//不需要在ota的时候再次跳转
-                JumpUtil.startOTAActivity(this,Hawk.get("address")
+
+
+                JumpUtil.startGoodxOTAActivity(this,Hawk.get("address")
                     ,Hawk.get("name")
                     ,mDeviceFirmwareBean.productNumber
                     ,mDeviceFirmwareBean.version
                     ,true
                 )
+
+
+//                JumpUtil.startOTAActivity(this,Hawk.get("address")
+//                    ,Hawk.get("name")
+//                    ,mDeviceFirmwareBean.productNumber
+//                    ,mDeviceFirmwareBean.version
+//                    ,true
+//                )
 
 //                var status = Hawk.get("ELECTRICITY_STATUS",0)
 //                if(electricity<40&&status<=0) //40电量 小于说的  2021 -11-17 19.08

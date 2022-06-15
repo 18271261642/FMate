@@ -95,6 +95,10 @@ public class Config {
     public static final String WriteCharacterBig = "1F400003-AAB4-14A3-F1BA-F61F35CDDBAA";
     public static final String readCharacterBig = "1F400004-AAB4-14A3-F1BA-F61F35CDDBAA";
     public static final String OTAServiceUUID = "8EC9FE59-F315-4F60-9FB8-838830DAEA50";
+
+    public static final String GOODX_OTA_SERVICE_UUID = "a6ed0401-d344-460a-8075-b9e8ec90d71b";
+
+
     public class getDevice {
 
         public static final byte COMMAND = 0x00;

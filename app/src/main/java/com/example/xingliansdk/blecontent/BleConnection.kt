@@ -12,9 +12,11 @@ import com.example.xingliansdk.XingLianApplication.Companion.mXingLianApplicatio
 import com.example.xingliansdk.bean.MessageBean
 import com.example.xingliansdk.broadcast.BleBroadcastReceiver
 import com.example.xingliansdk.dfu.DFUActivity
+import com.example.xingliansdk.dfu.GoodixDfuActivity
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.utils.BleUtil
+import com.google.gson.Gson
 import com.shon.connector.utils.ShowToast
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
@@ -50,6 +52,8 @@ object BleConnection {
                     gatt: BluetoothGatt
                 ) {
                     TLog.error("链接++onConnectSuccess")
+
+                    BLEManager.getInstance().setBluetoothDevice(address)
                     stopScanner()
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                        gatt?.readPhy()
@@ -66,7 +70,15 @@ object BleConnection {
                     )
                     var name = gatt.device.name
                     val mList: List<ParcelUuid> = scanRecord.serviceUuids!!
+
+                    mList.forEach {
+                       // TLog.error("-----mList="+it.uuid.toString())
+                    }
+
                     val manufacturerSpecificData = scanRecord?.manufacturerSpecificData?.keyAt(0)
+
+                  //  TLog.error("-------特纳了ue="+manufacturerSpecificData)
+
                     for (i in mList.indices) {
 //                        TLog.error(" mList[i].uuid.toString()=="+ mList[i].uuid.toString())
                         if (Config.OTAServiceUUID.equals(
@@ -76,7 +88,7 @@ object BleConnection {
                             (manufacturerSpecificData == 32769 || manufacturerSpecificData == 65535)
                         ) //ota模式到这里即可 非OTA才打开通知
                         {
-                            TLog.error("---------进入ota")
+                            TLog.error("-----nordic----进入ota")
                             iFonConnectError = false
                             Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
                             SNEventBus.sendEvent(DEVICE_OTA_UPDATE)
@@ -96,7 +108,38 @@ object BleConnection {
                             mXingLianApplication.getContext()?.startActivity(intent)
                             return
                         }
+
+
+                        //汇顶平台ota模式下
+                        if (Config.GOODX_OTA_SERVICE_UUID.equals(
+                                mList[i].uuid.toString().toLowerCase(),
+                                ignoreCase = true
+                            ) &&
+                            (manufacturerSpecificData == 32771)
+                        ){
+                            TLog.error("---goodix------进入ota")
+                            iFonConnectError = false
+                            Hawk.put("iFonConnectError","BleConnection BleConnection.iFonConnectError=false")
+                            SNEventBus.sendEvent(DEVICE_OTA_UPDATE)
+                            if (!startOTAActivity) //不用跳转不用下方操作 ,有个页面是先进入ota在断开
+                                return
+                            val intent = Intent()
+                            Hawk.put(DEVICE_OTA, true)
+                            intent.setClass(mXingLianApplication, GoodixDfuActivity::class.java)
+                            intent.putExtra("address", address)
+                            intent.putExtra("name", name)
+                            intent.putExtra("productNumber", manufacturerSpecificData.toString(16))
+                            intent.putExtra("writeOTAUpdate",true)
+
+                            intent.putExtra("is_ota_into",true)
+
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            mXingLianApplication.getContext()?.startActivity(intent)
+                            return
+                        }
+
                     }
+
 
                     //    SNEventBus.sendEvent(DEVICE_CONNECT_NOTIFY) //个人建议还是放在service和通知那里 因为就算连接上也存在 service链接不上  133问题
                 }
@@ -277,6 +320,10 @@ object BleConnection {
                     .setServiceUuid(ParcelUuid.fromString(Config.OTAServiceUUID))
                     .build()
             )
+
+        //汇顶平台ota模式下uuid
+        filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(Config.GOODX_OTA_SERVICE_UUID)).build())
+
         scanner.startScan(filters, mScanSettings, mScanCallback)
     }
     private fun stopScanner() {
@@ -290,7 +337,11 @@ object BleConnection {
 
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
-                var saveAddress = Hawk.get<String>("address","")
+                results.forEach {
+                    TLog.error("----搜索到的设备="+Gson().toJson(it))
+                }
+
+                val saveAddress = Hawk.get<String>("address","")
                 results.forEachIndexed { index, it ->
 //                        TLog.error("查找到的设备++" + it.device.address + "本地设备++" + Hawk.get<String>("address"))
                     if (it.device.address.equals(saveAddress.toUpperCase(Locale.CHINA),ignoreCase = true)||

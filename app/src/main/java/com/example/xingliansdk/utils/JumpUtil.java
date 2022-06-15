@@ -9,6 +9,7 @@ import com.example.xingliansdk.TestActivity;
 import com.example.xingliansdk.bean.MapMotionBean;
 import com.example.xingliansdk.bean.SleepTypeBean;
 import com.example.xingliansdk.dfu.DFUActivity;
+import com.example.xingliansdk.dfu.GoodixDfuActivity;
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean;
 import com.example.xingliansdk.ui.BleConnectActivity;
 import com.example.xingliansdk.ui.bloodOxygen.BloodOxygenActivity;
@@ -196,6 +197,25 @@ public class JumpUtil {
         );
 
     }
+
+
+    /**
+     * 跳转到OTA升级界面汇顶平台
+     *
+     * @param context 从哪个页面跳转
+     */
+    public static void startGoodxOTAActivity(Context context, String address, String name, String productNumber, int version
+            , Boolean status) {
+        context.startActivity(new Intent(context, GoodixDfuActivity.class)
+                .putExtra("address", address)
+                .putExtra("name", name)
+                .putExtra("productNumber", productNumber)
+                .putExtra("version", version)
+                .putExtra("writeOTAUpdate", status)
+        );
+
+    }
+
 
     /**
      * 跳转到设备设置界面

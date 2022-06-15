@@ -7,6 +7,18 @@ public class OTAUpdateBean {
     int versionCode;
     String updateContent;
     boolean forceUpdate;
+    //平台，汇顶或Nordic平台 eg:noridc平台：platform NORDIC52840
+    String platform;
+
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
     public boolean isForceUpdate() {
         return forceUpdate;
     }

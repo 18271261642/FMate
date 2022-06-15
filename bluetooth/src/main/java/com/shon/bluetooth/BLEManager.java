@@ -1,8 +1,13 @@
 package com.shon.bluetooth;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.text.TextUtils;
+
+import com.orhanobut.hawk.Hawk;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +28,9 @@ public class BLEManager {
     public DataDispatcher dataDispatcher;
     public static boolean isConnected=false;
 
+
+    //连接成功后的bleutooth对象
+    public BluetoothDevice bluetoothDevice;
 
     private final ConnectDispatcher connectDispatcher;
 
@@ -79,4 +87,31 @@ public class BLEManager {
         connectDispatcher.disconnect(mac);
     }
 
+
+
+
+
+    //获取已经连接的BluetoothDevice
+    public BluetoothDevice getConnBlueDevice(){
+        try {
+            return bluetoothDevice;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+
+    public BluetoothDevice getBluetoothDevice() {
+        return bluetoothDevice;
+    }
+
+    public void setBluetoothDevice(String mac) {
+        if(manager == null)
+            return ;
+        BluetoothAdapter bluetoothAdapter = manager.getAdapter();
+        bluetoothDevice =  bluetoothAdapter.getRemoteDevice(mac);
+    }
 }

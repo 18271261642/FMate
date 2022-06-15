@@ -204,7 +204,9 @@
         <activity android:name=".ui.fragment.map.newmap.AmapHistorySportActivity" /> <!-- 展示轨迹 -->
         <activity android:name=".ui.fragment.map.newmap.AmapSportRecordActivity" />
 
-
+        <!--汇顶固件升级-->
+        <activity android:name=".dfu.GoodixDfuActivity"
+            android:screenOrientation="portrait"/>
         <!--血压设置页面-->
         <activity android:name=".ui.bp.BpSettingActivity"/>
         <!--新版血压主页面-->

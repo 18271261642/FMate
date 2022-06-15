@@ -40,7 +40,7 @@ import java.util.*
 
 
 /**
- * DFU页面
+ * nordic DFU页面
  */
 class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, DownLoadCallback,
     View.OnClickListener, BleWrite.BleInterface {
