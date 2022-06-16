@@ -111,6 +111,12 @@ class GoodixDfuActivity : BaseActivity<MyDeviceViewModel>(),View.OnClickListener
                 tvUpdateCode.text = "已是最新版本"
             }
             else {
+                if(it.versionCode <= mDeviceFirmwareBean.version){
+                    tvBegan.visibility=View.GONE
+                    tvUpdateCode.text = "已是最新版本"
+                    return@observe
+                }
+
 
                 //ota搜索进入不限制电量限制
                 if(!isOtaInto || isPower == 1){

@@ -53,7 +53,7 @@ open class JingfanBpViewModel : BaseViewModel() {
                 message?.let {
                     msgJf.postValue(it)
                     TLog.error("==" + Gson().toJson(it))
-                    ShowToast.showToastLong(it)
+                  //  ShowToast.showToastLong(it)
 
                 }
             })
@@ -71,7 +71,7 @@ open class JingfanBpViewModel : BaseViewModel() {
                 message?.let {
                     msgJfUploadBp.postValue(it)
                     TLog.error("==" + Gson().toJson(it))
-                    ShowToast.showToastLong(it)
+                   // ShowToast.showToastLong(it)
 
                 }
             })

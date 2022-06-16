@@ -59,7 +59,7 @@ class MainViewModel : BaseViewModel() {
         }) { code, message ->
             message?.let {
                 TLog.error("it=" + it)
-                ShowToast.showToastLong(it)
+                //ShowToast.showToastLong(it)
             }
         }
 
@@ -126,7 +126,7 @@ class MainViewModel : BaseViewModel() {
             message?.let {
                 TLog.error("it=" + it)
                 msg.postValue(it)
-                ShowToast.showToastLong(it)
+              //  ShowToast.showToastLong(it)
             }
         }
 
@@ -176,7 +176,7 @@ class MainViewModel : BaseViewModel() {
                 message?.let {
                     msgJfUploadBp.postValue(it)
                     TLog.error("==" + Gson().toJson(it))
-                    ShowToast.showToastLong(it)
+                  //  ShowToast.showToastLong(it)
 
                 }
             })

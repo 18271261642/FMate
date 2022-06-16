@@ -153,6 +153,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
             if (it.isForceUpdate && it.versionCode>mDeviceFirmwareBean.version) {
                 //  showWaitDialog("下载ota升级包中")
+                    //判断手表固件是否小于返回固件
                 showOtaAlert(it.isForceUpdate,it.platform)
             }
 
