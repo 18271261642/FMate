@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+
+
+    <DatePicker
+        android:id="@+id/dialogTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/foreverTv"
+        app:layout_constraintTop_toBottomOf="@id/dialogTimePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_18"
+        android:gravity="center"
+        android:textColor="#5FDC9D"
+        android:padding="@dimen/text_size_8"
+        android:text="永久"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

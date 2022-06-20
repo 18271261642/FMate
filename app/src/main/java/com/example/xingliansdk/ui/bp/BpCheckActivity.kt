@@ -77,9 +77,12 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             if(msg.what == 0x00){
                 if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
                     ShowToast.showToastLong("已断开连接!")
-                    measureDialog?.cancel()
+                    Config.isNeedTimeOut = false
+                    totalSecond = 0
+                    timeOutSecond = 0
                     Config.IS_APP_STOP_MEASURE_BP = false
-                    AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+                  //  AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
+                    showMeasureDialog(false)
                     return
                 }
 
@@ -265,7 +268,10 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     return
                 }
                 measureDialog!!.dismiss()
-                showGuidDialog()
+                if(checkCount == 1){ //没有校准过，直接退出
+                    showGuidDialog()
+                }
+
             }
 
         })
@@ -352,13 +358,14 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             Config.IS_APP_STOP_MEASURE_BP = false
            // AppActivityManager.getInstance().finishActivity(this@BpCheckActivity)
             measureDialog?.dismiss()
-            showGuidDialog()
-
-
+            if(checkCount==1){
+                showGuidDialog()
+            }
         }else{
             if(measureDialog != null){
                 measureDialog?.setMiddleSchedule(-1f)
                 measureDialog?.dismiss()
+
             }
 
 
