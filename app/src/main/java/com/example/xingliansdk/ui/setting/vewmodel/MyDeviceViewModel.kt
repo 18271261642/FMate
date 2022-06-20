@@ -2,6 +2,7 @@ package com.example.xingliansdk.ui.setting.vewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
+import com.example.xingliansdk.network.api.device.DeviceTypeApi
 import com.example.xingliansdk.network.api.login.LoginApi
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
@@ -19,6 +20,13 @@ class MyDeviceViewModel : BaseViewModel() {
     val result: MutableLiveData<OTAUpdateBean> = MutableLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
     val resultUserInfo: MutableLiveData<LoginBean> = MutableLiveData()
+
+
+    //获取设备平台类型汇顶平台或nordic平台
+    val deviceType : MutableLiveData<Any> = MutableLiveData()
+
+
+
     fun findUpdate(number:String,code:Int) {
 //        request(
 //            otaInterface.findUpdate("",0),
@@ -52,6 +60,21 @@ class MyDeviceViewModel : BaseViewModel() {
                 resultUserInfo.postValue(it)
             }
         ) { code, message ->
+            message?.let {
+                msg.postValue(it)
+                TLog.error("==" + Gson().toJson(it))
+                ShowToast.showToastLong(it)
+            }
+        }
+    }
+
+    //获取设备类型
+    fun getDeviceInfoType(productNumber: String) {
+        requestCustom({
+            DeviceTypeApi.deviceTypeApi.getDeviceTypeInfo(productNumber)
+        }, {
+            deviceType.postValue(it)
+        }) { code, message ->
             message?.let {
                 msg.postValue(it)
                 TLog.error("==" + Gson().toJson(it))

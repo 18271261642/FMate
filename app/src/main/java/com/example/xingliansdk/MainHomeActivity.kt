@@ -1,5 +1,6 @@
 package com.example.xingliansdk
 
+import android.Manifest
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.content.*
@@ -40,6 +41,7 @@ import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.example.xingliansdk.viewmodel.MainViewModel
 import com.google.gson.Gson
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
@@ -312,6 +314,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         }
         //initPermission2()
         restartServiceIfNeed()
+        
+        
+        XXPermissions.with(this).permission(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->  }
+        
     }
 
     private var dialog: AlertDialog? = null

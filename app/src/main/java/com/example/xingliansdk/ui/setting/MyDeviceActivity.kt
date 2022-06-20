@@ -13,6 +13,7 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.DeviceFirmwareBean
+import com.example.xingliansdk.bean.ExerciseData
 import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
@@ -24,6 +25,7 @@ import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.github.iielse.switchbutton.SwitchView
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.gyf.barlibrary.ImmersionBar
 //import com.luck.picture.lib.PictureSelector
 //import com.luck.picture.lib.config.PictureConfig
@@ -46,6 +48,8 @@ import kotlinx.android.synthetic.main.item_menu_duf_layout.*
 import kotlinx.android.synthetic.main.item_switch.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.json.JSONObject
+import java.lang.Exception
 
 //手表设置页面
 class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener {
@@ -75,6 +79,8 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         settingUpdate.setContentText(mDeviceFirmwareBean.versionName)
         dfuMenuContentTv.text = mDeviceFirmwareBean.versionName
 
+        //获取类型
+        mViewModel.getDeviceInfoType(mDeviceFirmwareBean.productNumber)
 
     }
 
@@ -98,12 +104,25 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         }
 
         mViewModel.result.observe(this){
-            if(it.platform != null){
-                isPlatform = it.platform
-            }
+
 
 //            val isShowDfuPoint = it.isForceUpdate|| it.versionCode>mDeviceFirmwareBean.version
 //            dfuMenuPotinView.visibility = if(isShowDfuPoint) View.VISIBLE else View.INVISIBLE
+
+        }
+
+
+        mViewModel.deviceType.observe(this){
+            TLog.error("-------设备类型="+it.toString())
+            try {
+                if(it != null){
+                    val linkMap = it as LinkedTreeMap<*, *>
+                    isPlatform = linkMap["platform"] as String
+                    TLog.error("-------设备类型type="+isPlatform)
+                }
+            }catch (e : Exception){
+                e.printStackTrace()
+            }
 
         }
    }

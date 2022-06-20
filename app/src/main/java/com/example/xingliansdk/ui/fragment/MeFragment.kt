@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.fragment
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +30,7 @@ import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.meView.MeViewModel
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
+import com.hjq.permissions.XXPermissions
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
@@ -279,9 +281,15 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     Hawk.put("address", userInfo.user.mac)
                     TLog.error("内部==" + userInfo.user.mac)
                 }
-                tvReconnection.text = "重新连接中.."
-                tvDele.visibility = View.GONE
-                BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
+
+
+                XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
+                    tvReconnection.text = "重新连接中.."
+                    tvDele.visibility = View.GONE
+                    BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
+                }
+
+
             }
             R.id.tvDele -> {
                 AllGenJIDialog.deleteDialog(childFragmentManager)

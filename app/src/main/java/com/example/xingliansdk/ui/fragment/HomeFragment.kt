@@ -105,9 +105,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     private val handler = object : Handler(Looper.myLooper()!!){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if(activity!=null && !activity!!.isFinishing){
-                mSwipeRefreshLayout.finishRefresh()
-            }
+//            if(msg.what == 0x00){
+//                if(activity!=null && !activity!!.isFinishing){
+//                    mSwipeRefreshLayout.finishRefresh()
+//                }
+//            }
+
         }
     }
 
@@ -243,8 +246,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         Handler(Looper.getMainLooper()).postDelayed({
             if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                 mSwipeRefreshLayout.finishRefresh()
+                handler.removeMessages(0x00)
                 //isRefresh=false
             } else {
+                handler.sendEmptyMessageDelayed(0x00,20000)
                 BleSend.sendDateTime()
                 BleWrite.writeSportsUploadModeCall(1)
                 BleWrite.writeForGetDeviceMotion(this, false)
@@ -421,6 +426,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             //   TLog.error("首页卡片数据++" + Gson().toJson(it))
             if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                 mSwipeRefreshLayout.finishRefresh()
+                handler.removeMessages(0x00)
                 if(mHomeCardVoBean.distance == null)
                     return@observe
                 if (!progressStatus) {
@@ -698,8 +704,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         mList: ArrayList<Int>?
     ) {
         mRefreshHeader?.setReleaseText("血氧刷新")
-        if (mList.isNullOrEmpty())
+        if (mList.isNullOrEmpty()){
+            mSwipeRefreshLayout.finishRefresh()
             return
+        }
+
         TLog.error("time 好家伙 血氧++${Gson().toJson(mList)}")
         val name: String = Gson().toJson(mList)
 

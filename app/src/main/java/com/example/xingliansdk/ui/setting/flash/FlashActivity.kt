@@ -17,6 +17,7 @@ import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
+import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.utils.HexDump
@@ -56,6 +57,8 @@ class FlashActivity : BaseActivity<FlashViewModel>(),
             override fun onActionClick() {
             }
         })
+        BLEManager.getInstance().dataDispatcher.clear("")
+
         BleWrite.writeFlashErasureAssignCall {
             var uuid = it
             TLog.error(" uuid.toString()==${uuid.toString()}")

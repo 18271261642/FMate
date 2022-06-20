@@ -9,6 +9,7 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.dialog.CheckBpDialogView
 import com.example.xingliansdk.dialog.MeasureBpDialogView
 import com.example.xingliansdk.dialog.MediaRepeatDialog
@@ -23,6 +24,8 @@ import com.example.xingliansdk.widget.TitleBarLayout
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
 import com.shon.bluetooth.BLEManager
+import com.shon.bluetooth.ConnectDispatcher
+import com.shon.bluetooth.core.Connect
 import com.shon.connector.BleWrite
 import com.shon.connector.Config
 import com.shon.connector.bean.SpecifySleepSourceBean
@@ -72,7 +75,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             if(msg.what == 0x00){
-                if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+                if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
                     ShowToast.showToastLong("已断开连接!")
                     measureDialog?.cancel()
                     Config.IS_APP_STOP_MEASURE_BP = false

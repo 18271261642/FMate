@@ -134,6 +134,7 @@ class BloodOxygenActivity : BaseActivity<BloodOxygenViewModel>(), View.OnClickLi
     }
 
     private fun chartView() {
+        hartsHrr.setNoDataText("无数据")
         hartsHrr.description.isEnabled = false
         hartsHrr.setScaleEnabled(true)//设置比列启动
         hartsHrr.legend.isEnabled = false
