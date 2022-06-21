@@ -76,7 +76,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             super.handleMessage(msg)
             if(msg.what == 0x00){
                 if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus() || BleConnection.iFonConnectError){
-                    ShowToast.showToastLong("已断开连接!")
+                    ShowToast.showToastLong(resources.getString(R.string.string_conn_dis_conn))
                     Config.isNeedTimeOut = false
                     totalSecond = 0
                     timeOutSecond = 0
@@ -91,6 +91,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                    showMeasureDialog(false)
                     timeOutSecond = 0
                     totalSecond = 0
+                    showInputBpData()
                     stopMeasure(false)
                     return
                 }
@@ -138,8 +139,9 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     resultMap.put(("sbp3"),"")
                     resultMap.put(("dbp3"),"")
 
-                    checkHBpTv.text = "请输入收缩压"
-                    checkLBpTv.text = "请输入舒张压"
+                    checkHBpTv.text = resultMap["sbp2"].toString()
+                    checkLBpTv.text = resultMap["dbp2"].toString()
+
 
                     secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_no_check_color))
                     thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
@@ -154,8 +156,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                     resultMap.put(("sbp2"),"")
                     resultMap.put(("dbp2"),"")
 
-                    checkHBpTv.text = "请输入收缩压"
-                    checkLBpTv.text = "请输入舒张压"
+                    checkHBpTv.text = resultMap["sbp1"].toString()
+                    checkLBpTv.text = resultMap["dbp1"].toString()
 
                     secondScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_no_check_color)).intoBackground()
                     secondScheduleTxtTv.setTextColor(resources.getColor(R.color.bp_no_check_color))
@@ -188,22 +190,22 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
 
-        startCheckBpTv.text = "开始第一次测量"
+        startCheckBpTv.text = resources.getString(R.string.string_measure_first)
         if(checkCount == 1){
-            startCheckBpTv.text = "开始第二次测量"
+            startCheckBpTv.text = resources.getString(R.string.string_measure_second)
             firstScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             firstScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 2){
-            startCheckBpTv.text = "开始第三次测量"
+            startCheckBpTv.text = resources.getString(R.string.string_measure_third)
             firstScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
             secondScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             secondScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
         }
 
         if(checkCount == 3){
-            startCheckBpTv.text = "提交并校准"
+            startCheckBpTv.text = resources.getString(R.string.string_measure_submit)
             secondScheduleLinView.setBackgroundColor(resources.getColor(R.color.bp_checked_color))
             thirdScheduleTv.shapeDrawableBuilder.setSolidColor(resources.getColor(R.color.bp_checked_color)).intoBackground()
             thirdScheduleTxtTv.setTextColor(resources.getColor(R.color.main_text_color))
@@ -218,7 +220,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         //成功返回
         mViewModel.resultJF.observe(this){
             TLog.error("---------后台返回="+Gson().toJson(it))
-            ShowToast.showToastLong("校准成功!")
+            ShowToast.showToastLong(resources.getString(R.string.string_measure_check_success))
             timeOutSecond = 0
 
            handler.sendEmptyMessage(0x01)
@@ -315,7 +317,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         if(checkCount >3)
             return
-        checkBpStatusTv.text = "测量成功"
+        checkBpStatusTv.text = resources.getString(R.string.string_measure_success)
 
         val sb1 = StringBuilder()
 
@@ -332,13 +334,20 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         handler.removeMessages(0x00)
         TLog.error("-------校准数据="+Gson().toJson(resultMap))
         showBpSchedule()
+        checkHBpTv.text = resources.getString(R.string.string_input_sbp)
+        checkLBpTv.text = resources.getString(R.string.string_input_dbp)
         stopMeasure(false);
     }
 
 
+    private fun showInputBpData(){
+
+        checkHBpTv.text = resultMap[("sbp$checkCount")].toString()
+        checkLBpTv.text = resultMap[("dbp$checkCount")].toString()
+    }
+
     private fun stopMeasure(isOut : Boolean){
-        checkHBpTv.text = "请输入收缩压"
-        checkLBpTv.text = "请输入舒张压"
+
         handler.removeMessages(0x00)
         val cmdArray = byteArrayOf(0x0B,0x01,0x01,0x00,0x01,if(isOut) 0x01 else 0x0B)
 
@@ -382,13 +391,13 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
                 var hbpStr = checkHBpTv.text.toString()
                 if(!StringUtils.isNumeric(hbpStr)){
-                    ShowToast.showToastShort("请输入收缩压!")
+                    ShowToast.showToastShort(resources.getString(R.string.string_input_sbp))
                     return
                 }
 
                 val lbpStr = checkLBpTv.text.toString()
                 if(!StringUtils.isNumeric(lbpStr)){
-                    ShowToast.showToastShort("请输入舒张!")
+                    ShowToast.showToastShort(resources.getString(R.string.string_input_dbp))
                     return
                 }
 
@@ -458,7 +467,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         inputDialog = MediaRepeatDialog(this,R.style.edit_AlertDialog_style)
         inputDialog?.show()
-        inputDialog!!.setTitleTxt("输入血压值")
+        inputDialog!!.setTitleTxt(resources.getString(R.string.string_input_bp))
         inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
@@ -538,6 +547,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         timeOutSecond = 0
         Config.isNeedTimeOut = false
         Config.IS_APP_STOP_MEASURE_BP = true
+        showInputBpData()
         stopMeasure(true)
     }
 

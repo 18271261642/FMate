@@ -3,7 +3,18 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
-
+    <string name="string_input_normal_dbp">请输入正常的舒张压</string>
+    <string name="string_input_normal_sbp">请输入正常的收缩压</string>
+    <string name="string_input_bp">请输入血压值</string>
+    <string name="string_input_sbp">请输入收缩压</string>
+    <string name="string_input_dbp">请输入舒张压</string>
+    <string name="string_measure_success">测量成功</string>
+    <string name="string_measure_check_success">校准成功</string>
+    <string name="string_measure_first">开始第一次测量</string>
+    <string name="string_measure_second">开始第二次测量</string>
+    <string name="string_measure_third">开始第三次测量</string>
+    <string name="string_measure_submit">提交并校准</string>
+    <string name="string_conn_dis_conn">连接已断开!</string>
     <string name="string_no_bind_device_txt">哦豁，当前还没有绑定设备哦，点击“绑定设</string>
     <string name="string_not_yet_bind">暂不绑定</string>
     <string name="string_go_to_bind">绑定设备</string>
