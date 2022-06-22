@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手表测量"
-            android:textColor="#71FBEE"
+            android:textColor="@color/white"
             android:textSize="11sp" />
     </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手动输入"
-            android:textColor="#71FBEE"
+            android:textColor="@color/white"
             android:textSize="11sp" />
     </LinearLayout>
 

@@ -17,7 +17,7 @@
         app:iconActionImage="@mipmap/icon_calender"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="血氧"
+        app:midtitle="血氧饱和度"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />

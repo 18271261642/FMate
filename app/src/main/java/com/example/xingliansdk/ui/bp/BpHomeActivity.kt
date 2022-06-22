@@ -246,9 +246,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         autoHBpSize = 0
         autoLBpSize = 0
 
-        bpCheckTimeTv.text = "--"
-        bpHomeMeasureSelectTv.text = "--"
-        bpHomeMeasureInputTv.text = "--"
+        bpCheckTimeTv.text = " "
+        bpHomeMeasureSelectTv.text = " "
+        bpHomeMeasureInputTv.text = " "
 
 //        bpList = sDao.getDayBloodPressureHistory(
 //            day
@@ -971,9 +971,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         if(inputHeightValue.size>0){
             val tmpH = inputHeightValue[inputHeightValue.size-1].y.toInt().toString()
             val tmpL = inputLowBpValue[inputLowBpValue.size-1].y.toInt().toString()
-            bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+            bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) " " else "$tmpH/$tmpL "
         }else{
-            bpHomeMeasureInputTv.text = "--"
+            bpHomeMeasureInputTv.text = " "
         }
 
       //  showSelectData()
@@ -1042,9 +1042,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 if(inputHeightBpList.size>0 && lastValidValue<inputLowBpList.size-1){
                     val tmpH = inputHeightBpList[lastValidValue].toString()
                     val tmpL = inputLowBpList[lastValidValue].toString()
-                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) " " else "$tmpH/$tmpL "
                 }else{
-                    bpHomeMeasureInputTv.text = "--"
+                    bpHomeMeasureInputTv.text = " "
                 }
         }catch (e : Exception){
             e.printStackTrace()
@@ -1084,9 +1084,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 if(inputHeightBpList.size>0 && e.x.toInt()<=inputLowBpList.size-1){
                     val tmpH = inputHeightBpList[e.x.toInt()].toString()
                     val tmpL = inputLowBpList[e.x.toInt()].toString()
-                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) " " else "$tmpH/$tmpL "
                 }else{
-                    bpHomeMeasureInputTv.text = "--"
+                    bpHomeMeasureInputTv.text = " "
                 }
             }
         }catch (e : Exception){

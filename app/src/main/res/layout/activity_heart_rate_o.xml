@@ -21,7 +21,7 @@
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
-    <androidx.core.widget.NestedScrollView
+    <com.example.xingliansdk.view.CusNestedScrollView
         android:layout_width="match_parent"
         android:overScrollMode="never"
         android:layout_height="wrap_content">
@@ -116,6 +116,8 @@
                 android:id="@+id/harts_hrr"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
                 android:background="@color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -261,5 +263,5 @@
             />
 
     </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </com.example.xingliansdk.view.CusNestedScrollView>
 </LinearLayout>

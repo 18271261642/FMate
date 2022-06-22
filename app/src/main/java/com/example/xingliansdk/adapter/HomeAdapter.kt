@@ -111,18 +111,24 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                             var contentString = ""
                             if (HelpUtil.isNumericNotSize(item.data)) {
                                 var num = item.data.toInt()
+
+                                var txtColor = R.color.sub_text_color
                                 when (num) {
                                     in 1 until 30 -> {
                                         contentString = "放松"
+                                        txtColor = R.color.color_blood_pressure_low
                                     }
                                     in 30 until 60 -> {
                                         contentString = "正常"
+                                        txtColor = R.color.sub_text_color
                                     }
                                     in 60 until 80 -> {
                                         contentString = "中等"
+                                        txtColor = R.color.color_blood_pressure_one
                                     }
                                     in 80 until 100 -> {
                                         contentString = "偏高"
+                                        txtColor = R.color.color_blood_pressure_three
                                     }
                                 }
                                 tvItemStatusData.text =
@@ -130,7 +136,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                                         item.data,
                                         contentString,
                                         14,
-                                        R.color.sub_text_color
+                                        txtColor
                                     )
                                 img.setImageResource(R.mipmap.icon_home_pressure_data)
                             }

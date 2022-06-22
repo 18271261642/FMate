@@ -219,6 +219,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         //成功返回
         mViewModel.resultJF.observe(this){
+            hideWaitDialog()
             TLog.error("---------后台返回="+Gson().toJson(it))
             ShowToast.showToastLong(resources.getString(R.string.string_measure_check_success))
             timeOutSecond = 0
@@ -229,6 +230,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
         //后台非成功返回
         mViewModel.msgJf.observe(this){
+            hideWaitDialog()
             timeOutSecond = 0
             ShowToast.showToastLong("上传失败:"+it)
             TLog.error("---------后台飞200返回="+Gson().toJson(it))
@@ -342,8 +344,8 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
     private fun showInputBpData(){
 
-        checkHBpTv.text = resultMap[("sbp$checkCount")].toString()
-        checkLBpTv.text = resultMap[("dbp$checkCount")].toString()
+        checkHBpTv.text = resultMap[("sbp")+(checkCount-1)].toString()
+        checkLBpTv.text = resultMap[("dbp")+(checkCount-1)].toString()
     }
 
     private fun stopMeasure(isOut : Boolean){
@@ -369,7 +371,9 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
             measureDialog?.dismiss()
             if(checkCount==1){
                 showGuidDialog()
+                return
             }
+            checkCount--
         }else{
             if(measureDialog != null){
                 measureDialog?.setMiddleSchedule(-1f)
@@ -418,7 +422,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
                             ShowToast.showToastShort("数据为空!")
                             return
                         }
-
+                        showWaitDialog("提交中...")
                         mViewModel.markJFBpData(resultMap)
 //                        mViewModel.markJFBpData(thirdBpCheckBean!!.data1,thirdBpCheckBean!!.data2,thirdBpCheckBean!!.data3,
 //                            thirdBpCheckBean!!.sbp1,thirdBpCheckBean!!.sbp2,thirdBpCheckBean!!.sbp3,thirdBpCheckBean!!.dbp1,thirdBpCheckBean!!.dbp2,thirdBpCheckBean!!.dbp3)

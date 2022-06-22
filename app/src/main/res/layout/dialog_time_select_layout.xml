@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    app:shape_radius="@dimen/dp_10"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
 
 
     <DatePicker
         android:id="@+id/dialogTimePicker"
         android:layout_width="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="calendar"
+        android:spinnersShown="true"
+        android:headerBackground="@color/teal_700"
+        android:headerDayOfMonthTextAppearance="@color/red"
+        android:headerMonthTextAppearance="@color/red"
+        android:layout_marginBottom="3dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:calendarTextColor="@color/black" />
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D8D8D8 "/>
 
     <com.hjq.shape.view.ShapeTextView
         android:id="@+id/foreverTv"
-        app:layout_constraintTop_toBottomOf="@id/dialogTimePicker"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_18"
@@ -26,4 +41,4 @@
         android:padding="@dimen/text_size_8"
         android:text="永久"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>

@@ -8,6 +8,7 @@ import com.shon.bluetooth.core.callback.WriteCallback;
 import com.shon.bluetooth.util.ByteUtil;
 import com.shon.connector.call.CmdUtil;
 import com.shon.connector.utils.HexDump;
+import com.shon.connector.utils.TLog;
 
 /**
  * 3.6.6
@@ -29,6 +30,7 @@ public class AlarmClockScheduleCall extends WriteCallback {
 
     @Override
     public boolean process(String address, byte[] result, String uuid) {
+        TLog.Companion.error("-----------闹钟="+HexDump.dumpHexString(result));
         if (!uuid.equalsIgnoreCase(Config.readCharacter))
             return false;
       //  TLog.Companion.error("闹钟 日程 获取到最终的数据长度_++" + ByteUtil.getHexString(result));//获取到最终的长度

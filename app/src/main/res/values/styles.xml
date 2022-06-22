@@ -209,4 +209,11 @@
         <!--对话框背景色-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="Theme.picker" parent="android:Theme.Holo.Light">
+        <item name="android:editTextStyle">@style/Widget.EditText.White</item>
+    </style>
+    <style name="Widget.EditText.White" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

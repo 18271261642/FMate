@@ -11,6 +11,7 @@ import android.util.Log
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.dialog.DateSelectDialogView
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.service.OnWeatherStatusListener
@@ -235,20 +236,27 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
     private fun showOtaAlert() {
 
-        cusDufAlert = CusDfuAlertDialog(this,R.style.edit_AlertDialog_style)
-        cusDufAlert!!.show()
-        cusDufAlert!!.setCancelable(false)
-        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
-            override fun onCancelClick() {
-                cusDufAlert!!.dismiss()
-            }
+        val dateDialog = DateSelectDialogView(this)
+        dateDialog.show()
+        dateDialog.setCurrentShowDate(Date())
 
-            override fun onSUreClick() {
-                cusDufAlert!!.dismiss()
 
-            }
 
-        })
+
+//        cusDufAlert = CusDfuAlertDialog(this,R.style.edit_AlertDialog_style)
+//        cusDufAlert!!.show()
+//        cusDufAlert!!.setCancelable(false)
+//        cusDufAlert!!.setOnCusDfuClickListener(object : CusDfuAlertDialog.OnCusDfuClickListener {
+//            override fun onCancelClick() {
+//                cusDufAlert!!.dismiss()
+//            }
+//
+//            override fun onSUreClick() {
+//                cusDufAlert!!.dismiss()
+//
+//            }
+//
+//        })
     }
 
     override fun createObserver() {

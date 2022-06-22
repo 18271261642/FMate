@@ -96,10 +96,13 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
                             mTimeList[position].setEndTime(setUpdateTime(mTimeList[position].endTime))
                     }
                     Hawk.put(TIME_LIST, mTimeList)
+
+
                     var upDataTime = System.currentTimeMillis() / 1000
                     Hawk.put(ALARM_CLOCK_CREATE_TIME, upDataTime)
 
                     saveLocalAlarmClock(mTimeList)
+                    saveAlarmClock(upDataTime)
 
 //                    for (i in 0 until mTimeList.size)
 //                        BleWrite.writeAlarmClockScheduleCall(mTimeList[i], false)
@@ -277,13 +280,14 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
             return
         }
 
+        showWaitDialog("Loading...")
 
         mAlarmClockList.forEachIndexed { index, timeBean ->
             timeBean.number = index
             BleWrite.writeAlarmClockScheduleCall(timeBean, true)
         }
 
-
+        hideWaitDialog()
 
     }
 
