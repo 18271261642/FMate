@@ -120,7 +120,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                                     }
                                     in 30 until 60 -> {
                                         contentString = "正常"
-                                        txtColor = R.color.sub_text_color
+                                        txtColor = R.color.color_blood_pressure_normal
                                     }
                                     in 60 until 80 -> {
                                         contentString = "中等"

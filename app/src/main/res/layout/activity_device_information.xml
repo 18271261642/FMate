@@ -12,14 +12,14 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:backcolor="@color/white"
         app:homeBackClick="true"
         app:iconActionImage="@mipmap/icon_sport_mode_walking"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="个人资料"
+        app:midtitle="@string/string_personal_data"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="用户ID"
+                    android:text="@string/string_user_id"
                     android:textColor="@color/main_text_color"
                     android:textSize="18sp"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -99,16 +99,16 @@
                 android:layout_width="match_parent"
                 android:background="@color/color_fe"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="昵称"
                     android:padding="16dp"
-                    android:textSize="18sp"
+                    android:text="@string/string_nickname"
                     android:textColor="@color/main_text_color"
+                    android:textSize="18sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/edtName"
@@ -118,7 +118,7 @@
                     android:layout_toLeftOf="@+id/img_right"
                     android:background="@color/white"
                     android:gravity="right"
-                    android:hint="请输入昵称"
+                    android:hint="@string/string_input_nickname"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:lines="1"
@@ -159,7 +159,7 @@
                 app:TextSize="18px"
                 app:layoutType="1"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
-                app:titleText="性别" />
+                app:titleText="@string/string_sex" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -174,7 +174,7 @@
                 app:TextSize="18px"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
                 app:layoutType="1"
-                app:titleText="出生日期" />
+                app:titleText="@string/string_date_of_birthday" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -189,7 +189,7 @@
                 android:background="@color/color_fe"
                 app:layoutType="1"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
-                app:titleText="身高" />
+                app:titleText="@string/string_height" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -203,13 +203,13 @@
                 app:layoutType="1"
                 app:contentTextColor="@color/bottom_nav_icon_dim"
                 android:layout_marginTop="1dp"
-                app:titleText="体重" />
+                app:titleText="@string/string_weight" />
 
             <TextView
                 android:id="@+id/tvContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="请选择正确的数据，确保热量消耗及运动距离计算准确"
+                android:text="@string/string_user_basic_desc"
                 android:textColor="@color/sub_text_color"
                 android:layout_margin="16dp"
                 />
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_login_password"
                 android:gravity="center"
-                android:text="下一步"
+                android:text="@string/string_next"
                 android:layout_margin="32dp"
                 android:padding="12dp"
                 android:textColor="@color/white"
@@ -230,7 +230,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="退出登录"
+                android:text="@string/string_logo"
                 android:visibility="gone"
                 android:layout_marginTop="32dp"
                 android:background="@color/white"
@@ -245,7 +245,7 @@
                 android:gravity="bottom"
                 android:padding="10dp"
                 android:visibility="gone"
-                android:text="注销账号"
+                android:text="@string/string_logout_account"
                 android:layout_marginTop="112dp"
                 />
 

@@ -16,6 +16,7 @@ import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.adapter.TimesPerDayAdapter
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.dialog.DateSelectDialogView
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.setAllClock.SetAllClockViewModel
@@ -172,21 +173,23 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             R.id.settingStartTime -> { //开始时间
                 TLog.error("dianji")
                 startEndType = true
-                initDatePicker(0) //为啥再次初始化 因为要判断和改变 setdate
-                dateTime?.let {
-                    if (it.isShowing)
-                        it.dismiss()
-                    dateTime?.show()
-                }
+                //initDatePicker(0) //为啥再次初始化 因为要判断和改变 setdate
+                showDateSelect(0,false)
+//                dateTime?.let {
+//                    if (it.isShowing)
+//                        it.dismiss()
+//                    dateTime?.show()
+//                }
             }
             R.id.settingEndTime -> { //结束时间
                 startEndType = false
-                initDatePicker(1)
-                dateTime?.let {
-                    if (it.isShowing)
-                        it.dismiss()
-                    dateTime?.show()
-                }
+               // initDatePicker(1)
+                showDateSelect(1,true)
+//                dateTime?.let {
+//                    if (it.isShowing)
+//                        it.dismiss()
+//                    dateTime?.show()
+//                }
             }
         }
     }
@@ -308,12 +311,12 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
                 Log.e(tags,"--------选择的时间="+selectDate+" 转换后="+selectLongDate+" "+(selectLongDate < currDayLong))
                 if(selectLongDate < currDayLong){
-                    ShowToast.showToastLong("开始时间不能小于当前时间")
+                    ShowToast.showToastLong(resources.getString(R.string.string_take_medic_start_time_2))
                     return@TimePickerBuilder
                 }
                 if(mBean.endTime>100){
                     if(selectLongDate>mBean.endTime){
-                        ShowToast.showToastLong("开始时间不能大于结束时间")
+                        ShowToast.showToastLong(resources.getString(R.string.string_take_medic_start_time_1))
                         return@TimePickerBuilder
                     }
                 }
@@ -325,7 +328,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             }else{  //结束时间
                 //结束时间可以登录开始时间，但是不能不开始时间小
                 if(selectLongDate < mBean.startTime){
-                    ShowToast.showToastLong("结束时间不能小于当前时间")
+                    ShowToast.showToastLong(resources.getString(R.string.string_take_medic_end_time))
                     return@TimePickerBuilder
 
                 }
@@ -362,6 +365,80 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             dialogWindow.setDimAmount(0.3f)
         }
     }
+
+
+
+    //显示日期选择框
+    private fun showDateSelect(code : Int,isShowForever : Boolean){
+
+        val ca: Calendar = Calendar.getInstance()
+        //当天的long
+        val currDayLong = DateUtil.getCurrDayToLongLast();
+        if(mBean.startTime == 0L)
+            mBean.startTime = currDayLong
+        TLog.error("时间" + (mBean.startTime * 1000) + ",  结束++" + (mBean.endTime * 1000)+" "+currDayLong)
+        if(code == 0){
+            ca.timeInMillis = mBean.startTime * 1000 //if(mBean.startTime * 1000 <currDayLong * 1000) currDayLong* 1000 else mBean.startTime * 1000 ;
+        }else{
+            ca.timeInMillis = if(mBean.endTime <=100) currDayLong * 1000 else mBean.endTime * 1000//if(mBean.endTime <currDayLong) currDayLong * 1000 else mBean.endTime * 1000;
+        }
+
+        val dateSelectDialogView = DateSelectDialogView(this)
+        dateSelectDialogView.show()
+        dateSelectDialogView.setCurrentShowDate(ca.timeInMillis)
+        dateSelectDialogView.isShowForeverBtn(isShowForever)
+        dateSelectDialogView.setOnDateSelectListener(object : DateSelectDialogView.OnDateSelectListener{
+            override fun onDateSelect(date: Date?) {
+                //选择的时间
+                val selectDate = DateUtil.getDate(DateUtil.YYYY_MM_DD, date);
+                //转换成long类型
+                var selectLongDate = DateUtil.getCurrDayToLongLast(selectDate)
+                //开始时间，不能小于当天，可以等于当天
+                if(code == 0){
+
+                    Log.e(tags,"--------选择的时间="+selectDate+" 转换后="+selectLongDate+" "+(selectLongDate < currDayLong)+" "+mBean.endTime)
+                    if(selectLongDate*1000 < mBean.startTime*1000 && selectLongDate < currDayLong){
+                        ShowToast.showToastLong(resources.getString(R.string.string_take_medic_start_time_2))
+                       return
+                    }
+
+                    if(mBean.endTime>100){
+                        if(selectLongDate>mBean.endTime){
+                            ShowToast.showToastLong(resources.getString(R.string.string_take_medic_start_time_1))
+                            return
+                        }
+                    }
+
+
+                    mBean.startTime =selectLongDate
+                    settingStartTime.setContentText(selectDate)
+
+                }else{  //结束时间
+                    //结束时间可以登录开始时间，但是不能不开始时间小
+                    if(selectLongDate < mBean.startTime){
+                        ShowToast.showToastLong(resources.getString(R.string.string_take_medic_end_time))
+                        return
+
+                    }
+                    mBean.endTime =selectLongDate
+                    settingEndTime.setContentText(selectDate)
+
+                }
+
+                dateSelectDialogView.dismiss()
+                TLog.error("+++" + mBean.startTime + "  时++" + DateUtil.getDateToLongLast(date) + " endTime===" + mBean.endTime)
+            }
+
+            override fun foreverSelect() {
+                dateSelectDialogView.dismiss()
+                mBean.endTime = 0
+            }
+
+        })
+    }
+
+
+
 
     private fun dialog() {
         newGenjiDialog {

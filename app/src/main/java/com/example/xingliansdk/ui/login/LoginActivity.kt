@@ -95,9 +95,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                 var tvContent = holder.getView<TextView>(R.id.tvContent)
                 var tvPrivacy = holder.getView<TextView>(R.id.tvPrivacy)
                 var tvUser = holder.getView<TextView>(R.id.tvUser)
-                tvContent?.text="欢迎来到ai Health\\\n点击\"同意并继续\"代表您已阅读并理解《ai Health用户协议》 和 《隐私政策》 ." +
-                        "当进入APP时,为了向您提供即时通讯,内容分享等服务,我们需要收集你的设备信息,个人信息,MAC,IMEI等.我们将在此承诺不会泄露你的任何三方信息,只用于APP使用." +
-                        "若您点击\"不同意并退出\",则您将无法使用我们的产品,请您退出App"
+                tvContent?.text=resources.getString(R.string.string_privacy_content_desc)
                 tvPrivacy?.setOnClickListener {
                     JumpUtil.startWeb(this@LoginActivity, XingLianApplication.baseUrl + "/agreement/privacy")
                 }
@@ -109,8 +107,8 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                     {
                         finish()
                     }
-                    dialogCancel.text = "不同意,退出APP"
-                    tvContent?.text = "不同意 《ai Health用户协议》 和 《隐私政策》将无法使用ai Health产品和服务,请您退出 App"
+                    dialogCancel.text = resources.getString(R.string.string_no_agree)
+                    tvContent?.text = resources.getString(R.string.string_no_agree_desc)
                 }
                 dialogOK?.setOnClickListener {
                     Hawk.put("privacyPolicyn", 1)
@@ -260,21 +258,21 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                 if (edtPassword.visibility == View.VISIBLE)
                     value["password"] = edtPassword.text.toString()
                 if (edt_mobile.text.toString().isNullOrEmpty()) {
-                    ShowToast.showToastLong("请输入手机号")
+                    ShowToast.showToastLong(resources.getString(R.string.string_input_phone))
                     return
                 } else if (edtPassword.text.toString().isNullOrEmpty() &&
-                    tvPassword.text.toString() == "免密登录"
+                    tvPassword.text.toString() == resources.getString(R.string.string_no_pwd_login)
                 ) {
-                    ShowToast.showToastLong("请输入密码")
+                    ShowToast.showToastLong(resources.getString(R.string.string_input_pwd))
                     return
                 } else if (edt_code.text.toString().isNullOrEmpty() &&
-                    tvPassword.text.toString() == "密码登录"
+                    tvPassword.text.toString() == resources.getString(R.string.string_pwd_login)
                 ) {
-                    ShowToast.showToastLong("请输入验证码")
+                    ShowToast.showToastLong(resources.getString(R.string.string_input_very_code))
                     return
                 }
                 if (!checkbox.isSelected) {
-                    ShowToast.showToastLong("请勾选用户协议及隐私协议")
+                    ShowToast.showToastLong(resources.getString(R.string.string_agree_privacy_desc))
                     return
                 }
                 HelpUtil.hideSoftInputView(this)
@@ -283,7 +281,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
             }
             R.id.tvPhoneCode -> {
                 SelectPhoneCode.with(this)
-                    .setTitle("区号选择")
+                    .setTitle(resources.getString(R.string.string_phone_area))
                     .setStickHeaderColor("#41B1FD")//粘性头部背景颜色
                     .setTitleBgColor("#ffffff")//界面头部标题背景颜色
                     .setTitleTextColor("#454545")//标题文字颜色
@@ -301,7 +299,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
 //                mViewModel.changSangLogin(value)
 
                 if (edt_mobile.text.toString().isNullOrEmpty()) {
-                    ShowToast.showToastLong("请输入手机号")
+                    ShowToast.showToastLong(resources.getString(R.string.string_input_phone))
                     return
                 }
                 countDownTimer?.start()
@@ -316,9 +314,9 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                 mViewModel.getVerifyCode(edt_mobile.text.toString(), areaCode, md5Password)
             }
             R.id.tvPassword -> {
-                if (tvPassword.text.toString() == "密码登录") {
-                    tvTitle.text = "密码登录"
-                    tvPassword.text = "免密登录"
+                if (tvPassword.text.toString() == resources.getString(R.string.string_pwd_login)) {
+                    tvTitle.text = resources.getString(R.string.string_pwd_login)
+                    tvPassword.text = resources.getString(R.string.string_no_pwd_login)
                     edtPassword.visibility = View.VISIBLE
                     imgPassword.visibility = View.VISIBLE
                     tv_getcode.visibility = View.INVISIBLE
@@ -326,8 +324,8 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                     tvForgotPassword.visibility = View.VISIBLE
                     tv_regist.visibility = View.INVISIBLE
                 } else {
-                    tvTitle.text = "手机号登录/注册"
-                    tvPassword.text = "密码登录"
+                    tvTitle.text = resources.getString(R.string.string_phone_login_or_register)
+                    tvPassword.text = resources.getString(R.string.string_pwd_login)
                     edtPassword.visibility = View.INVISIBLE
                     imgPassword.visibility = View.INVISIBLE
                     tv_getcode.visibility = View.VISIBLE
@@ -375,7 +373,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
 
         //计时完毕的方法
         override fun onFinish() { //重新给Button设置文字
-            tv_getcode.text = "重新获取"
+            tv_getcode.text = resources.getString(R.string.string_try_again_code)
             //设置可点击
             tv_getcode.setTextColor(resources.getColor(R.color.color_main_green))
             tv_getcode.setBackgroundResource(R.drawable.login_code_btn)

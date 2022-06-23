@@ -110,7 +110,7 @@ class AppStart : BaseActivity<AppStartViewModel>() {
         val updateDialogView = UpdateDialogView(this,R.style.edit_AlertDialog_style)
         updateDialogView.show()
         updateDialogView.setCancelable(false)
-        updateDialogView.setContentTxt("APP有更新是否下载最新app进行升级?")
+        updateDialogView.setContentTxt(resources.getString(R.string.string_app_update_alert))
         updateDialogView.setIsFocus(forceUpdate)
         updateDialogView.setOnUpdateDialogListener(object :
             UpdateDialogView.onUpdateDialogListener {
@@ -187,7 +187,7 @@ class AppStart : BaseActivity<AppStartViewModel>() {
             mViewModel.appUpdate("aiHealth", HelpUtil.getVersionCode(this@AppStart))
             TLog.error("网络===")
         } else {
-            TLog.error("网络断开")
+            TLog.error(resources.getString(R.string.string_net_error))
             ShowToast.showToastLong("网络断开!")
         }
     }

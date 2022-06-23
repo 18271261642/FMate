@@ -5,6 +5,7 @@
     app:shape_radius="@dimen/dp_10"
     android:padding="10dp"
     android:layout_gravity="center"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     android:layout_height="wrap_content">
@@ -26,6 +27,7 @@
 
 
     <View
+        android:id="@+id/tmpSelectView"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#D8D8D8 "/>
@@ -38,6 +40,7 @@
         android:textSize="@dimen/text_size_18"
         android:gravity="center"
         android:textColor="#5FDC9D"
+        app:shape_solidPressedColor="@color/gray1"
         android:padding="@dimen/text_size_8"
         android:text="永久"/>
 

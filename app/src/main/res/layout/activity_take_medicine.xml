@@ -10,7 +10,7 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:backcolor="@color/white"
         app:homeBackClick="true"
@@ -132,7 +132,7 @@
                     app:layoutType="1"
                     app:mtitleTextColor="@color/sub_text_color"
                     app:styleImage="@mipmap/icon_device_wear"
-                    app:titleText="重复" />
+                    app:titleText="@string/string_alarm_repeat" />
 
                 <View
                     android:layout_width="match_parent"

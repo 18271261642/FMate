@@ -1,0 +1,455 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_release">ai Health</string>
+    <string name="app_name_debug">ai Health(测试版)</string>
+
+    
+    <string name="string_personal_data">个人资料</string>
+    <string name="string_next">下一步</string>
+    <string name="string_logout_account">注销账号</string>
+    <string name="string_get_verify_code">获取验证码</string>
+    
+
+    <string name="string_privacy_content_desc">欢迎来到ai Health\\\n点击\"同意并继续\"代表您已阅读并理解《ai Health用户协议》 和 《隐私政策》 ." +
+                        "当进入APP时,为了向您提供即时通讯,内容分享等服务,我们需要收集你的设备信息,个人信息,MAC,IMEI等.我们将在此承诺不会泄露你的任何三方信息,只用于APP使用." +
+                        "若您点击\"不同意并退出\",则您将无法使用我们的产品,请您退出App</string>
+    <string name="string_no_agree_desc">不同意 《ai Health用户协议》 和 《隐私政策》将无法使用ai Health产品和服务,请您退出 App</string>
+    <string name="string_no_agree">不同意,退出APP</string>
+    <string name="string_agree">同意</string>
+    <string name="string_input_phone">请输入手机号</string>
+    <string name="string_no_pwd_login">免密登录</string>
+    <string name="string_input_pwd">请输入密码</string>
+    <string name="string_pwd_login">密码登录</string>
+    <string name="string_input_very_code">请输入验证码</string>
+    <string name="string_agree_privacy_desc">请勾选用户协议及隐私协议</string>
+    <string name="string_phone_area">区号选择</string>
+    <string name="string_phone_login_or_register">手机号登录/注册</string>
+    <string name="string_try_again_code">重新获取</string>
+    <string name="string_auto_register">未注册的手机号验证后自动创建账户</string>
+    <string name="string_forget_pwd">忘记密码</string>
+    <string name="string_user_agreement">《用户协议》</string>
+    <string name="string_user_privacy">《隐私政策》</string>
+    <string name="string_red_agree">我已阅读和同意</string>
+
+    <string name="string_set_pwd">设置密码</string>
+    <string name="string_again_pwd">请再次输入密码</string>
+    <string name="string_logo">退出登录</string>
+    <string name="string_user_id">用户ID</string>
+    <string name="string_input_nickname">请输入昵称</string>
+    <string name="string_birthday_alert">出生日期不可大于今天</string>
+    <string name="string_date_of_birthday">出生日期</string>
+    <string name="string_height">身高</string>
+    <string name="string_weight">体重</string>
+    <string name="string_nickname">昵称</string>
+    <string name="string_sex">性别</string>
+    <string name="string_user_basic_desc">请选择正确的数据，确保热量消耗及运动距离计算准确</string>
+    <string name="string_pwd_alert">两次密码不一致,请重新输入</string>
+    
+    
+    
+    <string name="string_home_pull_desc">下拉释放数据</string>
+    <string name="string_home_open_pull">放开刷新数据</string>
+    <string name="string_home_refresh">正在刷新..</string>
+    <string name="string_home_edit_card">编辑卡片</string>
+    <string name="string_home_know">你知道吗?</string>
+    <string name="string_home_measure_wait">正在测量血压，请稍后!</string>
+    <string name="string_home_no_net_edit">暂无网络,不可编辑</string>
+    <string name="string_unit_mile">英里</string>
+    <string name="string_unit_km">千米</string>
+    <string name="string_unit_kcal">千卡</string>
+    <string name="string_home_sleep_refresh">睡眠刷新</string>
+    <string name="string_home_pressure_refresh">压力刷新</string>
+    <string name="string_home_heart_refresh">心率刷新</string>
+    <string name="string_home_spo2_refresh">血氧刷新</string>
+    <string name="string_home_temp_refresh">体温刷新</string>
+
+    <string name="string_sport_all">所有运动</string>
+    <string name="string_sport_step">步行</string>
+    <string name="string_sport_run">跑步</string>
+    <string name="string_sport_cycle">骑行</string>
+    <string name="string_sport_time">运动时间</string>
+    <string name="string_sport_kcal">热量</string>
+    <string name="string_sport_avg_heart">平均心率</string>
+    <string name="string_sport_steps">步数</string>
+    <string name="string_sport_avg_pace">平均配速</string>
+    <string name="string_sport_avg_speed">平均速度</string>
+    <string name="string_sport_total_dis">累计步行距离></string>
+    <string name="string_sport_unit_mile">距离/英里</string>
+    <string name="string_sport_unit_km">距离/公里</string>
+    <string name="string_sport_stop">停止</string>
+    <string name="string_sport_pause">暂停</string>
+    <string name="string_sport_no_save">本次运动距离过短,将不会记录数据,是否退出?</string>
+    <string name="string_activity_permission">请允许获取健身运动信息，不然不能为你计步哦~</string>
+    <string name="string_sport_long_press_stop">长按结束运动</string>
+
+
+    <string name="string_no_conn_desc">蓝牙设备未连接,请前往重新连接</string>
+
+    <string name="string_mine_no_device">当前无设备，点此添加</string>
+    <string name="string_mine_re_conn">重新连接</string>
+    <string name="string_mine_ble_error">手机蓝牙异常,请关闭蓝牙在开启或重启手机</string>
+    <string name="string_mine_open_ble">蓝牙已关闭,请开启蓝牙</string>
+    <string name="string_mine_conn_timeout">连接超时,请尝试关闭手机蓝牙再开启</string>
+
+    <string name="string_device_desc">丰富炫彩表盘，心率与睡眠监测，守护您的健康</string>
+    <string name="string_check_update">检查更新</string>
+    <string name="string_about">关于</string>
+
+    <string name="string_feedback">问题与反馈</string>
+    <string name="string_product_suggest">产品建议</string>
+    <string name="string_input_feedback">请输入反馈意见</string>
+    <string name="string_input_feedback_phone">请输入联系手机号</string>
+    <string name="string_suggest_desc">请说明建议，我们将不断改进～～</string>
+
+
+    <string name="string_set_account_self">账户与安全</string>
+    <string name="string_set_unit">单位设置</string>
+    <string name="string_set_permission_desc">权限使用说明</string>
+    <string name="string_distance_unit">距离显示格式</string>
+    <string name="string_weight_unit">重量显示格式</string>
+    <string name="string_temp_unit">温度显示格式</string>
+    <string name="string_time_unit">手环时间制式</string>
+
+    <string name="string_update_pwd">修改密码</string>
+    <string name="string_change_phone">更换手机号</string>
+
+
+    <string name="string_dial_market">表盘市场</string>
+    <string name="string_dial_all">全部表盘>></string>
+    <string name="string_dial_recommend">推荐</string>
+    <string name="string_dial_mine">我的</string>
+    <string name="string_dial_cancel_desc">离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?</string>
+    <string name="string_dial_last">最新</string>
+    <string name="string_dial_menu_down">已下载表盘</string>
+    <string name="string_dial_menu_cus">自定义表盘</string>
+    <string name="string_dial_menu_local">本地表盘</string>
+    
+    <!--设备页面-->
+    <string name="string_device_msg_notify">消息提醒</string>
+    <string name="string_device_alarm">闹钟设置</string>
+    <string name="string_device_long_sit">久坐提醒</string>
+    <string name="string_device_one_hour_long_sit">久坐1小时提醒</string>
+    <string name="string_device_drink">喝水提醒</string>
+    <string name="string_device_one_hour_drink">喝水1小时提醒</string>
+    <string name="string_device_take_medic">吃药提醒</string>
+    <string name="string_device_phone_notify">来电提醒</string>
+    <string name="string_device_msm_notify">短信提醒</string>
+    <string name="string_device_other_notify">其他提醒</string>
+    <string name="string_device_switch_hand">转腕亮屏</string>
+    <string name="string_device_schedule_notify">日程提醒</string>
+    <string name="string_device_schedule_set">日程设置</string>
+    <string name="string_device_heart_alarm">心率报警</string>
+    <string name="string_device_bp_set">血压设置</string>
+    <string name="string_device_power_model">低功耗模式</string>
+    <string name="string_device_find_device">查找设备</string>
+    <string name="string_device_light_time">亮屏时长</string>
+    <string name="string_device_switch">开关设置</string>
+    <string name="string_device_light_set">亮度调节</string>
+    <string name="string_device_take_photo">拍照</string>
+    <string name="string_device_dfu">固件更新</string>
+    <string name="string_device_clear_cache">清除缓存</string>
+    <string name="string_device_recycler_device">恢复出厂设置</string>
+    <string name="string_device_delete_device">删除设备</string>
+    <string name="string_bp_light_notify">白天测量提醒</string>
+    <string name="string_bp_half_hour_measure">08:00 ~ 24:00，每30分钟提醒您测量一次</string>
+    <string name="string_bp_night_auto_measure">夜间自动测量</string>
+    <string name="string_bp_night_half_hour_measure">夜间00:00～08:00，每30分钟自动测量一次</string>
+    <string name="string_notify_more_click">更多权限问题请点击</string>
+    <string name="string_notify_help">找到 ai Health ,打开或重启服务即可</string>
+    <string name="string_add_most_alarm">最多只可以添加五条,请选择删除或修改</string>
+    <string name="string_no_alarm">当前无闹钟</string>
+    <string name="string_alarm_never">永不</string>
+    <string name="string_alarm_repeat">重复</string>
+    <string name="string_alarm_tag">标签</string>
+    <string name="string_alarm_remark">备注信息</string>
+    <string name="string_take_medic_most">吃药提醒最多只可添加五条</string>
+    <string name="string_take_medic_start_time_1">开始时间不得大于结束时间</string>
+    <string name="string_take_medic_start_time_2">开始时间不能小于当前时间</string>
+    <string name="string_take_medic_end_time">结束时间不能小于当前时间</string>
+    <string name="string_interval">间隔</string>
+    <string name="string_schedule_no_data">当前无日程</string>
+    <string name="string_schedule_time_alert">日程提醒时间不可小于当前时间</string>
+    <string name="string_schedule_add">添加日程</string>
+    <string name="string_schedule_add_most">日程最多只可添加五条</string>
+    <string name="string_schedule_set_time">设置时间不能小于当前时间</string>
+
+    <string name="string_connected">已连接</string>
+    
+
+    <string name="string_ota_40_battery">手表电量低于40%,请充电</string>
+    <string name="string_ota_20_phone">手机电量低于20%,请充电</string>
+    <string name="string_ota_10_phone">手机电量低于10%,请充电达到10%再进行升级</string>
+    <string name="string_ota_down_ing">正在下载最新包,请勿操作其他步骤..</string>
+    <string name="string_ota_down_alert">下载ota升级包中</string>
+    <string name="string_ota_start">开始升级</string>
+    <string name="string_ota_no_dis_conn">ota升级中,请勿断开</string>
+    <string name="string_ota_desc">注意事项：
+        \n1.固件升级时间大概需要1-3分钟。
+        \n2.升级前确保手机电量在20%以上或处于充电状态。若是不满足条件，将不能进行OTA升级。
+        \n3.升级前确保设备电量在40%以上或处于充电状态。若是不满足条件，将不能进行OTA升级。
+        \n4.升级过程中尽可能避免操作手机，保持设备与手机的距离在0.2米之内。
+        \n5.如果升级失败设备名字将变为SL_OTA，并且一直处于升级模式不能亮屏。再次打开APP后，APP会自动连接并对设备进行升级。
+        \n6.因手机蓝牙也存在不稳定性，如果多次升级失败，请更换手机，重新升级。请注意此时需要关闭之前连接过此设备的手机蓝牙。</string>
+
+
+    <string name="string_flash_no_support">不支持擦写FLASH数据</string>
+    <string name="string_flash_down_bin">正在下载bin文件..</string>
+
+    <string name="string_heart_alarm_no_empty">心率值不能为空!</string>
+    <string name="string_heart_alarm_normal_alert">心率报警不可超过250低于100</string>
+    <string name="string_heart_alarm_edge_value">心率报警临界值</string>
+    <string name="string_heart_alarm_input_value">请输入临界值</string>
+    <string name="string_heart_alarm_notify">请谨遵医嘱或健康管理师嘱咐设置此临界值</string>
+
+
+    <string name="string_app_update_alert">APP有更新是否下载最新app进行升级?</string>
+
+
+    <string name="string_every_day">每天</string>
+    <string name="string_unbind_ing">正在解除绑定</string>
+    <string name="string_sync_other_data">正在同步其他数据,请同步完成再进行升级</string>
+    <string name="string_net_error">网络出问题了，快去检查一下吧～</string>
+    <string name="string_no_data">无数据</string>
+    <string name="string_to_check">去校准</string>
+    <string name="string_no_checked">暂不校准</string>
+    <string name="string_bind">去绑定</string>
+    <string name="string_temporary_bind">暂不绑定</string>
+    <string name="string_click_delete">点击删除</string>
+    <string name="string_measure">测量</string>
+    <string name="string_input">手动输入</string>
+    <string name="string_input_normal_dbp">请输入正常的舒张压</string>
+    <string name="string_input_normal_sbp">请输入正常的收缩压</string>
+    <string name="string_input_bp">请输入血压值</string>
+    <string name="string_input_sbp">请输入收缩压</string>
+    <string name="string_input_dbp">请输入舒张压</string>
+    <string name="string_measure_success">测量成功</string>
+    <string name="string_measure_check_success">校准成功</string>
+    <string name="string_measure_first">开始第一次测量</string>
+    <string name="string_measure_second">开始第二次测量</string>
+    <string name="string_measure_third">开始第三次测量</string>
+    <string name="string_measure_submit">提交并校准</string>
+    <string name="string_conn_dis_conn">连接已断开!</string>
+    <string name="string_no_bind_device_txt">哦豁，当前还没有绑定设备哦，点击“绑定设</string>
+    <string name="string_not_yet_bind">暂不绑定</string>
+    <string name="string_go_to_bind">绑定设备</string>
+    <string name="string_check_bp_first_user_txt">首次使用，为了测量更精准，建议您先使用医疗级血压计对手表进行校准哦～</string>
+    <string name="string_check_bp_user_change_txt">您的个人信息（年龄、性别、身高、体重±5KG）发生了变化，为了更精准测量，建议您使用医疗级血压计对手表进行一次校准哦～～</string>
+    <string name="string_check_bp_long_time_txt">距离您上次校准已经过去了一个月喽，建议您每个月使用医疗级血压计对手表进行一次校准哦～～</string>
+    <string name="string_check_bp_change_device_txt">监测到您更换了手表，建议您再次使用医疗级血压计对新手表进行一次校准哦～～</string>
+    <string name="string_check_no_check_txt">手表暂不校准，并不影响使用，只是精准度存在少许偏差</string>
+
+    
+    <string name="string_bp_chekc_notice">注意事项：\n1.请在心情平和时，测量血压；\n2.测量血压时，请保持绑带与心脏同高。\n3.每次测量结束后，休息3-5分钟开始下一次测量</string>
+    <string name="string_bp_measure_desc">1.请在心情平和时，测量血压；\n2.手表戴在左侧手腕，松紧适度；\n3.测量时不要移动身体或讲话，保持静止。</string>
+    <string name="string_sms_notify_desc">打开某类别的消息推送开关，使该项的消息在手表上提醒如果消息推送一次，可以重启通知权服务进行修复。</string>
+
+    <string name="string_dfu_normal_desc">当前固件有新版本，如暂不升级，将会影响部分功能提醒哦</string>
+    <string name="string_dfu_low_battery_desc">当前固件有新版本，您可以将手表和手机充电后来升级哦</string>
+
+    <string name="string_permiss_title">ai Health权限使用说明</string>
+    <string name="string_permiss_desc">为保证APP的正常使用,请开启以下权限</string>
+    <string name="string_permiss_ble">使用蓝牙功能</string>
+    <string name="string_permiss_ble_desc">需要使用手机蓝牙功能连接蓝牙手表</string>
+    <string name="string_permiss_gps">使用GPS功能</string>
+    <string name="string_permiss_gps_desc">地图跑步轨迹记录和搜索蓝牙设备需要打开手机GPS开关</string>
+    <string name="string_permiss_local">位置权限使用</string>
+    <string name="string_permiss_local_desc">跑步运动获取高精度位置信息</string>
+    <string name="string_permiss_camera">相机权限使用</string>
+    <string name="string_permiss_camera_desc">使用相机拍摄图片作为头像</string>
+    <string name="string_permiss_file">文件读写权限使用</string>
+    <string name="string_permiss_file_desc">相机拍照保存从相册选择图片作为头像</string>
+    <string name="string_permiss_phone">电话权限的使用</string>
+    <string name="string_permiss_phone_desc">消息提醒功能来电提醒手表查看当前来电状态</string>
+    <string name="string_permiss_contact">联系人、通讯录权限的使用</string>
+    <string name="string_permiss_contact_desc">来电时，手表可以显示姓名和手机号</string>
+
+
+
+    <string name="string_save">保存</string>
+    <string name="string_last_version">已是最新版本</string>
+    <string name="string_time">时间</string>
+    <string name="string_date">日期</string>
+    <string name="string_cancel_measure">是否要终止测量?</string>
+    <string name="string_text_remind">提醒</string>
+    <string name="text_sure">确定</string>
+    <string name="text_set">设置</string>
+    <string name="text_cancel">取消</string>
+    <string name="fill_in_the_reason_for_the_inability_to_serve">填写无法服务原因</string>
+    <string name="lack_of_necessary_permissions">缺少必要权限\n将导致部分功能无法正常使用</string>
+    <string name="i_know">我知道了</string>
+    <string name="go_to_set">去设置</string>
+    <string name="unit_steps">步</string>
+    <string name="target_step">目标步数</string>
+    <string name="course">里程 </string>
+    <string name="big_calories">卡路</string>
+    <string name="content_total_number_of_steps">总步数: %02d</string>
+    <string name="title_today">今天</string>
+    <string name="content_exit">退出</string>
+    <string name="content_confirm">确定</string>
+    <string name="content_cancel">取消</string>
+    <string name="content_dialog_title_moving_target">运动目标</string>
+    <string name="content_training">建议您走8000步<!--根据世界卫生组织建议，成人需要每天进行中等强度训练40分钟，相当于快走8000步--></string>
+    <string name="step">步</string>
+    <string name="content_step_format">%d 步</string>
+    <string name="content_permission_notification">[通知栏读取权限] 用于推送内容到手环上</string>
+    <string name="content_authorized_to_use">请必须允许授权这些权限才能继续使用:</string>
+    <string name="content_authorized">授权</string>
+    <string name="content_approve">允许</string>
+    <string name="content_want_reset">我们即将清除你手环的所有设置与数据，且无法恢复，确定恢复设备的出厂设置？</string>
+    <string name="content_delete_device">我们即将清除你APP与手环的所有设置与数据，并删除配对设备,是否删除设备?</string>
+    <string name="content_clean_cache">是否清除缓存数据?</string>
+    <string name="content_want_disconnect">是否断开app与蓝牙的链接并关机设备</string>
+    <string name="content_band_call_phone">手环正在寻找本手机…</string>
+    <string name="content_find_phone">找手机</string>
+    <string name="content_use_for_find_phone">用于[手环寻找手机]功能</string>
+    <string name="content_use_for_sport">用于[运动等信息查看]功能</string>
+    <string name="content_notify">用于[运动等信息查看]功能</string>
+    <string name="content_unknown_number">陌生号码</string>
+    <string name="content_permission_notification_enable">[通知推送] 权限已被关闭, 请开启, 否则会导致 查找手环 、通知栏显示运动数据等功能无法正常工作</string>
+    <string name="content_permission_location">[位置访问] 用于查找手环的位置并连接</string>
+    
+    
+    
+    <string name="string_time_minute">次/分钟</string>
+    <string name="string_max_value">最大值</string>
+    <string name="string_min_value">最小值</string>
+    <string name="string_avg_value">平均值</string>
+    <string name="string_rest_heart">静息心率</string>
+    <string name="string_sport_heart">运动心率</string>
+
+    <string name="string_status_heart_desc1">热身放松</string>
+    <string name="string_status_heart_desc2">脂肪燃烧</string>
+    <string name="string_status_heart_desc3">心肺强化</string>
+    <string name="string_status_heart_desc4">耐力强化</string>
+    <string name="string_status_heart_desc5">无氧极限</string>
+    
+    
+    <string name="string_sleep">睡眠</string>
+    <string name="string_sleep_deep">深睡</string>
+    <string name="string_sleep_light">浅睡</string>
+    <string name="string_sleep_awake">清醒</string>
+    <string name="string_sleep_eye">快速眼动</string>
+    <string name="string_sleep_into_time">入睡时长</string>
+    <string name="string_sleep_deep_scale">深睡比例</string>
+    <string name="string_sleep_light_scale">浅睡比例</string>
+    <string name="string_sleep_eye_scale">眼动比例</string>
+    <string name="string_sleep_awake_times">清醒次数</string>
+    <string name="string_sleep_desc">科学睡眠参考值</string>
+
+
+    <string name="string_pressure">压力</string>
+    <string name="string_pressure_desc">压力是人体对应激事件的反应。适量的运动和娱乐、充足的休息会有利于压力的调节。</string>
+    <string name="string_pressure_refer">压力参考值</string>
+    <string name="string_pressure_status_1">放松</string>
+    <string name="string_pressure_status_2">正常</string>
+    <string name="string_pressure_status_3">中等</string>
+    <string name="string_pressure_status_4">偏高</string>
+
+
+    <string name="string_spo2">血氧</string>
+    <string name="string_spo2_status_1">正常</string>
+    <string name="string_spo2_status_2">缺氧</string>
+    <string name="string_spo2_status_3">严重缺氧</string>
+    <string name="string_temp">体温</string>
+    <string name="string_temp_refer">体温参考值</string>
+
+    <string name="string_weight_bmi">体重指数BMI</string>
+    <string name="string_weight_bmi_refer">BMI参考值</string>
+    <string name="string_weight_bmi_value">BMI=体重/身高的平方（kg/m²）</string>
+    <string name="string_weight_record">体重记录</string>
+    <string name="string_weight_add_data">添加体重记录</string>
+    <string name="string_weight_status_1">偏瘦</string>
+    <string name="string_weight_status_3">偏胖</string>
+    <string name="string_weight_status_4">肥胖</string>
+
+
+
+    <string name="string_monday">周一</string>
+    <string name="string_tues">周二</string>
+    <string name="string_wend">周三</string>
+    <string name="string_thurs">周四</string>
+    <string name="string_fri">周五</string>
+    <string name="string_sa">周六</string>
+    <string name="string_sun">周日</string>
+
+    <string-array name="weather_type">
+        <item>晴</item>
+        <item>多云</item>
+        <item>阴 </item>
+        <item>雨</item>
+        <item>雪</item>
+        <item>晴天</item>
+    </string-array>
+    <string name="content_description">消息推送监听服务：\n监听QQ、微信、微博、Facebook、Twitter、Line、Linkedln、GooglePlus推送到通知栏的信息，并发送给手环</string>
+    <string name="Incoming_call">来电</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string-array name="hour_format">
+        <item>24小时制式</item>
+        <item>12小时制式</item>
+    </string-array>
+    <string-array name="unit_format">
+        <item>公制</item>
+        <item>英制</item>
+    </string-array>
+    <string-array name="wear_hand_array">
+        <item>左手</item>
+        <item>右手</item>
+    </string-array>
+    <string-array name="temperature_array">
+        <item>摄氏度</item>
+        <item>华摄氏度</item>
+    </string-array>
+    <string name="twenty_four_hour">24小时制式</string>
+    <string name="twelve_hour">12小时制式</string>
+    <string name="metric_system">公制</string>
+    <string name="Imperial">英制</string>
+    <string name="left_hand">左手</string>
+    <string name="right_hand">右手</string>
+    <string name="Celsius">摄氏度</string>
+    <string name="fahrenheit">华摄氏度</string>
+    <string name="set_successfully">设置成功</string>
+
+
+    <string name="unit_cal">kcal</string>
+    <string name="unit_km">km</string>
+    <string name="unit_km_h">km/h</string>
+    <string name="unit_mile">mile</string>
+    <string name="unit_mile_h">mile/h</string>
+    <string name="unit_C">℃</string>
+    <string name="unit_F">℉</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_pounds">pound</string>
+    <string name="unit_version">V %1$s</string>
+    <string name="unit_cm">cm</string>
+    <string name="temp_low"><![CDATA[体温<36.0°C]]></string>
+    <string name="temp_normal"><![CDATA[36.0°C≤体温<37.3°C]]></string>
+    <string name="temp_low_fever">37.3°C≤体温≤38.0°C</string>
+    <string name="temp_moderate_fever"><![CDATA[38.0°C<体温≤39.0°C]]></string>
+    <string name="temp_high_fever"><![CDATA[39.0°C<体温≤41.0°C]]></string>
+    <string name="temp_ultrahigh_fever"><![CDATA[体温>41.0°C]]></string>
+
+    <string name="weight_low"><![CDATA[BMI<18.5]]></string>
+    <string name="weight_normal"><![CDATA[18.5≤BMI<24.0]]></string>
+    <string name="weight_low_fever"><![CDATA[24.0≤BMI<28]]></string>
+    <string name="weight_level">BMI≥28</string>
+    <string name="mean_resting_heart_rate">静息心率平均值：60-80次/分钟</string>
+    <string name="light_sleep_55"><![CDATA[<55%]]></string>
+    <string name="blood_oxygen_90">SpO2≥90%</string>
+    <string name="blood_oxygen_70_90"><![CDATA[70%≤SpO2<90%]]></string>
+    <string name="blood_oxygen_70"><![CDATA[SpO2<70%]]></string>
+    <string name="blood_oxygen_index_title">血氧饱和度（SpO2）参考值</string>
+    <string name="diastolic_pressure_85"><![CDATA[舒张压<85mmHg]]></string>
+    <string name="systolic_pressure_130"><![CDATA[收缩压<130mmHg]]></string>
+    <string name="systolic_pressure_130_139">收缩压130～139mmHg</string>
+    <string name="edt_password_number_text">密码为6-12位数字及字母任意组合</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="bind_fail">绑定失败</string>
+    <string name="err_network_delete">网络出问题了，暂时无法删除哦～</string>
+    <string name="cood_2001">你的账号已在其他设备登录，如非本人操作，请尽快修改密码。</string>
+
+    <!--拍照的-->
+    <string name="app_file">CameraX_fill</string>
+    <string name="share_hint">Share using</string>
+    <string name="delete_dialog">Delete current photo?</string>
+    <string name="delete_title">Confirm</string>
+</resources>

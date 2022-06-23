@@ -236,9 +236,9 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
     private fun showOtaAlert() {
 
-        val dateDialog = DateSelectDialogView(this)
+        val dateDialog = DateSelectDialogView(this,R.style.edit_AlertDialog_style)
         dateDialog.show()
-        dateDialog.setCurrentShowDate(Date())
+        dateDialog.setCurrentShowDate(System.currentTimeMillis())
 
 
 

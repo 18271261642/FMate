@@ -1,0 +1,449 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name_release">ai Health</string>
+    <string name="app_name_debug">ai Health(Beta)</string>
+
+
+    <string name="string_privacy_content_desc">Welcome toai Health\\\nclick\"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
+                        "When entering the app, in order to provide you with instant messaging, content sharing and other services, we need to collect your device information, personal information, MAC, IMEI, etc We hereby promise not to divulge any third-party information of you and only use it for app use." +
+                        "If you click\"Disagree and exit\",You will not be able to use our products,Please exit the app</string>
+    <string name="string_no_agree_desc">Disagree the《ai Health user agreement》 and 《Privacy policy》Will not be available to use the ai Health products and services, please exit the App</string>
+    <string name="string_no_agree">Disagree,exit the App</string>
+    <string name="string_agree">agree</string>
+    <string name="string_input_phone">Please enter your mobile number!</string>
+    <string name="string_no_pwd_login">Password free login</string>
+    <string name="string_input_pwd">Please input a password</string>
+    <string name="string_pwd_login">Password login</string>
+    <string name="string_input_very_code">Please enter the verification code</string>
+    <string name="string_agree_privacy_desc">Please check the user agreement and privacy agreement</string>
+    <string name="string_phone_area">Area code selection</string>
+    <string name="string_phone_login_or_register">Mobile number login/register</string>
+    <string name="string_try_again_code">Reacquire</string>
+    <string name="string_auto_register">Automatic account creation after verification of unregistered mobile phone number</string>
+    <string name="string_forget_pwd">Forgot password</string>
+    <string name="string_user_agreement">《User agreement》</string>
+    <string name="string_user_privacy">《Privacy policy》</string>
+    <string name="string_red_agree">I have read and agreed</string>
+
+    <string name="string_set_pwd">Set password</string>
+    <string name="string_again_pwd">Please enter the password again</string>
+    <string name="string_logo">Log out</string>
+    <string name="string_user_id">User ID</string>
+    <string name="string_input_nickname">Please enter a nickname</string>
+    <string name="string_birthday_alert">Date of birth cannot be later than today</string>
+    <string name="string_date_of_birthday">Date of birth</string>
+    <string name="string_height">height</string>
+    <string name="string_weight">weight</string>
+    <string name="string_nickname">nickname</string>
+    <string name="string_sex">gender</string>
+    <string name="string_user_basic_desc">Please select the correct data to ensure accurate calculation of heat consumption and movement distance</string>
+    <string name="string_pwd_alert">The two passwords are inconsistent, please re-enter</string>
+    
+    
+    
+    <string name="string_home_pull_desc">Drop down release data</string>
+    <string name="string_home_open_pull">Release refresh data</string>
+    <string name="string_home_refresh">Refreshing..</string>
+    <string name="string_home_edit_card">Edit card</string>
+    <string name="string_home_know">You know what?</string>
+    <string name="string_home_measure_wait">Blood pressure is being measured, please wait!</string>
+    <string name="string_home_no_net_edit">There is no network and cannot be edited</string>
+    <string name="string_unit_mile">mile</string>
+    <string name="string_unit_km">kilometer</string>
+    <string name="string_unit_kcal">kilocalorie</string>
+    <string name="string_home_sleep_refresh">Sleep refresh</string>
+    <string name="string_home_pressure_refresh">Pressure refresh</string>
+    <string name="string_home_heart_refresh">Heart rate refresh</string>
+    <string name="string_home_spo2_refresh">Blood oxygen refresh</string>
+    <string name="string_home_temp_refresh">Body temperature refresh</string>
+
+    <string name="string_sport_all">All movements</string>
+    <string name="string_sport_step">Walk</string>
+    <string name="string_sport_run">Run</string>
+    <string name="string_sport_cycle">Riding</string>
+    <string name="string_sport_time">Exercise time</string>
+    <string name="string_sport_kcal">Quantity of heat</string>
+    <string name="string_sport_avg_heart">Mean heart rate</string>
+    <string name="string_sport_steps">Number of steps</string>
+    <string name="string_sport_avg_pace">Average pace</string>
+    <string name="string_sport_avg_speed">Average velocity</string>
+    <string name="string_sport_total_dis">Cumulative walking distance></string>
+    <string name="string_sport_unit_mile">distance/mile</string>
+    <string name="string_sport_unit_km">distance/mile</string>
+    <string name="string_sport_stop">Stop</string>
+    <string name="string_sport_pause">Suspend</string>
+    <string name="string_sport_no_save">This movement distance is too short, data will not be recorded,exit?</string>
+    <string name="string_activity_permission">Please allow me to get fitness information, otherwise I can\'t count your steps~</string>
+    <string name="string_sport_long_press_stop">Long press to end the movement</string>
+
+
+    <string name="string_no_conn_desc">Bluetooth device is not connected, please go to reconnect</string>
+
+    <string name="string_mine_no_device">There is currently no device, click here to add</string>
+    <string name="string_mine_re_conn">Reconnect</string>
+    <string name="string_mine_ble_error">The Bluetooth of the mobile phone is abnormal. Please turn off the Bluetooth before turning on or restarting the mobile phone</string>
+    <string name="string_mine_open_ble">Bluetooth is turned off, please turn on Bluetooth</string>
+    <string name="string_mine_conn_timeout">Connection timed out. Please try to turn off Bluetooth and turn it on again</string>
+
+    <string name="string_device_desc">Colorful dial, heart rate and sleep monitoring to protect your health</string>
+    <string name="string_check_update">Check for updates</string>
+    <string name="string_about">About</string>
+
+    <string name="string_feedback">Problems and feedback</string>
+    <string name="string_product_suggest">Product recommendations</string>
+    <string name="string_input_feedback">Please enter feedback</string>
+    <string name="string_input_feedback_phone">Please enter the contact mobile number</string>
+    <string name="string_suggest_desc">Please explain your suggestions and we will continue to improve～～</string>
+
+
+    <string name="string_set_account_self">Accounts and security</string>
+    <string name="string_set_unit">Unit setting</string>
+    <string name="string_set_permission_desc">Permission instructions</string>
+    <string name="string_distance_unit">Distance display format</string>
+    <string name="string_weight_unit">Weight display format</string>
+    <string name="string_temp_unit">Temperature display format</string>
+    <string name="string_time_unit">Bracelet time system</string>
+
+    <string name="string_update_pwd">Change Password</string>
+    <string name="string_change_phone">Change mobile number</string>
+
+
+    <string name="string_dial_market">Dial Market</string>
+    <string name="string_dial_all">All dials>></string>
+    <string name="string_dial_recommend">Recommend</string>
+    <string name="string_dial_mine">Mine</string>
+    <string name="string_dial_cancel_desc">Leaving the current page will exit the dial transmission. Are you sure you want to leave the current page?</string>
+    <string name="string_dial_last">The newest</string>
+    <string name="string_dial_menu_down">Dial downloaded</string>
+    <string name="string_dial_menu_cus">Custom dial</string>
+    <string name="string_dial_menu_local">Local dial</string>
+    
+    <!--Device page-->
+    <string name="string_device_msg_notify">Message reminder</string>
+    <string name="string_device_alarm">Alarm setting</string>
+    <string name="string_device_long_sit">Sedentary reminder</string>
+    <string name="string_device_one_hour_long_sit">1 hour sedentary reminder</string>
+    <string name="string_device_drink">Water clock</string>
+    <string name="string_device_one_hour_drink">1 hour water reminder</string>
+    <string name="string_device_take_medic">Medication reminder</string>
+    <string name="string_device_phone_notify">Call reminder</string>
+    <string name="string_device_msm_notify">SMS reminder</string>
+    <string name="string_device_other_notify">Other reminders</string>
+    <string name="string_device_switch_hand">Turn wrist light screen</string>
+    <string name="string_device_schedule_notify">Schedule reminder</string>
+    <string name="string_device_schedule_set">Day setting</string>
+    <string name="string_device_heart_alarm">Heart rate alarm</string>
+    <string name="string_device_bp_set">Blood pressure setting</string>
+    <string name="string_device_power_model">Low power mode</string>
+    <string name="string_device_find_device">Find devices</string>
+    <string name="string_device_light_time">On screen duration</string>
+    <string name="string_device_switch">Switch settings</string>
+    <string name="string_device_light_set">Brightness adjustment</string>
+    <string name="string_device_take_photo">Photograph</string>
+    <string name="string_device_dfu">Firmware Update</string>
+    <string name="string_device_clear_cache">Clear cache</string>
+    <string name="string_device_recycler_device">Restore factory settings</string>
+    <string name="string_device_delete_device">Delete device</string>
+    <string name="string_bp_light_notify">Daytime measurement reminder</string>
+    <string name="string_bp_half_hour_measure">08:00 ~ 24:00，remind you to measure every 30 minutes</string>
+    <string name="string_bp_night_auto_measure">Automatic measurement at night</string>
+    <string name="string_bp_night_half_hour_measure">夜间00:00～08:00，automatic measurement every 30 minutes</string>
+    <string name="string_notify_more_click">For more permission questions, please click</string>
+    <string name="string_notify_help">find the ai Health ,just open or restart the service</string>
+    <string name="string_add_most_alarm">You can only add five items at most. Please select Delete or modify</string>
+    <string name="string_no_alarm">No alarm clock currently</string>
+    <string name="string_alarm_never">Never</string>
+    <string name="string_alarm_repeat">Repeat</string>
+    <string name="string_alarm_tag">Label</string>
+    <string name="string_alarm_remark">Remarks</string>
+    <string name="string_take_medic_most">You can only add up to five medication reminders</string>
+    <string name="string_take_medic_start_time_1">The start time must not be greater than the end time</string>
+    <string name="string_take_medic_start_time_2">Start time cannot be less than current time</string>
+    <string name="string_take_medic_end_time">End time cannot be less than current time</string>
+    <string name="string_interval">Interval</string>
+    <string name="string_schedule_no_data">Currently no schedule</string>
+    <string name="string_schedule_time_alert">The schedule reminder time cannot be less than the current time</string>
+    <string name="string_schedule_add">Add schedule</string>
+    <string name="string_schedule_add_most">At most five items can be added to the schedule</string>
+    <string name="string_schedule_set_time">The setting time cannot be less than the current time</string>
+
+    <string name="string_connected">Connected</string>
+    
+
+    <string name="string_ota_40_battery">Watch battery is less than 40%, please charge</string>
+    <string name="string_ota_20_phone">Phone power is less than 20%, please charge</string>
+    <string name="string_ota_10_phone">The phone power is less than 10%, please charge it to 10% before upgrading</string>
+    <string name="string_ota_down_ing">Downloading the latest package, please do not operate other steps..</string>
+    <string name="string_ota_down_alert">Download the OTA upgrade package</string>
+    <string name="string_ota_start">Start upgrade</string>
+    <string name="string_ota_no_dis_conn">During OTA upgrade, do not disconnect</string>
+    <string name="string_ota_desc">Matters needing attention:
+        \n1.Firmware upgrade takes about 1-3 minutes。
+        \n2.Before upgrading, make sure that the battery level of the mobile phone is above 20% or in the charging state. If the conditions are not met, OTA upgrade cannot be performed。
+        \n3.Before upgrading, ensure that the power of the equipment is more than 40% or in the state of charge. If the conditions are not met, OTA upgrade cannot be performed。
+        \n4.Avoid operating the mobile phone as much as possible during the upgrade process, and keep the distance between the device and the mobile phone within 0.2m。
+        \n5.If the upgrade fails, the device name will change to sl_ OTA, and it is always in the upgrade mode. The screen cannot be lit. After opening the app again, the app will automatically connect and upgrade the equipment。
+        \n6.Because the Bluetooth of the mobile phone is also unstable, if the upgrade fails for many times, please replace the mobile phone and upgrade again. Please note that the Bluetooth of the mobile phone connected to this device should be turned off at this time。</string>
+
+
+    <string name="string_flash_no_support">Erasure of flash data is not supported</string>
+    <string name="string_flash_down_bin">Downloading bin file..</string>
+
+    <string name="string_heart_alarm_no_empty">Heart rate value cannot be empty!</string>
+    <string name="string_heart_alarm_normal_alert">The heart rate alarm shall not exceed 250 and shall not be lower than 100</string>
+    <string name="string_heart_alarm_edge_value">Heart rate alarm threshold</string>
+    <string name="string_heart_alarm_input_value">Please enter a threshold</string>
+    <string name="string_heart_alarm_notify">Please set this threshold as instructed by your doctor or health manager</string>
+
+
+    <string name="string_app_update_alert">If the app is updated, whether to download the latest app for upgrading?</string>
+
+
+    <string name="string_every_day">Every day</string>
+    <string name="string_unbind_ing">Unbinding</string>
+    <string name="string_sync_other_data">Synchronizing other data, please upgrade after synchronization</string>
+    <string name="string_net_error">There is something wrong with the network. Go and check it～</string>
+    <string name="string_no_data">No data</string>
+    <string name="string_to_check">De calibration</string>
+    <string name="string_no_checked">No calibration for the time being</string>
+    <string name="string_bind">Debinding</string>
+    <string name="string_temporary_bind">Not binding</string>
+    <string name="string_click_delete">Click Delete</string>
+    <string name="string_measure">Measure</string>
+    <string name="string_input">Manual input</string>
+    <string name="string_input_normal_dbp">Please input normal diastolic pressure</string>
+    <string name="string_input_normal_sbp">Please enter the normal systolic pressure</string>
+    <string name="string_input_bp">Please enter the blood pressure value</string>
+    <string name="string_input_sbp">Please enter systolic blood pressure</string>
+    <string name="string_input_dbp">Please enter diastolic pressure</string>
+    <string name="string_measure_success">Measurement successful</string>
+    <string name="string_measure_check_success">Calibration successful</string>
+    <string name="string_measure_first">Start the first measurement</string>
+    <string name="string_measure_second">Start the second measurement</string>
+    <string name="string_measure_third">Start the third measurement</string>
+    <string name="string_measure_submit">Submit and calibrate</string>
+    <string name="string_conn_dis_conn">Connection dropped!</string>
+    <string name="string_no_bind_device_txt">Oh, no device is currently bound. Click "bind device" to bind it quickly～</string>
+    <string name="string_not_yet_bind">Not binding</string>
+    <string name="string_go_to_bind">Binding device</string>
+    <string name="string_check_bp_first_user_txt">For the first time, in order to measure more accurately, it is recommended that you use a medical grade sphygmomanometer to calibrate the watch～</string>
+    <string name="string_check_bp_user_change_txt">Your personal information (age, gender, height, weight ± 5kg) has changed. In order to measure more accurately, it is recommended that you use a medical grade sphygmomanometer to calibrate your watch once～～</string>
+    <string name="string_check_bp_long_time_txt">It has been one month since your last calibration. It is recommended that you calibrate your watch once a month with a medical grade sphygmomanomete～～</string>
+    <string name="string_check_bp_change_device_txt">It is detected that you have changed your watch. It is recommended that you use the medical grade sphygmomanometer again to calibrate the new watch～～</string>
+    <string name="string_check_no_check_txt">The watch will not be calibrated temporarily, which will not affect the use, but there is a slight deviation in accuracy</string>
+
+    
+    <string name="string_bp_chekc_notice">Matters needing attention:\n1.Please measure your blood pressure when you are calm；\n2.When measuring blood pressure, please keep the bandage at the same height as the heart。\n3.After each measurement, rest for 3-5 minutes to start the next measurement</string>
+    <string name="string_bp_measure_desc">1.Please measure your blood pressure when you are calm；\n2.The watch is worn on the left wrist with appropriate tightness；\n3.Do not move or speak while measuring, and keep still。</string>
+    <string name="string_sms_notify_desc">Turn on the message push switch of a category to make the message of this item remind on the watch that if the message is pushed once, the notification right service can be restarted for repair。</string>
+
+    <string name="string_dfu_normal_desc">The current firmware has a new version. If it is not upgraded, some functions will be affected</string>
+    <string name="string_dfu_low_battery_desc">The current firmware has a new version. You can charge your watch and mobile phone and upgrade later</string>
+
+    <string name="string_permiss_title">ai Health permission instructions</string>
+    <string name="string_permiss_desc">To ensure the normal use of the app, please open the following permissions</string>
+    <string name="string_permiss_ble">Using Bluetooth</string>
+    <string name="string_permiss_ble_desc">To use the Bluetooth function, you need to use the Bluetooth function of the mobile phone to connect the Bluetooth Watch</string>
+    <string name="string_permiss_gps">Using the GPS function</string>
+    <string name="string_permiss_gps_desc">Map running track recording and searching for Bluetooth devices need to turn on the mobile phone GPS switch</string>
+    <string name="string_permiss_local">Location permission usage</string>
+    <string name="string_permiss_local_desc">Get high-precision location information during running</string>
+    <string name="string_permiss_camera">Camera permission use</string>
+    <string name="string_permiss_camera_desc">Use the camera to take pictures as avatars</string>
+    <string name="string_permiss_file">File read / write permission usage</string>
+    <string name="string_permiss_file_desc">Camera photo save select pictures from album as Avatar</string>
+    <string name="string_permiss_phone">Use of telephone authority</string>
+    <string name="string_permiss_phone_desc">Message reminder function call reminder watch to view the current call status</string>
+    <string name="string_permiss_contact">Use of contact and address book permissions</string>
+    <string name="string_permiss_contact_desc">When a call is made, the watch can display the name and mobile number</string>
+
+
+
+    <string name="string_save">Preservation</string>
+    <string name="string_last_version">This is the latest version</string>
+    <string name="string_time">Time</string>
+    <string name="string_date">Date</string>
+    <string name="string_cancel_measure">Do you want to terminate the measurement?</string>
+    <string name="string_text_remind">Remind</string>
+    <string name="text_sure">Determine</string>
+    <string name="text_set">Set up</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="fill_in_the_reason_for_the_inability_to_serve">Fill in the reason for service failure</string>
+    <string name="lack_of_necessary_permissions">Lack of necessary permissions \ nsome functions will not work properly</string>
+    <string name="i_know">I got it</string>
+    <string name="go_to_set">To set</string>
+    <string name="unit_steps">Step；</string>
+    <string name="target_step">Target steps</string>
+    <string name="course">Mileage </string>
+    <string name="big_calories">Calorie</string>
+    <string name="content_total_number_of_steps">Total steps: %02d</string>
+    <string name="title_today">Today</string>
+    <string name="content_exit">Sign out</string>
+    <string name="content_confirm">Determine</string>
+    <string name="content_cancel">Cancel</string>
+    <string name="content_dialog_title_moving_target">Moving target</string>
+    <string name="content_training">I suggest you take 8000 steps<!--According to the recommendation of the World Health Organization, adults need 40 minutes of moderate intensity training every day, which is equivalent to 8000 fast steps--></string>
+    <string name="step">Step</string>
+    <string name="content_step_format">%d Step</string>
+    <string name="content_permission_notification">[Notification bar read permission] Used to push content to the bracelet</string>
+    <string name="content_authorized_to_use">Please allow these permissions to continue using:</string>
+    <string name="content_authorized">To grant authorization</string>
+    <string name="content_approve">Allow</string>
+    <string name="content_want_reset">We are about to clear all the settings and data of your bracelet and cannot restore it. Are you sure to restore the factory settings of the device？</string>
+    <string name="content_delete_device">We are about to clear all the settings and data of your bracelet and cannot restore it. Are you sure to restore the factory settings of the device?</string>
+    <string name="content_clean_cache">Clear cached data?</string>
+    <string name="content_want_disconnect">Whether to disconnect the app from Bluetooth and turn off the device</string>
+    <string name="content_band_call_phone">Bracelet is looking for this phone…</string>
+    <string name="content_find_phone">Find a cell phone</string>
+    <string name="content_use_for_find_phone">Used for [bracelet to find mobile phone] function</string>
+    <string name="content_use_for_sport">Used for [View motion and other information] function</string>
+    <string name="content_notify">Used for [View motion and other information] function</string>
+    <string name="content_unknown_number">Strange number</string>
+    <string name="content_permission_notification_enable">[notification push] permission has been turned off. Please turn it on. Otherwise, the functions of finding bracelets and displaying motion data in the notification bar will not work normally</string>
+    <string name="content_permission_location">[location access] to find the location of the bracelet and connect it</string>
+    
+    
+    
+    <string name="string_time_minute">Times / minute</string>
+    <string name="string_max_value">Maximum</string>
+    <string name="string_min_value">Minimum value</string>
+    <string name="string_avg_value">Average value</string>
+    <string name="string_rest_heart">Resting heart rate</string>
+    <string name="string_sport_heart">Exercise heart rate</string>
+
+    <string name="string_status_heart_desc1">Warm up and relax</string>
+    <string name="string_status_heart_desc2">Fat burning</string>
+    <string name="string_status_heart_desc3">Cardiopulmonary enhancement</string>
+    <string name="string_status_heart_desc4">Endurance enhancement</string>
+    <string name="string_status_heart_desc5">Anaerobic limit</string>
+    
+    
+    <string name="string_sleep">Sleep</string>
+    <string name="string_sleep_deep">Deep sleep</string>
+    <string name="string_sleep_light">Light sleep</string>
+    <string name="string_sleep_awake">Sober</string>
+    <string name="string_sleep_eye">Rapid eye movement</string>
+    <string name="string_sleep_into_time">Sleep duration</string>
+    <string name="string_sleep_deep_scale">Deep sleep ratio</string>
+    <string name="string_sleep_light_scale">Light sleep ratio</string>
+    <string name="string_sleep_eye_scale">Eye movement ratio</string>
+    <string name="string_sleep_awake_times">Waking times</string>
+    <string name="string_sleep_desc">Scientific sleep reference value</string>
+
+
+    <string name="string_pressure">Pressure</string>
+    <string name="string_pressure_desc">Stress is the response of human body to stress events. Moderate exercise, entertainment and adequate rest will be conducive to the regulation of stress。</string>
+    <string name="string_pressure_refer">Pressure reference value</string>
+    <string name="string_pressure_status_1">Relax</string>
+    <string name="string_pressure_status_2">Normal</string>
+    <string name="string_pressure_status_3">Secondary</string>
+    <string name="string_pressure_status_4">High</string>
+
+
+    <string name="string_spo2">Blood oxygen</string>
+    <string name="string_spo2_status_1">Normal</string>
+    <string name="string_spo2_status_2">Hypoxia</string>
+    <string name="string_spo2_status_3">Severe hypoxia</string>
+    <string name="string_temp">Temperature</string>
+    <string name="string_temp_refer">Body temperature reference value</string>
+
+    <string name="string_weight_bmi">Body mass index BMI</string>
+    <string name="string_weight_bmi_refer">BMI reference value</string>
+    <string name="string_weight_bmi_value">BMI=Weight / height squared（kg/m²）</string>
+    <string name="string_weight_record">Weight record</string>
+    <string name="string_weight_add_data">Add weight record</string>
+    <string name="string_weight_status_1">Thin</string>
+    <string name="string_weight_status_3">Overweight</string>
+    <string name="string_weight_status_4">Obesity</string>
+
+
+
+    <string name="string_monday">Monday</string>
+    <string name="string_tues">Tuesday</string>
+    <string name="string_wend">Wednesday</string>
+    <string name="string_thurs">Thursday</string>
+    <string name="string_fri">Friday</string>
+    <string name="string_sa">Saturday</string>
+    <string name="string_sun">Sunday</string>
+
+    <string-array name="weather_type">
+        <item>Sunny</item>
+        <item>Cloudy</item>
+        <item>overcast </item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Sunny</item>
+    </string-array>
+    <string name="content_description">Message push listening service：\nMonitor QQ、WeChat、Sina、Facebook、Twitter、Line、Linkedln、GooglePlus Information pushed to the notification bar，and send it to the bracelet</string>
+    <string name="Incoming_call">Incoming call</string>
+    <string name="man">Man</string>
+    <string name="woman">woman</string>
+    <string-array name="hour_format">
+        <item>24-hour system</item>
+        <item>12 hour system</item>
+    </string-array>
+    <string-array name="unit_format">
+        <item>Metric system</item>
+        <item>Imperial System</item>
+    </string-array>
+    <string-array name="wear_hand_array">
+        <item>Left hand</item>
+        <item>Right hand</item>
+    </string-array>
+    <string-array name="temperature_array">
+        <item>Centigrade</item>
+        <item>Hua centigrade</item>
+    </string-array>
+    <string name="twenty_four_hour">24-hour system</string>
+    <string name="twelve_hour">12 hour system</string>
+    <string name="metric_system">Metric system</string>
+    <string name="Imperial">Imperial System</string>
+    <string name="left_hand">Left hand</string>
+    <string name="right_hand">Right hand</string>
+    <string name="Celsius">Centigrade</string>
+    <string name="fahrenheit">Hua centigrade</string>
+    <string name="set_successfully">Set successfully</string>
+
+
+    <string name="unit_cal">kcal</string>
+    <string name="unit_km">km</string>
+    <string name="unit_km_h">km/h</string>
+    <string name="unit_mile">mile</string>
+    <string name="unit_mile_h">mile/h</string>
+    <string name="unit_C">℃</string>
+    <string name="unit_F">℉</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_pounds">pound</string>
+    <string name="unit_version">V %1$s</string>
+    <string name="unit_cm">cm</string>
+    <string name="temp_low"><![CDATA[Temperature<36.0°C]]></string>
+    <string name="temp_normal"><![CDATA[36.0°C≤Temperature<37.3°C]]></string>
+    <string name="temp_low_fever">37.3°C≤Temperature≤38.0°C</string>
+    <string name="temp_moderate_fever"><![CDATA[38.0°C<Temperature≤39.0°C]]></string>
+    <string name="temp_high_fever"><![CDATA[39.0°C<Temperature≤41.0°C]]></string>
+    <string name="temp_ultrahigh_fever"><![CDATA[Temperature>41.0°C]]></string>
+
+    <string name="weight_low"><![CDATA[BMI<18.5]]></string>
+    <string name="weight_normal"><![CDATA[18.5≤BMI<24.0]]></string>
+    <string name="weight_low_fever"><![CDATA[24.0≤BMI<28]]></string>
+    <string name="weight_level">BMI≥28</string>
+    <string name="mean_resting_heart_rate">Mean resting heart rate：60-80 times/minute</string>
+    <string name="light_sleep_55"><![CDATA[<55%]]></string>
+    <string name="blood_oxygen_90">SpO2≥90%</string>
+    <string name="blood_oxygen_70_90"><![CDATA[70%≤SpO2<90%]]></string>
+    <string name="blood_oxygen_70"><![CDATA[SpO2<70%]]></string>
+    <string name="blood_oxygen_index_title">Blood oxygen saturation（SpO2）Reference value</string>
+    <string name="diastolic_pressure_85"><![CDATA[Diastolic pressure<85mmHg]]></string>
+    <string name="systolic_pressure_130"><![CDATA[Systolic pressure<130mmHg]]></string>
+    <string name="systolic_pressure_130_139">Systolic pressure130～139mmHg</string>
+    <string name="edt_password_number_text">The password is any combination of 6-12 numbers and letters</string>
+    <string name="bind_success">Binding succeeded</string>
+    <string name="bind_fail">Binding failed</string>
+    <string name="err_network_delete">There is something wrong with the network. It cannot be deleted for the time being～</string>
+    <string name="cood_2001">Your account has been logged in on other devices. Please change your password as soon as possible if it is not operated by yourself。</string>
+
+    <!--Photographed-->
+    <string name="app_file">CameraX_fill</string>
+    <string name="share_hint">Share using</string>
+    <string name="delete_dialog">Delete current photo?</string>
+    <string name="delete_title">Confirm</string>
+</resources>
