@@ -2,6 +2,10 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+    <string name="string_personal_data">个人资料</string>
+    <string name="string_next">下一步</string>
+    <string name="string_logout_account">注销账号</string>
+    <string name="string_get_verify_code">获取验证码</string>
 
     <string name="string_privacy_content_desc">欢迎来到ai Health\\\n点击\"同意并继续\"代表您已阅读并理解《ai Health用户协议》 和 《隐私政策》 ." +
                         "当进入APP时,为了向您提供即时通讯,内容分享等服务,我们需要收集你的设备信息,个人信息,MAC,IMEI等.我们将在此承诺不会泄露你的任何三方信息,只用于APP使用." +

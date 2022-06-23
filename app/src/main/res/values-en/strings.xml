@@ -2,6 +2,10 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+    <string name="string_personal_data">个人资料</string>
+    <string name="string_next">下一步</string>
+    <string name="string_logout_account">注销账号</string>
+    <string name="string_get_verify_code">获取验证码</string>
 
     <string name="string_privacy_content_desc">Welcome toai Health\\\nclick\"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
                         "When entering the app, in order to provide you with instant messaging, content sharing and other services, we need to collect your device information, personal information, MAC, IMEI, etc We hereby promise not to divulge any third-party information of you and only use it for app use." +
