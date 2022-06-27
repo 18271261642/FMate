@@ -247,8 +247,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         autoLBpSize = 0
 
         bpCheckTimeTv.text = " "
-        bpHomeMeasureSelectTv.text = "--"
-        bpHomeMeasureInputTv.text = "--"
+        bpHomeMeasureSelectTv.text = "--/--"
+        bpHomeMeasureInputTv.text = "--/--"
 
 //        bpList = sDao.getDayBloodPressureHistory(
 //            day
@@ -454,7 +454,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         TLog.error("----第一个 最后一个="+tmpIndex +" "+tmpLastIndex)
 
      //   xValue.addAll(tmpXVList.subList(tmpIndex,if(lastValidValue == 0) tmpXVList.size-1 else lastValidValue))
-        if(lastValidValue >=6){
+        if(lastValidValue >=7){
             xValue.addAll(tmpXVList.subList(tmpIndex, tmpLastIndex+1))
         }else{
             xValue.addAll(BpUtils.get6SizeList(tmpIndex,tmpLastIndex,tmpXVList,tmpXVList.subList(tmpIndex, tmpLastIndex+1)))
@@ -470,7 +470,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         tmpInputList.addAll(inputHeightBpList)
         inputHeightBpList.clear()
-        if(inputHbpSize>=6){
+        if(inputHbpSize>=7){
             inputHeightBpList.addAll(tmpInputList.subList(tmpIndex,tmpLastIndex+1))
         }else{
             inputHeightBpList.addAll(BpUtils.get6IntSizeList(inputHbpSize,tmpIndex,tmpLastIndex,BpUtils.get48SizeList(),
@@ -482,7 +482,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         tmpInputLowList.addAll(inputLowBpList)
 
         inputLowBpList.clear()
-        if(inputLBpSize>=6){
+        if(inputLBpSize>=7){
             inputLowBpList.addAll(tmpInputLowList.subList(tmpIndex,tmpLastIndex+1))
         }else{
             inputLowBpList.addAll(BpUtils.get6IntSizeList(inputLBpSize,tmpIndex,tmpLastIndex,BpUtils.get48SizeList(),
@@ -500,7 +500,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         heightList.clear()
        // heightList.addAll(tmpMHList.subList(tmpIndex,tmpMHList.size))
 
-        if(autoHBpSize>=6){
+        if(autoHBpSize>=7){
             heightList.addAll(tmpMHList.subList(tmpIndex,tmpLastIndex+1))
         }else{
             heightList.addAll(BpUtils.get6IntSizeList(autoHBpSize,tmpIndex,tmpLastIndex,BpUtils.get48SizeList(),tmpMHList.subList(tmpIndex,tmpLastIndex+1)))
@@ -509,7 +509,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         tmpMLList.addAll(lowBpList)
         lowBpList.clear()
-        if(autoLBpSize>=6){
+        if(autoLBpSize>=7){
             lowBpList.addAll(tmpMLList.subList(tmpIndex,tmpLastIndex+1))
 
         }else{
@@ -962,9 +962,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         if(values1.size>0){
             val tmpH = values1[values1.size-1].y.toInt().toString()
             val tmpL = values2[values2.size-1].y.toInt().toString()
-            bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+            bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--/--" else "$tmpH/$tmpL "
         }else{
-            bpHomeMeasureSelectTv.text = "--"
+            bpHomeMeasureSelectTv.text = "--/--"
         }
 
         //输入
@@ -1017,41 +1017,6 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
     }
 
 
-
-    private fun showSelectData(){
-        try {
-            if(lastValidValue<xValue.size){
-
-                if(lastValidValue+1 <=xValue.size-1){
-                    bpCheckTimeTv.text = xValue.get(lastValidValue) +"~"+xValue.get(lastValidValue+1)
-                }else{
-                    bpCheckTimeTv.text = xValue[lastValidValue]
-                }
-
-            }
-                //手动测量的高压集合
-                if(heightList.size>0 && lastValidValue<heightList.size-1){
-                    val tmpH = heightList[lastValidValue].toString()
-                    val tmpL = lowBpList[lastValidValue].toString()
-                    bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
-                }else{
-                    bpHomeMeasureSelectTv.text = "--"
-                }
-
-                //输入
-                if(inputHeightBpList.size>0 && lastValidValue<inputLowBpList.size-1){
-                    val tmpH = inputHeightBpList[lastValidValue].toString()
-                    val tmpL = inputLowBpList[lastValidValue].toString()
-                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
-                }else{
-                    bpHomeMeasureInputTv.text = "--"
-                }
-        }catch (e : Exception){
-            e.printStackTrace()
-        }
-    }
-
-
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         try {
             if (e != null) {
@@ -1076,17 +1041,17 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                 if(heightList.size>0 && e.x.toInt()<=heightList.size-1){
                     val tmpH = heightList[e.x.toInt()].toString()
                     val tmpL = lowBpList[e.x.toInt()].toString()
-                    bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                    bpHomeMeasureSelectTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--/--" else "$tmpH/$tmpL "
                 }else{
-                    bpHomeMeasureSelectTv.text = "--"
+                    bpHomeMeasureSelectTv.text = "--/--"
                 }
                 //输入
                 if(inputHeightBpList.size>0 && e.x.toInt()<=inputLowBpList.size-1){
                     val tmpH = inputHeightBpList[e.x.toInt()].toString()
                     val tmpL = inputLowBpList[e.x.toInt()].toString()
-                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--" else "$tmpH/$tmpL "
+                    bpHomeMeasureInputTv.text = if(tmpH.toInt() == 0 || tmpL.toInt()==0) "--/--" else "$tmpH/$tmpL "
                 }else{
-                    bpHomeMeasureInputTv.text = "--"
+                    bpHomeMeasureInputTv.text = "--/--"
                 }
             }
         }catch (e : Exception){

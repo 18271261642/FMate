@@ -29,7 +29,7 @@ public class BpUtils {
 
         for(int k = endIndex+1;(k<tmpList.size() );k++){
             String v = tmpList.get(k);
-            if(tmpOriList.size() < 6){
+            if(tmpOriList.size() < 7){
                 tmpOriList.add(v);
             }
 
@@ -37,7 +37,7 @@ public class BpUtils {
 
         if(tmpOriList.size()<6){
             for(int i = startIndex-1;(i>=0 && i >i-tmpList.size());i--){
-                if(tmpOriList.size()<6){
+                if(tmpOriList.size()<7){
                     tmpOriList.add(0,tmpList.get(i));
                 }
 
@@ -52,7 +52,7 @@ public class BpUtils {
 
         for(int k = endIndex+1;(k<sourceList.size() );k++){
             System.out.println("-----排序的="+sourceList.get(k)+" "+sourceList.size());
-            if(validLength < 6){
+            if(validLength < 7){
                 originallyList.add(sourceList.get(k));
                 validLength++;
             }
@@ -61,7 +61,7 @@ public class BpUtils {
 
         if(validLength<6){
             for(int i = startIndex-1;(i>=0 && i >i-originallyList.size());i--){
-                if(validLength<6){
+                if(validLength<7){
                     originallyList.add(0,sourceList.get(i));
                     validLength++;
                 }

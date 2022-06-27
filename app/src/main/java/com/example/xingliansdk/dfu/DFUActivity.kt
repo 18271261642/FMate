@@ -122,10 +122,12 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                 //  tvUpdateCode.text = otaBean?.version
                 this.version = otaBean?.versionCode!!
                 var code = otaBean?.versionCode?.toString(16)
-                var codeName = ByteUtil.hexStringToByte(code)
+                val codeName = ByteUtil.hexStringToByte(code)
+                TLog.error("---------otaCode="+Arrays.toString(codeName)+" "+code)
+                val v2 = codeName[2] as Byte
                 if (codeName.size >= 3) {
                     name =
-                        "V " + codeName[0].toString() + "." + codeName[1].toString() + "." + codeName[2].toString()
+                        "V " + codeName[0].toString() + "." + codeName[1].toString() + "." + (if(v2<1) 256+v2 else v2 ).toString()
                 }
                 tvUpdateCode.text = "更新版本: " + name
                 if (BleConnection.startOTAActivity) {

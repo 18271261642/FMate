@@ -284,6 +284,7 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
 
         mAlarmClockList.forEachIndexed { index, timeBean ->
             timeBean.number = index
+            TLog.error("-----写入闹钟="+Gson().toJson(timeBean))
             BleWrite.writeAlarmClockScheduleCall(timeBean, true)
         }
 

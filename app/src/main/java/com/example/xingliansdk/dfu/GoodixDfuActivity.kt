@@ -43,6 +43,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.io.FileInputStream
 import java.lang.Error
+import kotlin.experimental.and
 
 /**
  * 汇顶的ota
@@ -163,9 +164,10 @@ class GoodixDfuActivity : BaseActivity<MyDeviceViewModel>(),View.OnClickListener
                 this.version = otaBean?.versionCode!!
                 var code = otaBean?.versionCode?.toString(16)
                 var codeName = ByteUtil.hexStringToByte(code)
+                val v2 = codeName[2] as Byte
                 if (codeName.size >= 3) {
                     name =
-                        "V " + codeName[0].toString() + "." + codeName[1].toString() + "." + codeName[2].toString()
+                        "V " + codeName[0].toString() + "." + codeName[1].toString() + "." + (if(v2<1) 256+v2 else v2 ).toString()
                 }
                 tvUpdateCode.text = "更新版本: " + name
                 if (BleConnection.startOTAActivity) {

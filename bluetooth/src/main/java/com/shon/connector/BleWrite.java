@@ -988,6 +988,7 @@ public class BleWrite {
         WriteCall write = new WriteCall(address);
         write.setPriority(status);
         write.setServiceUUid(Config.serviceUUID);
+        write.setTimeout(1);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new AlarmClockScheduleCall(address, mTimeBean));
 //        new WriteCall(address)

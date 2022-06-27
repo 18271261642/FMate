@@ -238,12 +238,12 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
                 val amapRecordBean = AmapRecordBean()
                 amapRecordBean.monthStr = keyMonth
                 amapRecordBean.isShow = true //首次展现
-                amapRecordBean.distanceCount = Utils.divi(countDistance, 1000.0, 2).toString() + ""
+                amapRecordBean.distanceCount = Utils.divi(countDistance, 1000.0, 3).toString() + ""
                 amapRecordBean.caloriesCount = countCalories.toString() + ""
                 amapRecordBean.list = tmAL
-                amapRecordBean.runDistance = Utils.divi(countRun, 1000.0, 2).toString() + ""
-                amapRecordBean.walkDistance = Utils.divi(countWalk, 1000.0, 2).toString() + ""
-                amapRecordBean.rideDistance = Utils.divi(countRide, 1000.0, 2).toString() + ""
+                amapRecordBean.runDistance = Utils.divi(countRun, 1000.0, 3).toString() + ""
+                amapRecordBean.walkDistance = Utils.divi(countWalk, 1000.0, 3).toString() + ""
+                amapRecordBean.rideDistance = Utils.divi(countRide, 1000.0, 3).toString() + ""
                 amapRecordBean.sportCount = tmAL.size
                 resultList.add(amapRecordBean)
             }

@@ -432,6 +432,8 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             override fun foreverSelect() {
                 dateSelectDialogView.dismiss()
                 mBean.endTime = 0
+                settingEndTime.setContentText("永久")
+
             }
 
         })

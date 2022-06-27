@@ -249,6 +249,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                 handler.removeMessages(0x00)
                 //isRefresh=false
             } else {
+                BLEManager.getInstance().dataDispatcher.clear("")
                 handler.sendEmptyMessageDelayed(0x00,20000)
                 BleSend.sendDateTime()
                 BleWrite.writeSportsUploadModeCall(1)
@@ -312,7 +313,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         TLog.error("mHomeCardVoBean====+" + Gson().toJson(mHomeCardVoBean))
 //        mSwipeRefreshLayout.finishRefresh(60000)
         //handler.sendEmptyMessageDelayed(0x00,15 * 1000)
-        BLEManager.getInstance().dataDispatcher.clear("")
+
         setPopularAdapter()
         homeBleWrite()
 //        }
