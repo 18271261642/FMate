@@ -17,7 +17,7 @@
         app:iconActionImage="@mipmap/icon_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="添加提醒"
+        app:midtitle="@string/string_add_remind"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="标题"
+                    android:text="@string/string_title"
                     android:textColor="@color/main_text_color"
                     android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="服用计划"
+                    android:text="@string/string_take_medic_plan"
                     android:textColor="@color/main_text_color"
                     android:textSize="18sp" />
 
@@ -96,7 +96,7 @@
                     app:layoutType="1"
                     app:mtitleTextColor="@color/sub_text_color"
                     app:styleImage="@mipmap/icon_device_wear"
-                    app:titleText="每天次数" />
+                    app:titleText="@string/string_every_day_times" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="1dp"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="更多"
+                    android:text="@string/string_more"
                     android:textColor="@color/main_text_color"
                     android:textSize="18sp" />
 
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:TextSize="14px"
-                    app:contentText="每天"
+                    app:contentText="@string/string_every_day"
                     app:contentTextSize="14px"
                     app:layoutType="1"
                     app:mtitleTextColor="@color/sub_text_color"
@@ -145,12 +145,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     app:TextSize="14px"
-                    app:contentText="当前时间"
+                    app:contentText="@string/string_today_time"
                     app:contentTextSize="14px"
                     app:layoutType="1"
                     app:mtitleTextColor="@color/sub_text_color"
                     app:styleImage="@mipmap/icon_device_wear"
-                    app:titleText="开始时间" />
+                    app:titleText="@string/string_start_time" />
 
                 <View
                     android:layout_width="match_parent"
@@ -163,12 +163,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     app:TextSize="14px"
-                    app:contentText="永久"
+                    app:contentText="@string/string_alarm_never"
                     app:contentTextSize="14px"
                     app:layoutType="1"
                     app:mtitleTextColor="@color/sub_text_color"
                     app:styleImage="@mipmap/icon_device_wear"
-                    app:titleText="结束时间" />
+                    app:titleText="@string/string_end_time" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

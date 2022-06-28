@@ -16,7 +16,7 @@
         app:homeBackClick="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="自定义表盘"
+        app:midtitle="@string/string_dial_menu_cus"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
     <androidx.core.widget.NestedScrollView
@@ -95,7 +95,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
-            android:text="表盘背景"
+            android:text="@string/string_dial_bg"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -124,7 +124,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
-            android:text="字体颜色"
+            android:text="@string/string_txt_color"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -144,7 +144,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
-            android:text="功能选择"
+            android:text="@string/string_feature_select"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -164,7 +164,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
-            android:text="位置"
+            android:text="@string/string_dial_location"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 

@@ -58,13 +58,13 @@ class BpSettingActivity : BaseActivity<UserViewModel>() {
         super.createObserver()
         mViewModel.result.observe(this){
             hideWaitDialog()
-            ShowToast.showToastShort("保存成功!")
+            ShowToast.showToastShort(resources.getString(R.string.string_save_successed))
             finish()
         }
 
         mViewModel.msg.observe(this){
             hideWaitDialog()
-            ShowToast.showToastShort("保存失败!")
+            ShowToast.showToastShort(resources.getString(R.string.string_save_failed))
         }
 
     }

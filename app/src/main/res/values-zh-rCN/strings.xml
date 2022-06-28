@@ -2,7 +2,68 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+
+    <string name="string_spo2_status_2">缺氧</string>
+    <string name="string_spo2_status_3">严重缺氧</string>
+    <string name="string_spo2_title">血氧饱和度</string>
+    <string name="string_location_top">上</string>
+    <string name="string_location_middle">中</string>
+    <string name="string_location_bottom">下</string>
+    <string name="string_set_dial_ing">更换表盘中,请稍后...</string>
+    <string name="string_dial_has_dial">设备已经有存储这个表盘!</string>
+    <string name="string_small_pickture">图片过小，请选择合适图片尺寸!</string>
+    <string name="string_current_schedule">当前进度</string>
+    <string name="string_white">白色</string>
+    <string name="string_black">黑色</string>
+    <string name="string_red">红色</string>
+    <string name="string_red_orange">红橙色</string>
+    <string name="string_orange">橙色</string>
+    <string name="string_yellow">黄色</string>
+    <string name="string_cyan">青色</string>
+    <string name="string_blue">蓝色</string>
+    <string name="string_purple">紫色</string>
     
+    <string name="string_step">计步</string>
+    <string name="string_heart">心率</string>
+    <string name="string_dial_location">位置</string>
+    <string name="string_feature_select">功能选择</string>
+    <string name="string_txt_color">字体颜色</string>
+    <string name="string_dial_bg">表盘背景</string>
+    <string name="string_save_successed">保存成功!</string>
+    <string name="string_save_failed">保存失败!</string>
+    <string name="string_bp_input_sphy">请输入血压计测量结果</string>
+    <string name="string_calibration_first">第一次测量</string>
+    <string name="string_calibration_second">第二次测量</string>
+    <string name="string_calibration_third">第三次测量</string>
+    <string name="string_measure_result">测量结果</string>
+    <string name="string_measure_status">测量状态</string>
+    <string name="string_input_valid_bp">请输入正常的血压值!</string>
+    
+    <string name="string_calibration_step">校准步骤</string>
+    <string name="string_calibration">校准</string>
+    <string name="string_select_normal_date">请选择正确的日期!</string>
+    <string name="string_add_failed">添加失败</string>
+    <string name="string_add_successed">添加成功</string>
+    <string name="string_input_bp_title">输入血压</string>
+    <string name="string_bp_record">血压记录</string>
+    <string name="string_bp_rang_reference">血压返回参考</string>
+    <string name="string_watch_measure">手表测量</string>
+    <string name="string_dbp">舒张压</string>
+    <string name="string_sbp">收缩压</string>
+    <string name="string_bp">血压</string>
+    <string name="string_only_one">仅此一次</string>
+    <string name="string_login">登录</string>
+    <string name="string_add_remind">添加提醒</string>
+    <string name="string_title">标题</string>
+    <string name="string_take_medic_plan">服用计划</string>
+    <string name="string_every_day_times">每天次数</string>
+    <string name="string_more">更多</string>
+    <string name="string_start_time">开始时间</string>
+    <string name="string_end_time">结束时间</string>
+    <string name="string_today_time">当前时间</string>
+    <string name="string_times">次</string>
+
+
     <string name="string_personal_data">个人资料</string>
     <string name="string_next">下一步</string>
     <string name="string_logout_account">注销账号</string>
@@ -318,8 +379,8 @@
 
     <string name="string_status_heart_desc1">热身放松</string>
     <string name="string_status_heart_desc2">脂肪燃烧</string>
-    <string name="string_status_heart_desc3">心肺强化</string>
-    <string name="string_status_heart_desc4">耐力强化</string>
+    <string name="string_status_heart_desc3">有氧耐力</string>
+    <string name="string_status_heart_desc4">无氧耐力</string>
     <string name="string_status_heart_desc5">无氧极限</string>
     
     

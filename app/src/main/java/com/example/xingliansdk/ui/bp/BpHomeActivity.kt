@@ -718,7 +718,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 //        xAxis.axisMaxLabels = 48
         xAxis.setAvoidFirstLastClipping(true)
 
-        xAxis.setLabelCount(6,true)
+        xAxis.setLabelCount(7,true)
         xAxis.isForceLabelsEnabled
 
 

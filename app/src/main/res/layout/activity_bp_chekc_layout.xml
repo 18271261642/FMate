@@ -15,7 +15,7 @@
         app:homeBackClick="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="校准"
+        app:midtitle="@string/string_calibration"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="第一次测量"
+                android:text="@string/string_calibration_first"
                 android:textColor="@color/bp_no_check_color"
                 android:textSize="15sp" />
 
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="第二次测量"
+                android:text="@string/string_calibration_second"
                 android:textColor="@color/bp_no_check_color"
                 android:textSize="15sp" />
 
@@ -153,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="第三次测量"
+                android:text="@string/string_calibration_third"
                 android:textColor="@color/bp_no_check_color"
                 android:textSize="15sp" />
 
@@ -167,7 +167,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测量结果"
+            android:text="@string/string_measure_result"
             android:layout_marginTop="30dp"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="测量状态"
+                android:text="@string/string_measure_status"
                 android:textColor="#333333"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -215,7 +215,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入血压计测量结果"
+            android:text="@string/string_bp_input_sphy"
             android:layout_marginTop="15dp"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -231,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="收缩压"
+                android:text="@string/string_sbp"
                 android:textColor="#333333"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -243,7 +243,7 @@
                 android:id="@+id/checkHBpTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="请输入收缩压"
+                android:text="@string/string_input_sbp"
                 android:textSize="15sp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -279,7 +279,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="舒张压"
+                android:text="@string/string_dbp"
                 android:textColor="#333333"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -291,7 +291,7 @@
                 android:id="@+id/checkLBpTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="请输入舒张压"
+                android:text="@string/string_input_dbp"
                 android:textSize="15sp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -322,7 +322,7 @@
         android:id="@+id/startCheckBpTv"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="第一次校准"
+        android:text="@string/string_measure_first"
         app:shape_radius="8dp"
         android:layout_gravity="center"
         android:textColor="@color/white"

@@ -59,8 +59,8 @@ class AlarmClockAdapter(data: MutableList<TimeBean>) :
         }
 
         tvName.text="$hours:$min"
-        if (item.getSpecifiedTimeDescription().isNullOrEmpty()||item.getSpecifiedTimeDescription()=="仅一次") {
-            item.specifiedTimeDescription = "永不"
+        if (item.getSpecifiedTimeDescription().isNullOrEmpty()||item.getSpecifiedTimeDescription()==context.resources.getString(R.string.string_only_one)) {
+            item.specifiedTimeDescription = context.resources.getString(R.string.string_alarm_never)
 
         }
 

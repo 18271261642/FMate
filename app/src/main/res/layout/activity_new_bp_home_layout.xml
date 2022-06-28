@@ -17,7 +17,7 @@
         app:iconActionImage="@mipmap/icon_calender"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="血压"
+        app:midtitle="@string/string_bp"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/white" />
@@ -79,7 +79,7 @@
                             android:id="@+id/bpHomeMeasureSelectTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-- "
+                            android:text="--/--"
                             android:textColor="#fffefefe"
                             android:textSize="20sp" />
 
@@ -109,7 +109,7 @@
                             android:id="@+id/bpHomeMeasureInputTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="--"
+                            android:text="--/--"
                             android:textColor="#fffefefe"
                             android:textSize="20sp" />
 

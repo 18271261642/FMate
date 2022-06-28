@@ -76,12 +76,12 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
     override fun createObserver() {
         super.createObserver()
         mViewModel.resultSet.observe(this){
-            ShowToast.showToastShort("添加成功!")
+            ShowToast.showToastShort(resources.getString(R.string.string_add_successed))
             finish()
         }
 
         mViewModel.msgSet.observe(this){
-            ShowToast.showToastLong("添加失败! "+it)
+            ShowToast.showToastLong(resources.getString(R.string.string_add_failed)+it)
         }
     }
 
@@ -133,7 +133,7 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
         }
 
         if(!StringUtils.isNumeric(inputHbpStr) || !StringUtils.isNumeric(inputLbpStr)){
-            ShowToast.showToastShort("请输入血压值!")
+            ShowToast.showToastShort(resources.getString(R.string.string_input_bp))
             return
         }
 
@@ -181,7 +181,7 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
                 if(isCheckDay){
                     val localTime =  DateUtil.formatTimeStrToLong("$checkDate $selectTime","yyyy-MM-dd HH:mm")
                     if(localTime >time / 1000){
-                        ShowToast.showToastLong("请选择正确的日期!")
+                        ShowToast.showToastLong(resources.getString(R.string.string_select_normal_date))
                         return@OnTimeSelectListener
                     }
 
@@ -190,7 +190,7 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
                 else{
                     val localTime2 =  DateUtil.formatTimeStrToLong("$selectDate $checkTime","yyyy-MM-dd HH:mm")
                     if(localTime2 >time / 1000){
-                        ShowToast.showToastLong("请选择正确的日期!")
+                        ShowToast.showToastLong(resources.getString(R.string.string_select_normal_date))
                         return@OnTimeSelectListener
                     }
                 inputBpTimeTv.text = checkTime
@@ -227,8 +227,8 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
 
         inputDialog = MediaRepeatDialog(this,R.style.edit_AlertDialog_style)
         inputDialog?.show()
-        inputDialog!!.setTitleTxt("输入血压值")
-        inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
+        inputDialog!!.setTitleTxt(resources.getString(R.string.string_input_bp))
+        inputDialog!!.setContentHitTxt(if(type == 0) resources.getString(R.string.string_input_sbp) else resources.getString(R.string.string_input_dbp))
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
 
@@ -249,13 +249,13 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
             if(type == 0){
 
                 if(valueInteger <40 || valueInteger > 250){
-                    ShowToast.showToastShort("请输入正确的收缩压!")
+                    ShowToast.showToastShort(resources.getString(R.string.string_input_normal_sbp))
                     return@setOnMediaRepeatInputListener
                 }
 
                 if(StringUtils.isNumeric(inputLbpStr)){
                     if(inputLbpStr.toInt()>valueInteger){
-                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        ShowToast.showToastShort(resources.getString(R.string.string_input_normal_sbp))
                         return@setOnMediaRepeatInputListener
                     }
                     inputBpHBpTv.text = "$valueInteger mmHg"
@@ -267,13 +267,13 @@ class InputBpActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListe
 
             else{
                 if(valueInteger <40 || valueInteger > 250){
-                    ShowToast.showToastShort("请输入正确的舒张压!")
+                    ShowToast.showToastShort(resources.getString(R.string.string_input_normal_dbp))
                     return@setOnMediaRepeatInputListener
                 }
 
                 if(StringUtils.isNumeric(inputHbpStr)){
                     if(inputHbpStr.toInt()<valueInteger){
-                        ShowToast.showToastShort("请输入正确的舒张压!")
+                        ShowToast.showToastShort(resources.getString(R.string.string_input_normal_dbp))
                         return@setOnMediaRepeatInputListener
                     }
                     inputBpLBpTv.text = "$valueInteger mmHg"

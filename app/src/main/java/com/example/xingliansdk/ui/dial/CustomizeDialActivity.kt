@@ -163,13 +163,13 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
 
        private fun backAlert(){
            alertDialog = AlertDialog.Builder(instant)
-           alertDialog!!.setTitle("提醒")
-           alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
-           alertDialog!!.setPositiveButton("确定"
+           alertDialog!!.setTitle(resources.getString(R.string.string_text_remind))
+           alertDialog!!.setMessage(resources.getString(R.string.string_dial_cancel_desc))
+           alertDialog!!.setPositiveButton(resources.getString(R.string.text_sure)
            ) { p0, p1 ->
                p0.dismiss()
                finish()
-           }.setNegativeButton("取消"
+           }.setNegativeButton(resources.getString(R.string.text_cancel)
            ) { p0, p1 ->
                p0.dismiss()
            }
@@ -181,9 +181,9 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
 
     private fun setPlacementAdapter() {
         mCustomizePlacementDialList = ArrayList()
-        mCustomizePlacementDialList.add(CustomizePlacementBean("上", 0, locationPosition == 0))
-        mCustomizePlacementDialList.add(CustomizePlacementBean("中", 1, locationPosition == 1))
-        mCustomizePlacementDialList.add(CustomizePlacementBean("下", 2, locationPosition == 2))
+        mCustomizePlacementDialList.add(CustomizePlacementBean(resources.getString(R.string.string_location_top), 0, locationPosition == 0))
+        mCustomizePlacementDialList.add(CustomizePlacementBean(resources.getString(R.string.string_location_middle), 1, locationPosition == 1))
+        mCustomizePlacementDialList.add(CustomizePlacementBean(resources.getString(R.string.string_location_bottom), 2, locationPosition == 2))
         ryPlacementDial.layoutManager = GridLayoutManager(this, 5)
         mCustomizePlacementDialAdapter = CustomizePlacementDialAdapter(mCustomizePlacementDialList)
         ryPlacementDial.adapter = mCustomizePlacementDialAdapter
@@ -257,10 +257,10 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
 
     private fun setFunctionAdapter() {
         mCustomizeFunctionDialList = ArrayList()
-        mCustomizeFunctionDialList.add(CustomizeFunctionBean("日期", 0, functionPosition == 0))
-        mCustomizeFunctionDialList.add(CustomizeFunctionBean("心率", 1, functionPosition == 1))
-        mCustomizeFunctionDialList.add(CustomizeFunctionBean("记步", 2, functionPosition == 2))
-        mCustomizeFunctionDialList.add(CustomizeFunctionBean("睡眠", 3, functionPosition == 3))
+        mCustomizeFunctionDialList.add(CustomizeFunctionBean(resources.getString(R.string.string_date), 0, functionPosition == 0))
+        mCustomizeFunctionDialList.add(CustomizeFunctionBean(resources.getString(R.string.string_heart), 1, functionPosition == 1))
+        mCustomizeFunctionDialList.add(CustomizeFunctionBean(resources.getString(R.string.string_step), 2, functionPosition == 2))
+        mCustomizeFunctionDialList.add(CustomizeFunctionBean(resources.getString(R.string.string_sleep), 3, functionPosition == 3))
         ryFunctionDial.layoutManager = GridLayoutManager(this, 5)
         mCustomizeFunctionDialAdapter = CustomizeFunctionDialAdapter(mCustomizeFunctionDialList)
         ryFunctionDial.adapter = mCustomizeFunctionDialAdapter
@@ -277,15 +277,15 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
 
     private fun setColorAdapter() {
         mCustomizeColorDialList = ArrayList()
-        mCustomizeColorDialList.add(CustomizeColorBean("白色", 0, colorPosition == 0))
-        mCustomizeColorDialList.add(CustomizeColorBean("黑色", 1, colorPosition == 1))
-        mCustomizeColorDialList.add(CustomizeColorBean("红色", 2, colorPosition == 2))
-        mCustomizeColorDialList.add(CustomizeColorBean("红橙色", 3, colorPosition == 3))
-        mCustomizeColorDialList.add(CustomizeColorBean("橙色", 4, colorPosition == 4))
-        mCustomizeColorDialList.add(CustomizeColorBean("黄色", 5, colorPosition == 5))
-        mCustomizeColorDialList.add(CustomizeColorBean("青色", 7, colorPosition == 6))
-        mCustomizeColorDialList.add(CustomizeColorBean("蓝色", 6, colorPosition == 7))
-        mCustomizeColorDialList.add(CustomizeColorBean("紫色", 8, colorPosition == 8))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_white), 0, colorPosition == 0))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_black), 1, colorPosition == 1))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_red), 2, colorPosition == 2))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_red_orange), 3, colorPosition == 3))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_orange), 4, colorPosition == 4))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_yellow), 5, colorPosition == 5))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_cyan), 7, colorPosition == 6))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_blue), 6, colorPosition == 7))
+        mCustomizeColorDialList.add(CustomizeColorBean(resources.getString(R.string.string_purple), 8, colorPosition == 8))
         ryTextColorDial.layoutManager = GridLayoutManager(this, 6)
         mCustomizeColorDialAdapter = CustomizeColorDialAdapter(mCustomizeColorDialList)
         ryTextColorDial.adapter = mCustomizeColorDialAdapter
@@ -328,7 +328,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                 imgDialBackground.setImageResource(R.drawable.icon_cus_dial_bg)
             }
             R.id.JPSave -> {
-                showWaitDialog("更换表盘中,请稍后...")
+                showWaitDialog(resources.getString(R.string.string_set_dial_ing))
 
                 TLog.error("保存时数据++" + Gson().toJson(mCustomizeDialBean))
                 var uiFeature = 65533
@@ -400,7 +400,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                                         Config.eventBus.DIAL_CUSTOMIZE, -100, 0
                                     )
                                 } else{
-                                    ShowToast.showToastLong("不支持擦写FLASH数据")
+                                    ShowToast.showToastLong(resources.getString(R.string.string_flash_no_support))
                                     isSyncDial = false;
                                 }
 
@@ -422,7 +422,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                         }
                         4 -> {
                             hideWaitDialog()
-                            ShowToast.showToastLong("设备已经有存储这个表盘")
+                            ShowToast.showToastLong(resources.getString(R.string.string_dial_has_dial))
                             isSyncDial = false
                         }
                     }
@@ -444,7 +444,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                     ) { width, height ->
                         Log.e(tags,"-------选择的图片宽和高="+width+" "+height)
                         if(width<360 && height<360){
-                            ShowToast.showToastShort("图片过小，请选择合适图片尺寸!")
+                            ShowToast.showToastShort(resources.getString(R.string.string_small_pickture))
                             return@loadHead
                         }else{
                             ImgUtil.loadHead(imgDialBackground, selectList[0].cutPath.toString())
@@ -483,7 +483,7 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                 JPSave.setProgress(15f)
             else
                 JPSave.setProgress(currentProgress.toFloat())
-            JPSave.setText("当前进度: $currentProgress %")
+            JPSave.setText(resources.getString(R.string.string_current_schedule)+currentProgress +"%")
             // proBar.max = size
             // proBar.progress = type
             if (data.currentProgress == 1 && data.maxProgress == 1) {

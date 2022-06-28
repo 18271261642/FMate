@@ -141,9 +141,9 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
                 ":$min"
             tvTime.text = mText
             edt_remarks.setText(mTimeList[position].unicode)
-            if(mTimeBean.getSpecifiedTimeDescription().isNullOrEmpty()||mTimeBean.getSpecifiedTimeDescription().equals("仅一次"))
+            if(mTimeBean.getSpecifiedTimeDescription().isNullOrEmpty()||mTimeBean.getSpecifiedTimeDescription().equals(resources.getString(R.string.string_only_one)))
             {
-                mTimeBean.setSpecifiedTimeDescription("永不")
+                mTimeBean.setSpecifiedTimeDescription(resources.getString(R.string.string_alarm_never))
             }
             Setting_alarm_clock.setContentText(mTimeBean.getSpecifiedTimeDescription())
         } else {
@@ -214,30 +214,30 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
                     stringBuilder = StringBuilder()
                     if (radMonday?.isChecked == true) {
                         num += (1 shl 1)
-                        stringBuilder.append("周一  ")
+                        stringBuilder.append(resources.getString(R.string.string_monday)+"  ")
                     }
                     if (radTuesday?.isChecked == true) {
-                        stringBuilder.append("周二  ")
+                        stringBuilder.append(resources.getString(R.string.string_tues)+"  ")
                         num += (1 shl 2)
                     }
                     if (radWednesday?.isChecked == true) {
-                        stringBuilder.append("周三  ")
+                        stringBuilder.append(resources.getString(R.string.string_wend)+"  ")
                         num += (1 shl 3)
                     }
                     if (radThursday?.isChecked == true) {
-                        stringBuilder.append("周四  ")
+                        stringBuilder.append(resources.getString(R.string.string_thurs)+"  ")
                         num += (1 shl 4)
                     }
                     if (radFriday?.isChecked == true) {
-                        stringBuilder.append("周五  ")
+                        stringBuilder.append(resources.getString(R.string.string_fri)+"  ")
                         num += (1 shl 5)
                     }
                     if (radSaturday?.isChecked == true) {
-                        stringBuilder.append("周六  ")
+                        stringBuilder.append(resources.getString(R.string.string_sa)+"  ")
                         num += (1 shl 6)
                     }
                     if (radSunday?.isChecked == true) {
-                        stringBuilder.append("周日  ")
+                        stringBuilder.append(resources.getString(R.string.string_sun)+"  ")
                         num += 1
                     }
                     mTimeBean.specifiedTime = num
@@ -245,7 +245,7 @@ class AlarmClockActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickLis
                     if(num<=0)
                     {
                        num=128
-                        Setting_alarm_clock.setContentText("永不")
+                        Setting_alarm_clock.setContentText(resources.getString(R.string.string_alarm_never))
                     }
                     else
                     Setting_alarm_clock.setContentText(stringBuilder.toString())

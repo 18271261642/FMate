@@ -14,10 +14,10 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="血压设置"
+        app:midtitle="@string/string_device_bp_set"
         app:showHome="true"
         app:showAction="true"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:titleTextColor01="@color/black" />
 
@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="白天测量提醒"
+            android:text="@string/string_bp_light_notify"
             android:textColor="#ff333333"
             android:textSize="18sp"
             android:layout_marginStart="@dimen/dp_10"/>
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="08:00 ~ 24:00，每30分钟提醒您测量一次"
+        android:text="@string/string_bp_half_hour_measure"
         android:textColor="#ff999999"
         android:textSize="16sp"
         android:layout_marginStart="@dimen/dp_10"/>
@@ -83,7 +83,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="夜间自动测量"
+            android:text="@string/string_bp_night_auto_measure"
             android:textColor="#ff333333"
             android:textSize="18sp"
             android:layout_marginStart="@dimen/dp_10"/>
@@ -107,7 +107,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="夜间00:00～08:00，每30分钟自动测量一次"
+        android:text="@string/string_bp_night_half_hour_measure"
         android:textColor="#ff999999"
         android:textSize="16sp"
         android:layout_marginTop="15dp"

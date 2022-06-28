@@ -174,7 +174,7 @@
         android:background="@drawable/bg_login_password_gray"
         android:gravity="center"
         android:padding="10dp"
-        android:text="登录"
+        android:text="@string/string_login"
         android:textColor="@color/color_login_code"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -206,8 +206,8 @@
         <ImageView
             android:id="@+id/checkbox"
             android:src="@drawable/login_checkbox"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:padding="3dp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -218,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="我已阅读和同意"
+            android:text="@string/string_red_agree"
             android:textColor="@color/main_text_color"
             android:textSize="11sp" />
 
@@ -227,7 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="《用户协议》"
+            android:text="@string/string_user_agreement"
             android:textColor="@color/color_login"
             android:textSize="11sp" />
 
@@ -244,7 +244,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="《隐私政策》"
+            android:text="@string/string_user_privacy"
             android:textColor="@color/color_login"
             android:textSize="11sp" />
     </LinearLayout>

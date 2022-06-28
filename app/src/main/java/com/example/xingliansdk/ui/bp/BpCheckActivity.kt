@@ -472,7 +472,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         inputDialog = MediaRepeatDialog(this,R.style.edit_AlertDialog_style)
         inputDialog?.show()
         inputDialog!!.setTitleTxt(resources.getString(R.string.string_input_bp))
-        inputDialog!!.setContentHitTxt(if(type == 0) "输入收缩压" else "输入舒张压")
+        inputDialog!!.setContentHitTxt(if(type == 0) resources.getString(R.string.string_input_sbp) else resources.getString(R.string.string_input_dbp))
         inputDialog!!.setOnMediaRepeatInputListener {
             inputDialog!!.dismiss()
 
@@ -491,14 +491,14 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
 
             if(it.toInt() <40 || it > 250){
-                ShowToast.showToastShort("请输入正确的收缩压!")
+                ShowToast.showToastShort(resources.getString(R.string.string_input_valid_bp))
                 return@setOnMediaRepeatInputListener
             }
 
             if(type == 0){
                 if(StringUtils.isNumeric(inputLbpStr)){
                     if(inputLbpStr.toInt()>it){
-                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        ShowToast.showToastShort(resources.getString(R.string.string_input_sbp))
                         return@setOnMediaRepeatInputListener
                     }
                     checkHBpTv.text = it.toString()
@@ -511,7 +511,7 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
 
                 if(StringUtils.isNumeric(inputHbpStr)){
                     if(inputHbpStr.toInt()<it){
-                        ShowToast.showToastShort("请输入正确的收缩压!")
+                        ShowToast.showToastShort(resources.getString(R.string.string_input_dbp))
                         return@setOnMediaRepeatInputListener
                     }
                     checkLBpTv.text = it.toString()
@@ -559,16 +559,16 @@ class BpCheckActivity : BaseActivity<JingfanBpViewModel>(), MeasureBigBpListener
         if(alertDialog == null){
             alertDialog = AlertDialog.Builder(this@BpCheckActivity)
         }
-        alertDialog!!.setTitle("提醒")
-        alertDialog!!.setMessage("是否要终止测量?")
-        alertDialog!!.setPositiveButton("确定"
+        alertDialog!!.setTitle(resources.getString(R.string.string_text_remind))
+        alertDialog!!.setMessage(resources.getString(R.string.string_cancel_measure))
+        alertDialog!!.setPositiveButton(resources.getString(R.string.text_sure)
         ) { p0, p1 ->
             p0.cancel()
 
             TLog.error("---------终止测量-------")
             stop()
             // handler.sendEmptyMessage(0x01)
-        }.setNegativeButton("取消"
+        }.setNegativeButton(resources.getString(R.string.text_cancel)
         ) { p0, p1 ->
             p0.cancel()
         }

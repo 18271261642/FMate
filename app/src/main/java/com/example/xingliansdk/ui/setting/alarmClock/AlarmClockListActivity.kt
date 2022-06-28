@@ -46,7 +46,7 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
 
             override fun onActionImageClick() {
                 if (mTimeList.size >= 5) {
-                    ShowToast.showToastLong("最多只可以添加五条,请选择删除或修改")
+                    ShowToast.showToastLong(resources.getString(R.string.string_add_most_alarm))
                     return
                 }
                 JumpUtil.startAlarmClockActivity(this@AlarmClockListActivity, type)
@@ -235,7 +235,7 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
         mAlarmClockList.forEachIndexed { index, timeBean ->
             timeBean.number = index
             TLog.error("-----写入闹钟="+index +" "+Gson().toJson(timeBean))
-            BLEManager.getInstance().dataDispatcher.clear("")
+           // BLEManager.getInstance().dataDispatcher.clear("")
 
             BleWrite.writeAlarmClockScheduleCall(timeBean, true)
         }
