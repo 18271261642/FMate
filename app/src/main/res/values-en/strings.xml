@@ -2,8 +2,8 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
-    <string name="string_spo2_status_2">缺氧</string>
-    <string name="string_spo2_status_3">严重缺氧</string>
+    <string name="string_spo2_s_2">缺氧</string>
+    <string name="string_spo2_s_3">严重缺氧</string>
     <string name="string_spo2_title">血氧饱和度</string>
     <string name="string_location_top">上</string>
     <string name="string_location_middle">中</string>
