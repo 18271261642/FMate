@@ -854,8 +854,8 @@ class BleWork : IWork, OnCountTimerListener,
                     TLog.error("总数据++" + Gson().toJson(it.data))
                     if (it.code == 200) {
                         TLog.error("总数据++" + Gson().toJson(it.data))
-                        if (it.data.alarmClock == null || alarmClockCreateTime > it.data.alarmClock.createTime) {
-                            saveAlarmClock(alarmClockCreateTime)
+                        if (it.data.alarmClock == null ) {
+                            saveAlarmClock(System.currentTimeMillis()/1000)
                         } else {
                             var list = it.data.alarmClock.list
                             mTimeList.clear()

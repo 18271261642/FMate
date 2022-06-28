@@ -40,7 +40,9 @@ import com.shon.connector.Config.ControlClass
 import com.shon.connector.bean.DataBean
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
+import com.sn.map.bean.SearLocalBean
 import com.sn.map.impl.GpsLocationImpl
+import com.sn.map.utils.AmapLocationService
 import com.sn.map.view.SNGaoDeMap
 import com.sn.map.view.SNMapHelper
 import kotlinx.android.synthetic.main.amap_include_start_pause_layout.*
@@ -100,6 +102,9 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
     private var locationHelper : LocationServiceHelper ? = null
 
+    private var amapLocalService : AmapLocationService ?= null
+
+
     var logPath : String ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +112,7 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
         logPath = Environment.getExternalStorageDirectory().path+"/Download/";
         //LogcatHelper.getInstance(this,logPath).start()
+
 
     }
 
@@ -135,6 +141,12 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
 
         mPresenter = RunningPresenterImpl(this)
         mPresenter?.attachView(this)
+//
+//        amapLocalService = AmapLocationService(this)
+//        amapLocalService!!.setOnLocationListener(amapLocationListener)
+//        amapLocalService!!.startLocation()
+
+
         constMap.visibility = View.GONE
         amapRunnLayout.visibility = View.GONE
         //GPS显示
@@ -818,6 +830,11 @@ class RunningActivity : BaseActivity<MainViewModel>(), View.OnClickListener,
                 sourceKcal = kcalStr.toDouble()
             }
         }
+    }
+
+
+    private  val amapLocationListener = AmapLocationService.OnLocationListener {
+
     }
 
 }

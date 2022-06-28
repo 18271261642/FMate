@@ -2,6 +2,7 @@ package com.example.xingliansdk.ui.setting.takeMedicine
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.example.xingliansdk.Config.eventBus.REMIND_TAKE_MEDICINE_REMINDER_PERIOD
@@ -248,12 +249,12 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
         inputDialog.show()
         inputDialog.setRepeatValue(repeat)
         inputDialog.setOnMediaRepeatInputListener {
-            if (repeat.toInt() == 0) {
+            if (!TextUtils.isEmpty(repeat) && repeat.toInt() == 0) {
                 Toast.makeText(this, "请输入正确的时间间隔!", Toast.LENGTH_SHORT).show()
                 return@setOnMediaRepeatInputListener
             }
 
-            if (repeat.toInt() > 255) {
+            if (!TextUtils.isEmpty(repeat) && repeat.toInt() > 255) {
                 Toast.makeText(this, "   周期天数不大于255天!", Toast.LENGTH_SHORT).show()
                 return@setOnMediaRepeatInputListener
             }

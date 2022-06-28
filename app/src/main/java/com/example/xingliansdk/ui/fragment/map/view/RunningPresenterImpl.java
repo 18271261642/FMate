@@ -26,9 +26,11 @@ import com.orhanobut.hawk.Hawk;
 import com.shon.connector.BleWrite;
 import com.shon.connector.utils.TLog;
 import com.sn.map.bean.SNLocation;
+import com.sn.map.bean.SearLocalBean;
 import com.sn.map.interfaces.OnMapLocationAddressListener;
 import com.sn.map.interfaces.OnMapScreenShotListener;
 import com.sn.map.interfaces.OnSportMessageListener;
+import com.sn.map.utils.AmapLocationService;
 import com.sn.map.utils.GPSUtil;
 import com.sn.map.view.SNMapHelper;
 
@@ -100,6 +102,9 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
     private long millisecond;
     private String millisecondStr;
     private  long createTime;
+
+    private AmapLocationService amapLocationService;
+
     public RunningPresenterImpl(IRunningContract.IView view) {
         this.view = view;
         createTime=System.currentTimeMillis();
@@ -123,6 +128,10 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         if (!GPSUtil.isGpsEnable(context)) {
             view.onUpdateGpsSignal(SIGNAL_GPS_OFF);
         }
+
+//        amapLocationService = new AmapLocationService(context);
+//        amapLocationService.setOnLocationListener(onLocationListener);
+//        amapLocationService.startLocation();
         BleWrite.writeHeartRateSwitchCall(APP_REAL_TIME_HEART_RATE_SWITCH_KEY, (byte) 0x02);
       //  ownListener(Hawk.get("address",""));
     }
@@ -646,4 +655,15 @@ public class RunningPresenterImpl extends BasePresenter<IRunningContract.IView> 
         this.millisecondStr = ResUtil.format("%02d:%02d:%02d", hms.getHour(), hms.getMinute(), hms.getSecond());
         view.onUpdateSportData(ResUtil.format("%02d:%02d:%02d", hms.getHour(), hms.getMinute(), hms.getSecond()));
     }
+
+
+    private final AmapLocationService.OnLocationListener onLocationListener = new AmapLocationService.OnLocationListener() {
+        @Override
+        public void backLocalLatLon(SearLocalBean searLocalBean) {
+            TLog.Companion.error("----定位="+searLocalBean.toString());
+            view.onUpdateMapFirstLocation(searLocalBean.getLat(), searLocalBean.getLon());
+            mMapHelper.animateCameraToScreenBounds();
+            mMapHelper.moveCamera(new SNLocation(searLocalBean.getLat(),searLocalBean.getLon()),true);
+        }
+    };
 }
