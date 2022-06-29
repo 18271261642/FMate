@@ -656,6 +656,11 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                 val isForeground = Utils.isForeground(this@MainHomeActivity,MainHomeActivity::class.java.name)
 
                 val typeCode = intent.getIntExtra("bp_status",0)
+
+                if(typeCode == 4){
+                    writeAutoBackBp()
+                }
+
                 if(typeCode == 5 ){
                     if(!isForeground)
                         return
@@ -779,5 +784,13 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             amapLocationService!!.stopLocation()
             //amapLocationService!!.destroyLocation()
         }
+    }
+
+    private fun writeAutoBackBp(){
+        val cmdArray = byteArrayOf(0x0B, 0x01, 0x01, 0x00, 0x01, 0x02)
+
+        val resultArray = CmdUtil.getFullPackage(cmdArray)
+
+        BleWrite.writeCommByteArray(resultArray, true)
     }
 }

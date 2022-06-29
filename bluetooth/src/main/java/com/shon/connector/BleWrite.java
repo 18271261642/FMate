@@ -1254,6 +1254,16 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
 
     }
 
+    public static void writeCommByteArray(byte[] writeArray,boolean status){
+        WriteCall write = new WriteCall(address);
+        write.setPriority(status);
+        //   write.setTimeout(30000);
+        write.setServiceUUid(Config.serviceUUID);
+        write.setCharacteristicUUID(Config.mWriteCharacter);
+        write.enqueue(new CommonWriteCall(address,writeArray));
+
+    }
+
 
     //设置血压自动测量状态
     public static void writeSetAutoBpMeasureStatus(boolean status, AutoBpStatusBean autoBpStatusBean, CommBackListener commBackListener){

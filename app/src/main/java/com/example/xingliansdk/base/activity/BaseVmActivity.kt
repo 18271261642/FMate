@@ -3,8 +3,10 @@ package com.example.xingliansdk.base.activity
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Build
@@ -27,12 +29,15 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.bean.DeviceFirmwareBean
+import com.example.xingliansdk.dialog.MeasureBpPromptDialog
+import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.ext.getAppViewModel
 import com.example.xingliansdk.ext.getVmClazz
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.manager.NetState
 import com.example.xingliansdk.network.manager.NetworkStateManager
+import com.example.xingliansdk.ui.bp.MeasureNewBpActivity
 import com.example.xingliansdk.utils.HelpUtil
 import com.shon.connector.utils.ShowToast
 import com.example.xingliansdk.view.DateUtil
@@ -136,6 +141,16 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
             onNetworkStateChanged(it)
         })
     }
+
+
+    //注册接受血压测量或状态的广播
+    private fun registerBpReceiver(){
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION)
+        registerReceiver(broadcastReceiver,intentFilter)
+    }
+
+
 
     /**
      * 网络变化监听 子类重写
@@ -358,6 +373,7 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         if (isImmersionBarEnabled()) {
             ImmersionBar.with(this).destroy()
         }
+      //  unregisterReceiver(broadcastReceiver)
     }
 
     /**
@@ -421,4 +437,37 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         return false
     }
 
+
+    private val broadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+           var action = p1?.action
+            TLog.error("-------baseActivity="+action)
+            if(action.equals(com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION)){
+                showParentDialog()
+            }
+        }
+
+    }
+    private var measureBpPromptDialog : MeasureBpPromptDialog ?= null
+
+    private fun showParentDialog(){
+        if(measureBpPromptDialog != null && measureBpPromptDialog!!.isShowing){
+            measureBpPromptDialog!!.dismiss()
+        }
+        measureBpPromptDialog = MeasureBpPromptDialog(
+            this,
+            R.style.edit_AlertDialog_style)
+        measureBpPromptDialog!!.show()
+        measureBpPromptDialog!!.setOnCommDialogClickListener(object :
+            OnCommDialogClickListener {
+            override fun onConfirmClick(code: Int) {
+
+            }
+
+            override fun onCancelClick(code: Int) {
+
+            }
+
+        })
+    }
 }

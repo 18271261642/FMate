@@ -100,7 +100,7 @@
               android:layout_marginStart="8dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="运动时间"/>
+              android:text="@string/string_sport_time"/>
 
 
           <TextView
@@ -153,7 +153,7 @@
               android:layout_marginStart="8dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="热量"/>
+              android:text="@string/string_sport_kcal"/>
 
 
           <TextView
@@ -214,7 +214,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="平均心率"/>
+                android:text="@string/string_sport_avg_heart"/>
 
 
             <TextView
@@ -269,7 +269,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="步数"/>
+                android:text="@string/string_sport_steps"/>
 
 
             <TextView
@@ -331,7 +331,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="平均配速"/>
+                android:text="@string/string_sport_avg_pace"/>
 
 
             <TextView
@@ -387,7 +387,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="平均速度"/>
+                android:text="@string/string_sport_avg_speed"/>
 
 
             <TextView

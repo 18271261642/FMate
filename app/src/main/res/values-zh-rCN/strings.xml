@@ -3,6 +3,15 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+    <string name="string_times_number">次数</string>
+    <string name="string_distance">距离</string>
+    <string name="string_km">公里</string>
+    <string name="string_mile">英里</string>
+    <string name="string_sport_detail">运动详情</string>
+    <string name="string_max_heart">最大心率</string>
+    <string name="string_time_minute_desc">时间(分钟)</string>
+
+
     <string name="string_spo2_s_2">缺氧</string>
     <string name="string_spo2_s_3">严重缺氧</string>
     <string name="string_spo2_title">血氧饱和度</string>

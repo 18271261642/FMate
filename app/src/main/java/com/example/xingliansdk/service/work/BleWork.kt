@@ -191,7 +191,7 @@ class BleWork : IWork, OnCountTimerListener,
         autoBpStatusBean.startMinute = 0x00
         autoBpStatusBean.endHour = 0x17
         autoBpStatusBean.endMinute = 0x3B
-        autoBpStatusBean.bpInterval = 0x1E
+        autoBpStatusBean.bpInterval = 0x0A
         autoBpStatusBean.normalBpStatus = userInfos.userConfig.bloodPressureDaytimeMeasurement.toByte()
         autoBpStatusBean.nightBpStatus = userInfos.userConfig.bloodPressureNightMeasurement.toByte()
 

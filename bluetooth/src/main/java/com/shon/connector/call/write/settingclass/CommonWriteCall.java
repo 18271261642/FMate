@@ -19,6 +19,12 @@ public class CommonWriteCall extends WriteCallback {
     private byte[] writeByte;
     private BleWrite.SpecifySleepSourceInterface specifySleepSourceInterface;
 
+
+    public CommonWriteCall(String address, byte[] writeByte) {
+        super(address);
+        this.writeByte = writeByte;
+    }
+
     public CommonWriteCall(String address, byte[] writeByte, BleWrite.SpecifySleepSourceInterface specifySleepSourceInterface) {
         super(address);
         this.writeByte = writeByte;

@@ -60,18 +60,18 @@ public class AmapItemDetailAdapter extends RecyclerView.Adapter<AmapItemDetailAd
         Log.e(TAG,"------单个item="+amapSportBean.toString());
         try {
             int sportType = amapSportBean.getSportType();
-            String unit="公里";
+            String unit=mContext.getString(R.string.string_km);
             Double dis=Utils.divi(Double.parseDouble(amapSportBean.getDistance()),1000.0,2);
 
             if(userInfo==null||userInfo.getUserConfig().getDistanceUnit()==1) {
-                unit = "英里";
+                unit = mContext.getString(R.string.string_mile);
                 dis= Double.valueOf(decimalFormat.format( Utils.mul(dis,MILE,3)));
 
             }
             holder.typeImg.setImageResource(mapSportTypeImg(sportType));
             holder.distanceTv.setText(dis + unit);
             holder.durationTv.setText(amapSportBean.getCurrentSportTime());
-            holder.caloriesTv.setText(amapSportBean.getCalories() + "千卡");
+            holder.caloriesTv.setText(amapSportBean.getCalories() + mContext.getResources().getString(R.string.string_unit_kcal));
             String mapTime = amapSportBean.getEndSportTime();
             holder.currTimeTv.setText(Utils.formatCusTimeForDay(mapTime));
             //   holder.currTimeTv.setText(Utils.formatCusTimeForDay(mapTime)+"\n"+ Utils.formatCusTime(mapTime));

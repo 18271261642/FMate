@@ -8,7 +8,7 @@
 
     <com.example.xingliansdk.widget.TitleBarLayout
         android:layout_width="match_parent"
-        app:midtitle="运动详情"
+        app:midtitle="@string/string_sport_detail"
         app:showHome="true"
         android:id="@+id/sportDetailTB"
         app:titleTextColor01="@color/main_text_color"

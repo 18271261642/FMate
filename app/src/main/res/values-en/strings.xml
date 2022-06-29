@@ -2,6 +2,20 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+    <string name="string_times_number">frequency</string>
+    <string name="string_distance">distance</string>
+    <string name="string_km">km</string>
+    <string name="string_mile">mi</string>
+    <string name="string_sport_detail">Sport Detail</string>
+    <string name="string_max_heart">Max heart</string>
+    <string name="string_time_minute_desc">time(minute)</string>
+
+    <string name="string_spo2_s_2">Hypoxia</string>
+    <string name="string_spo2_s_3">Severe hypoxia</string>
+    <string name="string_spo2_title">Blood oxygen</string>
+    <string name="string_location_top">Upper</string>
+    <string name="string_location_middle">Middle</string>
+
     <string name="string_location_bottom">Under</string>
     <string name="string_set_dial_ing">Replacing the dial, please wait...</string>
     <string name="string_dial_has_dial">The device has already stored this dial!</string>

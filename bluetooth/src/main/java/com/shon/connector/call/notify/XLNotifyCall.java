@@ -73,6 +73,13 @@ public class XLNotifyCall extends NotifyCallback {
                     mInterface.NotifyCallResult(result[8], 0x05,-1);
                 }
 
+
+                //04 手表返回测量血压提醒，app收到后弹窗 发送02给手表，后续走正常流程
+                if(result.length>13 && result[8] == 0x0B && result[13] == 0x04){
+                    mInterface.NotifyCallResult(result[8],0x04,-1);
+                }
+
+
                 //8800000000000DF00B02010001080200042A1D38F8
                 if(result.length>13 && result[8] == 0x0B && result[13] == 0x08){    //手表发起启动测量，app无响应，手表返回，此次app若哟有弹窗，则取消弹窗
                     mInterface.NotifyCallResult(result[8], 0x08,-1);

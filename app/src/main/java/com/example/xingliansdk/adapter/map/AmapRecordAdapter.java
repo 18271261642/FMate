@@ -78,7 +78,7 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
     public void onBindViewHolder(@NonNull AmapRecordViewHolder holder, int position) {
         AmapRecordBean amapRecordBean = sportBeanList.get(position);
         holder.itemMonthDayTv.setText(amapRecordBean.getMonthStr());
-        String unit="公里";
+        String unit=mContext.getString(R.string.string_km);
         String walkCount=amapRecordBean.getWalkDistance();
 
         Log.e("ADAPTER","-------步行总距离="+walkCount+" type="+type);
@@ -87,23 +87,23 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
         String cycleCount=amapRecordBean.getRideDistance();
         String distanceCount=amapRecordBean.getDistanceCount();
         if(userInfo==null||userInfo.getUserConfig().getDistanceUnit()==1) {
-            unit = "英里";
+            unit = mContext.getString(R.string.string_mile);
             walkCount=  Utils.mul(Double.parseDouble(walkCount),MILE,2).toString();
             runCount=  Utils.mul(Double.parseDouble(runCount),MILE,2).toString();
             cycleCount=  Utils.mul(Double.parseDouble(cycleCount),MILE,2).toString();
             distanceCount=  Utils.mul(Double.parseDouble(distanceCount),MILE,2).toString();
         }
         if (type == 0) {
-            holder.walkCountTvName.setText("步行("+unit+")");
-            holder.runCountTvName.setText("跑步("+unit+")");
-            holder.cycleCountTvName.setText("骑行("+unit+")");
+            holder.walkCountTvName.setText(mContext.getResources().getString(R.string.string_sport_step)+"("+unit+")");
+            holder.runCountTvName.setText(mContext.getResources().getString(R.string.string_sport_run)+"("+unit+")");
+            holder.cycleCountTvName.setText(mContext.getResources().getString(R.string.string_sport_cycle)+"("+unit+")");
             holder.walkCountTv.setText(walkCount);
             holder.runCountTv.setText(runCount);
             holder.cycleCountTv.setText(cycleCount);
         } else {
-            holder.walkCountTvName.setText("距离("+unit+")");
-            holder.runCountTvName.setText("热量(千卡)");
-            holder.cycleCountTvName.setText("次数");
+            holder.walkCountTvName.setText(mContext.getResources().getString(R.string.string_distance)+"("+unit+")");
+            holder.runCountTvName.setText(mContext.getResources().getString(R.string.string_sport_kcal)+"("+mContext.getString(R.string.string_unit_kcal)+")");
+            holder.cycleCountTvName.setText(mContext.getResources().getString(R.string.string_times_number));
             holder.walkCountTv.setText(walkCount);
             holder.runCountTv.setText(amapRecordBean.getCaloriesCount());
             holder.cycleCountTv.setText(amapRecordBean.getSportCount() + "");
