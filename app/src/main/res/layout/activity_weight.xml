@@ -210,7 +210,7 @@
                             android:id="@+id/tvLastWeightTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="上一次"
+                            android:text="@string/string_last_time"
                             android:textColor="@color/sub_text_color"
                             android:textSize="11sp" />
 
@@ -242,7 +242,7 @@
                             android:id="@+id/tvNowWeightTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="本次变化"
+                            android:text="@string/string_curr_change"
                             android:textColor="@color/sub_text_color"
                             android:textSize="11sp" />
 
@@ -276,7 +276,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="体重指数BMI"
+                        android:text="@string/string_weight_bmi"
                         android:textColor="@color/main_text_color"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -287,7 +287,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:background="@drawable/weight_frame_green"
-                        android:text="BMI=体重/身高的平方（kg/m²）"
+                        android:text="@string/string_weight_bmi_value"
                         android:textColor="@color/color_main_green"
                         android:textSize="14sp" />
 
@@ -325,7 +325,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:text="偏瘦"
+                            android:text="@string/string_weight_status_1"
                             android:textColor="@color/color_blood_pressure_low" />
                     </LinearLayout>
 
@@ -359,7 +359,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:text="正常"
+                            android:text="@string/string_spo2_status_1"
                             android:textColor="@color/color_main_green"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -428,7 +428,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:text="肥胖"
+                            android:text="@string/string_weight_status_3"
                             android:textColor="@color/color_blood_pressure_two" />
                     </LinearLayout>
                     <View
@@ -467,7 +467,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/device_alarm_clock_button_green"
-            android:text="添加体重记录"
+            android:text="@string/string_weight_add_data"
             android:textColor="@color/white"
             android:textSize="14sp"
          />

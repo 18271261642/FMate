@@ -29,6 +29,8 @@ public class MeasureBpPromptDialog extends AppCompatDialog implements View.OnCli
     private ShapeTextView dialogCheckBpNoTv;
     private ShapeTextView dialogCheckBpYetTv;
 
+    //是否是10分钟的
+    private boolean isHalfHour;
 
     private OnCommDialogClickListener onCommDialogClickListener;
 
@@ -70,6 +72,13 @@ public class MeasureBpPromptDialog extends AppCompatDialog implements View.OnCli
         setBotBtnTxt("暂不测量","去测量");
     }
 
+    public boolean isHalfHour() {
+        return isHalfHour;
+    }
+
+    public void setHalfHour(boolean halfHour) {
+        isHalfHour = halfHour;
+    }
 
     //设置两个按钮文字
     public void setBotBtnTxt(String rightTxt,String leftTxt){
@@ -82,7 +91,10 @@ public class MeasureBpPromptDialog extends AppCompatDialog implements View.OnCli
         int vId = v.getId();
         if(vId == R.id.dialogCheckBpNoTv){  //否
             dismiss();
-            stopMeasure();
+            if(isHalfHour)
+           {
+               stopMeasure();
+            }
         }
 
         if(vId == R.id.dialogCheckBpYetTv){ //是

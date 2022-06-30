@@ -3,6 +3,14 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+    <string name="string_day">日</string>
+    <string name="string_week">周</string>
+    <string name="string_month">月</string>
+    <string name="string_year">年</string>
+    <string name="string_last_time">上一次</string>
+    <string name="string_next_time">下一次</string>
+    <string name="string_curr_change">本次变化</string>
+
     <string name="string_times_number">次数</string>
     <string name="string_distance">距离</string>
     <string name="string_km">公里</string>

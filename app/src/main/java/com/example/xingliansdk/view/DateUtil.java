@@ -897,6 +897,43 @@ public class DateUtil {
         return ca;
     }
 
+
+    /**
+     * 获取日期本周第一天
+     *并且是当天的0时0分0秒
+     * @return
+     */
+    public static Calendar getWeekFirstDate(Calendar calendar,int invalid) {
+        Calendar ca = Calendar.getInstance();
+
+        ca.setTimeInMillis(calendar.getTimeInMillis());
+        ca.setFirstDayOfWeek(Calendar.SUNDAY);
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.MILLISECOND, 0);
+        ca.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return ca;
+    }
+
+    /**
+     * 获取日期本周最后一天
+     *
+     * @return
+     */
+    public static Calendar getWeekLastDate(Calendar calendar,int invalid) {
+        Calendar ca = Calendar.getInstance(Locale.CHINA);
+        ca.setTimeInMillis(calendar.getTimeInMillis());
+        ca.setFirstDayOfWeek(Calendar.WEDNESDAY);
+        ca.set(Calendar.HOUR_OF_DAY, 23);
+        ca.set(Calendar.SECOND, 59);
+        ca.set(Calendar.MINUTE, 59);
+        ca.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        return ca;
+    }
+
+
+
     /**
      * 获取日期相差天数
      *

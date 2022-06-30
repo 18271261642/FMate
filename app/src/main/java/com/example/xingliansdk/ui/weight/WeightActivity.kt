@@ -63,7 +63,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
     private val tags = "WeightActivity"
     override fun layoutId() = R.layout.activity_weight
-    private var mTitles = arrayOf("日", "周", "月", "年")
+    private var mTitles = arrayOf(resources.getString(R.string.string_day), resources.getString(R.string.string_week), resources.getString(R.string.string_month), resources.getString(R.string.string_year))
     private lateinit var chart: LineChart
     private var position = 0
     var SET_WEIGHT_TYPE = "1"//成功时为1

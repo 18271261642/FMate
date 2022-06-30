@@ -288,7 +288,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    BleWrite.writeWeatherCall(resultB, false);
+                    BleWrite.writeWeatherCall(resultB, true);
                 }
             },1000);
 
@@ -502,6 +502,12 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         BleWrite.writeStartOrEndDetectBp(true,isStart ? 0x03 : 0x01,this);
     }
 
+    public void backStartMeasureBp(int key){
+        Config.isNeedTimeOut = true;
+        BLEManager.getInstance().dataDispatcher.clear("");
+        BleWrite.writeStartOrEndDetectBp(true,key,this);
+    }
+
 
 
     //获取ppg缓存的记录，时间戳，然后再根据时间戳查询数据库是否有保存，没有保存就从手表中读取
@@ -635,9 +641,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         startIndex++;
         handler.sendEmptyMessageDelayed(0x00,2000);
     }
-
-
-
 
 
     //后台测量血压

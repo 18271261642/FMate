@@ -150,7 +150,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                     1 -> {
                         if (!weekStatus) {
                             weekStatus = true
-                            weekCalendar = DateUtil.getWeekFirstDate(Calendar.getInstance())
+                            weekCalendar = DateUtil.getWeekFirstDate(Calendar.getInstance(),0)
 
                         }
                         setTitleDateData()
@@ -592,7 +592,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             }
             1 -> {
                 // if (DateUtil.equalsToday(calendarType))
-                if (DateUtil.getWeekLastDate(calendarType).timeInMillis >= timeDialog)
+                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis >= timeDialog)
                     img_right.visibility = View.INVISIBLE
                 else
                     img_right.visibility = View.VISIBLE

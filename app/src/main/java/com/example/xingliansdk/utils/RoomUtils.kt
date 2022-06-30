@@ -24,22 +24,22 @@ object RoomUtils {
         val mRoomSleepTimeDao = instance.getRoomSleepTimeDao() //睡眠时间表吧
         val mBloodOxygenListDao = instance.getBloodOxygenDao() //血氧
         val mMapSportDao = instance.getAmapSportDao()
-//        instance.getRoomMotionTimeDao().deleteAll() //步数
-//        instance.getBloodPressureHistoryDao().deleteAll() //血压
-//        instance.getItemExerciseRecordNode().deleteAll() //运动记录
-//        instance.getMotionListDao().deleteAll() //手表运动记录
-//        instance.getPressureListDao().deleteAll()
-//        instance.getPressureTimeDao().deleteAll()
-//        instance.getRoomExercise().deleteAll()
-//        instance.getRoomTempListDao().deleteAll()
-//        instance.getWeightDao().deleteAll()
+        instance.getRoomMotionTimeDao().deleteAll() //步数
+        instance.getBloodPressureHistoryDao().deleteAll() //血压
+        instance.getItemExerciseRecordNode().deleteAll() //运动记录
+        instance.getMotionListDao().deleteAll() //手表运动记录
+        instance.getPressureListDao().deleteAll()
+        instance.getPressureTimeDao().deleteAll()
+        instance.getRoomExercise().deleteAll()
+        instance.getRoomTempListDao().deleteAll()
+        instance.getWeightDao().deleteAll()
 
-//        mBloodOxygenListDao.deleteAll()
-//        mRoomSleepTimeDao.deleteAll()
-//        mSleepListDao.deleteAll()
-//        mRoomTimeDao.deleteAll()
-//        mHeartListDao.deleteAll()
-        // mMapSportDao.deleteAll()
+        mBloodOxygenListDao.deleteAll()
+        mRoomSleepTimeDao.deleteAll()
+        mSleepListDao.deleteAll()
+        mRoomTimeDao.deleteAll()
+        mHeartListDao.deleteAll()
+         mMapSportDao.deleteAll()
         instance.clearAllTables()
         // instance.close()
         HawkUtil.hawkDelete()

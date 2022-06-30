@@ -657,11 +657,13 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
                 val typeCode = intent.getIntExtra("bp_status",0)
 
-                if(typeCode == 4){
-                    writeAutoBackBp()
-                }
 
-                if(typeCode == 5 ){
+
+                if(typeCode == 5 || typeCode == 4){
+                    if(typeCode == 4){
+                        com.shon.connector.Config.isNeedTimeOut = true
+                        XingLianApplication.mXingLianApplication.getWeatherService()?.backStartMeasureBp(2)
+                    }
                     if(!isForeground)
                         return
                     if(measureBpPromptDialog != null && measureBpPromptDialog!!.isShowing){
@@ -671,12 +673,16 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                         this@MainHomeActivity,
                         R.style.edit_AlertDialog_style)
                     measureBpPromptDialog!!.show()
+                    measureBpPromptDialog!!.isHalfHour=typeCode == 5
                     measureBpPromptDialog!!.setOnCommDialogClickListener(object :
                         OnCommDialogClickListener {
                         override fun onConfirmClick(code: Int) {
-                            startActivity(Intent(
-                                XingLianApplication.mXingLianApplication,
-                                MeasureNewBpActivity::class.java))
+                            if(typeCode == 5){
+                                startActivity(Intent(
+                                    XingLianApplication.mXingLianApplication,
+                                    MeasureNewBpActivity::class.java))
+                            }
+
                         }
 
                         override fun onCancelClick(code: Int) {
@@ -696,11 +702,13 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
                     measureBpPromptDialog?.dismiss()
                 }
 
-                if(typeCode == 0x09){
+                if(typeCode == 0x09){ //后台测量血压
                    // measureBp()
                     com.shon.connector.Config.isNeedTimeOut = true
                     XingLianApplication.mXingLianApplication.getWeatherService()?.backStartMeasureBp(true)
                 }
+
+
 
             }
 

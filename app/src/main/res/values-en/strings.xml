@@ -2,6 +2,15 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+
+    <string name="string_day">day</string>
+    <string name="string_week">week</string>
+    <string name="string_month">month</string>
+    <string name="string_year">year</string>
+    <string name="string_last_time">last time</string>
+    <string name="string_next_time">next time</string>
+    <string name="string_curr_change">本次变化</string>
+
     <string name="string_times_number">frequency</string>
     <string name="string_distance">distance</string>
     <string name="string_km">km</string>
