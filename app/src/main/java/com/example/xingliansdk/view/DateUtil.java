@@ -917,7 +917,7 @@ public class DateUtil {
     }
 
     /**
-     * 获取日期本周最后一天
+     * 获取日期本周最后一天 周六
      *
      * @return
      */
@@ -1319,6 +1319,12 @@ public class DateUtil {
     public static boolean equalsToday(Calendar calendar) {
         return equalsDate(getDate(YYYY_MM_DD, calendar), getCurrentDate(YYYY_MM_DD));
     }
+
+
+    //判断当天是否在本周
+//    public static boolean isCurrWeek(Calendar calendar){
+//
+//    }
 
 
     /**

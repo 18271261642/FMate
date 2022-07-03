@@ -63,7 +63,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
     private val tags = "WeightActivity"
     override fun layoutId() = R.layout.activity_weight
-    private var mTitles = arrayOf(resources.getString(R.string.string_day), resources.getString(R.string.string_week), resources.getString(R.string.string_month), resources.getString(R.string.string_year))
+    private var mTitles = arrayOf("","","","")
     private lateinit var chart: LineChart
     private var position = 0
     var SET_WEIGHT_TYPE = "1"//成功时为1
@@ -93,6 +93,14 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             override fun onActionClick() {
             }
         })
+
+        mTitles[0] = this.resources.getString(R.string.string_day)
+        mTitles[1] = this.resources.getString(R.string.string_week)
+        mTitles[2] = this.resources.getString(R.string.string_month)
+        mTitles[3] = this.resources.getString(R.string.string_year)
+
+
+
         var bean = intent.getSerializableExtra("bean") as HomeCardVoBean.ListDTO
         var toDayTime = System.currentTimeMillis()
 //        if (bean.startTime > 0)
@@ -572,7 +580,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 TLog.error("==weight==" + weight+" 是否未0="+(weight.toString() == "0.0"))
                 tvTime.text = DateUtil.getDate(
                     DateUtil.MM_AND_DD_STRING,
-                    DateUtil.getWeekFirstDate(weekCalendar).timeInMillis + (size) * 86400000L
+                    DateUtil.getWeekFirstDate(weekCalendar,0).timeInMillis + (size) * 86400000L
                 )
                 if(weight.toString() == "0.0"){
                     tvWeight.text = "--"
@@ -770,7 +778,10 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 update()
             }
             1 -> {
-                if (DateUtil.getWeekLastDate(calendarType).timeInMillis >= timeDialog)
+
+                TLog.error("------周="+DateUtil.getWeekLastDate(calendarType).timeInMillis+" "+timeDialog+" "+calendarType?.timeInMillis)
+
+                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis+86400000L >= timeDialog)
                     img_right.visibility = View.INVISIBLE
                 else
                     img_right.visibility = View.VISIBLE
@@ -1019,7 +1030,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
         if (position == 1) {
             tvTime.text = DateUtil.getDate(
                 DateUtil.MM_AND_DD_STRING,
-                DateUtil.getWeekFirstDate(weekCalendar).timeInMillis + 86400000 * e.x.toInt()
+                DateUtil.getWeekFirstDate(weekCalendar,0).timeInMillis + 86400000 * e.x.toInt()
                     .toLong()
             )
             if (h.y > 0) {
@@ -1180,7 +1191,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 chart1.visibility = View.VISIBLE
                 if (!weekStatus) {
                     weekStatus = true
-                    weekCalendar = DateUtil.getWeekFirstDate(Calendar.getInstance())
+                    weekCalendar = DateUtil.getWeekFirstDate(Calendar.getInstance(),0)
                 }
                 setTitleDateData()
             }

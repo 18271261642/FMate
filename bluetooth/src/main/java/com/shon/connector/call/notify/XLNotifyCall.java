@@ -80,7 +80,7 @@ public class XLNotifyCall extends NotifyCallback {
                 }
 
 
-                //8800000000000DF00B02010001080200042A1D38F8
+                //8800000000000DF00B02 01 0001080200042A1D38F8
                 if(result.length>13 && result[8] == 0x0B && result[13] == 0x08){    //手表发起启动测量，app无响应，手表返回，此次app若哟有弹窗，则取消弹窗
                     mInterface.NotifyCallResult(result[8], 0x08,-1);
                 }

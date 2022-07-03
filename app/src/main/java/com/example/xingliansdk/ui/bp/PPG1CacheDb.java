@@ -85,4 +85,16 @@ public class PPG1CacheDb extends LitePalSupport implements Serializable {
                 ", bbpDataList=" + bbpDataList +
                 '}';
     }
+
+
+    public String getData(){
+        return "PPG1CacheDb{" +
+                "userId='" + userId + '\'' +
+                ", deviceMac='" + deviceMac + '\'' +
+                ", dayStr='" + dayStr + '\'' +
+                ", ppgTimeStr='" + ppgTimeStr + '\'' +
+                ", dbStatus='" + dbStatus + '\'' +
+                ", bbpDataList=" + bbpDataList.size() +
+                '}';
+    }
 }

@@ -59,7 +59,7 @@
         android:id="@+id/getGoalBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="获取指定目录"/>
+        android:text="获取PPG指定目录"/>
 
     <Button
         android:id="@+id/getAllDbPPGBtn"

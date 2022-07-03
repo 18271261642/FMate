@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.login.LoginApi
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.network.api.mainView.MainApi
 import com.example.xingliansdk.network.requestCustom
 import com.shon.connector.utils.ShowToast
 import com.google.gson.Gson
@@ -20,6 +21,11 @@ class UserViewModel : BaseViewModel() {
     val resultOutLogin: MutableLiveData<Any> = MutableLiveData()
     val resultDelete: MutableLiveData<Any> = MutableLiveData()
     val msg1: MutableLiveData<String> = MutableLiveData()
+
+    val getUserInfoResult : MutableLiveData<LoginBean> = MutableLiveData()
+
+
+
     fun setUserInfo(value: HashMap<String, String>) {
         requestCustom(
             {
@@ -36,6 +42,23 @@ class UserViewModel : BaseViewModel() {
             }
         }
     }
+
+
+    fun userInfo(){
+        requestCustom({
+            MainApi.mMainApi.getPersonalInfo()
+        },{
+            TLog.error("zhengcit="+Gson().toJson(it))
+            getUserInfoResult.postValue(it)
+        }) { code, message ->
+            message?.let {
+                TLog.error("it=" + it)
+                //ShowToast.showToastLong(it)
+            }
+        }
+
+    }
+
 
     fun outLogin(context: Context) {
         requestCustom({ LoginApi.loginApi.outLogin() },

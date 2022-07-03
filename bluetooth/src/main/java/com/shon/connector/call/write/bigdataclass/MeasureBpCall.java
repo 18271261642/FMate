@@ -99,7 +99,7 @@ public class MeasureBpCall extends WriteCallback {
 //            if(Config.IS_APP_STOP_MEASURE_BP)
 //                return true;
 
-            if(result[8] == 0x03 && result[9] == 0x0C){
+            if(result.length>9 && result[8] == 0x03 && result[9] == 0x0C){
             //88 00 00 00 00 01 9E 3D 03 0C 01 00 06 04 01 2A 0D EB 9A ==18个长度
                 byte[] validByte = new byte[result.length-22];
                 System.arraycopy(result,22,validByte,0,validByte.length-1);

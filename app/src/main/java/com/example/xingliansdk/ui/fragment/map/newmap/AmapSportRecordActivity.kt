@@ -48,7 +48,7 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
     //标题
     private var recordSportTitleTv: TextView? = null
     private val resultList: MutableList<AmapRecordBean> = ArrayList()
-    var typeStr = arrayOf(resources.getString(R.string.string_sport_all), resources.getString(R.string.string_sport_step), resources.getString(R.string.string_sport_run), resources.getString(R.string.string_sport_cycle))
+    var typeStr = arrayOf("","","","")
     var mAmapSportDao = instance.getAmapSportDao()
     //运动类型根据原因设定所有为0，走路为1，跑步2，骑行3
     private var sportType = 0
@@ -60,6 +60,12 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
             .titleBar(cusTitleLayout)
             .init()
         initViews()
+
+        typeStr[0] = this.resources.getString(R.string.string_sport_all)
+        typeStr[1] = this.resources.getString(R.string.string_sport_step)
+        typeStr[2] = this.resources.getString(R.string.string_sport_run)
+        typeStr[3] = this.resources.getString(R.string.string_sport_cycle)
+
 
         sportType = intent.getIntExtra("sportType", 0)
 //        error("sportType==$sportType")

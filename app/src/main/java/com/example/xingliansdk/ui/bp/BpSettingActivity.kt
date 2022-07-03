@@ -67,25 +67,37 @@ class BpSettingActivity : BaseActivity<UserViewModel>() {
             ShowToast.showToastShort(resources.getString(R.string.string_save_failed))
         }
 
-    }
+        mViewModel.getUserInfoResult.observe(this){
+            val userInfo = it
 
-
-    private fun initData() {
-        if (autoBpStatusBean == null) autoBpStatusBean = AutoBpStatusBean()
-
-
-        val saveBp = HawConstant.getAutoBpStatusData()
-
-        val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
-        if(userInfo != null){
             val isNormal = userInfo.userConfig.bloodPressureDaytimeMeasurement
             val isNight = userInfo.userConfig.bloodPressureNightMeasurement
             autoBpNightSwitch.isOpened = isNight == 0x02
             autoBpNormalSwitch.isOpened =isNormal == 0x02
-        }else{
-            autoBpNightSwitch.isOpened = false
-            autoBpNormalSwitch.isOpened = false
         }
+
+    }
+
+
+    private fun initData() {
+
+        mViewModel.userInfo();
+
+        if (autoBpStatusBean == null) autoBpStatusBean = AutoBpStatusBean()
+//
+//
+//        val saveBp = HawConstant.getAutoBpStatusData()
+//
+//        val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
+//        if(userInfo != null){
+//            val isNormal = userInfo.userConfig.bloodPressureDaytimeMeasurement
+//            val isNight = userInfo.userConfig.bloodPressureNightMeasurement
+//            autoBpNightSwitch.isOpened = isNight == 0x02
+//            autoBpNormalSwitch.isOpened =isNormal == 0x02
+//        }else{
+//            autoBpNightSwitch.isOpened = false
+//            autoBpNormalSwitch.isOpened = false
+//        }
     }
 
     private val onStateChangedListener: SwitchView.OnStateChangedListener =

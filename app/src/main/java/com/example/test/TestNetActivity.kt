@@ -12,13 +12,16 @@ import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.dialog.DateSelectDialogView
+import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
 import com.example.xingliansdk.service.OnWeatherStatusListener
 import com.example.xingliansdk.service.work.BleWork
 import com.example.xingliansdk.ui.bp.DbManager
+import com.example.xingliansdk.ui.bp.PPG1CacheDb
 import com.example.xingliansdk.utils.JumpUtil
 import com.example.xingliansdk.utils.LogcatHelper
+import com.example.xingliansdk.utils.TimeUtil
 import com.example.xingliansdk.view.CusDfuAlertDialog
 import com.example.xingliansdk.view.DateUtil
 import com.google.gson.Gson
@@ -32,6 +35,7 @@ import com.shon.connector.bean.SpecifySleepSourceBean
 import com.shon.connector.bean.TimeBean
 import com.shon.connector.call.CmdUtil
 import com.shon.connector.call.listener.MeasureBigBpListener
+import com.shon.connector.call.write.bigdataclass.ppg1.GetPPG1CacheRecordCall
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1BigDataListener
 import com.shon.connector.call.write.bigdataclass.ppg1.OnPPG1CacheRecordListener
 import com.shon.connector.utils.HexDump
@@ -62,6 +66,11 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
                 val serverWeatherBean = msg.obj;
             //    XingLianApplication.mXingLianApplication.getWeatherService()?.setWeatherData(serverWeatherBean as ServerWeatherBean)
                 anslysisTodayWeather(serverWeatherBean as ServerWeatherBean)
+            }
+
+
+            if(msg.what == 0x02){
+                showLogTv.text = ""+stringBuilder.toString()
             }
         }
     }
@@ -118,78 +127,46 @@ class TestNetActivity : BaseActivity<ServerWeatherViewModel>(), BleWrite.History
 
 
         getBpRecordBtn.setOnClickListener {
-
-            BleWrite.writeGetPPG1CacheRecord(true,object : OnPPG1CacheRecordListener{
-                override fun backPPGCacheByteArray(timeList: MutableList<ByteArray>?) {
-
-                }
-
-                override fun backPPGCacheLongArray(longList: MutableList<Long>?) {
-
-                }
-
-                override fun backPPGCacheArray(
-                    timeList: MutableList<ByteArray>?,
-                    longList: MutableList<Long>?
-                ) {
-                   
-                }
-
-
-            })
-
-
-//            val bpCmd = byteArrayOf(0x02,0x11,0x00)
-//
-//            val resultA = CmdUtil.getFullPackage(bpCmd)
-//
-//            BleWrite.writeCommByteArray(resultA,true,object : BleWrite.SpecifySleepSourceInterface {
-//                override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
-//
-//                }
-//
-//                override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
-//
-//                }
-//
-//            })
+            val weatherService = XingLianApplication.getXingLianApplication().getWeatherService()
+            weatherService?.getDevicePPG1CacheRecord()
         }
 
 
         getGoalBtn.setOnClickListener {
-
-
-            BleWrite.writeGetTimePPG1BigData(true, byteArrayOf(0x2A,0x1A, 0xE8.toByte(),0x00)
-            )
-            { bigPpgList, itemTimeStr ->
-
-                TLog.error("---------指定的ppg大数据=" + itemTimeStr + " " + bigPpgList?.size)
-            }
-
-//            val bpCmd = byteArrayOf(0x02,0x13,0x2A,0x1A, 0xE8.toByte(),0x00)
-//            val resultA = CmdUtil.getFullPackage(bpCmd)
-//            BleWrite.writeCommByteArray(resultA,true,object : BleWrite.SpecifySleepSourceInterface {
-//                override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
-//
-//                }
-//
-//                override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
-//
-//                }
-//
-//            })
-
+            showLogTv.text = Hawk.get("ppg_cache","无数据")
         }
 
 
 
 
         getAllDbPPGBtn.setOnClickListener {
-            XingLianApplication.getXingLianApplication().getWeatherService()?.uploadPPGCacheData()
-          //  showLogTv.text = ""+Gson().toJson(DbManager.getDbManager().allPPGData)
+            stringBuilder.delete(0,stringBuilder.length)
+            val userInfo = Hawk.get(com.example.xingliansdk.Config.database.USER_INFO, LoginBean())
+           // XingLianApplication.getXingLianApplication().getWeatherService()?.uploadPPGCacheData()
+            val todayList = DbManager.getDbManager().getDayPPGData(userInfo.user.userId,userInfo.user.mac,DateUtil.getCurrDate())
+
+            TLog.error("---sieze="+todayList.size)
+
+            showppg(todayList)
+
         }
 
     }
+
+    val stringBuilder = StringBuffer()
+
+    private fun showppg(todayList : MutableList<PPG1CacheDb>){
+        Thread(Runnable {
+            if(todayList != null &&todayList.size > 0){
+                todayList.forEach {
+                    stringBuilder.append(it.data+"\n")
+                }
+            }
+
+         handler.sendEmptyMessageDelayed(0x02,1000)
+        }).start()
+    }
+
 
 
     private fun measureBp(){
