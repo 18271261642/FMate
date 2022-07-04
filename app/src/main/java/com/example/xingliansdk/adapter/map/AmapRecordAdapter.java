@@ -79,7 +79,7 @@ public class AmapRecordAdapter extends RecyclerView.Adapter<AmapRecordAdapter.Am
         AmapRecordBean amapRecordBean = sportBeanList.get(position);
         holder.itemMonthDayTv.setText(amapRecordBean.getMonthStr());
         String unit=mContext.getString(R.string.string_km);
-        String walkCount=amapRecordBean.getWalkDistance();
+        String walkCount=amapRecordBean.getDistanceCount();
 
         Log.e("ADAPTER","-------步行总距离="+walkCount+" type="+type);
 

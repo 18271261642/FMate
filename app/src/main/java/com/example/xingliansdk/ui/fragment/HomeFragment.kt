@@ -303,7 +303,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         //
         if(Config.isNeedTimeOut){
             handler.sendEmptyMessage(0x00)
-            ShowToast.showToastShort("正在测量血压，请稍后!")
+            ShowToast.showToastShort(resources.getString(R.string.string_home_measure_wait))
             mSwipeRefreshLayout.finishRefresh()
             return
         }
@@ -462,7 +462,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         if (mList?.size <= 0) {
             if (key == Config.BigData.DEVICE_SLEEP) {
                 SNEventBus.sendEvent(HOME_HISTORICAL_BIG_DATA_WEEK, true)
-                mSwipeRefreshLayout.finishRefresh()
+               // mSwipeRefreshLayout.finishRefresh()
                 //isRefresh = false
             }
             return
@@ -585,7 +585,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         error(" endTime ${endTime + XingLianApplication.TIME_START}")
         error("time睡眠数据${Gson().toJson(mList)}")
         SNEventBus.sendEvent(HOME_HISTORICAL_BIG_DATA_WEEK, true)
-        mSwipeRefreshLayout.finishRefresh()
+       // mSwipeRefreshLayout.finishRefresh()
         //  ShowToast.showToastLong("睡眠数据更新完成")
         var timeZero = (bean.startTime + XingLianApplication.TIME_START) / 86400 * 86400
         TLog.error("睡眠数据==" + timeZero)
@@ -707,7 +707,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     ) {
         mRefreshHeader?.setReleaseText("血氧刷新")
         if (mList.isNullOrEmpty()){
-            mSwipeRefreshLayout.finishRefresh()
+            //mSwipeRefreshLayout.finishRefresh()
             return
         }
 
@@ -998,7 +998,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         TLog.error("time 体温++${Gson().toJson(mList)}")
         if (mList.isNullOrEmpty()) {
             TLog.error("---空的 直接不走下一步了")
-
+            mSwipeRefreshLayout.finishRefresh()
             return
         }
         val name: String = Gson().toJson(mList)

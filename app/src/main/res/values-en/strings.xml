@@ -83,11 +83,15 @@
     <string name="string_today_time">Current time</string>
     <string name="string_times">Frequency</string>
 
+    <string name="string_menu_data">Data</string>
+    <string name="string_menu_sport">Sport</string>
+    <string name="string_my_device">My Device</string>
+    <string name="string_sleep_goal">Sleep Goal</string>
 
     <string name="string_personal_data">Personal data</string>
     <string name="string_next">Next step</string>
     <string name="string_logout_account">Account cancellation</string>
-    <string name="string_get_verify_code">Get verification code</string>
+    <string name="string_get_verify_code">Get code</string>
 
     <string name="string_privacy_content_desc">Welcome to ai Health\\\nclick\"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
                         "When entering the app, in order to provide you with instant messaging, content sharing and other services, we need to collect your device information, personal information, MAC, IMEI, etc We hereby promise not to divulge any third-party information of you and only use it for app use." +
@@ -99,7 +103,7 @@
     <string name="string_no_pwd_login">Password free login</string>
     <string name="string_input_pwd">Please input a password</string>
     <string name="string_pwd_login">Password login</string>
-    <string name="string_input_very_code">Please enter the verification code</string>
+    <string name="string_input_very_code">enter code</string>
     <string name="string_agree_privacy_desc">Please check the user agreement and privacy agreement</string>
     <string name="string_phone_area">Area code selection</string>
     <string name="string_phone_login_or_register">Mobile number login/register</string>

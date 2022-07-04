@@ -3,6 +3,11 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+    <string name="string_menu_data">数据</string>
+    <string name="string_menu_sport">运动</string>
+    <string name="string_my_device">我的设备</string>
+    <string name="string_sleep_goal">睡眠目标</string>
+
     <string name="string_day">日</string>
     <string name="string_week">周</string>
     <string name="string_month">月</string>

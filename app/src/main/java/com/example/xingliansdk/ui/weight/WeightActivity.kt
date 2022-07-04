@@ -781,7 +781,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
                 TLog.error("------周="+DateUtil.getWeekLastDate(calendarType).timeInMillis+" "+timeDialog+" "+calendarType?.timeInMillis)
 
-                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis+86400000L >= timeDialog)
+                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis+(86400000L*5) >= timeDialog)
                     img_right.visibility = View.INVISIBLE
                 else
                     img_right.visibility = View.VISIBLE

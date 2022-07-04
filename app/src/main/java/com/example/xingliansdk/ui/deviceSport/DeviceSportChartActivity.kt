@@ -54,7 +54,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
 
     private val numberFormat: NumberFormat = DecimalFormat("#,###")
     override fun layoutId() = R.layout.activity_device_sport_chart
-    private val mTitles = arrayOf("日", "周", "月", "年")
+    private val mTitles = arrayOf("","","","")
     private lateinit var chart: BarChart
     private var position = 0
     lateinit var motionListDao: MotionListDao
@@ -63,6 +63,11 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             .titleBar(titleBar)
             .init()
         chart = chart1
+        mTitles[0] = this.resources.getString(R.string.string_day)
+        mTitles[1] = this.resources.getString(R.string.string_week)
+        mTitles[2] = this.resources.getString(R.string.string_month)
+        mTitles[3] = this.resources.getString(R.string.string_year)
+
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -76,6 +81,9 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             }
         })
         tabDate.setTabData(mTitles)
+
+
+
         motionListDao = AppDataBase.instance.getMotionListDao()
         TLog.error("数据+" + Gson().toJson(motionListDao.getAllRoomMotionList()))
         onClickListener()
@@ -466,11 +474,11 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 TLog.error("values" + Gson().toJson(values))
             }
         }
-        tvTotalStep.text = HelpUtil.getSpan(numberFormat.format(totalStep.toLong()).toString(), "步", 13)
+        tvTotalStep.text = HelpUtil.getSpan(numberFormat.format(totalStep.toLong()).toString(), resources.getString(R.string.unit_steps), 13)
         if (mListSize <= 0)
             mListSize = 1
         tvStep.text = HelpUtil.getSpan(numberFormat.format((totalStep / mListSize).toLong()).toString()
-            , "步", 13
+            , resources.getString(R.string.unit_steps), 13
         )
         //        if (chart.data != null &&
 //            chart.data.dataSetCount > 0
@@ -592,7 +600,7 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
             }
             1 -> {
                 // if (DateUtil.equalsToday(calendarType))
-                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis >= timeDialog)
+                if (DateUtil.getWeekLastDate(calendarType,0).timeInMillis+(5*86400000L) >= timeDialog)
                     img_right.visibility = View.INVISIBLE
                 else
                     img_right.visibility = View.VISIBLE
