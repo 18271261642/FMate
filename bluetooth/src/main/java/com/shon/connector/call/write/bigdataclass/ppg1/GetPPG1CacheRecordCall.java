@@ -46,9 +46,14 @@ public class GetPPG1CacheRecordCall extends WriteCallback {
     public boolean process(String address, byte[] result, String uuid) {
         TLog.Companion.error("-----返回="+ByteUtil.getHexString(result)+"\n"+result.length);
         stringBuilder.append(TimeU.getCurrTime(System.currentTimeMillis())+" 原始返回="+ByteUtil.getHexString(result)+" 长度="+result.length+"\n");
+        boolean isResponse = result.length>12 && result[11] == 0x02 && (result[12] == 0x11);
+        if(isResponse)
+            return false;
+
         if(result.length>12 && result[8] == 0x02 && (result[9] == 0x12)){
             //长度 05,06
            length = HexDump.getIntFromBytes(result[5],result[6]);
+           length = length-2;
 
             byte[] resultByte = new byte[result.length-10];
             System.arraycopy(result,10,resultByte,0,resultByte.length);
@@ -64,7 +69,13 @@ public class GetPPG1CacheRecordCall extends WriteCallback {
 //            Hawk.put("ppg_cache",stringBuilder.toString());
 //            return true;
 //        }
+
+
+
         sourceBuilder.append(ByteUtil.getHexString(result));
+
+        TLog.Companion.error("----判断长度="+sourceBuilder.length() +" "+length * 2);
+
         if(sourceBuilder.length() == length * 2){   //已经完整了
 
             byte[] sourArray = HexDump.hexStringToByteArray(sourceBuilder.toString());

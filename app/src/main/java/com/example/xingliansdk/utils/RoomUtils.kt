@@ -288,7 +288,10 @@ object RoomUtils {
         allData: ArrayList<TimeBean>,
         mInterface: BleWrite.SpecifyTemperatureHistoryCallInterface
     ) {
-        TLog.error("HeartRate++" + Gson().toJson(allData))
+        TLog.error("----updateTemp=" + Gson().toJson(allData))
+        if(allData.size>0){
+            Hawk.put("last_temp", allData[allData.size-1].endTime)
+        }
         var sDao: TempTimeDao = instance.getTempTimeDao()
         val mList = sDao.getAllRoomTimes()
         allData.forEach { timeBean ->

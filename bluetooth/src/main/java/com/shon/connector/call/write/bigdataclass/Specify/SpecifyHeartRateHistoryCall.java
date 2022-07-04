@@ -71,7 +71,7 @@ public class SpecifyHeartRateHistoryCall extends WriteCallback {
                             ,true);
                     break;
                 case 0x04:
-                    ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
+                    //ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
                     break;
 //                }
             }
@@ -127,10 +127,10 @@ public class SpecifyHeartRateHistoryCall extends WriteCallback {
 
     @Override
     public void onTimeout() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> BleWrite.writeSpecifyHeartRateHistoryCall(
-                time, endTime,
-                mInterface
-        ,true), 500);
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> BleWrite.writeSpecifyHeartRateHistoryCall(
+//                time, endTime,
+//                mInterface
+//        ,true), 500);
 
      //   ShowToast.INSTANCE.showToastLong("SpecifyHeartRateHistoryCall 心率  超时了");
         TLog.Companion.error("SpecifyHeartRateHistoryCall  is Timeout=="+isFinishFlag);

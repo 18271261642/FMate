@@ -304,6 +304,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         if(Config.isNeedTimeOut){
             handler.sendEmptyMessage(0x00)
             ShowToast.showToastShort("正在测量血压，请稍后!")
+            mSwipeRefreshLayout.finishRefresh()
             return
         }
 
@@ -826,8 +827,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     ) {
         mRefreshHeader?.setReleaseText("压力刷新")
         TLog.error("获取到的压力数据++" + Gson().toJson(mList))
-        if (mList.isNullOrEmpty())
+        if (mList.isNullOrEmpty()){
             return
+        }
+
         val name: String = Gson().toJson(mList)
 
         mViewModel.setPressure(
@@ -994,11 +997,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         mRefreshHeader?.setReleaseText("体温刷新")
         TLog.error("time 体温++${Gson().toJson(mList)}")
         if (mList.isNullOrEmpty()) {
-            TLog.error("空的 直接不走下一步了")
+            TLog.error("---空的 直接不走下一步了")
+
             return
         }
         val name: String = Gson().toJson(mList)
-        TLog.error("非空 time 体温++${name}")
+        TLog.error("---非空 time 体温++${name}")
         mTempListDao.insert(
             TempListBean(
                 startTime + XingLianApplication.TIME_START,
@@ -1034,10 +1038,13 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                 iFZero = 0
             }
         }
+
+        TLog.error("---------体温======")
+
         if (tempLast == 0)
             return
         TLog.error("==" + Gson().toJson(mCardList))
-        TLog.error("mHomeCardVoBean==" + Gson().toJson(mHomeCardVoBean))
+        TLog.error("------mHomeCardVoBean==" + Gson().toJson(mHomeCardVoBean))
         mCardList.forEachIndexed { index, addCardDTO ->
             if (addCardDTO.type == 6) {
                 TLog.error("index+=" + index)

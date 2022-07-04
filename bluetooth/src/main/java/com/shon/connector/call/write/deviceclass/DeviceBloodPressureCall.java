@@ -40,7 +40,7 @@ public class DeviceBloodPressureCall extends WriteCallback {
                     BleWrite.writeForGetDeviceBloodPressure(mDeviceBloodPressureInterface); //重新发送的操作
                     break;
                 case 0x04:
-                    ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
+                    //ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
                     break;
             }
             return false;

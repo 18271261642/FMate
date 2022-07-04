@@ -375,6 +375,7 @@ class BleWork : IWork, OnCountTimerListener,
                 }
                 Config.BigData.DEVICE_TEMPERATURE -> {
                     TLog.error("体温" + Gson().toJson(mList))
+
                     RoomUtils.updateTemp(mList, this)
                 }
                 else -> {
@@ -622,7 +623,13 @@ class BleWork : IWork, OnCountTimerListener,
     ) {
         val name: String = Gson().toJson(mList)
 
-        TLog.error("------温度返回=="+endTime)
+
+        val endTmepTime = Hawk.get("last_temp",0L)
+        TLog.error("------温度返回=="+endTime+" "+endTmepTime)
+        if(endTime == endTmepTime){  //最后一个同步
+            MainHomeActivity().setSyncComplete(true)
+        }
+
 
         getTemp(
             XingLianApplication.TIME_START + startTime,
@@ -789,8 +796,9 @@ class BleWork : IWork, OnCountTimerListener,
 
     fun getTemp(startTime: Long, endTime: Long, list: ArrayList<Int>) {
 
+        TLog.error("-------温度温度=="+startTime+" "+endTime)
 
-        MainHomeActivity().setSyncComplete(true)
+
 
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)

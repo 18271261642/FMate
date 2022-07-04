@@ -64,7 +64,7 @@ public class SpecifyDailyActivitiesHistoryCall extends WriteCallback {
                     isFinishFlag = true;
                     break;
                 case 0x04:
-                    ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
+                   // ShowToast.INSTANCE.showToastLong("设备不支持当前协议");
                     break;
             }
             return true;

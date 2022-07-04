@@ -50,7 +50,7 @@ public class GetPPG1BigDataCall extends WriteCallback {
     public boolean process(String address, byte[] result, String uuid) {
         TLog.Companion.error("----PPG大数据="+address+" "+ ByteUtil.getHexString(result)+" "+uuid);
         if(uuid.equalsIgnoreCase(Config.readCharacterBig)){
-            if(result[8] == 0x02 && result[9] == 0x14){
+            if(result.length>17 && result[8] == 0x02 && result[9] == 0x14){
                 if(itemLength == 0){    //第一个，后面拼接
                     //时间戳
                     int itemTime = HexDump.getIntFromBytes(result[14],result[15],result[16],result[17]);
@@ -87,7 +87,7 @@ public class GetPPG1BigDataCall extends WriteCallback {
             //一个包完整了，处理成10进制ppg
             for(int i = 0;i<itemArray.length;i+=4){
                 if(i+3<itemArray.length){
-                    TLog.Companion.error("----itemdange="+ByteUtil.getHexString(new byte[]{itemArray[i],itemArray[i+1],itemArray[i+2],itemArray[i+3]}));
+                    //TLog.Companion.error("----itemdange="+ByteUtil.getHexString(new byte[]{itemArray[i],itemArray[i+1],itemArray[i+2],itemArray[i+3]}));
                     int ppgValue = HexDump.getIntFromBytes(itemArray[i],itemArray[i+1],itemArray[i+2],itemArray[i+3]);
                     resultPPGList.add(ppgValue);
                     if(resultPPGList.size() == itemLength)

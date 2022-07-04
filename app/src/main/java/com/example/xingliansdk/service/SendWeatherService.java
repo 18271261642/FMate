@@ -131,7 +131,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
             }
 
-
         }
     };
 
@@ -161,27 +160,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             return SendWeatherService.this;
         }
 
-    }
-
-
-    //每小时定位一次，发送天气
-
-    /**
-     * 通过Handler延迟发送消息的形式实现定时任务。
-     */
-    public static final int CHANGE_TIPS_TIMER_INTERVAL = 60 * 60 * 1000;
-
-    //启动计时器任务
-    public void start24HourMethod() {
-        Runnable mChangeTipsRunnable = new Runnable() {
-            @Override
-            public void run() {
-               //开始定位
-               new BleWork().startLocation(SendWeatherService.this);
-                handler.postDelayed(this, CHANGE_TIPS_TIMER_INTERVAL);
-            }
-        };
-        handler.post(mChangeTipsRunnable);
     }
 
 
@@ -310,14 +288,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         try {
             Log.e(TAG,"------day="+day);
             if(day >3){
-
-//                byte[] resultByte = new byte[]{(byte) 0x88, 0x0 ,0x0, 0x0 ,0x0 ,0x0 ,0x53 ,0x62, 0x4 ,0x7 ,0x2, 0x0 ,0x4E,0x29, (byte) 0xC8, (byte) 0xC1, (byte) 0xD9,0x18 ,0x3 ,0x6,
-//                        0x0 , (byte) 0xD2, 0x7, 0x0, (byte) 0xC8,0x7, 0x0 , (byte) 0xC8, 0x7, 0x0, (byte) 0xD2, 0x7, 0x0 , (byte) 0xD2, 0x7 ,0x0, (byte) 0xD2, 0x7 ,0x0, (byte) 0xD2,
-//                        0x2 ,0x0, (byte) 0xDC, 0x2 ,0x0 , (byte) 0xE6, 0x2 ,0x0, (byte) 0xF0, 0x2 ,0x0, (byte) 0xFA, 0x2, 0x1, 0x4, 0x1, 0x1, 0x4, 0x1, 0x1,
-//                        0xE, 0x1, 0x1, 0x4, 0x1 ,0x1, 0x4 ,0x1, 0x0 , (byte) 0xFA, 0x1, 0x0 , (byte) 0xF0, 0x1, 0x0, (byte) 0xF0, 0x6, 0x0 , (byte) 0xE6, 0x6,
-//                        0x0 , (byte) 0xDC, 0x6, 0x0, (byte) 0xDC, 0x6 ,0x0, (byte) 0xDC, 0x6, 0x0 , (byte) 0xD2};
-//                BleWrite.writeWeatherCall(resultByte,false);
-
                 send24HourData(weatherBeans);
                 return;
             }
@@ -552,7 +522,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         if(loginBean == null)
             return;
         String userId = loginBean.getUser().getUserId();
-        String mac = loginBean.getUser().getMac();
+        String mac=Hawk.get("address","");
         if(userId == null || mac == null)
             return;
         List<byte[]> noCacheList = new ArrayList<>();
@@ -581,8 +551,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
            // uploadPPGCacheData();
           //  new GetJsonDataUtil().writeTxtToFile(logSb.toString(),savePath,"ppg_f"+DateUtil.getCurrentTime()+".json");
         }
-
-
 
         TLog.Companion.error("---22--PPG缓存目录未保存的时间戳="+new Gson().toJson(noCacheList));
     }
@@ -765,7 +733,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
             token=mLoginBean.getToken();
         String mac=Hawk.get("address","");
 
-
         EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
                 .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
 
@@ -789,8 +756,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
                 try {
                     JSONObject jsonObject = new JSONObject(result);
 
-
-
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -805,53 +770,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         });
     }
 
-
-
-    //获取当天的最后一条后台记录，发给手表
-    private void getLastPPGRecord(String day){
-        String token = null;
-        LoginBean mLoginBean= Hawk.get(com.example.xingliansdk.Config.database.USER_INFO);
-        if(mLoginBean!=null&&mLoginBean.getToken()!=null)
-            token=mLoginBean.getToken();
-        String mac=Hawk.get("address","");
-
-        JfLastPPGApi jfLastPPGApi = new JfLastPPGApi();
-        jfLastPPGApi.getLastData(day);
-        EasyConfig.getInstance().addHeader("authorization",token).setServer(new RequestServer(BodyType.FORM))
-                .addHeader("MAC",TextUtils.isEmpty(mac) ? "" : mac.toLowerCase(Locale.CHINA)).addHeader("osType","1").into();
-
-        EasyHttp.get(this).api(jfLastPPGApi).request(new OnHttpListener<String>() {
-            @Override
-            public void onSucceed(String result) {
-                if(result == null)
-                    return;
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    if(jsonObject.getInt("code") == 200){
-                        JSONObject data = jsonObject.getJSONObject("data");
-                        String listStr = data.getString("list");
-                        if(listStr != null){
-                            List<JfLastPPGApi.PPGBean> list = new Gson().fromJson(listStr,new TypeToken<List<JfLastPPGApi.PPGBean>>(){}.getType());
-
-                            if(list != null && list.size()>0){
-                                long lastTime = list.get(0).getStampCreateTime();
-
-                            }
-                        }
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFail(Exception e) {
-
-            }
-        });
-
-    }
 
 
     private void sendTimeToDevice(JfLastPPGApi.PPGBean db ,long time){
