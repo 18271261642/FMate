@@ -16,7 +16,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="问题与反馈"
+        app:midtitle="@string/string_feedback"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
 
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="反馈类型"
+                    android:text="@string/string_feedback_type"
                     android:textColor="@color/main_text_color"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +53,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/bg_text_problems_false"
                     android:padding="8dp"
-                    android:text="问题反馈"
+                    android:text="@string/string_feedback_title"
                     android:textColor="@color/sub_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/tvSuggestion"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_text_problems_true"
                     android:padding="8dp"
-                    android:text="产品建议"
+                    android:text="@string/string_product_suggest"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="left|top"
-                        android:hint="请说明建议，我们将不断改进～～"
+                        android:hint="@string/string_suggest_desc"
                         android:maxHeight="200dp"
                         android:maxLength="200"
                         android:minHeight="80dp" />
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/device_alarm_clock_background"
-                android:hint="请输入手机号方便联系"
+                android:hint="@string/string_input_feedback_phone"
                 android:inputType="number|numberDecimal"
                 android:padding="16dp" />
 
@@ -155,7 +155,7 @@
                 android:paddingTop="16dp"
                 android:paddingRight="86dp"
                 android:paddingBottom="16dp"
-                android:text="提交"
+                android:text="@string/string_submit"
                 android:textColor="@color/white" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

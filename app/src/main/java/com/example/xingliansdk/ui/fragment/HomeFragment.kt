@@ -60,7 +60,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     , BleWrite.SpecifyStressFatigueHistoryCallInterface //压力
     , BleWrite.SpecifyTemperatureHistoryCallInterface //体温
     , BleWrite.DeviceMotionInterface //实时运动返回
-, BleWrite.SpecifySleepSourceInterface
+
 
 {
     companion object {
@@ -749,8 +749,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                 i++
             }
         }
-        if (i == 0)
+        if (i == 0){
+            mSwipeRefreshLayout.finishRefresh()
             return
+        }
+
         mCardList.forEachIndexed { index, addCardDTO ->
             if (addCardDTO.type == 4) {
                 mCardList[index].endTime = XingLianApplication.TIME_START + endTime
@@ -969,7 +972,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             }
             com.example.xingliansdk.Config.eventBus.SPORTS_GOAL_EXERCISE_STEPS -> {
                 val step: String = event.data.toString()
-                tvGoal.text = "${step}步"
+                tvGoal.text = "${step}"+resources.getString(R.string.step)
                 TLog.error(" mDeviceInformationBean.exerciseSteps+=" + mDeviceInformationBean.exerciseSteps)
                 circleSports.maxProgress = step.toInt()
                 TLog.error(" circleSports SPORTS_GOAL_EXERCISE_STEPS")
@@ -1041,8 +1044,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
         TLog.error("---------体温======")
 
-        if (tempLast == 0)
+        if (tempLast == 0){
+            mSwipeRefreshLayout.finishRefresh()
             return
+        }
+
         TLog.error("==" + Gson().toJson(mCardList))
         TLog.error("------mHomeCardVoBean==" + Gson().toJson(mHomeCardVoBean))
         mCardList.forEachIndexed { index, addCardDTO ->
@@ -1064,37 +1070,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
 //        val resultByte = CmdUtil.getFullPackage(byteArrayOf(0x02,0x3D,0x00))
 //        BleWrite.writeCommByteArray(resultByte,false,this)
-    }
-
-
-
-
-    override fun backSpecifySleepSourceBean(specifySleepSourceBean: SpecifySleepSourceBean?) {
-        if(specifySleepSourceBean != null){
-            val constanceMils = 946656000L
-            //ServerWeatherViewModel().postSleepSourceServer(specifySleepSourceBean.remark,specifySleepSourceBean.startTime+constanceMils,specifySleepSourceBean.endTime+constanceMils,specifySleepSourceBean.avgActive,specifySleepSourceBean.avgHeartRate)
-        }
-        Log.e("原始睡眠","----------backSpecifySleepSourceBean="+specifySleepSourceBean?.remark)
-    }
-
-    override fun backStartAndEndTime(startTime: ByteArray?, endTime: ByteArray?) {
-        Log.e("原始睡眠","----------startTime="+startTime)
-//       handler.postDelayed(Runnable {
-//           val btArray = startTime?.get(0)?.let {
-//               byteArrayOf(0x02,0x3F, it, startTime[1],
-//                   startTime[2], startTime[3]
-//               )
-//           }
-//
-//           val resultByte = CmdUtil.getFullPackage(btArray)
-//           val startLongTime = startTime?.get(0)?.let { HexDump.getIntFromBytes(it,startTime[1],startTime[2],startTime[3]) }
-//           val endLongTime =
-//               endTime?.get(0)?.let { HexDump.getIntFromBytes(it,endTime[1],endTime[2],endTime[3]) }
-//
-//           if (startLongTime != null && endLongTime != null) {
-//               BleWrite.writeSpecifySleepSourceCall(resultByte,false,startLongTime.toLong(),endLongTime.toLong(),this)
-//           }
-//       },1000)
     }
 
 }

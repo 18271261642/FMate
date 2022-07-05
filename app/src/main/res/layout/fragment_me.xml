@@ -111,7 +111,7 @@
                         android:id="@+id/tvDevice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="我的设备"
+                        android:text="@string/string_my_device"
                         android:textStyle="bold"
                         android:textColor="@color/main_text_color"
                         android:textSize="18sp"
@@ -164,7 +164,7 @@
                             android:drawableRight="@mipmap/right_back"
                             android:drawablePadding="8dp"
                             android:gravity="center_vertical"
-                            android:text="未连接"
+                            android:text="@string/string_no_conn"
                             android:textColor="@color/sub_text_color"
                             android:textSize="14sp" />
 
@@ -193,7 +193,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="17dp"
-                                android:text="重新连接"
+                                android:text="@string/string_mine_re_conn"
                                 android:textColor="@color/color_main_green"
                                 android:textSize="14sp" />
 
@@ -202,7 +202,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="17dp"
-                                android:text="删除设备"
+                                android:text="@string/string_device_delete_device"
                                 android:textColor="@color/red"
                                 android:textSize="14sp" />
 
@@ -236,7 +236,7 @@
                             android:autoLink="all"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="当前无设备，点此添加"
+                            android:text="@string/string_mine_no_device"
                             android:textColor="@color/color_main_green"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -267,7 +267,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_weight="1"
-                            android:text="表盘市场"
+                            android:text="@string/string_dial_market"
                             android:textStyle="bold"
                             android:textColor="@color/main_text_color"
                             android:textSize="18sp" />
@@ -277,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:paddingRight="16dp"
-                            android:text="全部表盘>>"
+                            android:text="@string/string_dial_all"
                             android:textColor="@color/color_main_green"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -314,7 +314,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:text="我的目标"
+                        android:text="@string/string_my_goal"
                         android:textStyle="bold"
                         android:textColor="@color/main_text_color"
                         android:textSize="18sp"
@@ -329,7 +329,7 @@
                         app:layoutType="4"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_me_sport"
-                        app:titleText="运动目标" />
+                        app:titleText="@string/content_dialog_title_moving_target" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -346,7 +346,7 @@
                         app:layoutType="4"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_me_sleep"
-                        app:titleText="睡眠目标" />
+                        app:titleText="@string/string_sleep_goal" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -371,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="更多"
+                        android:text="@string/string_more"
                         android:textStyle="bold"
                         android:textColor="@color/main_text_color"
                         android:textSize="18sp"
@@ -387,7 +387,7 @@
                         app:layoutType="3"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_me_unit"
-                        app:titleText="单位设置" />
+                        app:titleText="@string/string_set_unit" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -403,7 +403,7 @@
                         app:layoutType="3"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_help"
-                        app:titleText="问题与反馈" />
+                        app:titleText="@string/string_feedback" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -420,7 +420,7 @@
                         app:layoutType="3"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_me_about"
-                        app:titleText="关于我们" />
+                        app:titleText="@string/string_about_us" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -438,7 +438,7 @@
                         app:layoutType="3"
                         app:mtitleTextColor="@color/sub_text_color"
                         app:styleImage="@mipmap/icon_setting_grey_device"
-                        app:titleText="设置" />
+                        app:titleText="@string/text_set" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -3,13 +3,22 @@
     <string name="app_name_debug">ai Health(Beta)</string>
 
 
+    <string name="string_feedback_type">Feedback type</string>
+    <string name="string_feedback_title">Feedback type</string>
+    <string name="string_submit">Submit</string>
+    <string name="string_conn_ing">Reconnecting...</string>
+
+    <string name="string_no_conn">no connected</string>
+    <string name="string_my_goal">My Goal</string>
+    <string name="string_about_us">About Us</string>
+
     <string name="string_day">day</string>
     <string name="string_week">week</string>
     <string name="string_month">month</string>
     <string name="string_year">year</string>
     <string name="string_last_time">last time</string>
     <string name="string_next_time">next time</string>
-    <string name="string_curr_change">本次变化</string>
+    <string name="string_curr_change">this change</string>
 
     <string name="string_times_number">frequency</string>
     <string name="string_distance">distance</string>

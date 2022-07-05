@@ -168,7 +168,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //            TLog.error("is=="+it)
 //            setting_step.setContentText(it.userConfig.movingTarget)
 //            setting_sleep.setContentText(DateUtil.getTextTime(it.userConfig.sleepTarget.toLong()))
-            tvEdtData.text = "我的ID:" + it.user.userId
+            tvEdtData.text = resources.getString(R.string.string_dial_mine)+"ID:" + it.user.userId
             setImgHead()
         }
         mainViewModel.result.observe(this)
@@ -225,12 +225,12 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     return
                 }
                 if (BleConnection.iFonConnectError || BleConnection.Unbind) {
-                    ShowToast.showToastLong("蓝牙设备未连接,请连接蓝牙设备")
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
                 }
 
                 if(!XingLianApplication.mXingLianApplication.getDeviceConnStatus()){
-                    ShowToast.showToastLong("蓝牙设备未连接,请连接蓝牙设备")
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
                 }
 
@@ -245,7 +245,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             R.id.setting_unit -> {
                 if (BleConnection.iFonConnectError || BleConnection.Unbind) {
-                    ShowToast.showToastLong("蓝牙设备未连接")
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
                 }
                 JumpUtil.startUnitActivity(activity)
@@ -284,7 +284,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
 
                 XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
-                    tvReconnection.text = "重新连接中.."
+                    tvReconnection.text = resources.getString(R.string.string_conn_ing)
                     tvDele.visibility = View.GONE
                     BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
                 }
@@ -306,7 +306,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             R.id.tvDial -> {
                 if (BleConnection.iFonConnectError || BleConnection.Unbind) {
-                    ShowToast.showToastLong("蓝牙设备未连接,请连接蓝牙设备")
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
                 }
                 if (activity?.let { HelpUtil.netWorkCheck(it) } == false) {
@@ -353,7 +353,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 getBleStatus()
                 if (tvDeviceElectricity != null) {
                     tvDeviceElectricity.text = "$electricity%"
-                    tvDeviceStatus.text = "已连接"
+                    tvDeviceStatus.text = resources.getString(R.string.string_connected)
                     tvDeviceName.text = Hawk.get("name")
                     imgDevice.setImageResource(R.mipmap.img_product_connect)
                     imgDevice.alpha = 1f
@@ -367,13 +367,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             DEVICE_BLE_OFF,
             DEVICE_DISCONNECT -> {
-                tvDeviceStatus?.text = "未连接"
+                tvDeviceStatus?.text = resources.getString(R.string.string_no_conn)
                 ll_connect_status?.visibility = View.VISIBLE
                 tvDeviceElectricity?.visibility = View.GONE
-                tvReconnection?.text = "重新连接"
+                tvReconnection?.text =resources.getString(R.string.string_mine_re_conn)
                 tvDele?.visibility = View.VISIBLE
                // imgDevice?.setImageResource(R.mipmap.img_product_disconnect)
-                if(activity == null || activity!!.isFinishing)
+                if(activity == null || requireActivity().isFinishing)
                     return
                 imgDevice.setImageResource(R.mipmap.img_product_connect)
                 imgDevice?.alpha = 0.5f

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:homeBackClick="true"
-        app:midtitle="设置"
+        app:midtitle="@string/text_set"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
     <com.example.xingliansdk.widget.SettingItemLayout
@@ -23,7 +23,7 @@
         app:TextSize="18px"
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
-        app:titleText="账户与安全" />
+        app:titleText="@string/string_set_account_self" />
     <com.example.xingliansdk.widget.SettingItemLayout
         android:id="@+id/settingUnit"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         app:TextSize="18px"
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
-        app:titleText="单位设置" />
+        app:titleText="@string/string_set_unit" />
 
     <com.example.xingliansdk.widget.SettingItemLayout
         android:id="@+id/privacyLayout"
@@ -42,5 +42,5 @@
         app:TextSize="18px"
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
-        app:titleText="权限使用说明" />
+        app:titleText="@string/string_set_permission_desc" />
 </LinearLayout>

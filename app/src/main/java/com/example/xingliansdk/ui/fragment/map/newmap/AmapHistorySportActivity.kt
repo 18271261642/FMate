@@ -406,7 +406,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         })
         hartsHrr = harts_hrr
         llHeart.visibility = View.GONE
-        itemAmapSportDetailHeartTv?.text = HelpUtil.getSpan("--", "次/分钟", 11)
+        itemAmapSportDetailHeartTv?.text = HelpUtil.getSpan("--", resources.getString(R.string.string_time_minute), 11)
 //        hartsHrr.visibility=View.GONE
 //        pieChart.visibility=View.GONE
     }
@@ -533,6 +533,10 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         tvAvgHeart.text = "" + (curveList / size)   //转int不保留小数
         tvMaxHeart.text = maxHeart.toString()
         itemAmapSportDetailHeartTv?.text = HelpUtil.getSpan("" + (curveList / size), "次/分钟", 11)
+
+        if(curveList/size<=0){
+            llHeart.visibility = View.GONE
+        }
 
         /**
          * values装取所有数据然后再一次性 画完

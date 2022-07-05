@@ -17,7 +17,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="关于"
+        app:midtitle="@string/string_about"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
 
@@ -65,7 +65,7 @@
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleText="检查更新"
+        app:titleText="@string/string_check_update"
         app:TextSize="18px"
         />
     <LinearLayout
@@ -74,17 +74,12 @@
         android:layout_weight="1"
         android:gravity="center|bottom"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="《"
-            android:layout_marginBottom="20dp"
-            />
+
         <TextView
             android:id="@+id/tvUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用户协议"
+            android:text="@string/string_user_agreement"
             android:textColor="@color/color_main_green"
             android:layout_marginBottom="20dp"
             />
@@ -99,15 +94,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_main_green"
-            android:text="隐私政策"
+            android:text="@string/string_user_privacy"
             android:layout_marginBottom="20dp"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="》"
-            android:layout_marginBottom="20dp"
-            />
+
 
     </LinearLayout>
 </LinearLayout>

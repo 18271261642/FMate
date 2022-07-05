@@ -3,6 +3,14 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+    <string name="string_feedback_type">反馈类型</string>
+    <string name="string_feedback_title">问题反馈</string>
+    <string name="string_submit">提交</string>
+    <string name="string_conn_ing">重新连接中...</string>
+
+    <string name="string_no_conn">未连接</string>
+    <string name="string_my_goal">我的目标</string>
+    <string name="string_about_us">关于我们</string>
     <string name="string_menu_data">数据</string>
     <string name="string_menu_sport">运动</string>
     <string name="string_my_device">我的设备</string>
