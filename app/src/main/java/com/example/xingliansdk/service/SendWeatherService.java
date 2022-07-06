@@ -69,6 +69,9 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     //手表按按键测量血压的时间，上传后台
     private String  deviceMeasureTime ;
 
+    //后台测量血压超时，110秒
+    private final int TIME_OUT_BP = 0x02;
+
 
     private final StringBuilder logSb = new StringBuilder();
 
@@ -129,6 +132,12 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
                     uploadAllPPGSource(pb,ppgIndex == uploadDbPPgList.size()-1);
                 }
 
+            }
+
+            if(msg.what == TIME_OUT_BP){
+                Config.isNeedTimeOut = false;
+                handler.removeMessages(TIME_OUT_BP);
+                stopMeasureBp();
             }
 
         }
@@ -393,8 +402,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     }
 
 
-
-
     private  void send24HourData(ServerWeatherBean weatherBean){
         //时间戳
         long currTime = weatherBean.getDateTimeStamp();
@@ -445,8 +452,6 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
         BleWrite.writeWeatherCall(resultByte,false);
     }
 
-
-
     private long getZeroMills() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY,0);
@@ -469,15 +474,16 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     public void backStartMeasureBp(boolean isStart){
        Config.isNeedTimeOut = true;
         BLEManager.getInstance().dataDispatcher.clear("");
+        handler.sendEmptyMessageDelayed(TIME_OUT_BP,110 * 1000);
         BleWrite.writeStartOrEndDetectBp(true,isStart ? 0x03 : 0x01,this);
     }
 
     public void backStartMeasureBp(int key){
         Config.isNeedTimeOut = true;
         BLEManager.getInstance().dataDispatcher.clear("");
+        handler.sendEmptyMessageDelayed(TIME_OUT_BP,110 * 1000);
         BleWrite.writeStartOrEndDetectBp(true,key,this);
     }
-
 
 
     //获取ppg缓存的记录，时间戳，然后再根据时间戳查询数据库是否有保存，没有保存就从手表中读取
@@ -823,6 +829,26 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     }
 
 
+    //停止测量血压
+    private void stopMeasureBp(){
+        byte[] cmdArray = new byte[]{0x0B,0x01,0x01,0x00,0x01,0x01};
+
+        byte[] resultArray = CmdUtil.getFullPackage(cmdArray);
+
+
+        BleWrite.writeCommByteArray(resultArray, true, new BleWrite.SpecifySleepSourceInterface() {
+            @Override
+            public void backSpecifySleepSourceBean(SpecifySleepSourceBean specifySleepSourceBean) {
+
+            }
+
+            @Override
+            public void backStartAndEndTime(byte[] startTime, byte[] endTime) {
+
+            }
+        });
+
+    }
 
 
 }

@@ -3,6 +3,11 @@
     <string name="app_name_debug">ai Health(测试版)</string>
 
 
+    <string name="string_hour">小时</string>
+    <string name="string_minute">分钟</string>
+    <string name="string_kilogram">公斤</string>
+
+
     <string name="string_feedback_type">反馈类型</string>
     <string name="string_feedback_title">问题反馈</string>
     <string name="string_submit">提交</string>

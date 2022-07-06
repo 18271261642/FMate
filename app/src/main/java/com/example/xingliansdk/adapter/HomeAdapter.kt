@@ -62,7 +62,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                     var timeStr = item.data
                     if(timeStr.length<6){
 
-                        timeStr = "00小时$timeStr"
+                        timeStr = "00"+context.resources.getString(R.string.string_hour)+timeStr
                     }
 
                     tvItemStatusData.text = HelpUtil.getSpan(
@@ -84,14 +84,14 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                                // var dis = decimalFormat.format(item.data.toString().toDouble() / 1000)
                                 var dis = Utils.divi(item.data.toString().toDouble(), 1000.0, 2)
 
-                                var unit = "公里"
+                                var unit = context.resources.getString(R.string.string_km)
                                 if (userInfoBean == null || userInfoBean.userConfig.distanceUnit == 1) {
 //                                    dis = decimalFormat.format(
 //                                        item.data.toString().toDouble() / 1000 * MILE
 //                                    )
 
                                     dis = decimalFormat.format(Utils.mul(dis, MILE, 3)).toDouble()
-                                    unit = "英里"
+                                    unit = context.resources.getString(R.string.string_mile)
                                 }
                                 tvItemStatusData.text =
                                     HelpUtil.getSpan(
@@ -103,7 +103,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                         1 -> {
                             if (HelpUtil.isNumericNotSize(item.data)) {
                                 tvItemStatusData.text =
-                                    HelpUtil.getSpan(item.data, "次/分钟", 14, R.color.sub_text_color)
+                                    HelpUtil.getSpan(item.data, context.getString(R.string.string_time_minute), 14, R.color.sub_text_color)
                                 img.setImageResource(R.mipmap.icon_home_heart_rate_data)
                             }
                         }
@@ -115,19 +115,19 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                                 var txtColor = R.color.sub_text_color
                                 when (num) {
                                     in 1 until 30 -> {
-                                        contentString = "放松"
+                                        contentString = context.getString(R.string.string_pressure_status_1)
                                         txtColor = R.color.color_blood_pressure_low
                                     }
                                     in 30 until 60 -> {
-                                        contentString = "正常"
+                                        contentString = context.getString(R.string.string_pressure_status_2)
                                         txtColor = R.color.color_blood_pressure_normal
                                     }
                                     in 60 until 80 -> {
-                                        contentString = "中等"
+                                        contentString = context.getString(R.string.string_pressure_status_3)
                                         txtColor = R.color.color_blood_pressure_one
                                     }
                                     in 80 until 100 -> {
-                                        contentString = "偏高"
+                                        contentString = context.getString(R.string.string_pressure_status_4)
                                         txtColor = R.color.color_blood_pressure_three
                                     }
                                 }
@@ -170,7 +170,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                             if (HelpUtil.isNumerEX(item.data))
                                 if (item.data.toDouble() > 0) {
                                     tvItemStatusData.text =
-                                        HelpUtil.getSpan(item.data, "公斤", 14, R.color.sub_text_color)
+                                        HelpUtil.getSpan(item.data, context.getString(R.string.string_kilogram), 14, R.color.sub_text_color)
                                     img.setImageResource(R.mipmap.icon_home_weight_data)
                                 }
                         }
