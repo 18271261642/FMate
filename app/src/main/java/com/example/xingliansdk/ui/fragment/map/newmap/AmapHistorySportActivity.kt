@@ -274,13 +274,13 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             TLog.error("步数===" + amapSportBean.currentSteps)
             itemAmapSportTypeTv!!.text = typeSport(amapSportBean.sportType)
             var dis=Utils.divi(amapSportBean.distance.toDouble(),1000.0,2)
-            var unit="公里"
+            var unit=resources.getString(R.string.unit_km)
             var pace=amapSportBean.pace.toDouble()
             var paceStr = "--"
             var  averageSpeed=  amapSportBean.averageSpeed.toDouble() * 3600 / 1000
             if(userInfo.userConfig.distanceUnit==1) {
                 dis = Utils.mul(dis, MILE, 2)
-                unit="英里"
+                unit=resources.getString(R.string.unit_mile)
                // pace=Utils.mul(pace, MILE)
 
                 averageSpeed=   Utils.mul(averageSpeed, MILE, 2)
@@ -299,10 +299,10 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             itemSportDetailDateTv!!.text =
                 Utils.formatCusTimeForDay(amapSportBean.endSportTime, DateUtil.MMDD_HH_MM)
             itemAmapSportDetailDurationTv!!.text = amapSportBean.currentSportTime
-            itemAmapSportDurationTv!!.text = HelpUtil.getSpan(amapSportBean.calories, "千卡", 11)
+            itemAmapSportDurationTv!!.text = HelpUtil.getSpan(amapSportBean.calories, resources.getString(R.string.string_unit_kcal), 11)
             itemAmapSportStepTv?.text = HelpUtil.getSpan(
                 amapSportBean.currentSteps.toString(),
-                " 步",
+                resources.getString(R.string.unit_steps),
                 11
             )
             TLog.error("pace++"+pace)
@@ -318,7 +318,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             itemAmapSportSpeedTv!!.text =
                 HelpUtil.getSpan(
                     String.format("%.2f", averageSpeed),
-                    "$unit/时",
+                    "$unit/"+resources.getString(R.string.string_hour),
                     11
                 )
 
@@ -532,7 +532,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             size = 1
         tvAvgHeart.text = "" + (curveList / size)   //转int不保留小数
         tvMaxHeart.text = maxHeart.toString()
-        itemAmapSportDetailHeartTv?.text = HelpUtil.getSpan("" + (curveList / size), "次/分钟", 11)
+        itemAmapSportDetailHeartTv?.text = HelpUtil.getSpan("" + (curveList / size), resources.getString(R.string.string_time_minute), 11)
 
         if(curveList/size<=0){
             llHeart.visibility = View.GONE
@@ -590,7 +590,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         pieChart.dragDecelerationFrictionCoef = 0.95f
         pieChart.setCenterTextColor(Color.BLACK)
         pieChart.setCenterTextSize(18f)
-        pieChart.centerText = " 心 率 \n 区 间 "
+        pieChart.centerText = " "+resources.getString(R.string.string_heart)+" \n "+resources.getString(R.string.string_interval)+" "
         pieChart.isDrawHoleEnabled = true
         pieChart.setHoleColor(Color.WHITE)
         pieChart.setTransparentCircleColor(Color.WHITE)
@@ -615,7 +615,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
 
     private fun setDataPieView(mList: MutableList<Float>,isEmpty : Boolean) {
         val entries = ArrayList<PieEntry>()
-        val typeList = arrayListOf("无氧极限", "无氧耐力", "有氧耐力", "燃烧脂肪", "热身放松")
+        val typeList = arrayListOf(resources.getString(R.string.string_status_heart_desc5), resources.getString(R.string.string_map_ht_1),  resources.getString(R.string.string_map_ht_2), resources.getString(R.string.string_status_heart_desc2), resources.getString(R.string.string_status_heart_desc1))
         val mListColor = arrayListOf(
             R.color.color_blood_oxygen_severe_hypoxia,
             R.color.color_blood_pressure_two,
@@ -630,7 +630,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
             entries.add(
                 PieEntry(
                     mList[i],
-                    typeList[i] + "    " + (if(isEmpty)"0" else mList[i].toLong()) + "分钟"
+                    typeList[i] + "    " + (if(isEmpty)"0" else mList[i].toLong()) + resources.getString(R.string.string_minute)
                 )
             )
         }
@@ -829,10 +829,10 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         }
     }
 
-    private fun typeSport(type: Int): String {
-        if (type == 1) return "步行"
-        if (type == 2) return "跑步"
-        return if (type == 3) "骑行" else "步行"
+    private fun typeSport(type: Int): String? {
+        if (type == 1) return resources.getString(R.string.string_sport_step)
+        if (type == 2) return resources.getString(R.string.string_sport_run)
+        return if (type == 3) resources.getString(R.string.string_sport_cycle) else resources.getString(R.string.string_sport_step)
     }
 
     private fun typeSportImg(type: Int): Int {

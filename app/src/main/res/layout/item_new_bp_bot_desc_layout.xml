@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收缩压"
+            android:text="@string/string_sbp"
             android:textColor="#fffefefe"
             android:textSize="11sp" />
     </LinearLayout>
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="舒张压"
+            android:text="@string/string_dbp"
             android:textColor="#fffefefe"
             android:textSize="11sp" />
     </LinearLayout>
@@ -81,7 +81,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手表测量"
+            android:text="@string/string_watch_measure"
             android:textColor="@color/white"
             android:textSize="11sp" />
     </LinearLayout>
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手动输入"
+            android:text="@string/string_input"
             android:textColor="@color/white"
             android:textSize="11sp" />
     </LinearLayout>

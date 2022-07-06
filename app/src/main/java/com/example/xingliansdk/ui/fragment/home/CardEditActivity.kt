@@ -25,6 +25,9 @@ import com.gyf.barlibrary.ImmersionBar
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_card_edit.*
 
+/**
+ * 编辑卡片
+ */
 class CardEditActivity : BaseActivity<CardViewModel>() {
     lateinit var mCardEditAdapter: CardEditAdapter
     lateinit var mCardDeleteAdapter: CardDeleteAdapter

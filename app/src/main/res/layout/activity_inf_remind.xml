@@ -16,7 +16,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="消息提醒"
+        app:midtitle="@string/string_device_msg_notify"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
 
@@ -45,12 +45,12 @@
          app:layout_constraintLeft_toLeftOf="parent"
          app:layout_constraintTop_toTopOf="parent"
          app:layout_constraintBottom_toBottomOf="parent"
-         android:padding="3dp"
+         android:padding="8dp"
          android:layout_marginStart="5dp"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:textSize="@dimen/text_size_17"
-         android:text="更多权限问题请点击"/>
+         android:text="@string/string_notify_more_click"/>
 
 
      <ImageView
@@ -79,7 +79,7 @@
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
             android:paddingBottom="13dp"
-            android:text="来电提醒"
+            android:text="@string/string_device_phone_notify"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -107,7 +107,7 @@
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
             android:paddingBottom="13dp"
-            android:text="短信提醒"
+            android:text="@string/string_device_msm_notify"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -135,7 +135,7 @@
             android:paddingLeft="16dp"
             android:paddingTop="13dp"
             android:paddingBottom="13dp"
-            android:text="其他提醒"
+            android:text="@string/string_device_other_notify"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 

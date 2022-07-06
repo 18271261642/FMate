@@ -14,7 +14,7 @@
         app:backcolor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="编辑卡片"
+        app:midtitle="@string/string_home_edit_card"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
 

@@ -82,7 +82,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         tvDeviceAdd.text = mStr
         getBleStatus()
         if (userInfo != null && userInfo.user != null)
-            tvEdtData.text = "我的ID:" + userInfo.user.userId
+            tvEdtData.text = resources.getString(R.string.string_dial_mine)+"ID:" + userInfo.user.userId
        // setting_step.setContentText(mDeviceInformationBean.exerciseSteps.toString())
        // if (Hawk.get<Int>(SLEEP_GOAL) != null)
            // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))

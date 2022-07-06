@@ -10,14 +10,14 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:backcolor="@color/white"
         app:homeBackClick="true"
         app:iconActionImage="@mipmap/icon_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="日程添加"
+        app:midtitle="@string/string_schedule_add"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -28,15 +28,15 @@
         android:layout_margin="16dp"
         android:background="@drawable/device_alarm_clock_background"
         android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
         <LinearLayout
+            android:id="@+id/llTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/llTime"
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingTop="32dp"
@@ -46,38 +46,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="标签"
+                android:text="@string/string_alarm_tag"
                 android:textColor="@color/main_text_color"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/edt_remarks"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:background="@color/white"
-                android:layout_marginLeft="16dp"
-
-                android:paddingRight="16dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="right"
+                android:hint="@string/string_alarm_remark"
+                android:imeOptions="actionDone"
+
                 android:maxLength="30"
-                android:hint="备注信息"
+                android:maxLines="1"
+                android:paddingRight="16dp"
+                android:singleLine="true"
                 android:textColor="@color/main_text_color"
 
                 android:textSize="@dimen/sp_14" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/right_back"
-                android:padding="10dp"
                 android:layout_marginRight="6dp"
-                />
+                android:padding="10dp"
+                android:src="@mipmap/right_back" />
 
         </LinearLayout>
-
 
 
         <LinearLayout
@@ -87,11 +86,13 @@
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="16dp"
                 android:background="@color/color_view" />
+
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/SettingDateTime"
                 android:layout_width="match_parent"
@@ -100,12 +101,14 @@
                 app:contentText=""
                 app:layoutType="1"
                 app:mtitleTextColor="@color/sub_text_color"
-                app:titleText="日期" />
+                app:titleText="@string/string_date" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="16dp"
                 android:background="@color/color_view" />
+
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/Setting_alarm_clock"
                 android:layout_width="match_parent"
@@ -114,80 +117,79 @@
                 app:contentText=""
                 app:layoutType="1"
                 app:mtitleTextColor="@color/sub_text_color"
-                app:titleText="时间" />
+                app:titleText="@string/string_time" />
 
 
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginLeft="16dp"-->
+            <!--                    android:text="标签"-->
+            <!--                    android:textSize="14sp" />-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="16dp"-->
-<!--                    android:text="标签"-->
-<!--                    android:textSize="14sp" />-->
+            <!--                <EditText-->
+            <!--                    android:id="@+id/edt_remarks"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@color/white"-->
+            <!--                    android:hint="备注信息"-->
+            <!--                    android:gravity="right"-->
+            <!--                    android:padding="15dp"-->
+            <!--                    android:textSize="14sp" />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/edt_remarks"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:background="@color/white"-->
-<!--                    android:hint="备注信息"-->
-<!--                    android:gravity="right"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:textSize="14sp" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="right|center_vertical"-->
-<!--                    android:layout_marginRight="16dp"-->
-<!--                    android:src="@mipmap/right_back" />-->
-<!--            </LinearLayout>-->
+            <!--                <ImageView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_gravity="right|center_vertical"-->
+            <!--                    android:layout_marginRight="16dp"-->
+            <!--                    android:src="@mipmap/right_back" />-->
+            <!--            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--    android:visibility="gone"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/titleBar">-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--    android:visibility="gone"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/titleBar">-->
 
-<!--        <com.contrarywind.view.WheelView-->
-<!--            android:id="@+id/wheelView_hours"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_weight="1"-->
-<!--            app:wheelview_dividerWidth="2dp" />-->
+    <!--        <com.contrarywind.view.WheelView-->
+    <!--            android:id="@+id/wheelView_hours"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:layout_weight="1"-->
+    <!--            app:wheelview_dividerWidth="2dp" />-->
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:text="时"-->
-<!--            android:textSize="@dimen/text_size_20" />-->
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:text="时"-->
+    <!--            android:textSize="@dimen/text_size_20" />-->
 
-<!--        <com.contrarywind.view.WheelView-->
-<!--            android:id="@+id/wheelView_mm"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_weight="1"-->
-<!--            app:wheelview_dividerWidth="2dp" />-->
+    <!--        <com.contrarywind.view.WheelView-->
+    <!--            android:id="@+id/wheelView_mm"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="50dp"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:layout_weight="1"-->
+    <!--            app:wheelview_dividerWidth="2dp" />-->
 
-<!--        <TextView-->
+    <!--        <TextView-->
 
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:text="分"-->
-<!--            android:textSize="@dimen/text_size_20" />-->
-<!--    </LinearLayout>-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:text="分"-->
+    <!--            android:textSize="@dimen/text_size_20" />-->
+    <!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

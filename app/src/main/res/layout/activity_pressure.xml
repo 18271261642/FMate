@@ -18,7 +18,7 @@
         app:iconActionImage="@mipmap/icon_calender"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="压力"
+        app:midtitle="@string/string_pressure"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -105,7 +105,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:text="最小值-最大值"
+                android:text="@string/string_pressure_max_min"
                 android:textColor="@color/main_text_color"
                 />
             <TextView
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center"
-            android:text="当前压力均值"
+            android:text="@string/string_pressure_avg"
             android:paddingTop="16dp"
             android:textSize="11sp"
             android:textColor="@color/sub_text_color"
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center"
-            android:text="最小值-最大值"
+            android:text="@string/string_pressure_max_min"
             android:paddingTop="16dp"
             android:textSize="11sp"
             android:textColor="@color/sub_text_color"
@@ -241,13 +241,13 @@
         android:id="@+id/tvContent"
         android:textColor="@color/bottom_nav_icon_dim"
         android:textSize="11sp"
-        android:text="压力是人体对应激事件的反应。适量的运动和娱乐、充足的休息会有利于压力的调节。"
+        android:text="@string/string_pressure_desc"
         />
         <TextView
             android:id="@+id/tvYouKnow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="你知道吗?"
+            android:text="@string/string_home_know"
             android:textColor="@color/main_text_color"
             android:textSize="18sp"
             android:textStyle="bold"

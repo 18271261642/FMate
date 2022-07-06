@@ -9,15 +9,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="科学睡眠参考值"
+        android:text="@string/string_sleep_desc"
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
     <com.example.xingliansdk.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentText_index="夜间睡眠时长"
-        app:tvTypeText_index="6-10小时"
+        app:contentText_index="@string/string_sleep_night_time"
+        app:tvTypeText_index="@string/string_sleep_ngith_value"
         app:contentTextSize_index="18px"
         app:TextSize_index="14px"
         app:styleImage_index="@drawable/round_time_sleep"
@@ -26,7 +26,7 @@
     <com.example.xingliansdk.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentText_index="深睡比例"
+        app:contentText_index="@string/string_sleep_deep_scale"
         app:tvTypeText_index="20-60%"
         app:contentTextSize_index="18px"
         app:TextSize_index="14px"
@@ -36,7 +36,7 @@
     <com.example.xingliansdk.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentText_index="浅睡比例"
+        app:contentText_index="@string/string_sleep_light_scale"
         app:tvTypeText_index="@string/light_sleep_55"
         app:contentTextSize_index="18px"
         app:TextSize_index="14px"
@@ -46,7 +46,7 @@
     <com.example.xingliansdk.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentText_index="快速眼动比例"
+        app:contentText_index="@string/string_sleep_eye_scale"
         app:tvTypeText_index="10-30%"
         app:contentTextSize_index="18px"
         app:TextSize_index="14px"
@@ -57,7 +57,7 @@
     <com.example.xingliansdk.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentText_index="清醒次数"
+        app:contentText_index="@string/string_sleep_awake_times"
         app:tvTypeText_index="0-2次"
         app:contentTextSize_index="18px"
         app:TextSize_index="14px"

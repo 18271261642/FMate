@@ -10,14 +10,14 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:backcolor="@color/white"
         app:homeBackClick="true"
         app:iconActionImage="@mipmap/icon_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="添加闹钟"
+        app:midtitle="@string/string_add_remind"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="时间"
+                android:text="@string/string_time"
                 android:layout_marginLeft="16dp"
                 android:textColor="@color/main_text_color"
                 android:textSize="18sp" />
@@ -77,10 +77,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:TextSize="14px"
-                app:contentText="永不"
+                app:contentText="@string/string_alarm_never"
                 app:layoutType="1"
                 app:mtitleTextColor="@color/sub_text_color"
-                app:titleText="重复" />
+                app:titleText="@string/string_alarm_repeat" />
 
             <View
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:text="标签"
+                    android:text="@string/string_alarm_tag"
                     android:textColor="@color/sub_text_color"
                     android:textSize="14sp" />
 
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:hint="备注信息"
+                    android:hint="@string/string_alarm_remark"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:imeOptions="actionDone"

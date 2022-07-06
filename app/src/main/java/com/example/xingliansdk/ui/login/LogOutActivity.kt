@@ -13,6 +13,9 @@ import com.example.xingliansdk.utils.JumpUtil
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_log_out.*
 
+/**
+ * 注销账号
+ */
 class LogOutActivity : BaseActivity<UserViewModel>(),View.OnClickListener {
     override fun layoutId()=R.layout.activity_log_out
     override fun initView(savedInstanceState: Bundle?) {
@@ -21,8 +24,12 @@ class LogOutActivity : BaseActivity<UserViewModel>(),View.OnClickListener {
             .init()
         tvNext.setOnClickListener(this)
         tvAgree.setOnClickListener(this)
-        var  mStr = SpannableString(tvAgree.text.toString())
-        mStr.setSpan(ForegroundColorSpan(resources.getColor(R.color.color_main_green)), tvAgree.text.length-8, tvAgree.text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val beforeStr = resources.getString(R.string.string_click_continue)
+        val afterStr = resources.getString(R.string.string_account_register_protocol)
+
+        var  mStr = SpannableString(beforeStr+afterStr)
+        mStr.setSpan(ForegroundColorSpan(resources.getColor(R.color.color_main_green)), beforeStr.length, tvAgree.text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tvAgree.text=mStr
 
 

@@ -149,7 +149,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最高值"
+                        android:text="@string/string_max_value"
                         android:textColor="@color/sub_text_color"
                         android:textSize="11sp" />
 
@@ -181,7 +181,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最低值"
+                        android:text="@string/string_min_value"
                         android:textColor="@color/sub_text_color"
                         android:textSize="11sp" />
 
@@ -213,7 +213,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="平均值"
+                        android:text="@string/string_avg_value"
                         android:textColor="@color/sub_text_color"
                         android:textSize="11sp" />
 

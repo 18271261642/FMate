@@ -16,7 +16,7 @@
         app:iconActionImage="@mipmap/icon_calender"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="睡眠"
+        app:midtitle="@string/string_sleep"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -290,7 +290,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="深睡比例"
+                    android:text="@string/string_sleep_deep_scale"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -321,7 +321,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="浅睡比例"
+                    android:text="@string/string_sleep_light_scale"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -353,7 +353,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="眼动比例"
+                    android:text="@string/string_sleep_eye_scale"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -384,7 +384,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="清醒次数"
+                    android:text="@string/string_sleep_awake_times"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -429,7 +429,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="最大心率"
+                    android:text="@string/string_max_heart"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -461,7 +461,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="最小心率"
+                    android:text="@string/string_min_heart"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -494,7 +494,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="平均心率"
+                    android:text="@string/string_sport_avg_heart"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -527,7 +527,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="入睡时长"
+                    android:text="@string/string_sleep_into_time"
                     android:textSize="11sp"
                     android:textColor="@color/sub_text_color"
                     />
@@ -647,7 +647,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="你知道吗?"
+        android:text="@string/string_home_know"
         android:id="@+id/tvYouKnow"
         android:textColor="@color/main_text_color"
         android:textSize="18sp"

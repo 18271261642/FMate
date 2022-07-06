@@ -32,6 +32,29 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
         R.mipmap.icon_home_temperature,
         R.mipmap.icon_home_weight
     )
+
+    private fun changeEnLanguage(str : String) : String{
+        if(str == "运动记录")
+            return context.getString(R.string.string_sport_record)
+        if(str == "心率")
+            return context.getString(R.string.string_heart)
+        if(str == "睡眠")
+            return context.getString(R.string.string_sleep)
+        if(str == "压力")
+            return context.getString(R.string.string_pressure)
+        if(str == "血氧饱和度")
+            return context.getString(R.string.string_spo2_title)
+        if(str == "血压")
+            return context.getString(R.string.string_bp)
+        if(str == "体温")
+            return context.getString(R.string.string_temp)
+        if(str == "体重")
+            return context.getString(R.string.string_weight)
+        return context.getString(R.string.string_sport_record)
+    }
+
+
+
     var decimalFormat = DecimalFormat("#.##")
     override fun convert(helper: BaseViewHolder, item: HomeCardVoBean.ListDTO?) {
         try {
@@ -48,7 +71,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
 //        TLog.error("卡片展示++" + item.image)
             //  helper.setImageResource(R.id.imgIcon, item.img)
             // helper.setText(R.id.tvItemStatusTitle,"记录")
-            helper.setText(R.id.tvItemStatusTitle, item.name)
+            helper.setText(R.id.tvItemStatusTitle, changeEnLanguage(item.name))
             val tvItemStatusData = helper.getView<TextView>(R.id.tvItemStatusData)
             val tvItemStatusSubTitle = helper.getView<TextView>(R.id.tvItemStatusSubTitle)
             tvItemStatusSubTitle.text = item.describe

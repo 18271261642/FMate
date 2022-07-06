@@ -27,6 +27,9 @@ import kotlinx.android.synthetic.main.activity_schedule.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * 添加日程界面
+ */
 class ScheduleActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListener {
         var mTimeBean: TimeBean = TimeBean()
     lateinit var mTimeList: ArrayList<TimeBean>
@@ -39,7 +42,7 @@ class ScheduleActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListe
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
-        titleBar.setTitleText("添加日程")
+        titleBar.setTitleText(resources.getString(R.string.string_schedule_add))
         Setting_alarm_clock.setOnClickListener(this)
         SettingDateTime.setOnClickListener(this)
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
@@ -53,11 +56,11 @@ class ScheduleActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListe
             override fun onActionClick() {
                 TLog.error("m==" + edt_remarks.text.toString())
                 if (mTimeList.size > 5) {
-                    ShowToast.showToastLong("日程最多只可添加五条")
+                    ShowToast.showToastLong(resources.getString(R.string.string_schedule_add_most))
                     return
                 }
                 if (time < System.currentTimeMillis()) {
-                    ShowToast.showToastLong("设置时间不能小于当前时间")
+                    ShowToast.showToastLong(resources.getString(R.string.string_schedule_set_time))
                     return
                 }
                 var saveTime=System.currentTimeMillis()/1000
@@ -192,7 +195,7 @@ class ScheduleActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListe
                 dateDay.time = date
             } else {
                 if (date.time < System.currentTimeMillis()) {
-                    ShowToast.showToastLong("设置时间不能小于当前时间")
+                    ShowToast.showToastLong(resources.getString(R.string.string_schedule_set_time))
                     return@TimePickerBuilder
                 }
                 Setting_alarm_clock.setContentText(DateUtil.getDate(DateUtil.HH_MM, date))

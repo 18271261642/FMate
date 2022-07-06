@@ -609,7 +609,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                     if (!XingLianApplication.getXingLianApplication()
                             .getDeviceConnStatus() || BleConnection.iFonConnectError
                     ) {
-                        ShowToast.showToastShort("请连接设备")
+                        ShowToast.showToastShort(resources.getString(R.string.string_conn_dis_conn))
                         return
                     }
                     if (isNeedCheckBp ) {
@@ -653,7 +653,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         }
         promptBpDialog!!.show()
         promptBpDialog!!.setTopTxtValue(if(isBind) resources.getString(R.string.string_no_bind_device_txt) else resources.getString(R.string.string_check_bp_first_user_txt))
-        promptBpDialog!!.setBotBtnTxt(if(isBind) "暂不绑定" else "暂不校准",if(isBind) "去绑定" else "去校准")
+        promptBpDialog!!.setBotBtnTxt(if(isBind) resources.getString(R.string.string_temporary_bind) else resources.getString(R.string.string_no_checked),if(isBind) resources.getString(R.string.string_bind) else resources.getString(R.string.string_to_check))
         promptBpDialog!!.setCancelable(false)
         promptBpDialog!!.setVisibilityBotTv(!isBind)
         if(!isBind){
@@ -694,7 +694,7 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
 
     private fun initLinChart(){
-        bpHomeLinChartView.setNoDataText("无数据")
+        bpHomeLinChartView.setNoDataText(resources.getString(R.string.string_no_data))
         bpHomeLinChartView.setNoDataTextColor(Color.WHITE)
         bpHomeLinChartView.description.isEnabled = false
         bpHomeLinChartView.setDrawBorders(false)

@@ -25,7 +25,7 @@ class CardDeleteAdapter(data: MutableList<EditCardVoBean.MoreListDTO>) :
         var tvName = helper.getView<TextView>(R.id.tvName)
         var imgDeleteAdd = helper.getView<ImageView>(R.id.imgDeleteAdd)
         imgDeleteAdd.setImageResource(R.mipmap.icon_card_add)
-        tvName.text = item.name
+        tvName.text = changeEnLanguage(item.name)
         var imgDrag = helper.getView<ImageView>(R.id.imgDrag)
         imgDrag.visibility = View.GONE
       //  val viewColor=helper.getView<View>(R.id.viewColor)
@@ -36,4 +36,24 @@ class CardDeleteAdapter(data: MutableList<EditCardVoBean.MoreListDTO>) :
 
     }
 
+
+    private fun changeEnLanguage(str : String) : String{
+        if(str == "运动记录")
+            return context.getString(R.string.string_sport_record)
+        if(str == "心率")
+            return context.getString(R.string.string_heart)
+        if(str == "睡眠")
+            return context.getString(R.string.string_sleep)
+        if(str == "压力")
+            return context.getString(R.string.string_pressure)
+        if(str == "血氧饱和度")
+            return context.getString(R.string.string_spo2_title)
+        if(str == "血压")
+            return context.getString(R.string.string_bp)
+        if(str == "体温")
+            return context.getString(R.string.string_temp)
+        if(str == "体重")
+            return context.getString(R.string.string_weight)
+        return context.getString(R.string.string_sport_record)
+    }
 }

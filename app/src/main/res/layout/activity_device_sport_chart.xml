@@ -139,7 +139,7 @@
             android:id="@+id/tvNameType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总步数"
+            android:text="@string/string_count_steps"
             android:textColor="@color/sub_text_color"
             android:textSize="11sp"
             />
@@ -179,7 +179,7 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="日均步数"
+            android:text="@string/string_day_avg_step"
             android:textColor="@color/sub_text_color"
             android:textSize="11sp"
             app:layout_constraintLeft_toLeftOf="@+id/view_2"

@@ -17,7 +17,7 @@
         app:iconActionImage="@mipmap/icon_sport_mode_walking"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="固件更新"
+        app:midtitle="@string/string_device_dfu"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
 
@@ -67,13 +67,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
-                android:text="注意事项：
-        \n1.固件升级时间大概需要1-3分钟。
-        \n2.升级前确保手机电量在20%以上或处于充电状态。若是不满足条件，将不能进行OTA升级。
-        \n3.升级前确保设备电量在40%以上或处于充电状态。若是不满足条件，将不能进行OTA升级。
-        \n4.升级过程中尽可能避免操作手机，保持设备与手机的距离在0.2米之内。
-        \n5.如果升级失败设备名字将变为SL_OTA，并且一直处于升级模式不能亮屏。再次打开APP后，APP会自动连接并对设备进行升级。
-        \n6.因手机蓝牙也存在不稳定性，如果多次升级失败，请更换手机，重新升级。请注意此时需要关闭之前连接过此设备的手机蓝牙。" />
+                android:text="@string/string_ota_desc" />
 
             <TextView
                 android:id="@+id/tvBegan"
@@ -85,7 +79,7 @@
                 android:background="@drawable/device_repeat_true_green"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="开始升级"
+                android:text="@string/string_ota_start"
                 android:textColor="@color/white" />
 
             <TextView
@@ -94,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:text="手表电量过低，建议充电后再进行升级"
+                android:text="@string/string_dfu_watch_low_battery_desc"
                 android:textColor="#C5C5C5"
                 android:textSize="12sp" />
 
@@ -103,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="ota升级中,请勿断开" />
+                android:text="@string/string_ota_no_dis_conn" />
 
             <ProgressBar
                 android:id="@+id/proBar"

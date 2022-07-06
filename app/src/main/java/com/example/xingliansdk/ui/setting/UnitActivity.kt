@@ -107,23 +107,23 @@ class UnitActivity : BaseActivity<UserViewModel>(),BleWrite.DeviceMotionInterfac
 
             }
         }
-        includeDistance.tvUnitTitle.text = "距离显示格式"
+        includeDistance.tvUnitTitle.text = resources.getString(R.string.string_distance_unit)
         includeDistance.rbUnitLeft.text = "km"
         includeDistance.rbUnitRight.text = "mile"
         includeDistance.rbUnitLeft.setOnCheckedChangeListener(switchListener)
         includeDistance.rbUnitRight.setOnCheckedChangeListener(switchListener)
-        includeWeight.tvUnitTitle.text = "重量显示格式"
+        includeWeight.tvUnitTitle.text = resources.getString(R.string.string_weight_unit)
         includeWeight.rbUnitLeft.text = "KG"
         includeWeight.rbUnitRight.text = "LB"
         includeWeight.rbUnitLeft.setOnCheckedChangeListener(switchListener)
         includeWeight.rbUnitRight.setOnCheckedChangeListener(switchListener)
-        includeTemperature.tvUnitTitle.text = "温度显示格式"
+        includeTemperature.tvUnitTitle.text = resources.getString(R.string.string_temp_unit)
         includeTemperature.rbUnitLeft.text = "℃"
         includeTemperature.rbUnitRight.text = "℉"
         includeTemperature.rbUnitLeft.setOnCheckedChangeListener(switchListener)
         includeTemperature.rbUnitRight.setOnCheckedChangeListener(switchListener)
 
-        includeTimeType.tvUnitTitle.text = "手环时间制式"
+        includeTimeType.tvUnitTitle.text = resources.getString(R.string.string_time_unit)
         includeTimeType.rbUnitLeft.text = "24"
         includeTimeType.rbUnitRight.text = "12"
         includeTimeType.rbUnitLeft.setOnCheckedChangeListener(switchListener)

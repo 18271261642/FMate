@@ -148,7 +148,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
                 android:padding="16dp"
-                android:text="血压记录"
+                android:text="@string/string_bp_record"
                 android:textColor="@color/main_text_color" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -192,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="3dp"
-                android:text="手动输入"
+                android:text="@string/string_input"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -222,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="3dp"
-                android:text="测量"
+                android:text="@string/string_measure"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>

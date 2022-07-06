@@ -33,8 +33,8 @@ class ScheduleListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             .titleBar(titleBar)
             .init()
         tvSettingAlarmClock.setOnClickListener(this)
-        tv_title.text = "当前无日程"
-        titleBar.setTitleText("日程设置")
+        tv_title.text = resources.getString(R.string.string_schedule_no_data)
+        titleBar.setTitleText(resources.getString(R.string.string_device_schedule_set))
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -42,7 +42,7 @@ class ScheduleListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
             override fun onActionImageClick() {
                 if (mScheduleList.size >= 5) {
-                    ShowToast.showToastLong("最多只可以添加五条,请选择删除或修改")
+                    ShowToast.showToastLong(resources.getString(R.string.string_schedule_add_most))
                     return
                 }
                 JumpUtil.startScheduleActivity(this@ScheduleListActivity)
@@ -75,7 +75,7 @@ class ScheduleListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 R.id.Switch -> {
                     var upDataTime = System.currentTimeMillis() / 1000
                     if(mScheduleList[position].endTime<upDataTime) {
-                        ShowToast.showToastLong("日程提醒时间不可小于当前时间")
+                        ShowToast.showToastLong(resources.getString(R.string.string_schedule_time_alert))
                         mScheduleAdapter.notifyItemChanged(position)
                         return@setOnItemChildClickListener
                     }

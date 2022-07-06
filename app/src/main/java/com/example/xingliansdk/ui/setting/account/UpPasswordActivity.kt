@@ -21,6 +21,9 @@ import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_up_password.*
 
+/**
+ * 修改密码页面
+ */
 class UpPasswordActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
     private var countDownTimer: MyCountDownTimer? = null
     private var imgPasswordStatus = false

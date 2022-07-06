@@ -302,7 +302,7 @@ class AmapSportRecordActivity : BaseActivity<MapViewModel>(), View.OnClickListen
                 getList(i)
                 //  querySaveSport(sportType)
             }
-            .setNegativeButton("取消") { dialogInterface, i -> dialogInterface.dismiss() }
+            .setNegativeButton(resources.getString(R.string.text_cancel)) { dialogInterface, i -> dialogInterface.dismiss() }
         alert?.create()?.show()
     }
 

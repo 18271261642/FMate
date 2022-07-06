@@ -33,7 +33,7 @@ class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
         img.visibility = View.GONE
         value["heartRateAlarm"] = userInfo.userConfig.heartRateAlarm
         value["heartRateThreshold"]=userInfo.userConfig.heartRateThreshold.toString()
-        tv_name.text = "心率报警"
+        tv_name.text = resources.getString(R.string.string_device_heart_alarm)
         mSwitch= userInfo.userConfig.heartRateAlarm.toInt()
 
 
@@ -87,14 +87,14 @@ class HeartRateAlarmActivity : BaseActivity<UserViewModel>() {
                 TLog.error("===value=="+value["heartRateAlarm"])
 
                 if(value["heartRateThreshold"] == null || value["heartRateThreshold"] =="0"){
-                    ShowToast.showToastLong("心率值不能为空!")
+                    ShowToast.showToastLong(resources.getString(R.string.string_heart_alarm_no_empty))
                     return
                 }
 
 
                 if(value["heartRateThreshold"]!!.toInt()>250||value["heartRateThreshold"]!!.toInt()<100)
                 {
-                    ShowToast.showToastLong("心率报警不可超过250低于100")
+                    ShowToast.showToastLong(resources.getString(R.string.string_heart_alarm_normal_alert))
                     return
                 }
                 userInfo.userConfig.heartRateAlarm= value["heartRateAlarm"]

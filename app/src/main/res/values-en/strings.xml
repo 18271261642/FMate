@@ -92,6 +92,12 @@
     <string name="string_today_time">Current time</string>
     <string name="string_times">Frequency</string>
 
+
+    <string name="string_total">Grand total</string>
+    <string name="string_start">Start</string>
+    <string name="string_hour">hour</string>
+    <string name="string_minute">minute</string>
+    <string name="string_kilogram">kilogram</string>
     <string name="string_menu_data">Data</string>
     <string name="string_menu_sport">Sport</string>
     <string name="string_my_device">My Device</string>
@@ -357,7 +363,7 @@
 
 
 
-    <string name="string_save">Preservation</string>
+    <string name="string_save">save</string>
     <string name="string_last_version">This is the latest version</string>
     <string name="string_time">Time</string>
     <string name="string_date">Date</string>
@@ -370,7 +376,7 @@
     <string name="lack_of_necessary_permissions">Lack of necessary permissions \ nsome functions will not work properly</string>
     <string name="i_know">I got it</string>
     <string name="go_to_set">To set</string>
-    <string name="unit_steps">Step；</string>
+    <string name="unit_steps">Step</string>
     <string name="target_step">Target steps</string>
     <string name="course">Mileage </string>
     <string name="big_calories">Calorie</string>

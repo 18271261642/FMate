@@ -74,7 +74,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
         Thread().start()
         register = intent.getBooleanExtra("register", false)
         if (!register) {
-            tvNext.text = "退出登录"
+            tvNext.text = resources.getString(R.string.string_logo)
             tvContent.visibility = View.GONE
             tvSignOut.visibility = View.GONE
             tvLogout.visibility = View.GONE
@@ -82,7 +82,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
             tvUserId.visibility = View.VISIBLE
 //            TLog.error("在退出登录++$register")
         } else {
-            tvNext.text = "下一步"
+            tvNext.text = resources.getString(R.string.string_next)
             titleBar.setActionText("")
             tvContent.visibility = View.VISIBLE
             tvSignOut.visibility = View.GONE
@@ -101,7 +101,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
 
             override fun onActionClick() {
                 if (TextUtils.equals(edtName.text.trim().toString(), "")) {
-                    ShowToast.showToastLong("请输入昵称")
+                    ShowToast.showToastLong(resources.getString(R.string.string_input_nickname))
                     return
                 }
 
@@ -538,7 +538,7 @@ open class DeviceInformationActivity : BaseActivity<UserViewModel>(), View.OnCli
         pvTime = TimePickerBuilder(this,
             OnTimeSelectListener { date, v ->
                 if (date.time > time) {
-                    ShowToast.showToastLong("出生日期不可大于今天")
+                    ShowToast.showToastLong(resources.getString(R.string.string_birthday_alert))
                     return@OnTimeSelectListener
                 }
                 mDeviceInformationBean.age = DateUtil.getAge(date)

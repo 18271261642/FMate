@@ -14,6 +14,9 @@ import com.orhanobut.hawk.Hawk
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_account.*
 
+/**
+ * 账号与安全
+ */
 class AccountActivity : BaseActivity<UserViewModel>(), View.OnClickListener {
     override fun layoutId() = R.layout.activity_account
     override fun initView(savedInstanceState: Bundle?) {

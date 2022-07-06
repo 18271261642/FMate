@@ -211,24 +211,24 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     }
 
     private fun initBind() {
-        includeSedentaryReminder.tv_name.text = "久坐提醒"
+        includeSedentaryReminder.tv_name.text = resources.getString(R.string.string_device_long_sit)
         includeSedentaryReminder.img.setImageResource(R.mipmap.icon_device_sedentary_reminder)
         includeSedentaryReminder.tv_sub.visibility=View.VISIBLE//8-11号又加回来
-        includeSedentaryReminder.tv_sub.text = "久坐1小时提醒"
+        includeSedentaryReminder.tv_sub.text = resources.getString(R.string.string_device_one_hour_long_sit)
 
-        includeDrinkWaterReminder.tv_name.text = "喝水提醒"
+        includeDrinkWaterReminder.tv_name.text = resources.getString(R.string.string_device_drink)
         includeDrinkWaterReminder.img.setImageResource(R.mipmap.icon_device_drink)
-        includeDrinkWaterReminder.tv_sub.text = "喝水1小时提醒"
+        includeDrinkWaterReminder.tv_sub.text = resources.getString(R.string.string_device_one_hour_drink)
 
 //        includeHeartRateAlarmSwitch.tv_name.text = "心率报警"
 //        includeHeartRateAlarmSwitch.img.setImageResource(R.mipmap.icon_device_heart_rate_alarm)
-        includeRotateBrightScreen.tv_name.text = "转腕亮屏"
+        includeRotateBrightScreen.tv_name.text = resources.getString(R.string.string_device_switch_hand)
         includeRotateBrightScreen.img.setImageResource(R.mipmap.icon_device_zhuanwan)
-        includeIncomingCall.tv_name.text = "来电提醒"
+        includeIncomingCall.tv_name.text = resources.getString(R.string.string_device_phone_notify)
         includeIncomingCall.img.setImageResource(R.mipmap.icon_device_phone_remind)
 //        includeBindDevice.tv_name.text = "绑定设备"
 //        includeBindDevice.img.setImageResource(R.mipmap.icon_device_bind)
-        includeLowPowerMode.tv_name.text = "低功耗模式"
+        includeLowPowerMode.tv_name.text = resources.getString(R.string.string_device_power_model)
         includeLowPowerMode.img.setImageResource(R.mipmap.icon_device_low_power_consumption)
         includeSedentaryReminder.Switch.setOnStateChangedListener(object :
             SwitchView.OnStateChangedListener {
@@ -358,7 +358,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 TLog.error("电量++"+battery)
                 if(!HelpUtil.netWorkCheck(this))
                 {
-                    ShowToast.showToastLong("网络出问题了，快去检查一下吧～")
+                    ShowToast.showToastLong(resources.getString(R.string.string_net_error))
                     return
                 }
 
@@ -424,7 +424,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 TLog.error("电量++"+battery)
                 if(!HelpUtil.netWorkCheck(this))
                 {
-                    ShowToast.showToastLong("网络出问题了，快去检查一下吧～")
+                    ShowToast.showToastLong(resources.getString(R.string.string_net_error))
                     return
                 }
 
@@ -479,7 +479,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
             R.id.settingUIUpdate->{
                 if(!DataDispatcher.callDequeStatus)
                 {
-                    ShowToast.showToastLong("正在同步其他数据,请同步完成再进行升级")
+                    ShowToast.showToastLong(resources.getString(R.string.string_sync_other_data))
                     return
                 }
                 JumpUtil.startFlashActivity(this)
@@ -529,11 +529,11 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 var tvTwo = holder.getView<TextView>(R.id.tvTwo)
 
                 tvOne?.setOnClickListener {
-                    settingWear.setContentText("左手")
+                    settingWear.setContentText(resources.getString(R.string.left_hand))
                     dialog.dismiss()
                 }
                 tvTwo?.setOnClickListener {
-                    settingWear.setContentText("右手")
+                    settingWear.setContentText(resources.getString(R.string.right_hand))
                     dialog.dismiss()
                 }
                 tvDele?.setOnClickListener {
@@ -556,7 +556,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 var btnCancel = holder.getView<TextView>(R.id.dialog_cancel)
                 var tvTitle = holder.getView<TextView>(R.id.tv_title)
                 var dialogContent = holder.getView<TextView>(R.id.dialog_content)
-                tvTitle?.text = "提示"
+                tvTitle?.text = resources.getString(R.string.string_text_remind)
                 when (id) {
                     R.id.settingReset -> dialogContent?.text =
                         resources.getString(R.string.content_want_reset)
@@ -580,7 +580,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                             }, 3000)
                         }
                         R.id.tvDeviceDelete -> {
-                            showWaitDialog("正在解除绑定")
+                            showWaitDialog(resources.getString(R.string.string_unbind_ing))
                             BLEManager.getInstance().disconnectDevice(Hawk.get("address"))
                            // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
                             BLEManager.getInstance().dataDispatcher.clearAll()

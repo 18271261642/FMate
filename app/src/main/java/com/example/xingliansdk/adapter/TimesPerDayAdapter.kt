@@ -27,7 +27,7 @@ class TimesPerDayAdapter(data: MutableList<RemindTakeMedicineBean.ReminderGroup>
             item.groupMM.toString()
 
         settingTime.setContentText("$hours:$min")
-        settingTime.setTitleText("第${helper.adapterPosition+1}次")
+        settingTime.setTitleText(String.format(context.resources.getString(R.string.string_the_time),helper.adapterPosition+1))
 
     }
 }

@@ -16,7 +16,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="单位设置"
+        app:midtitle="@string/string_set_unit"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color"  />

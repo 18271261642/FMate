@@ -16,7 +16,7 @@
         app:iconActionImage="@mipmap/icon_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="吃药提醒"
+        app:midtitle="@string/string_device_take_medic"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="51dp"
             android:background="@drawable/device_alarm_clock_button_green"
-            android:text="添加提醒"
+            android:text="@string/string_add_remind"
             android:textColor="@color/color_fe"
             android:textSize="14sp" />
     </LinearLayout>

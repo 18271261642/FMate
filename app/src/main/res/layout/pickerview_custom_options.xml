@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
             android:padding="8dp"
-            android:text="完成"
+            android:text="@string/string_complete"
             android:textSize="18sp" />
 
         <View

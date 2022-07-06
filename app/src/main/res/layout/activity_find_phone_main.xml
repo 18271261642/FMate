@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:homeBackClick="true"
-        app:midtitle="验证原手机号"
+        app:midtitle="@string/string_verify_original_phone"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
 
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="原手机号"
+            android:text="@string/string_original_phone"
             android:textColor="@color/main_text_color"
             android:textSize="14sp" />
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="验证码"
+            android:text="@string/string_verify_code"
             android:textColor="@color/main_text_color"
             android:textSize="14sp" />
 
@@ -61,7 +61,7 @@
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:hint="请输入验证码"
+            android:hint="@string/string_input_very_code"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:lines="1"
@@ -76,7 +76,7 @@
             android:layout_marginRight="32dp"
             android:background="@drawable/login_code_btn"
             android:gravity="center"
-            android:text="获取验证码"
+            android:text="@string/string_get_verify_code"
             android:textColor="@color/color_main_green"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@+id/edt_code"
@@ -104,7 +104,7 @@
         android:background="@drawable/bg_login_password_gray"
         android:gravity="center"
         android:padding="14dp"
-        android:text="提交"
+        android:text="@string/string_submit"
         android:textColor="@color/color_login_code"
         android:textSize="18sp" />
 </LinearLayout>

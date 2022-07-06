@@ -67,12 +67,12 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
             if (otaBean?.ota.isNullOrEmpty())
             {
                 tvBegan.visibility=View.GONE
-                tvUpdateCode.text = "已是最新版本"
+                tvUpdateCode.text = resources.getString(R.string.string_last_version)
             }
             else {
                 if(it.versionCode <= mDeviceFirmwareBean.version ){
                     tvBegan.visibility=View.GONE
-                    tvUpdateCode.text = "已是最新版本"
+                    tvUpdateCode.text = resources.getString(R.string.string_last_version)
                     return@observe
                 }
                 //ota搜索进入不限制电量限制
@@ -97,18 +97,18 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     if (deviceStatus != 1) {
                         if (devicePropertiesBean.electricity < 40) {
                             noUpdateTv.visibility = View.VISIBLE
-                            ShowToast.showToastLong("手表电量低于40%,请充电")
+                            ShowToast.showToastLong(resources.getString(R.string.string_ota_40_battery))
                             return@observe
                         }
                     }
 
                     if (!InonePowerSaveUtil.isCharging(this) && battery < 20) {
-                        ShowToast.showToastLong("手机电量低于20%,请充电")
+                        ShowToast.showToastLong(resources.getString(R.string.string_ota_20_phone))
                         return@observe
                     }
                     if (InonePowerSaveUtil.isCharging(this) && battery < 10) {
                         noUpdateTv.visibility = View.VISIBLE
-                        ShowToast.showToastLong("手机电量低于10%,请充电达到10%再进行升级")
+                        ShowToast.showToastLong(resources.getString(R.string.string_ota_10_phone))
                         return@observe
                     }
 
@@ -129,7 +129,7 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
                     name =
                         "V " + codeName[0].toString() + "." + codeName[1].toString() + "." + (if(v2<1) 256+v2 else v2 ).toString()
                 }
-                tvUpdateCode.text = "更新版本: " + name
+                tvUpdateCode.text = resources.getString(R.string.string_update_version)+": " + name
                 if (BleConnection.startOTAActivity) {
                   //  showWaitDialog("下载ota升级包中")
                    // otaBean?.let { mViewModel.downLoadZIP(it, this) }
@@ -200,8 +200,8 @@ class DFUActivity : BaseActivity<MyDeviceViewModel>(), DfuProgressListener, Down
 
     override fun onDownLoadStart(fileName: String?) {
         this.fileName = fileName!!
-        ShowToast.showToastLong("正在下载最新包,请勿操作其他步骤..")
-        showWaitDialog("下载ota升级包中")
+        ShowToast.showToastLong(resources.getString(R.string.string_ota_down_ing))
+        showWaitDialog(resources.getString(R.string.string_ota_down_alert))
     }
 
     override fun onDownLoading(totalSize: Long, currentSize: Long, progress: Int) {

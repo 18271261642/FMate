@@ -435,7 +435,7 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         if (h.y.toLong() <= 0) {
             tvHeart.text = "--"
         } else
-            tvHeart.text = HelpUtil.getSpan(h.y.toLong().toString(), "次/分钟")
+            tvHeart.text = HelpUtil.getSpan(h.y.toLong().toString(), resources.getString(R.string.string_time_minute))
 
     }
 
@@ -529,9 +529,9 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             tvMinNum.text = "--" // HelpUtil.getSpan("--", "次/分钟", 11)
             tvAvgNum.text = "--" // HelpUtil.getSpan("--", "次/分钟", 11)
         } else {
-            tvMaxNum.text = HelpUtil.getSpan(maxHeart.toString(), "次/分钟", 11)
-            tvMinNum.text = HelpUtil.getSpan(minHeart.toString(), "次/分钟", 11)
-            tvAvgNum.text = HelpUtil.getSpan(avgHeart.toString(), "次/分钟", 11)
+            tvMaxNum.text = HelpUtil.getSpan(maxHeart.toString(), resources.getString(R.string.string_time_minute), 11)
+            tvMinNum.text = HelpUtil.getSpan(minHeart.toString(), resources.getString(R.string.string_time_minute), 11)
+            tvAvgNum.text = HelpUtil.getSpan(avgHeart.toString(), resources.getString(R.string.string_time_minute), 11)
         }
     }
 
@@ -543,6 +543,6 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
                 (TimeUtil.getTodayZero(0) + (timeIndex * 5 * 60000L))
             )
         )
-        tvHeart.text = HelpUtil.getSpan(heart.toString(), "次/分钟")
+        tvHeart.text = HelpUtil.getSpan(heart.toString(), resources.getString(R.string.string_time_minute))
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:homeBackClick="true"
-        app:midtitle="账户与安全"
+        app:midtitle="@string/string_set_account_self"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
     <com.example.xingliansdk.widget.SettingItemLayout
@@ -23,7 +23,7 @@
         app:TextSize="18px"
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
-        app:titleText="修改密码" />
+        app:titleText="@string/string_update_pwd" />
     <com.example.xingliansdk.widget.SettingItemLayout
         android:id="@+id/settingChangePhone"
         android:layout_width="match_parent"
@@ -32,14 +32,14 @@
         app:TextSize="18px"
         app:layoutType="1"
         app:mtitleTextColor="@color/sub_text_color"
-        app:titleText="更换手机号" />
+        app:titleText="@string/string_change_phone" />
 
     <TextView
         android:id="@+id/tvSignOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="退出登录"
+        android:text="@string/string_logo"
         android:layout_marginTop="48dp"
         android:background="@color/white"
         android:padding="12dp"
@@ -55,7 +55,7 @@
             android:id="@+id/tvLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注销账号"
+            android:text="@string/string_logout_account"
             android:layout_gravity="bottom|center"
             android:padding="16dp"
             android:layout_marginBottom="16dp"

@@ -11,13 +11,13 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:actionTextColor="@color/color_main_green"
         app:backcolor="@color/white"
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="运动目标"
+        app:midtitle="@string/content_dialog_title_moving_target"
         app:showAction="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -39,7 +39,7 @@
             android:drawablePadding="8dp"
             android:layout_marginLeft="16dp"
             android:gravity="center"
-            android:text="运动目标"
+            android:text="@string/content_dialog_title_moving_target"
             android:textColor="@color/main_text_color"
             android:textSize="18sp" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="步"
+                android:text="@string/unit_steps"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/main_text_color"
                 android:textSize="24sp" />

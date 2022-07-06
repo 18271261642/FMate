@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="血压范围参考"
+        android:text="@string/string_bp_rang_reference"
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
@@ -37,7 +37,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="正常血压"
+        android:text="@string/string_normal_bp"
         android:textColor="@color/color_blood_pressure_low"
         android:textSize="14sp"
         android:padding="16dp"
@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="正常高值血压"
+            android:text="@string/string_bp_normal_h_bp"
             android:textColor="@color/color_blood_pressure_normal"
             android:textSize="14sp"
             android:padding="16dp"
@@ -89,7 +89,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="一级高血压"
+            android:text="@string/string_one_h_bp"
             android:textColor="@color/color_blood_pressure_two"
             android:textSize="14sp"
             android:padding="16dp"
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="二级高血压"
+            android:text="@string/string_tow_h_bp"
             android:textColor="@color/color_heart"
             android:textSize="14sp"
             android:padding="16dp"

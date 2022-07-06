@@ -44,7 +44,7 @@ class TakeMedicineIndexActivity : BaseActivity<SetAllClockViewModel>(), View.OnC
 
             override fun onActionImageClick() {
                 if (mList.size >= 5) {
-                    ShowToast.showToastLong("最多只可以添加五条,请选择删除或修改")
+                    ShowToast.showToastLong(resources.getString(R.string.string_add_most_alarm))
                     return
                 }
                 JumpUtil.startTakeMedicineActivity(this@TakeMedicineIndexActivity)

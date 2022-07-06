@@ -16,9 +16,9 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="心率报警"
+        app:midtitle="@string/string_device_heart_alarm"
         app:showHome="true"
-        app:actionText="保存"
+        app:actionText="@string/string_save"
         app:showAction="true"
         app:titleTextColor01="@color/main_text_color" />
 
@@ -32,7 +32,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="设定临界值"
+        android:text="@string/string_heart_alarm_set"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:textColor="@color/bottom_nav_icon_dim"
@@ -40,7 +40,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="实时心率达到或超过此临界值，手表将会震动报警"
+        android:text="@string/string_heart_alarm_set_desc"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="16dp"
@@ -56,7 +56,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="心率报警临界值"
+            android:text="@string/string_heart_alarm_edge_value"
             android:textColor="@color/main_text_color"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请谨遵医嘱或健康管理师嘱咐设置此临界值"
+            android:text="@string/string_heart_alarm_notify"
             android:textColor="@color/sub_text_color"
             android:textSize="11sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -79,7 +79,7 @@
             android:textSize="14sp"
             android:inputType="number"
             android:maxLength="3"
-            android:hint="请输入临界值"
+            android:hint="@string/string_heart_alarm_input_value"
             android:gravity="right"
             android:minWidth="30dp"
             android:textColor="@color/color_heart"

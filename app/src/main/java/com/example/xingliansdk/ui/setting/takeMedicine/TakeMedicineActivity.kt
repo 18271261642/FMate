@@ -73,11 +73,11 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
             override fun onActionClick() {
                 if (mRemindTakeMedicineList.size > 5) {
-                    ShowToast.showToastLong("吃药提醒最多只可添加五条")
+                    ShowToast.showToastLong(resources.getString(R.string.string_take_medic_most))
                     return
                 }
                 if (mBean.startTime > mBean.endTime && mBean.endTime > 0) {
-                    ShowToast.showToastLong("开始时间不得大于结束时间")
+                    ShowToast.showToastLong(resources.getString(R.string.string_take_medic_start_time_1))
                     return
                 }
                 var saveTime = System.currentTimeMillis() / 1000
@@ -113,13 +113,13 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
 
         if (position >= 0) {
             mBean = mRemindTakeMedicineList[position]
-            settingNumber.setContentText("${mBean.getGroupList().size}次")
+            settingNumber.setContentText("${mBean.getGroupList().size}"+resources.getString(R.string.string_times))
             TLog.error("==数据+" + Gson().toJson(mBean.getGroupList()))
             setAdapter(mBean.getGroupList())
             if (mBean.reminderPeriod == 0)
-                settingRepeat.setContentText("每天")
+                settingRepeat.setContentText(resources.getString(R.string.string_every_day))
             else
-                settingRepeat.setContentText("间隔${mBean.reminderPeriod}天")
+                settingRepeat.setContentText(resources.getString(R.string.string_interval)+"${mBean.reminderPeriod}"+resources.getString(R.string.string_day))
 
             if (mBean.startTime <= 100)
                 settingStartTime.setContentText(
@@ -136,7 +136,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                     )
                 )
             if (mBean.endTime <= 100)
-                settingEndTime.setContentText("永久")
+                settingEndTime.setContentText(resources.getString(R.string.string_permanent))
             else
                 settingEndTime.setContentText(
                     DateUtil.getDate(
@@ -432,7 +432,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             override fun foreverSelect() {
                 dateSelectDialogView.dismiss()
                 mBean.endTime = 0
-                settingEndTime.setContentText("永久")
+                settingEndTime.setContentText(resources.getString(R.string.string_permanent))
 
             }
 
@@ -465,14 +465,14 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                         mList.add(mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     }
 
-                    settingNumber.setContentText("1次")
+                    settingNumber.setContentText(String.format(resources.getString(R.string.string_number_time),1))
                     setAdapter(mList)
                     dialog.dismiss()
                 }
                 tvTwo?.setOnClickListener {
                     mList.add(if(mList.size>0) mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     mList.add(if(mList.size>1)mBean.ReminderGroup(mList[1].groupHH, mList[1].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
-                    settingNumber.setContentText("2次")
+                    settingNumber.setContentText(String.format(resources.getString(R.string.string_number_time),2))
                     setAdapter(mList)
                     dialog.dismiss()
                 }
@@ -480,7 +480,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                     mList.add(if(mList.size>0) mBean.ReminderGroup(mList[0].groupHH, mList[0].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     mList.add(if(mList.size>1)mBean.ReminderGroup(mList[1].groupHH, mList[1].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     mList.add(if(mList.size>2) mBean.ReminderGroup(mList[2].groupHH, mList[2].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
-                    settingNumber.setContentText("3次")
+                    settingNumber.setContentText(String.format(resources.getString(R.string.string_number_time),3))
                     setAdapter(mList)
                     dialog.dismiss()
                 }
@@ -490,7 +490,7 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                     mList.add(if(mList.size>2) mBean.ReminderGroup(mList[2].groupHH, mList[2].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
                     mList.add(if(mList.size>3) mBean.ReminderGroup(mList[3].groupHH, mList[3].groupMM) else mBean.ReminderGroup(DateUtil.getHour(calendar), DateUtil.getMinute(calendar)))
 
-                    settingNumber.setContentText("4次")
+                    settingNumber.setContentText(String.format(resources.getString(R.string.string_number_time),4))
                     setAdapter(mList)
                     dialog.dismiss()
                 }
@@ -508,9 +508,9 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
                 val type: Int = event.data.toString().toInt()
                 mBean.reminderPeriod = type
                 if (type <= 0) {
-                    settingRepeat.setContentText("每天")
+                    settingRepeat.setContentText(resources.getString(R.string.string_every_day))
                 } else
-                    settingRepeat.setContentText("间隔${type}天")
+                    settingRepeat.setContentText(resources.getString(R.string.string_interval)+type+resources.getString(R.string.string_day))
             }
         }
     }

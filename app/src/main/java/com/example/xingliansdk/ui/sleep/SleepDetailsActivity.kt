@@ -172,9 +172,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             R.color.main_text_color,
             12
         )
-        tvMaxHeart.text = HelpUtil.getSpan(bean.maximumHeartRate.toString(), "次/分钟", 11)
-        tvMinHeart.text = HelpUtil.getSpan(bean.minimumHeartRate.toString(), "次/分钟", 11)
-        tvAvgHeart.text = HelpUtil.getSpan(bean.averageHeartRate.toString(), "次/分钟", 11)
+        tvMaxHeart.text = HelpUtil.getSpan(bean.maximumHeartRate.toString(), resources.getString(R.string.string_time_minute), 11)
+        tvMinHeart.text = HelpUtil.getSpan(bean.minimumHeartRate.toString(), resources.getString(R.string.string_time_minute), 11)
+        tvAvgHeart.text = HelpUtil.getSpan(bean.averageHeartRate.toString(), resources.getString(R.string.string_time_minute), 11)
 
 
     }
@@ -188,7 +188,7 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             R.color.color_awake
         )
         val entries = ArrayList<PieEntry>()
-        val typeList = arrayListOf("深睡", "浅睡", "眼动", "清醒")
+        val typeList = arrayListOf(resources.getString(R.string.string_sleep_deep), resources.getString(R.string.string_sleep_light), resources.getString(R.string.string_sleep_eye), resources.getString(R.string.string_sleep_awake))
         for (i in 0 until mList.size) {
             if (mList[i] > 0) {
                 entries.add(
@@ -440,7 +440,7 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
                     DateUtil.getDate(
                         DateUtil.HH_MM,
                         (bean.endTime) * 1000L
-                    ) + "醒来"
+                    ) + resources.getString(R.string.string_sleep_wake_up)
 
 
 
@@ -505,9 +505,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         tvDeepSleep.text = HelpUtil.getSpan(deepSleep.toString(), "%", 11)
         tvLightSleep.text = HelpUtil.getSpan(lightSleep.toString(), "%", 11)
         tvEyeSleep.text = HelpUtil.getSpan(eyeSleep.toString(), "%", 11)
-        tvWideAwake.text = HelpUtil.getSpan(numberWake.toString(), "次", 11)
+        tvWideAwake.text = HelpUtil.getSpan(numberWake.toString(), resources.getString(R.string.string_times), 11)
 
-        sleepRoundTime.text = HelpUtil.getSpan(fallAsleepTime.toInt().toString(), "分钟", 11)
+        sleepRoundTime.text = HelpUtil.getSpan(fallAsleepTime.toInt().toString(), resources.getString(R.string.string_minute), 11)
         //入睡时长
      //   sleepRoundTime.text = fallAsleepTime.toString() +"分钟"
 

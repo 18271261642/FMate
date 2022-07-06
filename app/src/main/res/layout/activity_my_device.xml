@@ -17,7 +17,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="我的设备"
+        app:midtitle="@string/string_my_device"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
 
@@ -42,7 +42,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_remind"
-                app:titleText="消息提醒" />
+                app:titleText="@string/string_device_msg_notify" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingAlarmClock"
@@ -54,7 +54,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_alarm_setting"
-                app:titleText="闹钟设置" />
+                app:titleText="@string/string_device_alarm" />
 
             <include
                 android:id="@+id/includeSedentaryReminder"
@@ -80,7 +80,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_take_medicine"
-                app:titleText="吃药提醒" />
+                app:titleText="@string/string_device_take_medic" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingScheduleReminder"
@@ -92,7 +92,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_schedule_reminder"
-                app:titleText="日程提醒" />
+                app:titleText="@string/string_device_schedule_notify" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingWuRao"
@@ -130,7 +130,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_heart_rate_alarm"
-                app:titleText="心率报警"
+                app:titleText="@string/string_device_heart_alarm"
                 />
 
 
@@ -144,7 +144,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_bp_set"
-                app:titleText="血压设置"
+                app:titleText="@string/string_device_bp_set"
                 />
 
 
@@ -250,7 +250,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_find"
-                app:titleText="查找设备" />
+                app:titleText="@string/string_device_find_device" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingCamera"
@@ -262,7 +262,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_carme"
-                app:titleText="拍照" />
+                app:titleText="@string/string_device_take_photo" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingWatch"
@@ -292,7 +292,7 @@
                 app:layoutType="4"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_update"
-                app:titleText="固件更新" />
+                app:titleText="@string/string_device_dfu" />
 
 
             <com.example.xingliansdk.widget.SettingItemLayout
@@ -304,7 +304,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_update"
-                app:titleText="flash更新操作" />
+                app:titleText="@string/string_flash_update" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingCleanRoom"
@@ -316,7 +316,7 @@
                 app:layoutType="4"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_cleanroom"
-                app:titleText="清除缓存" />
+                app:titleText="@string/string_device_clear_cache" />
 
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingReset"
@@ -329,7 +329,7 @@
                 app:layoutType="3"
                 app:mtitleTextColor="@color/sub_text_color"
                 app:styleImage="@mipmap/icon_device_reset"
-                app:titleText="恢复出厂设置" />
+                app:titleText="@string/string_device_recycler_device" />
 
 
             <TextView
@@ -342,7 +342,7 @@
                 android:gravity="center"
                 android:padding="16dp"
                 android:textSize="18sp"
-                android:text="删除设备"
+                android:text="@string/string_device_delete_device"
                 android:textColor="@color/red" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

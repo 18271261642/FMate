@@ -154,13 +154,25 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         }
     }
 
+
+    private fun changeEn(str : String) : String{
+        if(str == "步行")
+            return resources.getString(R.string.string_sport_step)
+        if(str == "跑步")
+            return resources.getString(R.string.string_sport_run)
+        if(str == "骑行")
+            return resources.getString(R.string.string_sport_cycle)
+        return resources.getString(R.string.string_sport_step)
+    }
+
     override fun onResume() {
         super.onResume()
         mMapMotionBean?.let { it ->
             mViewModel.getMotionDistance(it.type)
         }
+        var typeStr = mMapMotionBean?.let { it1 -> typeSport(it1.type) }
         //文字显示
-        homeSportTypeTv.text = "累计" + mMapMotionBean?.let { it1 -> typeSport(it1.type) } + "距离>"
+        homeSportTypeTv.text = resources.getString(R.string.string_total) +" "+ typeStr +" "+ resources.getString(R.string.string_distance)+">"
 //        //文字显示
 //        homeSportTypeTv.text= "累计"+mMapMotionBean?.let { it1 -> typeSport(it1.type) } +"距离>"
 //        //累计里程
@@ -188,29 +200,29 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
                 // HelpUtil.getSpan("10.23","英里",14)
                 HelpUtil.getSpan(
                     ResUtil.format("%.2f ", distance / 1000 * MILE).trim(),
-                    "英里",
+                    resources.getString(R.string.string_mile),
                     14
                 )
             } else {
                 HelpUtil.getSpan(
                     ResUtil.format("%.2f ", distance / 1000).trim(),
-                    "公里",
+                    resources.getString(R.string.string_km),
                     14
                 )
             }
         } else {
             homeSportCountTv.text =
                 if (userInfo.userConfig.distanceUnit == 1)
-                    HelpUtil.getSpan(distance.toString().trim(), "英里", 14)
+                    HelpUtil.getSpan(distance.toString().trim(), resources.getString(R.string.string_mile), 14)
                 else
-                    HelpUtil.getSpan(distance.toString().trim(), "公里", 14)
+                    HelpUtil.getSpan(distance.toString().trim(), resources.getString(R.string.string_km), 14)
         }
     }
 
     private fun typeSport(type: Int): String? {
-        if (type == 1) return "步行"
-        if (type == 2) return "跑步"
-        return if (type == 3) "骑行" else "步行"
+        if (type == 1) return resources.getString(R.string.string_sport_step)
+        if (type == 2) return resources.getString(R.string.string_sport_run)
+        return if (type == 3) resources.getString(R.string.string_sport_cycle) else resources.getString(R.string.string_sport_step)
     }
 
     private val decimalFormat = DecimalFormat("#.##")

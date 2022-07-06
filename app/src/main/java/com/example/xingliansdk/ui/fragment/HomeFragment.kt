@@ -288,7 +288,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     private fun intView() {
         ImmersionBar.setTitleBar(activity, toolbar)
         mSwipeRefreshLayout.setOnRefreshListener(this)
-        tvGoal?.text = "${mDeviceInformationBean.exerciseSteps}步"
+        tvGoal?.text = "${mDeviceInformationBean.exerciseSteps}"+resources.getString(R.string.unit_steps)
 
         onClickListener()
     }
@@ -328,7 +328,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         when (v.id) {
             R.id.tvEdit -> {
                 if (!HelpUtil.netWorkCheck(XingLianApplication.getXingLianApplication())) {
-                    ShowToast.showToastLong("暂无网络,不可编辑")
+                    ShowToast.showToastLong(resources.getString(R.string.string_home_no_net_edit))
                     return
                 }
                 JumpUtil.startCardEditActivity(activity)
@@ -419,10 +419,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             if(mHomeCardVoBean.distance != null){
                 if (mDeviceInformationBean.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                    tvKM?.text = decimalFormat.format(miDis)+"英里"
+                    tvKM?.text = decimalFormat.format(miDis)+resources.getString(R.string.unit_mile)
                 } else
-                    tvKM?.text = "${mHomeCardVoBean.distance} 公里"
-                tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+                    tvKM?.text = "${mHomeCardVoBean.distance}"+resources.getString(R.string.unit_km)
+                tvCalories?.text = "${mHomeCardVoBean.calorie}"+" "+resources.getString(R.string.string_unit_kcal)
             }
 
             //   TLog.error("首页卡片数据++" + Gson().toJson(it))
@@ -442,10 +442,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
 
                 if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
-                    tvKM?.text = decimalFormat.format(miDis)+"英里"
+                    tvKM?.text = decimalFormat.format(miDis)+" "+resources.getString(R.string.unit_mile)
                 } else
-                    tvKM?.text = "${mHomeCardVoBean.distance} 公里"
-                tvCalories?.text = "${mHomeCardVoBean.calorie} 千卡"
+                    tvKM?.text = "${mHomeCardVoBean.distance}"+" "+resources.getString(R.string.unit_km)
+                tvCalories?.text = "${mHomeCardVoBean.calorie}"+" "+resources.getString(R.string.string_unit_kcal)
             }
         }
 
@@ -580,7 +580,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         endTime: Long,
         mList: ArrayList<SleepBean>?, bean: SleepBean
     ) {
-        mRefreshHeader?.setReleaseText("睡眠刷新")
+        mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_sleep_refresh))
         error(" time ${startTime + XingLianApplication.TIME_START}")
         error(" endTime ${endTime + XingLianApplication.TIME_START}")
         error("time睡眠数据${Gson().toJson(mList)}")
@@ -648,7 +648,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         endTime: Long,
         mList: ArrayList<Int>?
     ) {
-        mRefreshHeader?.setReleaseText("心率刷新")
+        mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_heart_refresh))
         if (mList.isNullOrEmpty()) {
             return
         }
@@ -705,7 +705,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         endTime: Long,
         mList: ArrayList<Int>?
     ) {
-        mRefreshHeader?.setReleaseText("血氧刷新")
+        mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_spo2_refresh))
         if (mList.isNullOrEmpty()){
             //mSwipeRefreshLayout.finishRefresh()
             return
@@ -800,11 +800,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         TLog.error("unitSystem==" + Gson().toJson(mDeviceInformationBean))
         if (mDeviceInformationBean?.unitSystem == 1.toByte()) {
          //  val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble()/1000,0.6213)
-            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble()/1000)} 英里"
+            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble()/1000)}"+" "+resources.getString(R.string.string_unit_mile)
         } else
-            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)} 公里"
+            tvKM?.text = "${forMater.format(mDataBean.distance.toDouble() / 1000)}"+" "+resources.getString(R.string.string_unit_km)
         //  TLog.error("calories==${data.calories}")
-        tvCalories?.text = "${mDataBean.calories} 千卡"
+        tvCalories?.text = "${mDataBean.calories}"+" "+resources.getString(R.string.string_unit_kcal)
 
 
 
@@ -828,7 +828,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         endTime: Long,
         mList: ArrayList<PressureBean>?
     ) {
-        mRefreshHeader?.setReleaseText("压力刷新")
+        mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_pressure_refresh))
         TLog.error("获取到的压力数据++" + Gson().toJson(mList))
         if (mList.isNullOrEmpty()){
             return
@@ -912,7 +912,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     } else
                         tvKM?.text = "${forMater.format(data.distance.toDouble() / 1000)} 公里"
                     //  TLog.error("calories==${data.calories}")
-                    tvCalories?.text = "${data.calories} 千卡"
+                    tvCalories?.text = "${data.calories}"+" "+resources.getString(R.string.string_unit_kcal)
 
                     val countStepMap = HashMap<String,Any>();
 
@@ -997,7 +997,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
         endTime: Long,
         mList: ArrayList<Int>?
     ) {
-        mRefreshHeader?.setReleaseText("体温刷新")
+        mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_temp_refresh))
         TLog.error("time 体温++${Gson().toJson(mList)}")
         if (mList.isNullOrEmpty()) {
             TLog.error("---空的 直接不走下一步了")

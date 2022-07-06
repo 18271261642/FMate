@@ -48,6 +48,12 @@ class MotionMapFragment : BaseFragment<BaseViewModel>() {
             com.example.xingliansdk.Config.database.AMAP_SPORT_TYPE,
             1
         )
+
+        mDataList.clear()
+        mDataList.add(resources.getString(R.string.string_sport_step))
+        mDataList.add(resources.getString(R.string.string_sport_run))
+        mDataList.add(resources.getString(R.string.string_sport_cycle))
+
     }
 
     override fun createObserver() {

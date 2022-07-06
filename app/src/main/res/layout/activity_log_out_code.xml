@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="验证已绑定手机号"
+        android:text="@string/string_verify_bind_phone"
         android:textColor="@color/main_text_color"
         android:textSize="24sp"
         android:layout_marginLeft="32dp"
@@ -51,7 +51,7 @@
         android:background="@drawable/bg_login_password_gray"
         android:gravity="center"
         android:padding="14dp"
-        android:text="确认"
+        android:text="@string/text_sure"
         />
     <TextView
         android:id="@+id/tvCode"
@@ -61,6 +61,6 @@
         android:layout_gravity="center"
         android:padding="10dp"
         android:layout_marginTop="17dp"
-        android:text="重新获取"
+        android:text="@string/string_try_again_code"
         />
 </LinearLayout>
