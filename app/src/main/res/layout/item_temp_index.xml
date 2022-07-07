@@ -26,7 +26,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textSize="18sp"
-            android:text="偏低"
+            android:text="@string/string_temp_status1"
             android:textColor="@color/color_blood_pressure_low" />
     </LinearLayout>
     <View
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="正常"
+            android:text="@string/string_temp_status2"
             android:textSize="18sp"
             android:textColor="@color/color_main_green" />
     </LinearLayout>
@@ -90,7 +90,7 @@
             android:textSize="18sp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="低热"
+            android:text="@string/string_temp_status3"
             android:textColor="@color/color_blood_pressure_one" />
     </LinearLayout>
     <View
@@ -122,7 +122,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textSize="18sp"
-            android:text="中热度"
+            android:text="@string/string_temp_status4"
             android:textColor="@color/color_blood_pressure_two" />
     </LinearLayout>
     <View
@@ -154,7 +154,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textSize="18sp"
-            android:text="高热"
+            android:text="@string/string_temp_status5"
             android:textColor="@color/color_blood_pressure_three" />
     </LinearLayout>
     <View
@@ -185,7 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="超高热"
+            android:text="@string/string_temp_status6"
             android:textSize="18sp"
             android:textColor="@color/color_four" />
     </LinearLayout>

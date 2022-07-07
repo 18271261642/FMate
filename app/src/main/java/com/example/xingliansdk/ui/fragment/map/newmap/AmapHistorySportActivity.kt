@@ -590,7 +590,7 @@ class AmapHistorySportActivity : BaseActivity<BaseViewModel>(), LocationSource,
         pieChart.dragDecelerationFrictionCoef = 0.95f
         pieChart.setCenterTextColor(Color.BLACK)
         pieChart.setCenterTextSize(18f)
-        pieChart.centerText = " "+resources.getString(R.string.string_heart)+" \n "+resources.getString(R.string.string_interval)+" "
+        pieChart.centerText = " "+resources.getString(R.string.string_heart)+" \n "+resources.getString(R.string.string_interval_2)+" "
         pieChart.isDrawHoleEnabled = true
         pieChart.setHoleColor(Color.WHITE)
         pieChart.setTransparentCircleColor(Color.WHITE)

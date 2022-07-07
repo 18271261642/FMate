@@ -558,15 +558,15 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                 calendarType
             )
         )
-        var date =  DateUtil.getDate(if(calendarType == yearCalendar) DateUtil.YYYY_AND_MM else DateUtil.YYYY_MM_DD_AND, calendarType)
+        var date =  DateUtil.getDate(if(calendarType == yearCalendar) DateUtil.YYYY_MM else DateUtil.YYYYMMDD, calendarType)
         when (position) {
             0 ->{
-                date = DateUtil.getDate(DateUtil.YYYY_MM_DD_AND,dayCalendar)
+                date = DateUtil.getDate(DateUtil.YYYYMMDD,dayCalendar)
             }
             1 -> {
                 date += "-" + calendarType?.timeInMillis?.plus(86400 * 6 * 1000L)?.let {
                     DateUtil.getDate(
-                        DateUtil.YYYY_MM_DD_AND,
+                        DateUtil.YYYYMMDD,
                         it
                     )
                 }
@@ -578,14 +578,14 @@ class DeviceSportChartActivity : BaseActivity<DailyActiveModel>(), View.OnClickL
                     )!! - 1) * 1000L
                 )?.let {
                     DateUtil.getDate(
-                        DateUtil.YYYY_MM_DD_AND,
+                        DateUtil.YYYYMMDD,
                         it
                     )
                 }
             }
             3 -> {
                 date += "-" + DateUtil.getDate(
-                    DateUtil.YYYY_AND_MM,
+                    DateUtil.YYYY_MM,
                     DateUtil.getYearLastDate(calendarType)
                 )
             }

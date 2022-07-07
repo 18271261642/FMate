@@ -40,9 +40,9 @@
         <com.example.xingliansdk.utils.CustomRefreshHeader
             android:id="@+id/mRefreshHeader"
             android:layout_width="match_parent"
-            app:cus_pullText="下拉释放数据"
-            app:cus_ReleaseText="放开刷新数据"
-            app:cus_RefreshText="正在刷新..."
+            app:cus_pullText="@string/string_home_pull_desc"
+            app:cus_ReleaseText="@string/string_home_open_pull"
+            app:cus_RefreshText="@string/string_home_refresh"
             android:layout_height="match_parent"/>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

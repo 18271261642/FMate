@@ -137,7 +137,7 @@ class BpSettingActivity : BaseActivity<UserViewModel>() {
         autoBpStatusBean?.setStartMinute(0x00)
         autoBpStatusBean?.setEndHour(0x17)
         autoBpStatusBean?.setEndMinute(0x3B)
-        autoBpStatusBean?.setBpInterval(0x0A)
+        autoBpStatusBean?.setBpInterval(0x1E)
 
         //夜间
         autoBpStatusBean?.setNightBpStatus(if(autoBpNightSwitch.isOpened) 0x02.toByte() else 0x01)

@@ -243,7 +243,7 @@
             android:id="@+id/tvYouKnow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="你知道吗?"
+            android:text="@string/string_home_know"
             android:textColor="@color/main_text_color"
             android:textSize="18sp"
             android:textStyle="bold"

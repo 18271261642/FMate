@@ -666,7 +666,7 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         if (data != null) {
             tvSleepTimeType.text = data.beginTime + "-" + data.endTime
             var time = DateUtil.getTextTime(data.duration.toLong() * 60L)
-            sleepDetailStatusTv.text = data.sleepStatus
+            sleepDetailStatusTv.text = data.getSleepStatus(this)
             if (time.substring(0, 2).toInt() > 0) {
 
                 tvSleepTime.text = HelpUtil.getSpan(

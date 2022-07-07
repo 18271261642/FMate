@@ -18,7 +18,7 @@
         app:iconActionImage="@mipmap/icon_calender"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="体温"
+        app:midtitle="@string/string_temp"
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
@@ -144,7 +144,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tvMin"
                 android:textColor="@color/sub_text_color"
                 android:gravity="center"
-                android:text="最高值"
+                android:text="@string/string_max_height"
                 android:textSize="11sp"
                 />
             <TextView
@@ -156,7 +156,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tvAvg"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/sub_text_color"
-                android:text="最低值"
+                android:text="@string/string_min_low"
                 android:textSize="11sp"
                 />
             <TextView
@@ -168,7 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/sub_text_color"
-                android:text="平均值"
+                android:text="@string/string_avg_value"
                 android:textSize="11sp"
                 />
 
@@ -240,7 +240,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="体温参考值"
+            android:text="@string/string_temp_refer"
             android:textColor="@color/main_text_color"
             android:padding="16dp"
             android:textSize="14sp"
@@ -253,7 +253,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="你知道吗?"
+            android:text="@string/string_home_know"
             android:textColor="@color/main_text_color"
             android:textSize="18sp"
             android:textStyle="bold"

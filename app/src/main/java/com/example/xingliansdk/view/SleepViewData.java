@@ -1,5 +1,9 @@
 package com.example.xingliansdk.view;
 
+import android.content.Context;
+
+import com.example.xingliansdk.R;
+
 import java.io.Serializable;
 
 /**
@@ -116,17 +120,17 @@ public class SleepViewData
 
 
     //1:清醒 2:快速眼动 3:浅睡 4:深睡
-    public  String getSleepStatus(){
+    public  String getSleepStatus(Context context){
         if(status == 1)
-            return "深睡";
+            return context.getResources().getString(R.string.string_sleep_deep);
         if(status == 2)
-            return "浅睡";
+            return context.getResources().getString(R.string.string_sleep_light);
         if(status == 3)
-            return "快速眼动";
+            return context.getResources().getString(R.string.string_sleep_eye);
         if(status == 4)
-            return "清醒";
+            return context.getResources().getString(R.string.string_sleep_awake);
         if(status == 5)
-            return "入睡时长";
+            return context.getResources().getString(R.string.string_sleep_into_time);
         return "";
     }
 }

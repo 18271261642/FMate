@@ -2,6 +2,16 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+    <string name="string_max_height">最高值</string>
+    <string name="string_min_low">最低值</string>
+
+
+    <string name="string_temp_status1">偏低</string>
+    <string name="string_temp_status2">正常</string>
+    <string name="string_temp_status3">低热</string>
+    <string name="string_temp_status4">中热度</string>
+    <string name="string_temp_status5">高热</string>
+    <string name="string_temp_status6">超高热</string>
 
     <string name="string_tow_h_bp">二级高血压</string>
     <string name="string_one_h_bp">一级高血压</string>
@@ -27,7 +37,7 @@
     <string name="string_heart_constant_4">160-179次/分钟</string>
     <string name="string_heart_constant_5">180-220次/分钟</string>
     
-    <string name="string_interval">区间</string>
+    <string name="string_interval_2">区间</string>
     <string name="string_sport_record">运动记录</string>
     <string name="string_account_register_protocol">《账号注册协议》</string>
     <string name="string_click_continue">点击“继续”即表明同意</string>

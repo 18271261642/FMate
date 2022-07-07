@@ -707,7 +707,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
     ) {
         mRefreshHeader?.setReleaseText(resources.getString(R.string.string_home_spo2_refresh))
         if (mList.isNullOrEmpty()){
-            //mSwipeRefreshLayout.finishRefresh()
+            mSwipeRefreshLayout.finishRefresh()
+
             return
         }
 

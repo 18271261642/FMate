@@ -276,7 +276,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
                     return
                 }
                 HelpUtil.hideSoftInputView(this)
-                showWaitDialog("登陆中...")
+                showWaitDialog("Loading...")
                 mViewModel.loginRegistered(value)
             }
             R.id.tvPhoneCode -> {
@@ -368,7 +368,7 @@ class LoginActivity : BaseActivity<LoginViewModel>(), View.OnClickListener {
         //计时过程
         override fun onTick(l: Long) { //防止计时过程中重复点击
             tv_getcode.isClickable = false
-            tv_getcode.text = (l / 1000).toString() + "秒"
+            tv_getcode.text = (l / 1000).toString() + "s"
         }
 
         //计时完毕的方法

@@ -44,7 +44,7 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
         if (item.reminderPeriod == 0)
             helper.setText(R.id.tv_sub, context.resources.getString(R.string.string_every_day))
         else
-            helper.setText(R.id.tv_sub, context.resources.getString(R.string.string_interval)+"${item.reminderPeriod}"+context.resources.getString(R.string.string_day))
+            helper.setText(R.id.tv_sub, context.resources.getString(R.string.string_interval_2)+"${item.reminderPeriod}"+context.resources.getString(R.string.string_day))
         val ryTime = helper.getView<RecyclerView>(R.id.ryTime)
         val btnDelete = helper.getView<Button>(R.id.btnDelete)
         val constAll = helper.getView<ConstraintLayout>(R.id.constAll)

@@ -22,7 +22,7 @@
             app:iconActionImage="@mipmap/icon_calender"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:midtitle="体重"
+            app:midtitle="@string/string_weight"
             app:showActionImage="true"
             app:showHome="true"
             app:titleTextColor01="@color/main_text_color" />
@@ -296,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:padding="16dp"
-                        android:text="BMI参考值"
+                        android:text="@string/string_weight_bmi_refer"
                         android:textColor="@color/main_text_color"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -394,7 +394,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:text="偏胖"
+                            android:text="@string/string_weight_status_3"
                             android:textColor="@color/color_blood_pressure_one" />
                     </LinearLayout>
 
@@ -428,7 +428,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:text="@string/string_weight_status_3"
+                            android:text="@string/string_weight_status_4"
                             android:textColor="@color/color_blood_pressure_two" />
                     </LinearLayout>
                     <View
@@ -440,7 +440,7 @@
                         android:id="@+id/tvWeightRecord"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="体重记录"
+                        android:text="@string/string_weight_record"
                         android:padding="16dp"
                         />
                     <androidx.recyclerview.widget.RecyclerView

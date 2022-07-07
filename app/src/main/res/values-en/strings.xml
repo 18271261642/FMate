@@ -2,6 +2,69 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+    <string name="string_max_height">highest value</string>
+    <string name="string_min_low">lowest value</string>
+
+
+
+    <string name="string_temp_status1">low</string>
+    <string name="string_temp_status2">normal</string>
+    <string name="string_temp_status3">low fever</string>
+    <string name="string_temp_status4">medium heat</string>
+    <string name="string_temp_status5">high fever</string>
+    <string name="string_temp_status6">super hot</string>
+
+    <string name="string_tow_h_bp">second-degree hypertension</string>
+    <string name="string_one_h_bp">first-degree hypertension</string>
+    <string name="string_bp_normal_h_bp">high normal blood pressure</string>
+    <string name="string_normal_bp">normal blood pressure</string>
+    <string name="string_pressure_avg">current pressure</string>
+    <string name="string_pressure_max_min">min-max</string>
+    <string name="string_sleep_into">fall asleep</string>
+    <string name="string_sleep_wake_up">wake up</string>
+    <string name="string_sleep_ngith_value">6-10 hour</string>
+    <string name="string_sleep_night_time">night sleep duration</string>
+    <string name="string_min_heart">minimum heart rate</string>
+    <string name="string_count_steps">total steps</string>
+    <string name="string_day_avg_step">Average daily steps</string>
+
+
+    <string name="string_map_ht_1">Anaerobic endurance</string>
+    <string name="string_map_ht_2">Aerobic endurance</string>
+
+    <string name="string_heart_constant_1">80-90 times/min</string>
+    <string name="string_heart_constant_2">110-129 times/min</string>
+    <string name="string_heart_constant_3">130-159 times/min</string>
+    <string name="string_heart_constant_4">160-179 times/min</string>
+    <string name="string_heart_constant_5">180-220 times/min</string>
+
+    <string name="string_interval_2">interval</string>
+    <string name="string_sport_record">sports record</string>
+    <string name="string_account_register_protocol">《Account Registration Agreement》</string>
+    <string name="string_click_continue">Click "Continue" to agree</string>
+    <string name="string_know_risk">I understand the risks, continue</string>
+    <string name="string_verify_bind_phone">Verify the bound mobile number</string>
+    <string name="string_has_send_code">verification code sent to</string>
+    <string name="string_logout_account_desc">Once the individual user logs out of the account, the personal account will be closed, so the APP will stop providing you with services related to the account, and once the logout is successful, it cannot be undone and restored, and all data associated with the canceled account will be deleted in the background. </string>
+    <string name="string_original_phone">original phone number</string>
+    <string name="string_verify_original_phone">original phone number</string>
+    <string name="string_confirm_pwd">confirm pwd</string>
+    <string name="string_new_pwd">new pwd</string>
+    <string name="string_verify_code">verification code</string>
+    <string name="string_phone_number">phone number</string>
+    <string name="string_complete">complete</string>
+    <string name="string_dfu_watch_low_battery_desc">The battery of the watch is too low, it is recommended to charge it before upgrading</string>
+    <string name="string_update_version">updated version</string>
+    <string name="string_heart_alarm_set_desc">When the real-time heart rate reaches or exceeds the sub-critical value, the watch will vibrate and alarm</string>
+    <string name="string_heart_alarm_set">set threshold</string>
+    <string name="string_number_time">%1$s times</string>
+    <string name="string_the_time">the %1$s times</string>
+    <string name="string_permanent">permanent</string>
+    <string name="string_take_media">take medicine</string>
+    <string name="string_edit_alarm">edit alarm</string>
+    <string name="string_add_alarm">add alarm</string>
+    <string name="string_flash_update">flash update</string>
+
 
     <string name="string_feedback_type">Feedback type</string>
     <string name="string_feedback_title">Feedback type</string>
