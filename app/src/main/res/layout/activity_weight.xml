@@ -38,7 +38,7 @@
             >
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/slidingTab"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -126,16 +126,15 @@
                     android:id="@+id/tvWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="--"
+                    android:text="53"
+                    android:layout_gravity="bottom"
                     android:textColor="@color/main_text_color"
                     android:textSize="36sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTime"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
-                    />
+
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart1"
@@ -243,6 +242,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/string_curr_change"
+                            android:gravity="center"
+                            android:layout_gravity="center"
                             android:textColor="@color/sub_text_color"
                             android:textSize="11sp" />
 

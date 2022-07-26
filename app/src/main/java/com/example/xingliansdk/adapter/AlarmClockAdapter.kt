@@ -67,7 +67,7 @@ class AlarmClockAdapter(data: MutableList<TimeBean>) :
         var  sub = if(item.getUnicode().isNullOrEmpty())
             item.getSpecifiedTimeDescription()
         else
-            item.getUnicode()+", "+item.getSpecifiedTimeDescription()
+            item.getUnicode()+", "+if(item.getSpecifiedTimeDescription() == "永不") context.resources.getString(R.string.string_alarm_never) else item.getSpecifiedTimeDescription()
         tvSub.text=sub
         TLog.error("item.switch+="+item.switch+"  endTime "+(item.endTime>System.currentTimeMillis()/1000))
         switchAlarmClock.isOpened = item.switch == 2

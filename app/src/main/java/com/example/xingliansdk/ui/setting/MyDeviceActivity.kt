@@ -495,6 +495,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 wearDialog(R.id.tvDeviceDelete)
             }
             R.id.settingFindDevice -> {
+                BLEManager.getInstance().dataDispatcher.clear("")
                 AllGenJIDialog.findDialog(supportFragmentManager)
                 BleWrite.writeFindDeviceSwitchCall(2)
             }

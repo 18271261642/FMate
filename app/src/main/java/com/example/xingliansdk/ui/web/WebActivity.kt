@@ -27,10 +27,10 @@ class WebActivity : BaseActivity<BaseViewModel>() {
 
         url=intent.getStringExtra("url").toString()
         when (url) {
-            XingLianApplication.baseUrl+"/agreement/privacy" -> titleBar.setTitleText("隐私政策")
-            XingLianApplication.baseUrl+"/agreement/user" -> titleBar.setTitleText("用户协议")
-            XingLianApplication.baseUrl+"/agreement/register" -> titleBar.setTitleText("注册协议")
-            else -> titleBar.setTitleText("健康知识")
+            XingLianApplication.baseUrl+"/agreement/privacy" -> titleBar.setTitleText(resources.getString(R.string.string_user_privacy))
+            XingLianApplication.baseUrl+"/agreement/user" -> titleBar.setTitleText(resources.getString(R.string.string_user_agreement))
+            XingLianApplication.baseUrl+"/agreement/register" -> titleBar.setTitleText(resources.getString(R.string.string_account_register_protocol))
+            else -> titleBar.setTitleText(resources.getString(R.string.string_health_data))
         }
         initWebViewSetting()
         web.loadUrl(url)

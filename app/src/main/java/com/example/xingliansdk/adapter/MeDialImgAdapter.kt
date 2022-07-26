@@ -19,6 +19,7 @@ import com.example.xingliansdk.utils.*
 import com.example.xingliansdk.view.DownloadProgressButton
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
+import com.shon.bluetooth.BLEManager
 import com.shon.bluetooth.Constants
 import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
@@ -65,6 +66,20 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         }
     }
 
+    private fun changeLanguage(str : String) : String{
+        if(str == "最新")
+            return context.resources.getString(R.string.string_dial_last)
+        if(str == "安装")
+            return context.resources.getString(R.string.string_dial_install)
+        if(str == "当前表盘")
+            return context.resources.getString(R.string.string_dial_current)
+        if(str == "下载")
+            return context.resources.getString(R.string.string_dial_download)
+        if(str == "选择")
+            return context.resources.getString(R.string.string_select)
+        return str
+    }
+
     override fun convert(helper: BaseViewHolder, item: RecommendDialBean.ListDTO.TypeListDTO?) {
         if (item == null) {
             return
@@ -85,7 +100,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         //Log.e("11","------当前已经保存的表盘ID="+currDialId +"---item中Id="+item.dialId)
 
         if((currDialId != -1 && currDialId == item.dialId) || (currDialId == 65533 && item.dialId == 0)){
-            item.state = "当前表盘"
+            item.state = context.resources.getString(R.string.string_dial_current)
             item.isCurrent = true
         }
 
@@ -114,8 +129,9 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
 
 //        TLog.error("=="+item.state+" stateCode==="+item.stateCode)
 //        if(!processStatus) {
-            tvInstall.text=item.state
-            itemDownload?.currentText=item.state
+            tvInstall.text=changeLanguage(item.state)
+
+            itemDownload?.currentText=changeLanguage(item.state)
             tvName.text = item.name
             if (item.isCurrent) {
                 //   TLog.error("当前 stateCode==="+item.stateCode)
@@ -150,8 +166,9 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
                 TLog.error("点击了++"+DataDispatcher.callDequeStatus)
             if(!DataDispatcher.callDequeStatus) {
                 TLog.error("进来了=====")
-                ShowToast.showToastLong("数据同步中，请稍后再试")
-                return@runOnUiThread
+                BLEManager.getInstance().dataDispatcher.clear("")
+//                ShowToast.showToastLong("数据同步中，请稍后再试")
+//                return@runOnUiThread
             }
             val file = File(ExcelUtil.dialPath)
             if (!file.exists()) {

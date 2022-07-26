@@ -127,6 +127,9 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
         imgReplicate.rotation=90f
         llBloodPressureIndex.visibility=View.GONE
+
+        initViews()
+
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -151,6 +154,15 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     }
 
+    private fun initViews(){
+        bpDbp85Item.setContentText(resources.getString(R.string.string_dbp)+"85~89mmHg")
+        bpDbp90Item.setContentText(resources.getString(R.string.string_dbp)+"90~99mmHg")
+        bpDbp100Item.setContentText(resources.getString(R.string.string_dbp)+"≥100mmHg")
+
+        spDbp140Item.setContentText(resources.getString(R.string.string_sbp)+"140 ~ 159mmHg")
+        spDbp160Item.setContentText(resources.getString(R.string.string_sbp)+"≥160mmHg")
+
+    }
 
     private fun initData(){
         sDao = AppDataBase.instance.getBloodPressureHistoryDao()
@@ -541,6 +553,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
                // showPromptDialog()
             }
             this.checkDescStr = it.calibrationReason
+
+
             if(it.list != null && it.list.size>0){
                 it.list.forEach {
                     sDao.insert(
@@ -644,6 +658,20 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
 
     }
 
+
+    private fun changeLanguage(txt : String) : String{
+        if(txt.contains("您的个人信息")){
+            return resources.getString(R.string.string_check_bp_user_change_txt)
+        }
+        if(txt.contains("首次使用"))
+            return resources.getString(R.string.string_check_bp_first_user_txt)
+        if(txt.contains("距离您上次校准"))
+            return resources.getString(R.string.string_check_bp_long_time_txt)
+        if(txt.contains("监测到您更换了手表"))
+            return resources.getString(R.string.string_check_bp_change_device_txt)
+        return txt
+    }
+
     private var isConntinue = false
 
 
@@ -657,7 +685,8 @@ class BpHomeActivity : BaseActivity<BloodPressureViewModel>(),View.OnClickListen
         promptBpDialog!!.setCancelable(false)
         promptBpDialog!!.setVisibilityBotTv(!isBind)
         if(!isBind){
-            promptBpDialog!!.setTopTxtValue(checkDescStr)
+
+            promptBpDialog!!.setTopTxtValue(checkDescStr?.let { changeLanguage(it) })
         }
         promptBpDialog!!.setOnCommDialogClickListener(object : OnCommDialogClickListener{
             override fun onConfirmClick(code: Int) {

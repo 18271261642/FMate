@@ -15,7 +15,7 @@
         app:homeBackClick="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="表盘市场"
+        app:midtitle="@string/string_dial_market"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
     <include layout="@layout/dial_viewpager" />

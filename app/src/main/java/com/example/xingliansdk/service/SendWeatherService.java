@@ -136,6 +136,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
 
             if(msg.what == TIME_OUT_BP){
                 Config.isNeedTimeOut = false;
+                TLog.Companion.error("-----------手表停止测量血压====");
                 handler.removeMessages(TIME_OUT_BP);
                 stopMeasureBp();
             }
@@ -620,6 +621,7 @@ public class SendWeatherService extends AppService implements OnPPG1CacheRecordL
     //后台测量血压
     @Override
     public void measureStatus(int status,String deviceTime) {
+        TLog.Companion.error("--------测量状态="+status);
         if(status == 0x02){
             this.deviceMeasureTime = deviceTime;
         }

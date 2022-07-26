@@ -45,6 +45,10 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         XingLianApplication.mXingLianApplication.setIsSyncWriteDial(false)
+
+        mDataList.clear()
+        mDataList.add(resources.getString(R.string.string_dial_recommend))
+        mDataList.add(resources.getString(R.string.string_dial_mine))
     }
 
     override fun layoutId()=R.layout.activity_dial_market
@@ -52,6 +56,9 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
+        mDataList.clear()
+        mDataList.add(resources.getString(R.string.string_dial_recommend))
+        mDataList.add(resources.getString(R.string.string_dial_mine))
         view_pager.init(this, fragments)
         view_pager.offscreenPageLimit=2
         magic_indicator.bindViewPager2(view_pager, mDataList)
@@ -102,9 +109,9 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
 
     private fun backAlert(){
         alertDialog = AlertDialog.Builder(instant)
-        alertDialog!!.setTitle("提醒")
-        alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
-        alertDialog!!.setPositiveButton("确定"
+        alertDialog!!.setTitle(resources.getString(R.string.string_text_remind))
+        alertDialog!!.setMessage(resources.getString(R.string.string_dial_cancel_desc))
+        alertDialog!!.setPositiveButton(resources.getString(R.string.text_sure)
         ) { p0, p1 ->
             downStatus = false
             XingLianApplication.mXingLianApplication.setIsSyncWriteDial(true)
@@ -115,7 +122,7 @@ class DialMarketActivity : BaseActivity<BaseViewModel>()  {
 
             p0.dismiss()
             AppActivityManager.getInstance().finishActivity(this)
-        }.setNegativeButton("取消"
+        }.setNegativeButton(resources.getString(R.string.text_cancel)
         ) { p0, p1 ->
             p0.dismiss()
         }

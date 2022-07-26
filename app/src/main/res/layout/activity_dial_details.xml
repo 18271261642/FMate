@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     tools:context=".ui.dial.DialDetailsActivity">
+
     <com.example.xingliansdk.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         app:homeBackClick="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="表盘详情"
+        app:midtitle="@string/string_dial_detail"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
             <ImageView
@@ -72,14 +73,14 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_18"
         android:textColor="@color/main_text_color"
-        android:text="注意事项:"
+        android:text="@string/string_dial_precautions"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="安装过程中，为了确保安装成功，请勿离开本界面，请勿操作手机和手表。"
+        android:text="@string/string_dial_precautions_desc"
         android:textColor="@color/bottom_nav_icon_dim"
         android:layout_margin="16dp"
         />
@@ -87,7 +88,7 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    ></LinearLayout>
+    />
     <com.example.xingliansdk.view.JProgressView
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -102,7 +103,7 @@
         app:progress_rect_text_align="1"
         app:progress_text_color="@color/white"
         app:progress_text_size="14sp"
-        app:progress_text="下载"
+        app:progress_text="@string/string_dial_download"
         app:progress_text_visible="true"
         app:progress_type="2"
         app:progress_value="100"

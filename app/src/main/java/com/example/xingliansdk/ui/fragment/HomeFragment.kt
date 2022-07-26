@@ -372,7 +372,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
             Hawk.put(SLEEP_GOAL, it.userConfig.sleepTarget.toLong())
             mainViewModel.userInfo.postValue(it)
             Hawk.put(PERSONAL_INFORMATION, mDeviceInformationBean)
-            tvGoal.text = "${it.userConfig.movingTarget.toLong()}步"
+            tvGoal.text = "${it.userConfig.movingTarget.toLong()}"+resources.getString(R.string.unit_steps)
             TLog.error("个人信息++" + Gson().toJson(it))
 
 
@@ -421,7 +421,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
                     tvKM?.text = decimalFormat.format(miDis)+resources.getString(R.string.unit_mile)
                 } else
-                    tvKM?.text = "${mHomeCardVoBean.distance}"+resources.getString(R.string.unit_km)
+                    tvKM?.text = "${mHomeCardVoBean.distance}"+resources.getString(R.string.string_km)
                 tvCalories?.text = "${mHomeCardVoBean.calorie}"+" "+resources.getString(R.string.string_unit_kcal)
             }
 
@@ -444,7 +444,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnRefreshListener, View.OnCl
                     val miDis = Utils.muiltip(mHomeCardVoBean.distance.toDouble(),0.6213)
                     tvKM?.text = decimalFormat.format(miDis)+" "+resources.getString(R.string.unit_mile)
                 } else
-                    tvKM?.text = "${mHomeCardVoBean.distance}"+" "+resources.getString(R.string.unit_km)
+                    tvKM?.text = "${mHomeCardVoBean.distance}"+" "+resources.getString(R.string.string_km)
                 tvCalories?.text = "${mHomeCardVoBean.calorie}"+" "+resources.getString(R.string.string_unit_kcal)
             }
         }

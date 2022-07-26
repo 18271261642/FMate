@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.view.TimePickerView
+import com.example.phoneareacodelibrary.Utils
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.database.SCHEDULE_LIST
 import com.example.xingliansdk.R
@@ -144,7 +145,8 @@ class ScheduleActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickListe
             mTimeBean.characteristic = 2//特征
             SettingDateTime.setContentText(
                 DateUtil.getDate(
-                    DateUtil.MM_AND_DD_STRING,
+                    if(Utils.isChinese())
+                    DateUtil.MM_AND_DD_STRING else DateUtil.MM_AND_DD,
                     System.currentTimeMillis()
                 )
             )

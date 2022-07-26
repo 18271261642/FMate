@@ -2,6 +2,65 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+    <string name="string_go_measure">to measure</string>
+    <string name="string_not_measure">not measuring</string>
+    <string name="string_dialog_bp_content">Take your blood pressure~</string>
+    <string name="string_check_fun">Calibration method:</string>
+    <string name="string_check_desc">Measure blood pressure three times at the same time with a medical-grade blood pressure monitor and watch, and manually enter the measurement results of each medical-grade blood pressure monitor.</string>
+    <string name="string_start_calibration">start calibration</string>
+
+    <string name="string_measure_ing">under measurement</string>
+    <string name="string_status">status</string>
+    <string name="string_measure_bp">bp measurement</string>
+    <string name="string_measure_again">measure again</string>
+    <string name="string_bp_pulse">pulse</string>
+
+    <string name="string_logout_cuurent_accout">Log out of the current account?</string>
+    <string name="string_save_and_use">save and apply</string>
+    <string name="string_dial_fail">fail</string>
+    <string name="string_dial_download_fail">download failed</string>
+    <string name="strign_dial_other_later">Another watch face is already installed, please try again later</string>
+    <string name="string_has_current_dial">Already the current watch face, no need to install</string>
+    <string name="string_install_number">people installed</string>
+    <string name="string_dial_free">free</string>
+    <string name="string_dial_edi">edi</string>
+    <string name="string_dial_current">Current dial</string>
+    <string name="string_dial_updating">updating..</string>
+    <string name="string_select">select</string>
+    <string name="string_dial_detail">dial detail</string>
+    <string name="string_dial_precautions_desc">During the installation process, in order to ensure the success of the installation, please do not leave this interface, and do not operate the mobile phone and watch.</string>
+    <string name="string_dial_precautions">Precautions:</string>
+    <string name="string_dial_download">download</string>
+    <string name="string_dial_install">install</string>
+    <string name="string_input_title_desc">Please enter a title to distinguish</string>
+    <string name="string_inupt_interval">Enter the interval</string>
+    <string name="string_custom_interval">custom interval</string>
+    <string name="string_custom">customize</string>
+    <string name="string_daily">day</string>
+    <string name="string_has_add_card">card added</string>
+    <string name="string_more_card">more cards</string>
+
+    <string name="string_day_avg">daily avg</string>
+    <string name="tring_month_avg">month avg</string>
+    <string name="string_this_change">change</string>
+    <string name="string_month_bmi">month avg BMI</string>
+    <string name="string_week_bmi">week avg BMI</string>
+    <string name="string_month_avg">month daily avg</string>
+    <string name="string_week_avg">week daily avg</string>
+    <string name="string_compare_last_month">compared to last month</string>
+    <string name="string_compare_last_week">compared to last week</string>
+    <string name="string_compare_last_year">compared to last year</string>
+    <string name="string_year_avg_month">year avg</string>
+    <string name="string_year_bmi">year avg BMI</string>
+
+
+    <string name="string_health_data">Health knowledge</string>
+    <string name="string_not_agree">disagree</string>
+    <string name="strign_agree_continue">agree and continue</string>
+    <string name="string_and">and</string>
+    <string name="string_user_agree_and_privacy">User Agreement and Privacy Policy</string>
+
+
     <string name="string_max_height">highest value</string>
     <string name="string_min_low">lowest value</string>
 
@@ -22,9 +81,9 @@
     <string name="string_pressure_max_min">min-max</string>
     <string name="string_sleep_into">fall asleep</string>
     <string name="string_sleep_wake_up">wake up</string>
-    <string name="string_sleep_ngith_value">6-10 hour</string>
+    <string name="string_sleep_ngith_value">6–10 hour</string>
     <string name="string_sleep_night_time">night sleep duration</string>
-    <string name="string_min_heart">minimum heart rate</string>
+    <string name="string_min_heart">min heart rate</string>
     <string name="string_count_steps">total steps</string>
     <string name="string_day_avg_step">Average daily steps</string>
 
@@ -32,11 +91,11 @@
     <string name="string_map_ht_1">Anaerobic endurance</string>
     <string name="string_map_ht_2">Aerobic endurance</string>
 
-    <string name="string_heart_constant_1">80-90 times/min</string>
-    <string name="string_heart_constant_2">110-129 times/min</string>
-    <string name="string_heart_constant_3">130-159 times/min</string>
-    <string name="string_heart_constant_4">160-179 times/min</string>
-    <string name="string_heart_constant_5">180-220 times/min</string>
+    <string name="string_heart_constant_1">80–90 times/min</string>
+    <string name="string_heart_constant_2">110–129 times/min</string>
+    <string name="string_heart_constant_3">130–159 times/min</string>
+    <string name="string_heart_constant_4">160–179 times/min</string>
+    <string name="string_heart_constant_5">180–220 times/min</string>
 
     <string name="string_interval_2">interval</string>
     <string name="string_sport_record">sports record</string>
@@ -67,7 +126,7 @@
 
 
     <string name="string_feedback_type">Feedback type</string>
-    <string name="string_feedback_title">Feedback type</string>
+    <string name="string_feedback_title">FAQ</string>
     <string name="string_submit">Submit</string>
     <string name="string_conn_ing">Reconnecting...</string>
 
@@ -83,7 +142,7 @@
     <string name="string_next_time">next time</string>
     <string name="string_curr_change">this change</string>
 
-    <string name="string_times_number">frequency</string>
+    <string name="string_times_number">times</string>
     <string name="string_distance">distance</string>
     <string name="string_km">km</string>
     <string name="string_mile">mi</string>
@@ -98,7 +157,7 @@
     <string name="string_location_middle">Middle</string>
 
     <string name="string_location_bottom">Under</string>
-    <string name="string_set_dial_ing">Replacing the dial, please wait...</string>
+    <string name="string_set_dial_ing">Replacing the dial, please wait…</string>
     <string name="string_dial_has_dial">The device has already stored this dial!</string>
     <string name="string_small_pickture">The picture is too small, please select the appropriate picture size!
 
@@ -123,9 +182,9 @@
     <string name="string_save_successed">Saved successfully!</string>
     <string name="string_save_failed">Save failed!</string>
     <string name="string_bp_input_sphy">Please input the result of sphygmomanometer measurement</string>
-    <string name="string_calibration_first">First measurement</string>
-    <string name="string_calibration_second">Second measurement</string>
-    <string name="string_calibration_third">Third measurement</string>
+    <string name="string_calibration_first">First</string>
+    <string name="string_calibration_second">Second</string>
+    <string name="string_calibration_third">Third</string>
     <string name="string_measure_result">Measurement result</string>
     <string name="string_measure_status">Measurement status</string>
     <string name="string_input_valid_bp">Please enter the normal blood pressure value!</string>
@@ -140,8 +199,8 @@
     <string name="string_bp_rang_reference">Blood pressure return reference</string>
     <string name="string_watch_measure">Watch measurement</string>
     <string name="string_dbp">Diastolic pressure</string>
-    <string name="string_sbp">Systolic pressure</string>
-    <string name="string_bp">Blood pressure</string>
+    <string name="string_sbp">Systolic bp</string>
+    <string name="string_bp">Blood bp</string>
     <string name="string_only_one">Only once</string>
 
     <string name="string_login">Sign in</string>
@@ -153,14 +212,14 @@
     <string name="string_start_time">Start time</string>
     <string name="string_end_time">End time</string>
     <string name="string_today_time">Current time</string>
-    <string name="string_times">Frequency</string>
+    <string name="string_times">times</string>
 
 
     <string name="string_total">Grand total</string>
     <string name="string_start">Start</string>
     <string name="string_hour">hour</string>
     <string name="string_minute">minute</string>
-    <string name="string_kilogram">kilogram</string>
+    <string name="string_kilogram">kilo</string>
     <string name="string_menu_data">Data</string>
     <string name="string_menu_sport">Sport</string>
     <string name="string_my_device">My Device</string>
@@ -171,7 +230,7 @@
     <string name="string_logout_account">Account cancellation</string>
     <string name="string_get_verify_code">Get code</string>
 
-    <string name="string_privacy_content_desc">Welcome to ai Health\\\nclick\"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
+    <string name="string_privacy_content_desc">Welcome to ai Health\n click 、"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
                         "When entering the app, in order to provide you with instant messaging, content sharing and other services, we need to collect your device information, personal information, MAC, IMEI, etc We hereby promise not to divulge any third-party information of you and only use it for app use." +
                         "If you click\"Disagree and exit\",You will not be able to use our products,Please exit the app</string>
     <string name="string_no_agree_desc">Disagree the《ai Health user agreement》 and 《Privacy policy》Will not be available to use the ai Health products and services, please exit the App</string>
@@ -190,7 +249,7 @@
     <string name="string_forget_pwd">Forgot password</string>
     <string name="string_user_agreement">《User agreement》</string>
     <string name="string_user_privacy">《Privacy policy》</string>
-    <string name="string_red_agree">I have read and agreed</string>
+    <string name="string_red_agree">agree and read</string>
 
     <string name="string_set_pwd">Set password</string>
     <string name="string_again_pwd">Please enter the password again</string>
@@ -216,8 +275,8 @@
     <string name="string_home_measure_wait">Blood pressure is being measured, please wait!</string>
     <string name="string_home_no_net_edit">There is no network and cannot be edited</string>
     <string name="string_unit_mile">mile</string>
-    <string name="string_unit_km">kilometer</string>
-    <string name="string_unit_kcal">kilocalorie</string>
+    <string name="string_unit_km">km</string>
+    <string name="string_unit_kcal">kcal</string>
     <string name="string_home_sleep_refresh">Sleep refresh</string>
     <string name="string_home_pressure_refresh">Pressure refresh</string>
     <string name="string_home_heart_refresh">Heart rate refresh</string>
@@ -229,7 +288,7 @@
     <string name="string_sport_run">Run</string>
     <string name="string_sport_cycle">Riding</string>
     <string name="string_sport_time">Exercise time</string>
-    <string name="string_sport_kcal">Quantity of heat</string>
+    <string name="string_sport_kcal">heat</string>
     <string name="string_sport_avg_heart">Mean heart rate</string>
     <string name="string_sport_steps">Number of steps</string>
     <string name="string_sport_avg_pace">Average pace</string>
@@ -257,7 +316,7 @@
     <string name="string_about">About</string>
 
     <string name="string_feedback">Problems and feedback</string>
-    <string name="string_product_suggest">Product recommendations</string>
+    <string name="string_product_suggest">Product suggestion</string>
     <string name="string_input_feedback">Please enter feedback</string>
     <string name="string_input_feedback_phone">Please enter the contact mobile number</string>
     <string name="string_suggest_desc">Please explain your suggestions and we will continue to improve～～</string>
@@ -314,7 +373,7 @@
     <string name="string_bp_light_notify">Daytime measurement reminder</string>
     <string name="string_bp_half_hour_measure">08:00 ~ 24:00，remind you to measure every 30 minutes</string>
     <string name="string_bp_night_auto_measure">Automatic measurement at night</string>
-    <string name="string_bp_night_half_hour_measure">夜间00:00～08:00，automatic measurement every 30 minutes</string>
+    <string name="string_bp_night_half_hour_measure">night 00:00～08:00，automatic measurement every 30 minutes</string>
     <string name="string_notify_more_click">For more permission questions, please click</string>
     <string name="string_notify_help">find the ai Health ,just open or restart the service</string>
     <string name="string_add_most_alarm">You can only add five items at most. Please select Delete or modify</string>
@@ -372,7 +431,7 @@
     <string name="string_net_error">There is something wrong with the network. Go and check it～</string>
     <string name="string_no_data">No data</string>
     <string name="string_to_check">De calibration</string>
-    <string name="string_no_checked">No calibration for the time being</string>
+    <string name="string_no_checked">Not calibrated</string>
     <string name="string_bind">Debinding</string>
     <string name="string_temporary_bind">Not binding</string>
     <string name="string_click_delete">Click Delete</string>
@@ -381,8 +440,8 @@
     <string name="string_input_normal_dbp">Please input normal diastolic pressure</string>
     <string name="string_input_normal_sbp">Please enter the normal systolic pressure</string>
     <string name="string_input_bp">Please enter the blood pressure value</string>
-    <string name="string_input_sbp">Please enter systolic blood pressure</string>
-    <string name="string_input_dbp">Please enter diastolic pressure</string>
+    <string name="string_input_sbp">enter systolic bp</string>
+    <string name="string_input_dbp">enter diastolic bp</string>
     <string name="string_measure_success">Measurement successful</string>
     <string name="string_measure_check_success">Calibration successful</string>
     <string name="string_measure_first">Start the first measurement</string>
@@ -471,7 +530,7 @@
     
     
     
-    <string name="string_time_minute">Times / minute</string>
+    <string name="string_time_minute">times/min</string>
     <string name="string_max_value">Maximum</string>
     <string name="string_min_value">Minimum value</string>
     <string name="string_avg_value">Average value</string>
@@ -480,8 +539,8 @@
 
     <string name="string_status_heart_desc1">Warm up and relax</string>
     <string name="string_status_heart_desc2">Fat burning</string>
-    <string name="string_status_heart_desc3">Cardiopulmonary enhancement</string>
-    <string name="string_status_heart_desc4">Endurance enhancement</string>
+    <string name="string_status_heart_desc3">Aerobic endurance</string>
+    <string name="string_status_heart_desc4">Anaerobic endurance</string>
     <string name="string_status_heart_desc5">Anaerobic limit</string>
     
     
@@ -489,7 +548,7 @@
     <string name="string_sleep_deep">Deep sleep</string>
     <string name="string_sleep_light">Light sleep</string>
     <string name="string_sleep_awake">Sober</string>
-    <string name="string_sleep_eye">Rapid eye movement</string>
+    <string name="string_sleep_eye">eye movement</string>
     <string name="string_sleep_into_time">Sleep duration</string>
     <string name="string_sleep_deep_scale">Deep sleep ratio</string>
     <string name="string_sleep_light_scale">Light sleep ratio</string>
@@ -583,12 +642,12 @@
     <string name="unit_pounds">pound</string>
     <string name="unit_version">V %1$s</string>
     <string name="unit_cm">cm</string>
-    <string name="temp_low"><![CDATA[Temperature<36.0°C]]></string>
-    <string name="temp_normal"><![CDATA[36.0°C≤Temperature<37.3°C]]></string>
-    <string name="temp_low_fever">37.3°C≤Temperature≤38.0°C</string>
-    <string name="temp_moderate_fever"><![CDATA[38.0°C<Temperature≤39.0°C]]></string>
-    <string name="temp_high_fever"><![CDATA[39.0°C<Temperature≤41.0°C]]></string>
-    <string name="temp_ultrahigh_fever"><![CDATA[Temperature>41.0°C]]></string>
+    <string name="temp_low"><![CDATA[Temp<36.0°C]]></string>
+    <string name="temp_normal"><![CDATA[36.0°C≤Temp<37.3°C]]></string>
+    <string name="temp_low_fever">37.3°C≤Temp≤38.0°C</string>
+    <string name="temp_moderate_fever"><![CDATA[38.0°C<Temp≤39.0°C]]></string>
+    <string name="temp_high_fever"><![CDATA[39.0°C<Temp≤41.0°C]]></string>
+    <string name="temp_ultrahigh_fever"><![CDATA[Temp>41.0°C]]></string>
 
     <string name="weight_low"><![CDATA[BMI<18.5]]></string>
     <string name="weight_normal"><![CDATA[18.5≤BMI<24.0]]></string>
@@ -600,9 +659,9 @@
     <string name="blood_oxygen_70_90"><![CDATA[70%≤SpO2<90%]]></string>
     <string name="blood_oxygen_70"><![CDATA[SpO2<70%]]></string>
     <string name="blood_oxygen_index_title">Blood oxygen saturation（SpO2）Reference value</string>
-    <string name="diastolic_pressure_85"><![CDATA[Diastolic pressure<85mmHg]]></string>
-    <string name="systolic_pressure_130"><![CDATA[Systolic pressure<130mmHg]]></string>
-    <string name="systolic_pressure_130_139">Systolic pressure130～139mmHg</string>
+    <string name="diastolic_pressure_85"><![CDATA[Diastolic bp<85mmHg]]></string>
+    <string name="systolic_pressure_130"><![CDATA[Systolic bp<130mmHg]]></string>
+    <string name="systolic_pressure_130_139">Systolic bp～139mmHg</string>
     <string name="edt_password_number_text">The password is any combination of 6-12 numbers and letters</string>
     <string name="bind_success">Binding succeeded</string>
     <string name="bind_fail">Binding failed</string>

@@ -452,11 +452,19 @@ class TakeMedicineActivity : BaseActivity<SetAllClockViewModel>(), View.OnClickL
             animStyle = R.style.BottomTransAlphaADAnimation
             var mList: MutableList<RemindTakeMedicineBean.ReminderGroup> = arrayListOf()
             convertListenerFun { holder, dialog ->
-                var tvDele = holder.getView<TextView>(R.id.tvDele)
-                var tvOne = holder.getView<TextView>(R.id.tvOne)
-                var tvTwo = holder.getView<TextView>(R.id.tvTwo)
-                var tvThree = holder.getView<TextView>(R.id.tvThree)
-                var tvFour = holder.getView<TextView>(R.id.tvFour)
+                val tvDele = holder.getView<TextView>(R.id.tvDele)
+                val tvOne = holder.getView<TextView>(R.id.tvOne)
+                val tvTwo = holder.getView<TextView>(R.id.tvTwo)
+                val tvThree = holder.getView<TextView>(R.id.tvThree)
+                val tvFour = holder.getView<TextView>(R.id.tvFour)
+
+                if (tvOne != null) {
+                    tvOne.text = "1"+resources.getString(R.string.string_times)
+                }
+                tvTwo?.text = "2"+resources.getString(R.string.string_times)
+                tvThree?.text = "3"+resources.getString(R.string.string_times)
+                tvFour?.text = "4"+resources.getString(R.string.string_times)
+
                 val calendar = Calendar.getInstance()
                 tvOne?.setOnClickListener {
                     if(mList.size>0){

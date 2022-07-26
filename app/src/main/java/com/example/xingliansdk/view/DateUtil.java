@@ -1442,6 +1442,20 @@ public class DateUtil {
         return dateTime;
     }
 
+    public static String getTextTime(long time,boolean Chiese) {
+        long date = time;
+        String dateTime;
+        if(Chiese){
+            dateTime = String.format("%02d小时%02d分钟", date / 3600, date % 3600 / 60);
+        }else{
+            dateTime = String.format(Locale.ENGLISH,"%02dH%02dM", date / 3600, date % 3600 / 60);
+
+        }
+
+        return dateTime;
+    }
+
+
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("##");
 

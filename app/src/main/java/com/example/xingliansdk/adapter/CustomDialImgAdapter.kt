@@ -48,7 +48,7 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
         val tvInstall = helper.getView<TextView>(R.id.tvInstall)
         itemDownload= helper.getView<DownloadProgressButton>(R.id.itemDownload)
         val tvName = helper.getView<TextView>(R.id.tvName)
-        tvInstall.text = "安装"
+        tvInstall.text = context.resources.getString(R.string.string_dial_install)
        // itemDownload?.currentText="安装"
 
         TLog.error("--------自定义表盘item="+item.getyAxis())
@@ -58,7 +58,7 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
 //            itemDownload?.textColor = (context.resources.getColor(R.color.color_main_green))
 //            itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_main_green))
             //itemDownload?.setProgressBackgroundColor(context.resources.getColor(R.color.color_text_de))
-            tvInstall.text = "安装"
+            tvInstall.text = context.resources.getString(R.string.string_dial_install)
 
         }
 //        itemDownload?.currentText= item.getyAxis()

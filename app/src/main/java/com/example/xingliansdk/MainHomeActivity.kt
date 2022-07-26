@@ -649,7 +649,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
             if(action == com.shon.connector.Config.DEVICE_AUTO_MEASURE_BP_ACTION){
 
                 val isRunn = Utils.isAppRunning(XingLianApplication.mXingLianApplication)
-                TLog.error("-----是否正在运行="+isRunn)
+
 
                 if(!isRunn)
                     return
@@ -657,8 +657,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
                 val typeCode = intent.getIntExtra("bp_status",0)
 
-
-
+                TLog.error("-----是否正在运行="+isRunn+" "+typeCode)
                 if(typeCode == 5 || typeCode == 4){
                     if(typeCode == 4){
                         com.shon.connector.Config.isNeedTimeOut = true
@@ -699,6 +698,7 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
                 //超时，有弹窗取消弹窗 //有弹窗 取消弹窗
                 if(typeCode == 0x01 || typeCode == 10){
+                    com.shon.connector.Config.isNeedTimeOut = false
                     measureBpPromptDialog?.dismiss()
                 }
 

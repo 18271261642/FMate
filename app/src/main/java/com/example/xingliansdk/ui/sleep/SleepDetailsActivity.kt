@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.CalendarView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.phoneareacodelibrary.Utils
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.PopularScienceAdapter
@@ -41,6 +42,7 @@ import com.shon.connector.bean.SleepBean
 import com.shon.connector.bean.TimeBean
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_sleep_details.*
+import kotlinx.android.synthetic.main.item_sleep_index.*
 import org.json.JSONArray
 import java.util.*
 import kotlin.collections.ArrayList
@@ -86,6 +88,9 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
             override fun onActionClick() {
             }
         })
+
+
+        sleepLastItem.setTyTypeContext("0-2"+resources.getString(R.string.string_times))
 
         mList = mutableListOf()
         sDao = AppDataBase.instance.getRoomSleepTimeDao()
@@ -533,19 +538,31 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
 
         TLog.error("---11---总的睡眠时长="+timeLong)
 
-        val countTime = DateUtil.getTextTime(timeLong)
+        val isChinese = Utils.isChinese()
+        val countTime =  DateUtil.getTextTime(timeLong,isChinese)
 
         TLog.error("---22---总的睡眠时长="+countTime)
 
+        if(isChinese){
+            tvSleepTime.text = HelpUtil.getSpan(
+                countTime.substring(0, 2),
+                countTime.substring(2, 4),
+                countTime.substring(4, 6),
+                countTime.substring(6, 8),
+                R.color.main_text_color,
+                12
+            )
+        }else{
+            tvSleepTime.text = HelpUtil.getSpan(
+                countTime.substring(0, 2),
+                countTime.substring(2, 3),
+                countTime.substring(3, 5),
+                countTime.substring(5, 6),
+                R.color.main_text_color,
+                12
+            )
+        }
 
-        tvSleepTime.text = HelpUtil.getSpan(
-            countTime.substring(0, 2),
-            countTime.substring(2, 4),
-            countTime.substring(4, 6),
-            countTime.substring(6, 8),
-            R.color.main_text_color,
-            12
-        )
 
 
 
@@ -665,24 +682,49 @@ class SleepDetailsActivity : BaseActivity<SleepViewModel>(), View.OnClickListene
         TLog.error(tags,"-------睡眠data=${data.toString()}")
         if (data != null) {
             tvSleepTimeType.text = data.beginTime + "-" + data.endTime
-            var time = DateUtil.getTextTime(data.duration.toLong() * 60L)
+
+            val isChinese = Utils.isChinese()
+            var time = DateUtil.getTextTime(data.duration.toLong() * 60L,isChinese)
+
+            TLog.error("------分钟="+time)
+
             sleepDetailStatusTv.text = data.getSleepStatus(this)
             if (time.substring(0, 2).toInt() > 0) {
+                if(isChinese){
+                    tvSleepTime.text = HelpUtil.getSpan(
+                        time.substring(0, 2),
+                        time.substring(2, 4),
+                        time.substring(4, 6),
+                        time.substring(6, 8),
+                        R.color.main_text_color,
+                        12
+                    )
+                }else{
+                    tvSleepTime.text = HelpUtil.getSpan(
+                        time.substring(0, 2),
+                        time.substring(2, 3),
+                        time.substring(3, 5),
+                        time.substring(5, 6),
+                        R.color.main_text_color,
+                        12
+                    )
+                }
 
-                tvSleepTime.text = HelpUtil.getSpan(
-                    time.substring(0, 2),
-                    time.substring(2, 4),
-                    time.substring(4, 6),
-                    time.substring(6, 8),
-                    R.color.main_text_color,
-                    12
-                )
             } else {
-                tvSleepTime.text = HelpUtil.getSpan(
-                    time.substring(4, 6),
-                    time.substring(6, 8),
-                    12
-                )
+                if(isChinese){
+                    tvSleepTime.text = HelpUtil.getSpan(
+                        time.substring(4, 6),
+                        time.substring(6, 8),
+                        12
+                    )
+                }else{
+                    tvSleepTime.text = HelpUtil.getSpan(
+                        time.substring(3, 5),
+                        time.substring(5, 6),
+                        12
+                    )
+                }
+
             }
 
         } else {

@@ -345,9 +345,6 @@ public class DataDispatcher {
         }
 
 
-
-
-
         if (type == BluetoothGattCharacteristic.PROPERTY_NOTIFY) {
             for (Listener listener : listeners) {
 
@@ -366,14 +363,9 @@ public class DataDispatcher {
                 }
                 boolean process = callBack.process(address, bytes,uuid);
                // TLog.Companion.error("------process="+process);
-                if(Config.isNeedTimeOut){
-
-                }else{
-                    if (process) {
-                        break;
-                    }
+                if (process) {
+                    break;
                 }
-
             }
         }
 

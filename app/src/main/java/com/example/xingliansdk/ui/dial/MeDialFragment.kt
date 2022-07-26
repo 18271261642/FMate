@@ -495,7 +495,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
                     if(markBean != null){
 
                         if(marketDialId != -1 && !TextUtils.isEmpty(markBean.name)){
-                            markBean.state = "选择"
+                            markBean.state = resources.getString(R.string.string_select)
                             markBean.isCurrent = false
                             if(it.list[0].typeList.size>=5){
 
@@ -559,11 +559,11 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
 
                     it.isCurrent = true
                     it.stateCode = 1
-                    it.state = "当前表盘"
+                    it.state = resources.getString(R.string.string_dial_current)
                 }else{
                     it.isCurrent = false
                     it.stateCode = 6
-                    it.state = "安装"
+                    it.state = resources.getString(R.string.string_dial_install)
                 }
             }
 
@@ -709,7 +709,7 @@ class MeDialFragment : BaseFragment<MeDialViewModel>(), View.OnClickListener,
            // mViewModel.checkDialSate(Gson().toJson(setList))
 
         } else
-            ShowToast.showToastLong("更换失败")
+            ShowToast.showToastLong(resources.getString(R.string.string_dial_fail))
     }
 
     private fun dialog(position: Int, type: Int) {

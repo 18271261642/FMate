@@ -39,6 +39,8 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
 
         edtCustom.setOnClickListener(this)
 
+        initViews()
+
         llRepeat.visibility=View.GONE
         type=intent.getIntExtra("ReminderPeriod",0)
         if(type>0) {
@@ -64,32 +66,6 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
         }
 
 
-
-//        edtCustom.addTextChangedListener {
-//
-//            if(it==null||it.isEmpty()){
-////                edtCustom.setText("1")
-////                it?.let { it1 -> edtCustom.setSelection(edtCustom.text.length)
-////                TLog.error("it??"+it1.length)
-////                }//将光标移至文字末尾
-//                type=-1
-//            //    ShowToast.showToastLong("周期天数间隔不能小于1天")
-//                return@addTextChangedListener
-//            }
-//
-//
-//            val day=it.toString().toInt()
-//            if (day>255)
-//            {
-//                ShowToast.showToastLong("周期天数不大于255天")
-//                edtCustom.hint = "自定义"
-//                return@addTextChangedListener
-//            }
-//            type=day
-//            getType(edtCustom.id)
-//        }
-//
-
         titleBar.setTitleBarListener(object : TitleBarLayout.TitleBarListener {
             override fun onBackClick() {
                 finish()
@@ -106,7 +82,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                 if (type == -1) {
 
                 val day = edtCustom.text.toString()
-                if(day == "自定义"){
+                if(day == resources.getString(R.string.string_custom)){
                     ShowToast.showToastShort("请填入间隔周期")
                     return
                 }
@@ -121,7 +97,7 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
                 }
                 if (numDay.toInt() > 255) {
                     ShowToast.showToastLong("周期天数不大于255天")
-                    edtCustom.hint = "自定义"
+                    edtCustom.hint = resources.getString(R.string.string_custom)
                     return
                 }
                 }
@@ -137,6 +113,9 @@ class TakeMedicineRepeatActivity : BaseActivity<MainViewModel>(), View.OnClickLi
     }
 
 
+    private fun initViews(){
+        tvOne.text = "1"+resources.getString(R.string.string_daily)
+    }
 
     fun clearCusBeforeStatus(){
         

@@ -31,7 +31,7 @@
             android:id="@+id/tvEdt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="编辑"
+            android:text="@string/string_dial_edi"
             android:gravity="center"
             android:minWidth="78dp"
             android:textColor="@color/color_main_green"

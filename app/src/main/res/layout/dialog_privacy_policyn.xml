@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="隐私保护政策"
+            android:text="@string/string_user_agree_and_privacy"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="@color/main_text_color"
@@ -69,28 +69,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="查看完整版"
+                    android:text=""
                     android:textSize="11sp"
                     />
                     <TextView
                         android:id="@+id/tvUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="《用户协议》"
+                        android:text="@string/string_user_agreement"
                         android:textColor="@color/color_login"
                         android:textSize="11sp"
                         />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="及"
+                    android:text="@string/string_and"
                     android:textSize="11sp"
                     />
                 <TextView
                     android:id="@+id/tvPrivacy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="《隐私政策》"
+                    android:text="@string/string_user_privacy"
                     android:textColor="@color/color_login"
                     android:textSize="11sp"
                     />
@@ -103,7 +103,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_marginTop="12dp"
-                android:text="同意并继续"
+                android:text="@string/strign_agree_continue"
                 android:background="@drawable/bg_login_password"
                 android:textColor="@color/white" />
             <TextView
@@ -113,7 +113,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="不同意"
+                android:text="@string/string_not_agree"
                  />
 
         </LinearLayout>

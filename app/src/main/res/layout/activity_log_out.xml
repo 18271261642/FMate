@@ -30,7 +30,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:textColor="@color/sub_text_color"
-        android:text="一旦个人用户注销账户，个人账户就会关闭，这样一来APP将会停止为您提供涉及账号类方面的服务，而且一旦注销成功是无法撤销恢复的，后台将删除所有与注销账号相关联的数据。"/>
+        android:text="@string/string_logout_account_desc"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"

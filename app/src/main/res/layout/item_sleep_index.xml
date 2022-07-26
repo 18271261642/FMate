@@ -55,6 +55,7 @@
         />
 
     <com.example.xingliansdk.widget.IndexItemLayout
+        android:id="@+id/sleepLastItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_sleep_awake_times"

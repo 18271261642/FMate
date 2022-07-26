@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
+
         <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/calenderView"
-            android:selectedWeekBackgroundColor="#aff"
+            android:layout_width="match_parent"
+            android:shownWeekCount="4"
+            android:layout_height="wrap_content"
             android:focusedMonthDateColor="#f00"
-            android:weekSeparatorLineColor="#ff0"
+            android:selectedWeekBackgroundColor="#aff"
             android:unfocusedMonthDateColor="#f9f"
-            />
+            android:weekSeparatorLineColor="#ff0" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,6 +2,62 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+    <string name="string_go_measure">去测量</string>
+    <string name="string_not_measure">暂不测量</string>
+    <string name="string_dialog_bp_content">测量一下血压吧~</string>
+    <string name="string_check_fun">校准方法:</string>
+    <string name="string_check_desc">用医疗级血压计与手表同时测量血压三次，并手动输入每次医疗级血压计的测量结果</string>
+    <string name="string_start_calibration">开始校准</string>
+    <string name="string_measure_ing">测量中</string>
+    <string name="string_status">状态</string>
+    <string name="string_measure_bp">血压测量</string>
+    <string name="string_measure_again">再次测量</string>
+    <string name="string_bp_pulse">脉搏</string>
+    <string name="string_logout_cuurent_accout">退出登录当前账号?</string>
+    <string name="string_save_and_use">保存并应用</string>
+    <string name="string_dial_fail">失败</string>
+    <string name="string_dial_download_fail">下载失败</string>
+    <string name="strign_dial_other_later">已有其他表盘在安装,请稍后再试</string>
+    <string name="string_has_current_dial">已是当前表盘,无需安装</string>
+    <string name="string_install_number">人安装</string>
+    <string name="string_dial_free">免费</string>
+    <string name="string_dial_edi">编辑</string>
+    <string name="string_dial_current">当前表盘</string>
+    <string name="string_dial_updating">更新中..</string>
+    <string name="string_select">选择</string>
+    <string name="string_dial_detail">表盘详情</string>
+    <string name="string_dial_precautions_desc">安装过程中，为了确保安装成功，请勿离开本界面，请勿操作手机和手表。</string>
+    <string name="string_dial_precautions">注意事项:</string>
+    <string name="string_dial_download">下载</string>
+    <string name="string_dial_install">安装</string>
+    <string name="string_input_title_desc">请输入标题,以便区分</string>
+    <string name="string_inupt_interval">输入间隔</string>
+    <string name="string_custom_interval">自定义间隔</string>
+    <string name="string_custom">自定义</string>
+    <string name="string_daily">天</string>
+    <string name="string_has_add_card">已添加卡片</string>
+    <string name="string_more_card">更多卡片</string>
+
+    <string name="string_day_avg">日均</string>
+    <string name="tring_month_avg">月均</string>
+    <string name="string_this_change">本次变化</string>
+    <string name="string_month_bmi">本月BMI均值</string>
+    <string name="string_week_bmi">本周BMI均值</string>
+    <string name="string_month_avg">本月日均</string>
+    <string name="string_week_avg">本周日均</string>
+    <string name="string_compare_last_month">与上月相比</string>
+    <string name="string_compare_last_week">与上周相比</string>
+    <string name="string_compare_last_year">与上年相比</string>
+    <string name="string_year_avg_month">本年月均</string>
+    <string name="string_year_bmi">本年BMI均值</string>
+
+
+    <string name="string_health_data">Health knowledge</string>
+    <string name="string_not_agree">disagree</string>
+    <string name="strign_agree_continue">agree and continue</string>
+    <string name="string_and">and</string>
+    <string name="string_user_agree_and_privacy">User Agreement and Privacy Policy</string>
+
     <string name="string_max_height">最高值</string>
     <string name="string_min_low">最低值</string>
 

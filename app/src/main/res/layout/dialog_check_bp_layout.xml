@@ -14,7 +14,7 @@
         app:backcolor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="校准"
+        app:midtitle="@string/string_calibration"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
 
@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准方法："
+            android:text="@string/string_check_fun"
             android:layout_margin="5dp"
             android:textColor="@color/black"
             android:textSize="18sp" />
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="用医疗级血压计与手表同时测量血压三次，并手动输入每次医疗级血压计的测量结果"
+            android:text="@string/string_check_desc"
             android:layout_marginStart="5dp"
             android:layout_marginTop="15dp"
             android:textColor="#ff333333"
@@ -71,7 +71,7 @@
         android:id="@+id/checkBpStartTv"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="开始校准"
+        android:text="@string/string_start_calibration"
         app:shape_radius="8dp"
         android:layout_gravity="center"
         android:textColor="@color/white"

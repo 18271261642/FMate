@@ -88,14 +88,31 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
                         timeStr = "00"+context.resources.getString(R.string.string_hour)+timeStr
                     }
 
-                    tvItemStatusData.text = HelpUtil.getSpan(
-                        timeStr.substring(0, 2),
-                        timeStr.substring(2, 4),
-                        timeStr.substring(4, 6),
-                        timeStr.substring(6, 8),
-                        R.color.sub_text_color,
-                        12
-                    )
+
+                    if(com.example.phoneareacodelibrary.Utils.isChinese()){
+                        tvItemStatusData.text = HelpUtil.getSpan(
+                            timeStr.substring(0, 2),
+                            timeStr.substring(2, 4),
+                            timeStr.substring(4, 6),
+                            timeStr.substring(6, 8),
+                            R.color.sub_text_color,
+                            12
+                        )
+                    }else{
+
+                        var enTimeStr = timeStr.replace("小时","H")
+                        enTimeStr = enTimeStr.replace("分钟","M")
+
+                        tvItemStatusData.text = HelpUtil.getSpan(
+                            enTimeStr.substring(0, 2),
+                            enTimeStr.substring(2, 3),
+                            enTimeStr.substring(3, 5),
+                            enTimeStr.substring(5, 6),
+                            R.color.sub_text_color,
+                            12
+                        )
+                    }
+
                     img.setImageResource(R.mipmap.icon_home_sleep_data)
                 } else {
                     if (item.data.isNullOrEmpty())

@@ -44,7 +44,7 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
         productNumber = intent.getStringExtra("productNumber").toString()
        var  typeName= intent.getStringExtra("typeName").toString()
         TLog.error("typeName++"+typeName)
-        titleBar.setTitleText(typeName)
+        titleBar.setTitleText(if(typeName=="最新")resources.getString(R.string.string_dial_last) else typeName)
         var hashMap = HashMap<String, String>()
         hashMap["productNumber"] = productNumber
         hashMap["type"] = type.toString()
@@ -132,7 +132,7 @@ class DialIndexActivity : BaseActivity<RecommendDialViewModel>() {
                     mList.forEachIndexed { index, typeListDTO ->
                         if(typeListDTO.dialId==data.id) {
 
-                            typeListDTO.state = "安装"
+                            typeListDTO.state = resources.getString(R.string.string_dial_install)
 
                             mMeDialImgAdapter.notifyItemChanged(index,typeListDTO)
                         }

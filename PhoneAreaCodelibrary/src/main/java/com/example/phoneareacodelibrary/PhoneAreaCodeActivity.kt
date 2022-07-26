@@ -25,13 +25,16 @@ import java.util.*
 class PhoneAreaCodeActivity : AppCompatActivity(), OnQuickSideBarTouchListener {
     private var quickSideBarView: QuickSideBarView? = null
     private var quickSideBarTipsView: QuickSideBarTipsView? = null
-    private var isEnglish = false
+    private var isEnglish = true
     private val sections: MutableList<String> = ArrayList()
     private var layoutManager: LinearLayoutManager? = null
     private var datalist: List<AreaCodeModel>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_area_code)
+
+        isEnglish = true;
+
         quickSideBarView = findViewById<View>(R.id.quickSideBarView) as QuickSideBarView
         quickSideBarTipsView = findViewById<View>(R.id.quickSideBarTipsView) as QuickSideBarTipsView
         quickSideBarView!!.setOnQuickSideBarTouchListener(this)

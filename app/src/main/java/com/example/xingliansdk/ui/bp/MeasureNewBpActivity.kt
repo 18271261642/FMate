@@ -232,6 +232,7 @@ class MeasureNewBpActivity : BaseActivity<JingfanBpViewModel>(),MeasureBigBpList
         TLog.error("-----测量装填="+status)
         if(status == 0x01){ //手表主动结束掉
             Config.isNeedTimeOut = false
+            BLEManager.getInstance().dataDispatcher.clear("")
             handler.removeMessages(0x00)
             totalSecond = 0
             timeOutSecond = 0

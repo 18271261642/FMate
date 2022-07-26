@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.view.OptionsPickerView
+import com.example.phoneareacodelibrary.Utils
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
 import com.example.xingliansdk.XingLianApplication
@@ -213,8 +214,8 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
     private fun update() {
         if (position == 0) {
-            tvNowWeightTitle.text = "本次变化"
-            tvLastWeightTitle.text = "上一次"
+            tvNowWeightTitle.text = resources.getString(R.string.string_this_change)
+            tvLastWeightTitle.text = resources.getString(R.string.string_last_time)
             tvBMITitle.text = "BMI"
             mList = sDao.getList(
                 DateUtil.getDate(
@@ -292,9 +293,9 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 }
             }
         } else if (position == 1) {
-            tvNowWeightTitle.text = "与上周相比"
-            tvLastWeightTitle.text = "本周日均"
-            tvBMITitle.text = "本周BMI均值"
+            tvNowWeightTitle.text = resources.getString(R.string.string_compare_last_week)
+            tvLastWeightTitle.text = resources.getString(R.string.string_week_avg)
+            tvBMITitle.text = resources.getString(R.string.string_month_bmi)
             mList = sDao.getTimeList(
                 weekCalendar.timeInMillis / 1000,
                 (weekCalendar.timeInMillis + 86400000L * 7 - 1000) / 1000
@@ -342,9 +343,9 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             else
                 tvNowWeight.text = if(tvBMI.text.equals("--") && tvLastWeight.text.equals("--")) "--" else HelpUtil.getSpan(lastWeek.toString(), "kg")
         } else if (position == 2) {
-            tvNowWeightTitle.text = "与上月相比"
-            tvLastWeightTitle.text = "本月日均"
-            tvBMITitle.text = "本月BMI均值"
+            tvNowWeightTitle.text =resources.getString(R.string.string_compare_last_month)
+            tvLastWeightTitle.text = resources.getString(R.string.string_month_avg)
+            tvBMITitle.text = resources.getString(R.string.string_week_bmi)
             val day = monthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
             var lastMonthCalendar = DateUtil.getLastMonthFirstDate(monthCalendar)
             TLog.error("lastMonthCalendar+=" + lastMonthCalendar.timeInMillis)
@@ -402,9 +403,9 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
 
         } else if (position == 3) {
-            tvNowWeightTitle.text = "与上年相比"
-            tvLastWeightTitle.text = "本年月均"
-            tvBMITitle.text = "本年BMI均值"
+            tvNowWeightTitle.text = resources.getString(R.string.string_compare_last_year)
+            tvLastWeightTitle.text = resources.getString(R.string.string_year_avg_month)
+            tvBMITitle.text = resources.getString(R.string.string_year_bmi)
             val day = yearCalendar.getActualMaximum(Calendar.DAY_OF_YEAR)
             var lastYearCalendar = DateUtil.getLastYearFirstDate(yearCalendar)
             val lastDay = lastYearCalendar.getActualMaximum(Calendar.DAY_OF_YEAR)
@@ -560,6 +561,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     }
                     if (weightCount <= 0) {
                         if (values.isNotEmpty()) {
+                            TLog.error("-----2---------isNotEmpty="+Gson().toJson(values))
                             val set1 = LineDataSet(values, Math.random().toString())
                             set1.color = resources.getColor(R.color.color_main_green)
                             set1.setDrawValues(true)
@@ -579,13 +581,13 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 }
                 TLog.error("==weight==" + weight+" 是否未0="+(weight.toString() == "0.0"))
                 tvTime.text = DateUtil.getDate(
-                    DateUtil.MM_AND_DD_STRING,
+                    if(Utils.isChinese()) DateUtil.MM_AND_DD_STRING else DateUtil.MM_DD,
                     DateUtil.getWeekFirstDate(weekCalendar,0).timeInMillis + (size) * 86400000L
                 )
                 if(weight.toString() == "0.0"){
                     tvWeight.text = "--"
                 }else{
-                    tvWeight.text =  HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
+                    tvWeight.text =  HelpUtil.getSpan(resources.getString(R.string.string_day_avg), setNumber(weight.toDouble(), 1).toString(), "kg")
                 }
 
                 // update()
@@ -612,6 +614,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
                         if (weightCount <= 0) {
                         if (values.isNotEmpty()) {
+                            TLog.error("-----33---------isNotEmpty="+Gson().toJson(values))
                             val set1 = LineDataSet(values, Math.random().toString())
                             set1.color = resources.getColor(R.color.color_main_green)
                             set1.setDrawValues(true)
@@ -629,14 +632,14 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     }
                 }
                 tvTime.text = DateUtil.getDate(
-                    DateUtil.MM_AND_DD_STRING,
+                    if(Utils.isChinese()) DateUtil.MM_AND_DD_STRING else DateUtil.MM_DD,
                     DateUtil.getMonthFirstDate(monthCalendar).timeInMillis + (size) * 86400000L
                 )
 
                 Log.e(tags,"----日剧="+(( weight.toString() == "0.0")))
 
                 tvWeight.text =
-                   if( weight.toString() == "0.0")"--" else HelpUtil.getSpan("日均", setNumber(weight.toDouble(), 1).toString(), "kg")
+                   if( weight.toString() == "0.0")"--" else HelpUtil.getSpan(resources.getString(R.string.string_day_avg), setNumber(weight.toDouble(), 1).toString(), "kg")
 
             }
             3 -> {
@@ -682,37 +685,52 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 for ((time,weight) in hasMapYear) {
                     values.add(BarEntry(time, weight))
                 }
-                tvTime.text = "${month + 1}月"
-                tvWeight.text = if(weight == 0.0) "--" else HelpUtil.getSpan("月均", setNumber(weight, 1).toString(), "kg")
+                tvTime.text = "${month + 1}"+resources.getString(R.string.string_month)
+                tvWeight.text = if(weight == 0.0) "--" else HelpUtil.getSpan(resources.getString(R.string.tring_month_avg), setNumber(weight, 1).toString(), "kg")
             }
         }
         update()
-        if (values.isNotEmpty()) {
-            val set1 = LineDataSet(values, "")
-            val setZero = LineDataSet(valuesZero, "")
-            set1.color = resources.getColor(R.color.color_main_green)
-            set1.setDrawValues(true)
-            set1.setDrawCircles(true)//设置画圆点
-            set1.setCircleColor(resources.getColor(R.color.color_main_green))
-            set1.setDrawCircleHole(false)
-            set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
-            set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-            //0为了让线连起来好看
-            setZero.setDrawValues(false)
-            setZero.setDrawCircles(false)//设置画圆点
-            setZero.setCircleColor(resources.getColor(R.color.color_main_green))
-            setZero.setDrawCircleHole(false)
-            setZero.setDrawValues(false)//设置缩放一定程度以后的展示文字
-            setZero.color = resources.getColor(R.color.color_main_green)
-            setZero.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
-            data = LineData(set1,setZero)
+        if (values.isNotEmpty() && valuesZero.isNotEmpty()) {
+
+            TLog.error("---111---values="+Gson().toJson(values))
+            try {
+                val set1 = LineDataSet(values, "")
+                val setZero = LineDataSet(valuesZero, "")
+                set1.color = resources.getColor(R.color.color_main_green)
+                set1.setDrawValues(true)
+                set1.setDrawCircles(true)//设置画圆点
+                set1.setCircleColor(resources.getColor(R.color.color_main_green))
+                set1.setDrawCircleHole(false)
+                set1.setDrawValues(false)//设置缩放一定程度以后的展示文字
+                set1.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+                //0为了让线连起来好看
+                setZero.setDrawValues(false)
+                setZero.setDrawCircles(false)//设置画圆点
+                setZero.setCircleColor(resources.getColor(R.color.color_main_green))
+                setZero.setDrawCircleHole(false)
+                setZero.setDrawValues(false)//设置缩放一定程度以后的展示文字
+                setZero.color = resources.getColor(R.color.color_main_green)
+                setZero.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+                data = LineData(set1,setZero)
+            }catch (e : Exception){
+                e.printStackTrace()
+            }
+
         }
-        chart.data = data
-        chart.invalidate()
+        try {
+            chart.data = data
+            chart.invalidate()
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+
     }
 
     var date: String = ""
     var calendarType: Calendar? = null
+
+    val isChinese = Utils.isChinese()
+
     private fun setTitleDateData() {
         when (position) {
             0 -> {
@@ -731,10 +749,10 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 //        TLog.error("calendar++${calendarType?.timeInMillis}")
         //   timeDialog = calendar?.timeInMillis
 
-        date = DateUtil.getDate(DateUtil.YYYY_MM_DD_AND, calendarType)
+        date = DateUtil.getDate(if(isChinese) DateUtil.YYYY_MM_DD_AND else DateUtil.YYYYMMDD, calendarType)
         mViewModel.getWeight(
             position.toString(), DateUtil.getDate(
-                DateUtil.YYYY_MM_DD,
+                 DateUtil.YYYY_MM_DD,
                 calendarType
             )
         )
@@ -742,7 +760,7 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
             1 -> {
                 date += "-" + calendarType?.timeInMillis?.plus(86400 * 6 * 1000L)?.let {
                     DateUtil.getDate(
-                        DateUtil.MM_AND_DD_STRING,
+                        if(isChinese)DateUtil.MM_AND_DD_STRING else DateUtil.MM_AND_DD,
                         it
                     )
                 }
@@ -754,14 +772,14 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                     )!! - 1) * 1000L
                 )?.let {
                     DateUtil.getDate(
-                        DateUtil.MM_AND_DD_STRING,
+                        if(isChinese)DateUtil.MM_AND_DD_STRING else DateUtil.MM_AND_DD,
                         it
                     )
                 }
             }
             3 -> {
                 date += "-" + DateUtil.getDate(
-                    DateUtil.MM_AND_DD_STRING,
+                    if(isChinese)DateUtil.MM_AND_DD_STRING else DateUtil.MM_AND_DD,
                     DateUtil.getYearLastDate(calendarType)
                 )
             }
@@ -1027,9 +1045,10 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
 
     override fun onValueSelected(e: Entry, h: Highlight) {
 //        TLog.error("onValueSelected++" + e.x + ",  y==" + e.y + ",  Highlight+=" + h.x)
+        val isChinese = Utils.isChinese()
         if (position == 1) {
             tvTime.text = DateUtil.getDate(
-                DateUtil.MM_AND_DD_STRING,
+                if(isChinese)DateUtil.MM_AND_DD_STRING else DateUtil.MM_DD,
                 DateUtil.getWeekFirstDate(weekCalendar,0).timeInMillis + 86400000 * e.x.toInt()
                     .toLong()
             )
@@ -1037,28 +1056,28 @@ class WeightActivity : BaseActivity<WeightViewModel>(), OnChartValueSelectedList
                 val avgWeight: BigDecimal =
                     BigDecimal(h.y.toDouble()).setScale(1, BigDecimal.ROUND_HALF_DOWN)
                 Log.e(tags, "------1---avgWeight=$avgWeight")
-                tvWeight.text = if( avgWeight.toString() == "0.0")"--" else HelpUtil.getSpan("日均", avgWeight.toString(), "kg")
+                tvWeight.text = if( avgWeight.toString() == "0.0")"--" else HelpUtil.getSpan(resources.getString(R.string.string_day_avg), avgWeight.toString(), "kg")
             } else
                 tvWeight.text = "--"
         } else if (position == 2) {
             tvTime.text = DateUtil.getDate(
-                DateUtil.MM_AND_DD_STRING,
+                if(isChinese) DateUtil.MM_AND_DD_STRING else DateUtil.MM_DD,
                 DateUtil.getMonthFirstDate(monthCalendar).timeInMillis + 86400000 * (e.x.toInt()).toLong()
             )
             if (h.y > 0) {
                 val avgWeight: BigDecimal =
                     BigDecimal(h.y.toDouble()).setScale(1, BigDecimal.ROUND_HALF_DOWN)
-                tvWeight.text = HelpUtil.getSpan("日均", avgWeight.toString(), "kg")
+                tvWeight.text = HelpUtil.getSpan(resources.getString(R.string.string_day_avg), avgWeight.toString(), "kg")
                 Log.e(tags, "---2------avgWeight=$avgWeight")
             } else
                 tvWeight.text = "--"
         } else if (position == 3) {
-            tvTime.text = (1 + e.x.toInt()).toString() + "月"
+            tvTime.text = (1 + e.x.toInt()).toString() + resources.getString(R.string.string_month)
             if (h.y > 0) {
                 val avgWeight: BigDecimal =
                     BigDecimal(h.y.toDouble()).setScale(1, BigDecimal.ROUND_HALF_DOWN)
                 Log.e(tags, "---3------avgWeight=$avgWeight")
-                tvWeight.text = if(avgWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan("月均", avgWeight.toString(), "kg")
+                tvWeight.text = if(avgWeight.toDouble() == 0.0) "--" else HelpUtil.getSpan(resources.getString(R.string.tring_month_avg), avgWeight.toString(), "kg")
             } else
                 tvWeight.text = "--"
         }

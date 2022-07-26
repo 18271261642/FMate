@@ -34,7 +34,7 @@
         android:ellipsize="end"
         android:maxEms="14"
         android:singleLine="true"
-        android:text="固件更新"
+        android:text="@string/string_device_dfu"
         android:textColor="@color/bottom_nav_text_dim"
         android:textSize="@dimen/text_size_18" />
 

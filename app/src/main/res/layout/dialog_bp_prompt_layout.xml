@@ -49,7 +49,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             app:shape_solidPressedColor="@color/wx_press_color"
-            android:text="暂不校准"/>
+            android:text="@string/string_no_checked"/>
 
         <View
             android:layout_width="1dp"
@@ -69,7 +69,7 @@
             android:textColor="#5FDC9D"
             android:textSize="18sp"
             app:shape_solidPressedColor="@color/wx_press_color"
-            android:text="去校准"/>
+            android:text="@string/string_to_check"/>
 
     </LinearLayout>
 </com.hjq.shape.layout.ShapeLinearLayout>

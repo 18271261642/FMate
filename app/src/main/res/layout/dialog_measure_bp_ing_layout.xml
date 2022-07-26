@@ -13,7 +13,7 @@
         app:backcolor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:midtitle="测量血压"
+        app:midtitle="@string/string_measure_bp"
         app:showHome="true"
         app:titleTextColor01="@color/black" />
 
@@ -75,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="状态："
+                android:text="@string/string_status"
                 android:textColor="#ff666666"
                 android:textSize="18sp"
                 />
@@ -83,7 +83,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="测量中"
+                android:text="@string/string_measure_ing"
                 android:textColor="#ff1d8bee"
                 android:textSize="18sp"
                 android:id="@+id/dialogMeasureStatusTv"/>
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注意事项："
+            android:text="@string/string_dial_precautions"
             android:layout_marginStart="5dp"
             android:textColor="#ff333333"
             android:textSize="20sp"

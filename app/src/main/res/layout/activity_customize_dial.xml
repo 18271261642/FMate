@@ -194,7 +194,7 @@
         app:progress_rect_text_align="1"
         app:progress_text_color="@color/white"
         app:progress_text_size="14sp"
-        app:progress_text="保存并应用"
+        app:progress_text="@string/string_save_and_use"
         app:progress_text_visible="true"
         app:progress_type="2"
         app:progress_value="100"

@@ -50,6 +50,7 @@ public class MeasureBpCall extends WriteCallback {
 
 
         if (uuid.equalsIgnoreCase(Config.readCharacter)){
+            TLog.Companion.error("---测量血压---进入这里来了-----------"+result[8]+" "+result[9]);
             if (result[8] == 0x0B && result[9] == Config.Expand.DEVICE_ACK){
                 /**
                  * 1 byte

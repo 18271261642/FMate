@@ -165,7 +165,7 @@ class AllGenJIDialog {
                         var dialogCancel = holder.getView<TextView>(R.id.dialog_cancel)
                         var dialogSet = holder.getView<TextView>(R.id.dialog_confirm)
                         var dialogContent = holder.getView<TextView>(R.id.dialog_content)
-                        dialogContent?.text = "退出登录当前账号？"
+                        dialogContent?.text = context.resources.getString(R.string.string_logout_cuurent_accout)
                         dialogSet?.setOnClickListener {
                             userInfo.token = ""//只清空 token
                             Hawk.put(Config.database.USER_INFO, userInfo)

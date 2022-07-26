@@ -79,7 +79,7 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
         TLog.error("bean==" + Gson().toJson(bean))
         ImgUtil.loadMeImgDialCircle(imgDial, bean?.image!!)
         if (!bean?.isCharge!!)
-            tvType.text = "免费"
+            tvType.text = resources.getString(R.string.string_dial_free)
         else
             tvType.text = "¥ ${bean?.price}"
         circleProgressView.setText(bean?.state!!)
@@ -91,19 +91,19 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
             download.textColor = resources.getColor(R.color.color_view)
         }
         tvSize.text = AppUtils.getFormatSize(bean?.binSize!!.toDouble())
-        tvNumber.text = "${NumUtils.formatBigNum(bean?.downloads!!)}人安装"
+        tvNumber.text = "${NumUtils.formatBigNum(bean?.downloads!!)}"+resources.getString(R.string.string_install_number)
 
         tvName.text = bean!!.name
 
         circleProgressView.setOnClickListener {
             if (bean?.isCurrent!!)
             {
-                ShowToast.showToastLong("已是当前表盘,无需安装")
+                ShowToast.showToastLong(resources.getString(R.string.string_has_current_dial))
                 return@setOnClickListener
             }
             else if(progressStatus)
             {
-                ShowToast.showToastLong("已有其他表盘在安装，请稍后再试")
+                ShowToast.showToastLong(resources.getString(R.string.strign_dial_other_later))
                 return@setOnClickListener
             }
             progressStatus=true
@@ -143,7 +143,7 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
     }
 
     override fun onDownLoadSuccess() {
-        circleProgressView.setText("更新表盘中...")
+        circleProgressView.setText(resources.getString(R.string.string_dial_updating))
         BleWrite.writeDialWriteAssignCall(
             bean?.let { it ->
                 DialCustomBean(
@@ -190,7 +190,7 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
     }
 
     override fun onDownLoadError() {
-        circleProgressView.setText("下载失败")
+        circleProgressView.setText(resources.getString(R.string.string_dial_download_fail))
     }
 
 
@@ -210,13 +210,13 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
                         circleProgressView.setProgress(15f)
                     else
                         circleProgressView.setProgress(currentProgress.toFloat())
-                    circleProgressView.setText("当前进度: $currentProgress %")
+                    circleProgressView.setText(resources.getString(R.string.string_current_schedule)+": $currentProgress %")
                     download.progress = currentProgress.toFloat()
                     // proBar.progress = type
                     if (data.currentProgress == 1 && data.maxProgress == 1) {
                         progressStatus=false
-                        circleProgressView.setText("完成")
-                        download.currentText = "完成"
+                        circleProgressView.setText(resources.getString(R.string.string_complete))
+                        download.currentText = resources.getString(R.string.string_complete)
                         var hasMap = HashMap<String, String>()
                         hasMap["dialId"] = bean?.dialId.toString()
                         mViewModel.updateUserDial(hasMap)
@@ -225,8 +225,8 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
                     else if(data.currentProgress == -1 && data.maxProgress == -1)
                     {
                         progressStatus=false
-                        circleProgressView.setText("下载失败")
-                        download.currentText = "失败"
+                        circleProgressView.setText(resources.getString(R.string.string_dial_download_fail))
+                        download.currentText = resources.getString(R.string.string_dial_fail)
                         finish()
                     }
                 }
@@ -249,13 +249,13 @@ class DialDetailsActivity : BaseActivity<DetailDialViewModel>(), DownLoadCallbac
 
     private fun backAlert(){
         alertDialog = AlertDialog.Builder(instant)
-        alertDialog!!.setTitle("提醒")
-        alertDialog!!.setMessage("离开当前页面，将退出表盘传输哦，确定要离开当前页面吗?")
-        alertDialog!!.setPositiveButton("确定"
+        alertDialog!!.setTitle(resources.getString(R.string.string_text_remind))
+        alertDialog!!.setMessage(resources.getString(R.string.string_dial_cancel_desc)+"?")
+        alertDialog!!.setPositiveButton(resources.getString(R.string.text_sure)
         ) { p0, p1 ->
             p0.dismiss()
             finish()
-        }.setNegativeButton("取消"
+        }.setNegativeButton(resources.getString(R.string.text_cancel)
         ) { p0, p1 ->
             p0.dismiss()
         }

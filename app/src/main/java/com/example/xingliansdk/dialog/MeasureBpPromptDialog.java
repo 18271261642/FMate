@@ -63,13 +63,13 @@ public class MeasureBpPromptDialog extends AppCompatDialog implements View.OnCli
         dialogCheckBpNoTv = findViewById(R.id.dialogCheckBpNoTv);
         dialogCheckBpYetTv = findViewById(R.id.dialogCheckBpYetTv);
 
-        topTxtTv.setText("测量一下血压吧~");
+        topTxtTv.setText(getContext().getResources().getString(R.string.string_dialog_bp_content));
         botTxtTv.setText("");
 
         dialogCheckBpNoTv.setOnClickListener(this);
         dialogCheckBpYetTv.setOnClickListener(this);
 
-        setBotBtnTxt("暂不测量","去测量");
+        setBotBtnTxt(getContext().getResources().getString(R.string.string_not_measure),getContext().getResources().getString(R.string.string_go_measure));
     }
 
     public boolean isHalfHour() {

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周日"
+            android:text="@string/string_sun"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周一"
+            android:text="@string/string_monday"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周二"
+            android:text="@string/string_tues"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周三"
+            android:text="@string/string_wend"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周四"
+            android:text="@string/string_thurs"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周五"
+            android:text="@string/string_fri"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="每周六"
+            android:text="@string/string_sa"
             android:textColor="@color/sub_text_color"
             android:textDirection="ltr" />
 

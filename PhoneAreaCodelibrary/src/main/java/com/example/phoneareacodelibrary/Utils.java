@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 创建：yiang
@@ -100,5 +101,18 @@ public class Utils {
             }
         }
         return "#";
+    }
+
+
+    //判断系统语言
+    public static boolean isChinese() {
+        //语言
+        String locals = Locale.getDefault().getLanguage();
+        if (!TextUtils.isEmpty(locals)) {
+            return locals.equals("zh");
+        } else {
+            return false;
+        }
+
     }
 }

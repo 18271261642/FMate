@@ -38,7 +38,7 @@ class LogOutCodeActivity : BaseActivity<LoginViewModel>() {
             mPhone.replace(mPhone.substring(3,7) , "****" )
         else
             mPhone.replace(mPhone.substring(0,mPhone.length-4) , "****" )
-        tvPhone.text="已发送验证码至 +${userInfo.user.areaCode} $phoned"
+        tvPhone.text=resources.getString(R.string.string_has_send_code)+" +${userInfo.user.areaCode} $phoned"
         TLog.error("codeView.getText()==${codeView.getText()} userInfo.user.phone==${userInfo.user.phone} areaCode==${userInfo.user.areaCode}")
         md5Password = MD5Util.md5(mPhone+ areaCode + 10861)
         mViewModel.getVerifyCode(mPhone, areaCode, md5Password,"1")
@@ -85,12 +85,12 @@ class LogOutCodeActivity : BaseActivity<LoginViewModel>() {
         //计时过程
         override fun onTick(l: Long) { //防止计时过程中重复点击
             tvCode.isClickable = false
-            tvCode.text ="重新获取("+ (l / 1000).toString() + ")"
+            tvCode.text =resources.getString(R.string.string_try_again_code)+"("+ (l / 1000).toString() + ")"
         }
 
         //计时完毕的方法
         override fun onFinish() { //重新给Button设置文字
-            tvCode.text = "重新获取"
+            tvCode.text = resources.getString(R.string.string_try_again_code)
             //设置可点击
             tvCode.isClickable = true
         }

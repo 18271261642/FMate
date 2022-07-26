@@ -20,6 +20,7 @@ import com.gyf.barlibrary.ImmersionBar
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
+import com.shon.connector.Config
 import com.shon.connector.bean.TimeBean
 import kotlinx.android.synthetic.main.activity_alarm_clock_list.*
 
@@ -226,6 +227,7 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
             mTimeBean.number = 0
             mTimeBean.switch = 0
             mTimeBean.characteristic = TimeBean.ALARM_FEATURES.toInt()
+            Config.IS_APP_STOP_MEASURE_BP = true
             BleWrite.writeAlarmClockScheduleCall(mTimeBean, true)
             return
         }
@@ -236,7 +238,7 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
             timeBean.number = index
             TLog.error("-----写入闹钟="+index +" "+Gson().toJson(timeBean))
            // BLEManager.getInstance().dataDispatcher.clear("")
-
+            Config.IS_APP_STOP_MEASURE_BP = true
             BleWrite.writeAlarmClockScheduleCall(timeBean, true)
         }
 
@@ -276,5 +278,10 @@ class AlarmClockListActivity : BaseActivity<SetAllClockViewModel>(), View.OnClic
         TLog.error("----提交后台="+bean)
 
         mViewModel.saveAlarmClock(data)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Config.IS_APP_STOP_MEASURE_BP = false
     }
 }

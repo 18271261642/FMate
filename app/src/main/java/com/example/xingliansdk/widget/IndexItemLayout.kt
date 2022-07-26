@@ -84,6 +84,10 @@ class IndexItemLayout @JvmOverloads constructor(
         addView(layout)
     }
 
+    fun setTyTypeContext(txt : String){
+        tvType!!.text = txt
+    }
+
     fun setContentText(contentText: String?) {
         tvContent!!.text = contentText
     }

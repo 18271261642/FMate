@@ -29,7 +29,7 @@ class LogOutActivity : BaseActivity<UserViewModel>(),View.OnClickListener {
         val afterStr = resources.getString(R.string.string_account_register_protocol)
 
         var  mStr = SpannableString(beforeStr+afterStr)
-        mStr.setSpan(ForegroundColorSpan(resources.getColor(R.color.color_main_green)), beforeStr.length, tvAgree.text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        mStr.setSpan(ForegroundColorSpan(resources.getColor(R.color.color_main_green)), beforeStr.length, beforeStr.length+afterStr.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tvAgree.text=mStr
 
 

@@ -22,7 +22,7 @@
         android:id="@+id/tvAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="已添加卡片"
+        android:text="@string/string_has_add_card"
         android:textSize="18sp"
         android:layout_margin="16dp"
         />
@@ -48,7 +48,7 @@
         android:id="@+id/tvMore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="更多卡片"
+        android:text="@string/string_more_card"
         android:textSize="18sp"
         android:layout_margin="16dp"
         />

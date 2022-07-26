@@ -83,7 +83,7 @@
             android:gravity="center"
             android:layoutDirection="rtl"
             android:padding="16dp"
-            android:text="取消"
+            android:text="@string/content_cancel"
             android:textColor="@color/black"
             android:textDirection="ltr"
             android:textSize="17sp" />

@@ -172,7 +172,7 @@ class MapFragment : BaseFragment<MapMotionViewModel>(), View.OnClickListener {
         }
         var typeStr = mMapMotionBean?.let { it1 -> typeSport(it1.type) }
         //文字显示
-        homeSportTypeTv.text = resources.getString(R.string.string_total) +" "+ typeStr +" "+ resources.getString(R.string.string_distance)+">"
+        homeSportTypeTv.text = resources.getString(R.string.string_total) +""+ typeStr +""+ resources.getString(R.string.string_distance)+">"
 //        //文字显示
 //        homeSportTypeTv.text= "累计"+mMapMotionBean?.let { it1 -> typeSport(it1.type) } +"距离>"
 //        //累计里程
