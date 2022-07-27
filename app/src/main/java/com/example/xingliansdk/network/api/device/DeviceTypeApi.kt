@@ -18,4 +18,8 @@ class DeviceTypeApi private constructor() : AppApi<DeviceTypeInterface>() {
     suspend fun getDeviceTypeInfo(productNumber : String):BaseResult<Any>{
         return apiInterface?.getDeviceType(productNumber)!!
     }
+
+    suspend fun getAllDeviceCategoryData() : BaseResult<DeviceCategoryBean>{
+        return apiInterface?.getDeviceCategory()!!
+    }
 }

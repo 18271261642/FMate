@@ -67,23 +67,27 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
     override fun createObserver() {
         super.createObserver()
         mViewModel.recordDeviceResult.observe(this){
-            TLog.error("-------data="+Gson().toJson(it))
+            TLog.error("-------data="+it.list.toString())
 
-            val jsonObject = JSONObject(it.toJson())
 
-            val listStr = jsonObject.get("list")
 
-          
+//            val jsonObject = JSONObject(it.toJson())
+//
+//            val listStr = jsonObject.get("data")
+
+//            val recordListBean = GsonUtils.getGsonObject<ConnRecordListBean>(it.toJson())
+
+//
 
 //            val lt = GsonUtils.getGsonObject<List<ConnectedDeviceBean>>(Gson().toJson(listStr))
 //
-//            moreList.clear()
-//            if (lt != null) {
-//                moreList.addAll(lt)
-//            }
-//            recordAdapter?.notifyDataSetChanged()
+            moreList.clear()
+            if (it.list!= null) {
+                moreList.addAll(it.list)
+            }
+            recordAdapter?.notifyDataSetChanged()
 
-            TLog.error("--listStr="+Gson().toJson(listStr))
+
         }
 
 

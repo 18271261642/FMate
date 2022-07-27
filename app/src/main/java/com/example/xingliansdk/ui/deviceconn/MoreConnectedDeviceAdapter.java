@@ -13,6 +13,7 @@ import com.example.xingliansdk.R;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -61,7 +62,7 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         //已经连接了的布局
         private LinearLayout itemMoreConnectStatusLayout;
         //未连接的布局
-        private LinearLayout itemMoreConnectDisStatusLayout;
+        private ConstraintLayout itemMoreConnectDisStatusLayout;
 
         //电量
         private TextView itemMoreConnectBatteryValue;

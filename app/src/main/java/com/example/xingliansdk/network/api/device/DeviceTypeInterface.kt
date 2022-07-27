@@ -11,4 +11,9 @@ import retrofit2.http.Query
 interface DeviceTypeInterface {
     @GET("/product/get_info")
     suspend fun getDeviceType(@Query("productNumber") productNumber : String): BaseResult<Any>
+
+
+    //获取产品属性列表
+    @GET("/product/get_all_category")
+    suspend fun getDeviceCategory() : BaseResult<DeviceCategoryBean>
 }
