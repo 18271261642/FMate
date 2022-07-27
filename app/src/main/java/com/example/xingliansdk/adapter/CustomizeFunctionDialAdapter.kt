@@ -17,7 +17,7 @@ import com.example.xingliansdk.utils.ImgUtil
 class CustomizeFunctionDialAdapter(data: MutableList<CustomizeFunctionBean>) :
     BaseQuickAdapter<CustomizeFunctionBean, BaseViewHolder>(R.layout.item_dial_text_type, data) {
 
-    override fun convert(helper: BaseViewHolder, item: CustomizeFunctionBean?) {
+    override fun convert(helper: BaseViewHolder, item: CustomizeFunctionBean) {
         if (item == null) {
             return
         }

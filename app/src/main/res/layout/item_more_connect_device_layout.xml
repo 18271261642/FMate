@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:shape_solidColor="@color/white"
+    app:shape_radius="@dimen/text_size_15"
+    android:layout_margin="@dimen/text_size_10"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/itemMoreConnectNameTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="StarLink Ring"
+        android:textColor="#ff333333"
+        android:textSize="15sp"
+        android:padding="5dp"/>
+
+
+    <ImageView
+        android:id="@+id/itemMoreConnectTypeImgView"
+        app:layout_constraintTop_toBottomOf="@id/itemMoreConnectNameTv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/text_size_15"
+        android:layout_marginBottom="@dimen/text_size_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/img_product_connect"/>
+
+
+    <LinearLayout
+        android:id="@+id/itemMoreConnectStatusLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/itemMoreConnectTypeImgView"
+        android:layout_marginStart="@dimen/widget_size_30"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ble_conn_status_img"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未连接"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginStart="@dimen/text_size_15"/>
+
+
+        <TextView
+            android:id="@+id/itemMoreConnectReConnTv"
+            android:layout_width="56dp"
+            android:layout_height="20dp"
+            android:text="重新连接"
+            android:textColor="#ff5fdc9d"
+            android:textSize="14sp"
+            android:layout_marginStart="@dimen/text_size_15"/>
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemMoreConnectDisStatusLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/itemMoreConnectTypeImgView"
+        android:layout_marginStart="@dimen/widget_size_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <View
+            android:id="@+id/tempConnView"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+        <ImageView
+            android:id="@+id/itemMOreConnedImgView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tempConnView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ble_conn_status_img"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已连接"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/text_size_15"
+            app:layout_constraintLeft_toRightOf="@id/itemMOreConnedImgView"/>
+
+
+
+        <ImageView
+            android:id="@+id/itemMOreConnBatteryImg"
+            app:layout_constraintTop_toBottomOf="@id/tempConnView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ble_conn_moer_battery"/>
+
+
+        <TextView
+            android:id="@+id/itemMoreConnectBatteryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90% "
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/tempConnView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/text_size_15"
+            app:layout_constraintLeft_toRightOf="@id/itemMOreConnBatteryImg"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.hjq.shape.layout.ShapeConstraintLayout>

@@ -221,6 +221,11 @@
         <!--手动输入血压-->
         <activity android:name=".ui.bp.InputBpActivity"/>
 
+
+        <!--已经绑定的列表-->
+        <activity android:name=".ui.deviceconn.MoreConnectActivity"/>
+
+
         <receiver
             android:name=".broadcast.BleBroadcastReceiver"
             android:enabled="true"

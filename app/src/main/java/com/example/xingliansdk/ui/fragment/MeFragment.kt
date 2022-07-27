@@ -28,6 +28,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DialImgBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.meView.MeViewModel
+import com.example.xingliansdk.ui.deviceconn.MoreConnectActivity
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.hjq.permissions.XXPermissions
@@ -224,6 +225,10 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 if (!turnOnBluetooth()) {
                     return
                 }
+
+                startActivity(Intent(activity,MoreConnectActivity::class.java))
+
+
                 if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                     ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return

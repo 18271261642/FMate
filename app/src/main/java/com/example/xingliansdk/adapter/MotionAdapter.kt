@@ -11,7 +11,7 @@ import com.orhanobut.hawk.Hawk
 
 class MotionAdapter(data: MutableList<ChildResult>):BaseQuickAdapter<ChildResult,BaseViewHolder>(R.layout.motion_item,data) {
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: ChildResult?) {
+    override fun convert(helper: BaseViewHolder, item: ChildResult) {
         if (item==null)
         {
             return

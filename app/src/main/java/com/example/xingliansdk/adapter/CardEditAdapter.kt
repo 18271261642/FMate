@@ -32,7 +32,7 @@ class CardEditAdapter(data: MutableList<EditCardVoBean.AddedListDTO>):BaseQuickA
         return context.getString(R.string.string_sport_record)
     }
 
-    override fun convert(helper: BaseViewHolder, item: EditCardVoBean.AddedListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: EditCardVoBean.AddedListDTO) {
         if (item==null)
         {
             return

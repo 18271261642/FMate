@@ -14,7 +14,7 @@ class OtherAdapter(data: MutableList<ChildSleepResult>) :
     BaseQuickAdapter<ChildSleepResult, BaseViewHolder>(R.layout.sleep_item, data) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: ChildSleepResult?) {
+    override fun convert(helper: BaseViewHolder, item: ChildSleepResult) {
 //        TLog.error("item++${Gson().toJson(item)}")
         if (item == null) {
             return

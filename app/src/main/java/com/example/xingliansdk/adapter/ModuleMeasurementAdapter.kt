@@ -9,7 +9,7 @@ import com.github.iielse.switchbutton.SwitchView
 class ModuleMeasurementAdapter(data:MutableList<Int>):BaseQuickAdapter<Int,BaseViewHolder>(R.layout.iteam_schedule,data) {
     var name= arrayOf("心率测量状态","血氧测量状态","血压测量状态","温度测量状态","湿度测量状态")
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: Int?) {
+    override fun convert(helper: BaseViewHolder, item: Int) {
         if (item==null)
         {
             return

@@ -49,10 +49,12 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
     var urlFile=""
     override fun convert(
         helper: BaseViewHolder,
-        item: RecommendDialBean.ListDTO.TypeListDTO?,
+        item: RecommendDialBean.ListDTO.TypeListDTO,
         payloads: List<Any>
     ) {
-        super.convert(helper, item, payloads)
+        if (item != null) {
+            super.convert(helper, item, payloads)
+        }
         if (item == null) {
             return
         }
@@ -80,7 +82,7 @@ class MeDialImgAdapter(data: MutableList<RecommendDialBean.ListDTO.TypeListDTO>,
         return str
     }
 
-    override fun convert(helper: BaseViewHolder, item: RecommendDialBean.ListDTO.TypeListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: RecommendDialBean.ListDTO.TypeListDTO) {
         if (item == null) {
             return
         }

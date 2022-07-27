@@ -6,7 +6,7 @@ import com.example.xingliansdk.R
 import no.nordicsemi.android.support.v18.scanner.ScanResult
 
 class ScanAdapter(data:MutableList<ScanResult>):BaseQuickAdapter<ScanResult,BaseViewHolder>(R.layout.iteam_scan) {
-    override fun convert(helper: BaseViewHolder, item: ScanResult?) {
+    override fun convert(helper: BaseViewHolder, item: ScanResult) {
         if (item==null)
         {
             return

@@ -33,7 +33,7 @@ ext {
     Libs = [
             'multidex'                       : 'androidx.multidex:multidex:2.0.0'//分包处理
 //            , 'PermissionsKt'                : 'com.github.sembozdemir:PermissionsKt:1.0.0'
-            , 'BaseRecyclerViewAdapterHelper': 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta10'//一个强大并且灵活的RecyclerViewAdapter
+            , 'BaseRecyclerViewAdapterHelper': 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'//一个强大并且灵活的RecyclerViewAdapter
             , 'lifecycle-viewmodel'          : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
             , 'autosize'                     : 'me.jessyan:autosize:1.2.1'//头条适配方案
 //            , 'dfu'                          : 'no.nordicsemi.android:dfu:1.8.1'//dfu升级

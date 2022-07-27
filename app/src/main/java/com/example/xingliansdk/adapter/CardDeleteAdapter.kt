@@ -17,7 +17,7 @@ import com.shon.connector.utils.TLog
 class CardDeleteAdapter(data: MutableList<EditCardVoBean.MoreListDTO>) :
     BaseQuickAdapter<EditCardVoBean.MoreListDTO, BaseViewHolder>(R.layout.item_card_edit, data),
     DraggableModule {
-    override fun convert(helper: BaseViewHolder, item: EditCardVoBean.MoreListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: EditCardVoBean.MoreListDTO) {
         if (item == null) {
             return
         }

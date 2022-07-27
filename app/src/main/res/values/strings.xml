@@ -2,6 +2,9 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(测试版)</string>
 
+    <string name="string_add_device">添加设备</string>
+    <string name="string_more_device">更多设备</string>
+
     <string name="string_go_measure">去测量</string>
     <string name="string_not_measure">暂不测量</string>
     <string name="string_dialog_bp_content">测量一下血压吧~</string>

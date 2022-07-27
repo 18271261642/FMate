@@ -33,7 +33,7 @@ class WeightAdapter(data: MutableList<WeightBean>) :
     }
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: WeightBean?) {
+    override fun convert(helper: BaseViewHolder, item: WeightBean) {
         if (item == null) {
             return
         }

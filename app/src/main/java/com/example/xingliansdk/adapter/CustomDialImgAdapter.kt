@@ -38,7 +38,7 @@ class CustomDialImgAdapter(data: MutableList<CustomizeDialBean>) :
     var itemDownload : DownloadProgressButton ? = null
 
     var holder: BaseViewHolder? = null
-    override fun convert(helper: BaseViewHolder, item: CustomizeDialBean?) {
+    override fun convert(helper: BaseViewHolder, item: CustomizeDialBean) {
         if (item == null) {
             return
         }

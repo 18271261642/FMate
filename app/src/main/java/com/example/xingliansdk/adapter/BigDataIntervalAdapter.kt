@@ -18,7 +18,7 @@ class BigDataIntervalAdapter(data:MutableList<Int>,mListener: EditAbleListAdapte
     var name= arrayOf("心率存储间隔","心率1存储间隔","血氧存储间隔","血压存储间隔","温度存储间隔","活动存储间隔")
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: Int?) {
+    override fun convert(helper: BaseViewHolder, item: Int) {
         if (item==null)
         {
             return

@@ -13,6 +13,10 @@ import com.shon.connector.utils.TLog
 
 class AlarmClockAdapter(data: MutableList<TimeBean>) :
     BaseQuickAdapter<TimeBean, BaseViewHolder>(R.layout.item_alarm_clock_switch, data) {
+
+
+
+
     private var mOnSwipeListener: onSwipeListener? = null
 
     fun getOnDelListener(): onSwipeListener? {
@@ -29,10 +33,7 @@ class AlarmClockAdapter(data: MutableList<TimeBean>) :
     }
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: TimeBean?) {
-        if (item == null) {
-            return
-        }
+    override fun convert(helper: BaseViewHolder, item: TimeBean) {
         val switchAlarmClock = helper.getView<SwitchView>(R.id.Switch)
         val btnDelete = helper.getView<Button>(R.id.btnDelete)
         val constAll = helper.getView<ConstraintLayout>(R.id.constAll)
@@ -84,4 +85,6 @@ class AlarmClockAdapter(data: MutableList<TimeBean>) :
             }
         }
     }
+
+
 }

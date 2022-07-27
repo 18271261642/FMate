@@ -30,7 +30,7 @@ import java.util.*
 class IndexAdapter(data: MutableList<MultiItemEntity>) :
     BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data),
     OnItemClickListener {
-    override fun convert(helper: BaseViewHolder, item: MultiItemEntity?) {
+    override fun convert(helper: BaseViewHolder, item: MultiItemEntity) {
 //        TLog.error("${helper.itemViewType}")
         when (helper.itemViewType) {
             0 -> {
@@ -171,7 +171,7 @@ class IndexAdapter(data: MutableList<MultiItemEntity>) :
     }
 
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View, position: Int) {
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
 
     }
 

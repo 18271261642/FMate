@@ -56,7 +56,7 @@ class HomeAdapter(data: MutableList<HomeCardVoBean.ListDTO>) :
 
 
     var decimalFormat = DecimalFormat("#.##")
-    override fun convert(helper: BaseViewHolder, item: HomeCardVoBean.ListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: HomeCardVoBean.ListDTO) {
         try {
             if (item == null) {
                 return

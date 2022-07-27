@@ -25,7 +25,7 @@ class MeImgAdapter(data: MutableList<String>) :
         this.type = type
     }
 
-    override fun convert(helper: BaseViewHolder, item: String?) {
+    override fun convert(helper: BaseViewHolder, item: String) {
         if (item == null) {
             return
         }

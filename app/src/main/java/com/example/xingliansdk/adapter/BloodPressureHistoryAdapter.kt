@@ -29,7 +29,7 @@ class BloodPressureHistoryAdapter(data: MutableList<BloodPressureHistoryBean>) :
     }
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: BloodPressureHistoryBean?) {
+    override fun convert(helper: BaseViewHolder, item: BloodPressureHistoryBean) {
         if (item == null) {
             return
         }

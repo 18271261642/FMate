@@ -42,7 +42,7 @@ class RecommendDialAdapter(data: MutableList<RecommendDialBean.ListDTO>) :
     }
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: RecommendDialBean.ListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: RecommendDialBean.ListDTO) {
         if (item == null) {
             return
         }

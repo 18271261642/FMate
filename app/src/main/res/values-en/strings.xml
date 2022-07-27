@@ -2,6 +2,9 @@
     <string name="app_name_release">ai Health</string>
     <string name="app_name_debug">ai Health(Beta)</string>
 
+    <string name="string_add_device">Add Device</string>
+    <string name="string_more_device">More Device</string>
+
     <string name="string_go_measure">to measure</string>
     <string name="string_not_measure">not measuring</string>
     <string name="string_dialog_bp_content">Take your blood pressure~</string>

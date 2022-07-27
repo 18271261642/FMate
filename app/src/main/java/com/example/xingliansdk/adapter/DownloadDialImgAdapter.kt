@@ -41,7 +41,7 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
 
     override fun convert(
         helper: BaseViewHolder,
-        item: DownDialModel.ListDTO?,
+        item: DownDialModel.ListDTO,
         payloads: List<Any>
     ) {
         super.convert(helper, item, payloads)
@@ -58,7 +58,7 @@ class DownloadDialImgAdapter(data: MutableList<DownDialModel.ListDTO>) :
             itemDownload.progress = bean.progress.toFloat()
         }
     }
-    override fun convert(helper: BaseViewHolder, item: DownDialModel.ListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: DownDialModel.ListDTO) {
         if (item == null) {
             return
         }

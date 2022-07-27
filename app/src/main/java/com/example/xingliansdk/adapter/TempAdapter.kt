@@ -11,7 +11,7 @@ class TempAdapter(data: MutableList<String>) :
     BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_sleep, data) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: String?) {
+    override fun convert(helper: BaseViewHolder, item: String) {
         if (item == null) {
             return
         }

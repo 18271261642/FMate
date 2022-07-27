@@ -23,7 +23,7 @@ class CustomizeColorDialAdapter(data: MutableList<CustomizeColorBean>) :
         , R.drawable.round_dial_cyan_blue
         , R.drawable.round_dial_blue
         , R.drawable.round_dial_purple)
-    override fun convert(helper: BaseViewHolder, item: CustomizeColorBean?) {
+    override fun convert(helper: BaseViewHolder, item: CustomizeColorBean) {
         if (item == null) {
             return
         }

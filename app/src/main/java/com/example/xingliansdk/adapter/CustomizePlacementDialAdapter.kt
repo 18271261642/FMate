@@ -9,7 +9,7 @@ import com.example.xingliansdk.bean.dialBean.CustomizePlacementBean
 class CustomizePlacementDialAdapter(data: MutableList<CustomizePlacementBean>) :
     BaseQuickAdapter<CustomizePlacementBean, BaseViewHolder>(R.layout.item_dial_text_type, data) {
 
-    override fun convert(helper: BaseViewHolder, item: CustomizePlacementBean?) {
+    override fun convert(helper: BaseViewHolder, item: CustomizePlacementBean) {
         if (item == null) {
             return
         }

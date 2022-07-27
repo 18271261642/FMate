@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <com.example.xingliansdk.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:actionTextColor="@color/color_main_green"
+        app:backcolor="@color/white"
+        app:homeBackClick="true"
+        app:iconActionImage="@mipmap/icon_add"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:midtitle="@string/string_more_device"
+        app:showAction="true"
+        app:showHome="true"
+        app:titleTextColor01="@color/main_text_color" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/moreDeviceRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/moreRecordAddDeviceTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_add_device"
+        android:textColor="#ff5fdc9d"
+        android:layout_marginTop="@dimen/text_size_20"
+        android:textSize="15sp"
+        android:padding="5dp"
+       android:gravity="center" />
+
+</LinearLayout>

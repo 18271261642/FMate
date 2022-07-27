@@ -76,6 +76,9 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         getStatus()
         initOnclick()
         settingCleanRoom.setContentText(AppUtils.getTotalCacheSize(this))
+
+        if(mDeviceFirmwareBean.versionName == null)
+            return
         settingUpdate.setContentText(mDeviceFirmwareBean.versionName)
         dfuMenuContentTv.text = mDeviceFirmwareBean.versionName
 

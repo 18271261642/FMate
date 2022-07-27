@@ -19,7 +19,7 @@ class ScheduleAdapter(data:MutableList<TimeBean>):BaseQuickAdapter<TimeBean,Base
         return mOnSwipeListener
     }
 
-    fun setOnDelListener(mOnDelListener: onSwipeListener?) {
+    fun setOnDelListener(mOnDelListener: onSwipeListener) {
         mOnSwipeListener = mOnDelListener
     }
 
@@ -28,7 +28,7 @@ class ScheduleAdapter(data:MutableList<TimeBean>):BaseQuickAdapter<TimeBean,Base
         fun onClick(pos: Int)
     }
 
-    override fun convert(helper: BaseViewHolder, item: TimeBean?) {
+    override fun convert(helper: BaseViewHolder, item: TimeBean) {
         TLog.error("=="+ Gson().toJson(item))
         if (item==null)
         {

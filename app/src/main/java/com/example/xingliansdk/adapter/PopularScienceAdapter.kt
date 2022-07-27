@@ -17,7 +17,7 @@ class PopularScienceAdapter(data: MutableList<PopularScienceBean.ListDTO>) :
     BaseQuickAdapter<PopularScienceBean.ListDTO, BaseViewHolder>(
         R.layout.item_popular_science, data
     ) {
-    override fun convert(helper: BaseViewHolder, item: PopularScienceBean.ListDTO?) {
+    override fun convert(helper: BaseViewHolder, item: PopularScienceBean.ListDTO) {
         if (item == null) {
             return
         }

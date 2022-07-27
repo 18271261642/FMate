@@ -12,7 +12,7 @@ import com.github.iielse.switchbutton.SwitchView
 class OtherSwitchAdapter(data:MutableList<RemindConfig.Apps>):BaseQuickAdapter<RemindConfig.Apps,BaseViewHolder>(R.layout.item_remind,data) {
     var name= arrayOf("Email","Facebook","Wechat","Line","Weibo","Linkedln","QQ","Whats App","Viber","Instagram")
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: RemindConfig.Apps?) {
+    override fun convert(helper: BaseViewHolder, item: RemindConfig.Apps) {
         if (item==null)
         {
             return

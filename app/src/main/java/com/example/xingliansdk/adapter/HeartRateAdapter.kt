@@ -14,7 +14,7 @@ import com.orhanobut.hawk.Hawk
 class HeartRateAdapter(data: MutableList<ChildResult>):BaseQuickAdapter<ChildResult,BaseViewHolder>(R.layout.sleep_item,data) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: ChildResult?) {
+    override fun convert(helper: BaseViewHolder, item: ChildResult) {
         TLog.error("item++${Gson().toJson(item)}")
         if (item==null)
         {

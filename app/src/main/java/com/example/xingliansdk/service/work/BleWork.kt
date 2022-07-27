@@ -659,6 +659,7 @@ class BleWork : IWork, OnCountTimerListener,
         value["appVersion"] = HelpUtil.getVersionCode(context).toString()
         value["osType"] = "1"
         value["appVersionName"] = HelpUtil.getVersionName(context)!!
+        value["productCategoryId"] = "2"
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)
             {

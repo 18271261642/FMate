@@ -16,13 +16,13 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
         R.layout.item_take_medicine_switch,
         data
     ) {
-    private var mOnSwipeListener: onSwipeListener? = null
+    private var mOnSwipeListener: onSwipeListener ?=null
 
     fun getOnDelListener(): onSwipeListener? {
         return mOnSwipeListener
     }
 
-    fun setOnDelListener(mOnDelListener: onSwipeListener?) {
+    fun setOnDelListener(mOnDelListener: onSwipeListener) {
         mOnSwipeListener = mOnDelListener
     }
 
@@ -32,7 +32,7 @@ class TakeMedicineAdapter(data: MutableList<RemindTakeMedicineBean>) :
     }
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: RemindTakeMedicineBean?) {
+    override fun convert(helper: BaseViewHolder, item: RemindTakeMedicineBean) {
         if (item == null) {
             return
         }

@@ -11,7 +11,7 @@ import com.example.xingliansdk.utils.HelpUtil
 
 class BloodPressureAdapter(data:MutableList<ChildBloodPressureResult>):BaseQuickAdapter<ChildBloodPressureResult,BaseViewHolder>(R.layout.blood_pressure_item,data) {
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: ChildBloodPressureResult?) {
+    override fun convert(helper: BaseViewHolder, item: ChildBloodPressureResult) {
         if (item==null)
         {
             return

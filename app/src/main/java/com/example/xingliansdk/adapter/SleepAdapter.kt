@@ -11,7 +11,7 @@ class SleepAdapter(data: MutableList<SleepTypeBean>) :
     BaseQuickAdapter<SleepTypeBean, BaseViewHolder>(R.layout.item_sleep, data) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: SleepTypeBean?) {
+    override fun convert(helper: BaseViewHolder, item: SleepTypeBean) {
         if (item == null) {
             return
         }

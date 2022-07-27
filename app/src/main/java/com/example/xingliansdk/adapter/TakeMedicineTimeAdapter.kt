@@ -13,7 +13,7 @@ class TakeMedicineTimeAdapter(data: MutableList<RemindTakeMedicineBean.ReminderG
     ) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: RemindTakeMedicineBean.ReminderGroup?) {
+    override fun convert(helper: BaseViewHolder, item: RemindTakeMedicineBean.ReminderGroup) {
         if (item == null) {
             return
         }

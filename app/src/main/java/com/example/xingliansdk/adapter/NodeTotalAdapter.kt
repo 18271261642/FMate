@@ -22,7 +22,7 @@ class NodeTotalAdapter(data: MutableList<BaseNode>) :
     ) {
 
     @SuppressLint("MissingPermission")
-    override fun convert(helper: BaseViewHolder, item: BaseNode?) {
+    override fun convert(helper: BaseViewHolder, item: BaseNode) {
         if (item == null) {
             return
         }
