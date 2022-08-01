@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -39,9 +40,21 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
      override fun onBindViewHolder(holder: AddSelectViewHolder, position: Int) {
         holder.typeNameTv?.text = data.list[position].name
 
+         val linearLayoutManager  = LinearLayoutManager(context)
+         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+         holder.itemAddSelectRyView?.layoutManager = linearLayoutManager
+
+         val itemAdapter = AddDeviceSelectItemAdapter(data.list[position].productList,context)
+         holder.itemAddSelectRyView?.adapter = itemAdapter
+
+
     }
 
     override fun getItemCount(): Int {
       return data.list.size
     }
+
+
+
+
 }
