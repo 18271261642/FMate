@@ -16,7 +16,7 @@ public class DeviceCategoryBean {
         this.list = list;
     }
 
-    private class DeviceCategoryItemBean{
+    public class DeviceCategoryItemBean{
 
         private int id;
 

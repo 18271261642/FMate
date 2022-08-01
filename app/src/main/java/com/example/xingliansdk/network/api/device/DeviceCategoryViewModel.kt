@@ -13,6 +13,7 @@ class DeviceCategoryViewModel : BaseViewModel() {
     val dCategoryMsg : MutableLiveData<String> = MutableLiveData()
 
 
+    //获取设备属性列表
     fun getAllDeviceCategory(){
         requestCustom({
                       DeviceTypeApi.deviceTypeApi.getAllDeviceCategoryData()

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_margin="@dimen/text_size_5"
+    android:padding="@dimen/text_size_5"
+    android:layout_height="wrap_content">
+
+
+
+
+    <ImageView
+        android:id="@+id/itemAddSelectTypeImg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/text_size_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"/>
+
+
+
+    <TextView
+        android:id="@+id/itemAddSelectTypeNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="智能手表"
+        android:textColor="#ff333333"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemAddSelectRyView"
+        app:layout_constraintTop_toBottomOf="@id/itemAddSelectTypeNameTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

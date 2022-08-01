@@ -1,0 +1,47 @@
+package com.example.xingliansdk.adapter
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.example.xingliansdk.R
+import com.example.xingliansdk.network.api.device.DeviceCategoryBean
+
+/**
+ * Created by Admin
+ *Date 2022/8/1
+ */
+class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context): RecyclerView.Adapter<AddDeviceSelectAdapter.AddSelectViewHolder>() {
+
+
+    class AddSelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var typeNameTv : TextView ?= null
+         var typeImgView : ImageView ?= null
+         var itemAddSelectRyView : RecyclerView ?= null
+
+        init {
+            typeNameTv = itemView.findViewById(R.id.itemAddSelectTypeNameTv)
+            typeImgView = itemView.findViewById(R.id.itemAddSelectTypeImg)
+            itemAddSelectRyView = itemView.findViewById(R.id.itemAddSelectRyView)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddSelectViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_add_select_layout,parent,false)
+        return AddSelectViewHolder(view)
+    }
+
+     override fun onBindViewHolder(holder: AddSelectViewHolder, position: Int) {
+        holder.typeNameTv?.text = data.list[position].name
+
+    }
+
+    override fun getItemCount(): Int {
+      return data.list.size
+    }
+}

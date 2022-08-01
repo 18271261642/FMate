@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
+ * 所以已经绑定过的设备
  * Created by Admin
  * Date 2022/7/27
  */
