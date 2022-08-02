@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.example.xingliansdk.R
@@ -40,6 +41,8 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
      override fun onBindViewHolder(holder: AddSelectViewHolder, position: Int) {
         holder.typeNameTv?.text = data.list[position].name
 
+         holder.typeImgView?.let { Glide.with(context).load(data.list[position].image).into(it) }
+
          val linearLayoutManager  = LinearLayoutManager(context)
          linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
          holder.itemAddSelectRyView?.layoutManager = linearLayoutManager
@@ -51,7 +54,7 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
     }
 
     override fun getItemCount(): Int {
-      return data.list.size
+      return if(data.list == null ) 0 else data.list.size
     }
 
 

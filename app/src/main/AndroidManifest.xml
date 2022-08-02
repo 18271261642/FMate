@@ -224,7 +224,8 @@
 
         <!--已经绑定的列表-->
         <activity android:name=".ui.deviceconn.MoreConnectActivity"/>
-
+        <!--选择列表-->
+        <activity android:name=".ui.deviceconn.AddDeviceSelectActivity"/>
 
         <receiver
             android:name=".broadcast.BleBroadcastReceiver"

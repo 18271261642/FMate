@@ -92,6 +92,10 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
+
+            <include layout="@layout/item_me_device_layout"/>
+
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_cardview"
                 android:layout_width="match_parent"

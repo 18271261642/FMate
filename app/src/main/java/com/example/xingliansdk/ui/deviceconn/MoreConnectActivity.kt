@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.deviceconn
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,10 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
+
+        moreRecordAddDeviceTv.setOnClickListener(){
+            startActivity(Intent(this@MoreConnectActivity,AddDeviceSelectActivity::class.java))
+        }
 
         initRecyclerView()
 

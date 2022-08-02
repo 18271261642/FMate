@@ -11,7 +11,7 @@
         app:showHome="true"
         android:id="@+id/addSelectTB"
         app:titleTextColor01="@color/main_text_color"
-        app:showActionImage="true"
+        app:showActionImage="false"
         app:iconActionImage="@mipmap/icon_share"
         android:layout_height="?actionBarSize"/>
 
