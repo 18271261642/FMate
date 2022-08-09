@@ -2,36 +2,45 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:shape_solidColor="@color/white"
     app:shape_radius="@dimen/text_size_15"
     android:layout_margin="@dimen/text_size_15"
+    app:cardCornerRadius="12dp"
     android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/meConnectedRy"
+       android:visibility="gone"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
 
 
     <com.hjq.shape.layout.ShapeConstraintLayout
+        android:id="@+id/meNoDeviceLayout"
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
-
-
-
-    <TextView
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/string_my_device"
-        android:textStyle="bold"
-        android:textColor="@color/main_text_color"
-        android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/string_my_device"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textColor="@color/main_text_color"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
+        android:id="@+id/meAddDeviceTv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,13 +58,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="当前无设备"
+            android:text="点击添加"
             android:textColor="#5FDC9D"
             android:textSize="14sp"
             android:layout_marginStart="@dimen/text_size_10"/>
 
     </LinearLayout>
-
 
     <View
         android:id="@+id/meMiddleTmpView"
@@ -68,7 +76,7 @@
 
     <ImageView
         android:id="@+id/itemMeHolderRingView"
-        android:src="@mipmap/icon_amap_ride"
+        android:src="@drawable/ic_empty_ring"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meMiddleTmpView"
         android:layout_width="80dp"
@@ -83,5 +91,5 @@
         android:src="@mipmap/img_product_disconnect_route"/>
 
     </com.hjq.shape.layout.ShapeConstraintLayout>
-
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test.TestNetActivity
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
@@ -28,7 +29,7 @@ import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.dialView.DialImgBean
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.meView.MeViewModel
-import com.example.xingliansdk.ui.deviceconn.MoreConnectActivity
+import com.example.xingliansdk.ui.deviceconn.*
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.hjq.permissions.XXPermissions
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.activity_device_information.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_me.*
 import kotlinx.android.synthetic.main.fragment_me.imgHead
+import kotlinx.android.synthetic.main.item_me_device_layout.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -52,6 +54,13 @@ import org.greenrobot.eventbus.ThreadMode
 class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     BleWrite.DevicePropertiesInterface,
     BleWrite.FlashGetDialInterface {
+
+
+    //展示已经连接的列表
+    private var recordAdapter : MeConnectedDeviceAdapter?= null
+    private var moreList : ArrayList<ConnectedDeviceBean> = arrayListOf()
+
+
     override fun layoutId() = R.layout.fragment_me
     var step = 0
     lateinit var meDialImgAdapter: MeImgAdapter
@@ -73,6 +82,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         setting_help.setOnClickListener(this)
         settingSett.setOnClickListener(this)
         tvDial.setOnClickListener(this)
+
+        meAddDeviceTv.setOnClickListener(this)
+
+        itemMeHolderRingView.alpha = 0.5f
+
+        initRecy()
+
         var mStr = SpannableString(tvDeviceAdd.text.toString())
         mStr.setSpan(
             ForegroundColorSpan(resources.getColor(R.color.sub_text_color)),
@@ -98,6 +114,20 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             true
         }
     }
+
+
+
+    private fun initRecy(){
+        val linearLayoutManager = LinearLayoutManager(activity)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        meConnectedRy.layoutManager = linearLayoutManager
+
+        recordAdapter = MeConnectedDeviceAdapter(moreList,activity)
+        meConnectedRy.adapter = recordAdapter
+
+
+    }
+
 
     private fun setAdapter() {
         mList = ArrayList()
@@ -200,6 +230,27 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             meDialImgAdapter.notifyDataSetChanged()
         }
 
+
+
+        //获取连接的记录
+        mViewModel.recordDeviceResult.observe(this){
+            moreList.clear()
+            TLog.error("-------记录返回="+Gson().toJson(it))
+            if (it.list!= null) {
+                moreList.addAll(it.list)
+            }
+
+            TLog.error("-----222--记录返回="+Gson().toJson(moreList))
+
+            if(moreList.size == 0){
+                meNoDeviceLayout.visibility = View.VISIBLE
+                meConnectedRy.visibility = View.GONE
+            }else{
+                meNoDeviceLayout.visibility = View.GONE
+                meConnectedRy.visibility = View.VISIBLE
+            }
+            recordAdapter?.notifyDataSetChanged()
+        }
     }
 
     override fun onClick(v: View) {
@@ -208,6 +259,11 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //            return
 //        }
         when (v.id) {
+            R.id.meAddDeviceTv->{
+                startActivity(Intent(activity,AddDeviceSelectActivity::class.java))
+            }
+
+
             R.id.constInfo -> {
 //                startActivity(Intent(activity,TestNetActivity::class.java))
                 JumpUtil.startDeviceInformationActivity(activity, false)
@@ -328,12 +384,28 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
     override fun onResume() {
         super.onResume()
         try {
             // ShowToast.showToastLong("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")} ${
          //   TLog.error("=${Hawk.get<String>("iFonConnectError")}  ${Hawk.get<String>("Unbind")}  ${Hawk.get("type",-1)}")
             // BleWrite.writeFlashGetDialCall(this)
+
+            //获取连接的记录
+            mViewModel.getConnRecordDevice()
+
+
             if(!BleConnection.iFonConnectError && XingLianApplication.mXingLianApplication.getDeviceConnStatus())
                 BleWrite.writeForGetDeviceProperties(this, true)
         }catch (e : Exception){

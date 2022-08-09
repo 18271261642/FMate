@@ -20,6 +20,12 @@ import com.example.xingliansdk.network.api.device.DeviceCategoryBean
  */
 class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context): RecyclerView.Adapter<AddDeviceSelectAdapter.AddSelectViewHolder>() {
 
+    private var bleScanItemClick : OnBleScanItemClick ?=null
+
+    public fun setOnBleScanClickListener(click : OnBleScanItemClick){
+        this.bleScanItemClick = click;
+    }
+
 
     class AddSelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var typeNameTv : TextView ?= null
@@ -51,6 +57,10 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
          holder.itemAddSelectRyView?.adapter = itemAdapter
 
 
+         holder.itemView.setOnClickListener(){
+             bleScanItemClick?.onItemClick(holder.layoutPosition)
+         }
+
     }
 
     override fun getItemCount(): Int {
@@ -58,6 +68,9 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
     }
 
 
+    public interface OnBleScanItemClick{
+        fun onItemClick(position : Int)
+    }
 
 
 }

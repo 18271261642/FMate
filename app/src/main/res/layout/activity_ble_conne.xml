@@ -6,44 +6,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.BleConnectActivity">
-        <include
-            android:id="@+id/include_title"
-            layout="@layout/title_bar_two"
-            />
-    <TextView
-        android:background="@color/purple_200"
-        android:padding="@dimen/dp_10"
-        android:visibility="gone"
-        android:id="@+id/tvVersionName"
+
+    <include
+        android:id="@+id/include_title"
+        layout="@layout/title_bar_two" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        />
-    <ImageView
-        android:layout_marginTop="80dp"
-        android:layout_width="268dp"
-        android:layout_height="355dp"
-        android:src="@drawable/icon_search_img"
-        android:layout_gravity="center"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="丰富炫彩表盘，心率与睡眠监测，守护您的健康"
-        android:textColor="@color/sub_text_color"
-        android:textSize="14sp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:layout_margin="8dp"
-        />
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_marginTop="100dp"
-            android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_15"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvVersionName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/device_alarm_clock_button_green"
-            android:text="开始配对"
-            android:textColor="@color/white"
+            android:background="@color/purple_200"
+            android:padding="@dimen/dp_10"
+            android:text=""
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/scanTypeImgView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
-            />
+            android:src="@drawable/icon_search_img" />
+
+        <TextView
+            android:id="@+id/scanDescTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:text="丰富炫彩表盘，心率与睡眠监测，守护您的健康"
+            android:textColor="@color/sub_text_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_size_25"
+        android:background="@drawable/device_alarm_clock_button_green"
+        android:text="开始配对"
+        android:textColor="@color/white" />
 
 </LinearLayout>

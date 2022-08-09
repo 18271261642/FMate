@@ -1,5 +1,6 @@
 package com.example.xingliansdk.ui.deviceconn
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.R
@@ -7,6 +8,7 @@ import com.example.xingliansdk.adapter.AddDeviceSelectAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.device.DeviceCategoryBean
 import com.example.xingliansdk.network.api.device.DeviceCategoryViewModel
+import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.widget.TitleBarLayout
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_add_device_select_layout.*
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
 
 
 //添加设备页面
-class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>() {
+class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>(),AddDeviceSelectAdapter.OnBleScanItemClick {
 
 
     private var addSelectAdapter : AddDeviceSelectAdapter ?= null
@@ -58,14 +60,31 @@ class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>() {
 
 
         mViewModel.deviceCategoryResult.observe(this){
-            val bean = it as DeviceCategoryBean
-            addSelectAdapter = AddDeviceSelectAdapter(bean,this)
+            dbBean = it as DeviceCategoryBean
+            addSelectAdapter = AddDeviceSelectAdapter(dbBean!!,this)
             addSelectRyView.adapter = addSelectAdapter
+            addSelectAdapter!!.setOnBleScanClickListener(this)
         }
 
         mViewModel.dCategoryMsg.observe(this){
             
         }
+
+    }
+
+
+
+    override fun onItemClick(position: Int) {
+        //类型，戒指或者手表
+        val selectName = dbBean?.list?.get(position)?.name
+        //图片url
+        val deviceImg = dbBean?.list?.get(position)?.image
+        //类型
+
+        val intent = Intent(this@AddDeviceSelectActivity,BleConnectActivity::class.java)
+        intent.putExtra("scan_name",selectName)
+        intent.putExtra("scan_img",deviceImg)
+        startActivity(intent)
 
     }
 

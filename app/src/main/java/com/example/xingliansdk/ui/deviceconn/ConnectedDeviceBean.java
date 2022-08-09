@@ -28,6 +28,27 @@ public class ConnectedDeviceBean  {
     private String productNumber;
     private String updateTime;
 
+    //是否是连接状态
+    private boolean isConnected;
+
+    //电量
+    private int battery;
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
+    public int getBattery() {
+        return battery;
+    }
+
+    public void setBattery(int battery) {
+        this.battery = battery;
+    }
 
     public int getId() {
         return id;

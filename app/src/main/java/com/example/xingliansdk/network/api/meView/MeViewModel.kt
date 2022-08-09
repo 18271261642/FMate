@@ -5,7 +5,9 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
 import com.example.xingliansdk.network.api.meView.MeViewApi.Companion.mMeViewApi
+import com.example.xingliansdk.network.api.moreDevice.ConnectRecordApi
 import com.example.xingliansdk.network.requestCustom
+import com.example.xingliansdk.ui.deviceconn.ConnRecordListBean
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 
@@ -60,4 +62,17 @@ class MeViewModel : BaseViewModel() {
            }
        }
    }
+
+
+    //连接的记录
+    val recordDeviceResult: MutableLiveData<ConnRecordListBean> = MutableLiveData()
+    val recordMsg: MutableLiveData<String> = MutableLiveData()
+
+    //获取已经绑定过的列表
+    fun getConnRecordDevice() {
+        requestCustom({ ConnectRecordApi.connectRecordApi.getConnectedRecord() },
+            { recordDeviceResult.postValue(it) }) { code, message ->
+            recordMsg.postValue(message)
+        }
+    }
 }

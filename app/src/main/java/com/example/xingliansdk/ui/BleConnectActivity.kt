@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.Config.eventBus
 import com.example.xingliansdk.R
@@ -63,6 +64,11 @@ class BleConnectActivity :
     private var blueAdapter =
         BluetoothAdapter.getDefaultAdapter()
     var  startScanZeroNum=0
+
+    //搜索过滤，暂时根据名称过滤
+    private var searchName: String? = null
+
+
     override fun layoutId(): Int {
         return R.layout.activity_ble_conne
     }
@@ -82,6 +88,20 @@ class BleConnectActivity :
         img_calendar.setOnClickListener { finish() }
         dialog()
         mScannerLiveData = ScannerLiveData()
+
+
+        searchName = intent.getStringExtra("scan_name")
+        if(searchName != null){
+            scanDescTv.text = searchName
+        }
+
+        val typeImgUrl = intent.getStringExtra("scan_img")
+        if(typeImgUrl != null){
+            Glide.with(this).clear(scanTypeImgView)
+            Glide.with(this).load(typeImgUrl).into(scanTypeImgView)
+        }
+
+
         if (!blueAdapter.isEnabled) {
             //turnOnBluetooth()
             if (blueAdapter.isEnabled) //有些不能开 所以写个判断
@@ -99,8 +119,8 @@ class BleConnectActivity :
             }
             try {
                 startScan()
-            }catch (IllegalStateException:Exception){
-
+            }catch (e:Exception){
+                e.printStackTrace()
             }
 
             TLog.error("点了+"+showOnWindow)
@@ -144,6 +164,13 @@ class BleConnectActivity :
         )
         //汇顶平台ota模式下uuid
         filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(Config.GOODX_OTA_SERVICE_UUID)).build())
+
+        if(searchName != null && searchName.equals("智能戒指")){
+            filters.add(ScanFilter.Builder().setDeviceName("startLink Ring").build())
+        }else{
+           // filters.add(ScanFilter.Builder().setDeviceName("startLink Ring").build())
+        }
+
         scanner.startScan(filters, mScanSettings, mScanCallback)
     }
 

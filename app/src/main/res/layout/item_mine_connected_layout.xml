@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
+    android:padding="10dp"
+    app:shape_radius="@dimen/text_size_10"
+    app:shape_solidColor="@color/white"
     android:layout_height="wrap_content">
 
 
-    <com.hjq.shape.layout.ShapeConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:padding="@dimen/text_size_8"
         app:shape_solidColor="@color/white"
         app:shape_radius="@dimen/text_size_10"
+        android:orientation="vertical"
         android:layout_height="wrap_content">
 
 
@@ -27,68 +32,86 @@
 
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+
         <ImageView
             android:id="@+id/itemMeTypeImgView"
-            android:layout_width="60dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="9dp"
             android:src="@mipmap/img_product_connect"
             android:layout_marginStart="@dimen/text_size_10"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemMeConnectedTypeNameTv" />
 
-        <View
-            android:id="@+id/tmeItemMeCView"
-            app:layout_constraintTop_toTopOf="@id/itemMeTypeImgView"
-            app:layout_constraintBottom_toBottomOf="@id/itemMeTypeImgView"
-            app:layout_constraintLeft_toRightOf="@id/itemMeTypeImgView"
-            android:layout_width="10dp"
-            android:layout_height="1dp"/>
 
-        <ImageView
-            android:id="@+id/itemMOreConnedImgView"
-            app:layout_constraintLeft_toRightOf="@+id/itemMeTypeImgView"
-            app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_ble_conn_status_img"/>
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/tmeItemMeCView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_width="10dp"
+                android:layout_height="1dp"/>
+
+            <ImageView
+                android:id="@+id/itemMOreConnedImgView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ble_conn_status_img"/>
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已连接"
-            android:textColor="#ff666666"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
-            android:layout_marginStart="@dimen/text_size_10"
-            app:layout_constraintLeft_toRightOf="@id/itemMOreConnedImgView"/>
+            <TextView
+                android:id="@+id/itemMeHomeStatusTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已连接"
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
+                android:layout_marginStart="@dimen/text_size_10"
+                app:layout_constraintLeft_toRightOf="@id/itemMOreConnedImgView"/>
 
 
 
-        <ImageView
-            android:id="@+id/itemMeConnBatteryImg"
-            app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView"
-            app:layout_constraintLeft_toRightOf="@+id/itemMeTypeImgView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_ble_conn_moer_battery"/>
+            <ImageView
+                android:id="@+id/itemMeConnBatteryImg"
+                app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView"
+               app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ble_conn_moer_battery"/>
 
 
-        <TextView
-            android:id="@+id/itemMeConnectBatteryValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="90% "
-            android:textColor="#ff666666"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView"
-            android:layout_marginStart="@dimen/text_size_10"
-            app:layout_constraintLeft_toRightOf="@id/itemMeConnBatteryImg"/>
+            <TextView
+                android:id="@+id/itemMeConnectBatteryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="90% "
+                android:textColor="#ff666666"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView"
+                android:layout_marginStart="@dimen/text_size_10"
+                app:layout_constraintLeft_toRightOf="@id/itemMeConnBatteryImg"/>
 
 
-    </com.hjq.shape.layout.ShapeConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
     <TextView
         android:id="@+id/itemMeConnectedTv"
         android:layout_width="wrap_content"
@@ -98,4 +121,4 @@
         android:textColor="#ff5fdc9d"
         android:textSize="14sp"
         android:layout_marginTop="@dimen/text_size_10"/>
-</LinearLayout>
+</com.hjq.shape.layout.ShapeLinearLayout>

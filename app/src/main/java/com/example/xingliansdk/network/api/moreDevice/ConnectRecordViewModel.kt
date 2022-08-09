@@ -23,8 +23,6 @@ class ConnectRecordViewModel : BaseViewModel() {
             { recordDeviceResult.postValue(it) }) { code, message ->
             recordMsg.postValue(message)
         }
-
-
     }
 
 }
