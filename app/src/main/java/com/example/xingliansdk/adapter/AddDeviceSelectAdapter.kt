@@ -45,6 +45,8 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
     }
 
      override fun onBindViewHolder(holder: AddSelectViewHolder, position: Int) {
+
+
         holder.typeNameTv?.text = data.list[position].name
 
          holder.typeImgView?.let { Glide.with(context).load(data.list[position].image).into(it) }
@@ -55,7 +57,6 @@ class AddDeviceSelectAdapter(var data: DeviceCategoryBean, var context: Context)
 
          val itemAdapter = AddDeviceSelectItemAdapter(data.list[position].productList,context)
          holder.itemAddSelectRyView?.adapter = itemAdapter
-
 
          holder.itemView.setOnClickListener(){
              bleScanItemClick?.onItemClick(holder.layoutPosition)

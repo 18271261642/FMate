@@ -84,8 +84,17 @@ class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>(),AddDevic
         val intent = Intent(this@AddDeviceSelectActivity,BleConnectActivity::class.java)
         intent.putExtra("scan_name",selectName)
         intent.putExtra("scan_img",deviceImg)
-        startActivity(intent)
+        //startActivity(intent)
+        startActivityForResult(intent,0x00)
 
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0x00){
+            finish()
+        }
     }
 
 }

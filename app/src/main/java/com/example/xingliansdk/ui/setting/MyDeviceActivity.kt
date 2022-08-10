@@ -585,7 +585,8 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                         }
                         R.id.tvDeviceDelete -> {
                             showWaitDialog(resources.getString(R.string.string_unbind_ing))
-                            BLEManager.getInstance().disconnectDevice(Hawk.get("address"))
+                            var connMac = Hawk.get("address","")
+                            BLEManager.getInstance().disconnectDevice(connMac)
                            // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
                             BLEManager.getInstance().dataDispatcher.clearAll()
 
@@ -594,6 +595,7 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                             Handler(Looper.getMainLooper()).postDelayed({
                                 var value = HashMap<String, String>()
                                 value["mac"] =""
+                                mViewModel.deleteRecordByMac(connMac)
                                 mViewModel.setUserInfo(value)
                                 Hawk.put("address", "")
                                 Hawk.put("name", "")

@@ -91,9 +91,48 @@
                         app:layout_constraintTop_toBottomOf="@+id/viewCen" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+            <include
+                android:id="@+id/meConnectEmptyLayout"
+                layout="@layout/item_me_device_layout"/>
+
+            <LinearLayout
+                android:id="@+id/meHolderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
-            <include layout="@layout/item_me_device_layout"/>
+            <include
+                android:id="@+id/meConnectedLayout"
+                layout="@layout/item_me_watch_ring_layout"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/meMoreDeviceTv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="更多设备"/>
+
+                <TextView
+                    android:id="@+id/meAddDeviceTv"
+                    android:padding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="添加设备"/>
+
+
+            </LinearLayout>
+            </LinearLayout>
 
 
             <androidx.cardview.widget.CardView
@@ -101,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:visibility="gone"
                 android:layout_margin="16dp"
                 app:cardCornerRadius="12dp"
                 app:contentPadding="16dp">
@@ -249,11 +289,13 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/watchDialCarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:visibility="gone"
                 app:cardCornerRadius="12dp"
                 app:contentPadding="10dp">
 

@@ -5,6 +5,7 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.device.DeviceTypeApi
 import com.example.xingliansdk.network.api.login.LoginApi
 import com.example.xingliansdk.network.api.login.LoginBean
+import com.example.xingliansdk.network.api.moreDevice.ConnectRecordApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateApi
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.requestCustom
@@ -80,6 +81,19 @@ class MyDeviceViewModel : BaseViewModel() {
                 TLog.error("==" + Gson().toJson(it))
                 ShowToast.showToastLong(it)
             }
+        }
+    }
+
+
+    //删除连接记录
+    val deleteRecord : MutableLiveData<Any> = MutableLiveData()
+    val deleteMsg : MutableLiveData<Any> = MutableLiveData()
+
+    //根据Mac删除记录
+    fun deleteRecordByMac(mac : String){
+        requestCustom({ ConnectRecordApi.connectRecordApi.deleteRecordByMac(mac)},{deleteRecord.postValue(it)}){
+                code, message ->
+            deleteMsg.postValue(message)
         }
     }
 }

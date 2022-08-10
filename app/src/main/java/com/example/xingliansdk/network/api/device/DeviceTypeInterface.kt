@@ -2,6 +2,7 @@ package com.example.xingliansdk.network.api.device
 
 import com.example.xingliansdk.network.BaseResult
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
@@ -16,4 +17,6 @@ interface DeviceTypeInterface {
     //获取产品属性列表
     @GET("/product/get_all_category")
     suspend fun getDeviceCategory() : BaseResult<DeviceCategoryBean>
+
+
 }

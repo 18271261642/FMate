@@ -3,6 +3,7 @@ package com.example.xingliansdk.ui
 import android.Manifest
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.ParcelUuid
@@ -291,6 +292,11 @@ class BleConnectActivity :
                 if(baseDialog.isShowing)
                 hideWaitDialog()
 //                JumpUtil.startMainHomeActivity(this)
+
+                val intent = Intent()
+                intent.putExtra("reback",0)
+                setResult(0x00,intent)
+
                 finish()
             }
             eventBus.DEVICE_TIME_OUT->

@@ -11,6 +11,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import com.example.xingliansdk.adapter.MeImgAdapter
 import com.example.xingliansdk.base.fragment.BaseFragment
 import com.example.xingliansdk.bean.DeviceFirmwareBean
 import com.example.xingliansdk.bean.DevicePropertiesBean
+import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
@@ -33,6 +35,9 @@ import com.example.xingliansdk.ui.deviceconn.*
 import com.example.xingliansdk.utils.*
 import com.google.gson.Gson
 import com.hjq.permissions.XXPermissions
+import com.ly.genjidialog.extensions.convertListenerFun
+import com.ly.genjidialog.extensions.newGenjiDialog
+import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
 import com.shon.bluetooth.BLEManager
 import com.shon.connector.BleWrite
@@ -42,11 +47,17 @@ import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_device_information.*
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_my_device.*
 import kotlinx.android.synthetic.main.fragment_me.*
 import kotlinx.android.synthetic.main.fragment_me.imgHead
 import kotlinx.android.synthetic.main.item_me_device_layout.*
+import kotlinx.android.synthetic.main.item_me_watch_ring_layout.*
+import kotlinx.android.synthetic.main.item_mine_connected_layout.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * 我的页面
@@ -69,23 +80,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     override fun initView(savedInstanceState: Bundle?) {
         TLog.error("MeFragment initView")
         SNEventBus.register(this)
-        setting_step.setOnClickListener(this)
-//        settingStorageInterval.setOnClickListener(this)
-        constBle.setOnClickListener(this)
-        setting_unit.setOnClickListener(this)
-        constInfo.setOnClickListener(this)
-        tvDeviceAdd.setOnClickListener(this)
-        tvReconnection.setOnClickListener(this)
-        tvDele.setOnClickListener(this)
-        setting_sleep.setOnClickListener(this)
-        settingAbout.setOnClickListener(this)
-        setting_help.setOnClickListener(this)
-        settingSett.setOnClickListener(this)
-        tvDial.setOnClickListener(this)
 
-        meAddDeviceTv.setOnClickListener(this)
-
-        itemMeHolderRingView.alpha = 0.5f
+        initViews()
 
         initRecy()
 
@@ -116,6 +112,32 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     }
 
 
+    private fun initViews(){
+        setting_step.setOnClickListener(this)
+//        settingStorageInterval.setOnClickListener(this)
+        constBle.setOnClickListener(this)
+        setting_unit.setOnClickListener(this)
+        constInfo.setOnClickListener(this)
+        tvDeviceAdd.setOnClickListener(this)
+        tvReconnection.setOnClickListener(this)
+        tvDele.setOnClickListener(this)
+        setting_sleep.setOnClickListener(this)
+        settingAbout.setOnClickListener(this)
+        setting_help.setOnClickListener(this)
+        settingSett.setOnClickListener(this)
+        tvDial.setOnClickListener(this)
+
+        meMoreDeviceTv.setOnClickListener(this)
+        meAddDeviceTv.setOnClickListener(this)
+        itemMeAddDeviceTv.setOnClickListener(this)
+        meHomeWatchCardView.setOnClickListener(this)
+        meHomeRingCardView.setOnClickListener(this)
+        meRingDeleteTv.setOnClickListener(this)
+        meWatchDeleteTv.setOnClickListener(this)
+
+
+        itemMeHolderRingView.alpha = 0.5f
+    }
 
     private fun initRecy(){
         val linearLayoutManager = LinearLayoutManager(activity)
@@ -243,15 +265,55 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             TLog.error("-----222--记录返回="+Gson().toJson(moreList))
 
             if(moreList.size == 0){
+                meHolderLayout.visibility = View.GONE
+                meConnectEmptyLayout.visibility = View.VISIBLE
                 meNoDeviceLayout.visibility = View.VISIBLE
                 meConnectedRy.visibility = View.GONE
             }else{
-                meNoDeviceLayout.visibility = View.GONE
-                meConnectedRy.visibility = View.VISIBLE
+                meConnectEmptyLayout.visibility = View.GONE
+                meHolderLayout.visibility = View.VISIBLE
+                operateBind()
             }
-            recordAdapter?.notifyDataSetChanged()
+
+        }
+
+
+        //删除连接的记录
+        mViewModel.deleteRecord.observe(this){
+            TLog.error("-----删除连接记录="+Gson().toJson(it))
+            //获取连接的记录
+            mViewModel.getConnRecordDevice()
+        }
+
+        mViewModel.deleteMsg.observe(this){
+            TLog.error("-error----删除连接记录="+Gson().toJson(it))
+        }
+
+
+
+    }
+
+
+    //处理显示绑定的逻辑
+    private fun operateBind(){
+        moreList.forEach {
+            if(it.productName.contains("Ring") && moreList.size == 1){    //只有戒指
+                //把另一个隐藏掉
+                meHomeWatchCardView.visibility = View.GONE
+                //戒指没有表盘市场
+                watchDialCarView.visibility = View.GONE
+                return
+            }
+
+            if(it.productName.contains("GT") && moreList.size == 1){    //只有手表
+                meHomeRingCardView.visibility = View.GONE
+                watchDialCarView.visibility = View.VISIBLE
+                return
+            }
+
         }
     }
+
 
     override fun onClick(v: View) {
 //        if (BleConnection.iFonConnectError) {
@@ -259,7 +321,20 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //            return
 //        }
         when (v.id) {
-            R.id.meAddDeviceTv->{
+
+            R.id.meRingDeleteTv->{  //删除戒指的记录，传Mac，删除后重新更新UI
+                wearDialog(R.id.meRingDeleteTv)
+            }
+            R.id.meWatchDeleteTv->{ //删除手表记录，传Mac，删除后更新UI
+                wearDialog(R.id.meWatchDeleteTv)
+            }
+
+
+            R.id.meMoreDeviceTv->{  //更多设备
+                startActivity(Intent(activity,MoreConnectActivity::class.java))
+            }
+            R.id.meAddDeviceTv,
+            R.id.itemMeAddDeviceTv->{   //添加设备
                 startActivity(Intent(activity,AddDeviceSelectActivity::class.java))
             }
 
@@ -276,15 +351,12 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             R.id.constBle,
             R.id.imgDevice,
-            R.id.tvDeviceName
+                R.id.meHomeRingCardView,
+                R.id.meHomeWatchCardView
             -> {
                 if (!turnOnBluetooth()) {
                     return
                 }
-
-                startActivity(Intent(activity,MoreConnectActivity::class.java))
-
-
                 if (BleConnection.iFonConnectError || BleConnection.Unbind) {
                     ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
@@ -405,7 +477,6 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             //获取连接的记录
             mViewModel.getConnRecordDevice()
 
-
             if(!BleConnection.iFonConnectError && XingLianApplication.mXingLianApplication.getDeviceConnStatus())
                 BleWrite.writeForGetDeviceProperties(this, true)
         }catch (e : Exception){
@@ -430,6 +501,21 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 getBleStatus()
                 if (tvDeviceElectricity != null) {
                     tvDeviceElectricity.text = "$electricity%"
+                    //获取连接的记录
+                    mViewModel.getConnRecordDevice()
+
+                    //已经连接了，删除隐藏，电量显示
+                    meWatchDeleteTv.visibility = View.GONE
+                    meRingDeleteTv.visibility = View.GONE
+
+                    meConnRingBatteryLayout.visibility = View.VISIBLE
+
+
+                    itemMeHomeRingStatusTv.text  =    resources.getString(R.string.string_connected)
+                    itemMeRingBatteryValue.text =  "$electricity%"
+                    itemMeConnectBatteryValue.text = "$electricity%"
+
+
                     tvDeviceStatus.text = resources.getString(R.string.string_connected)
                     tvDeviceName.text = Hawk.get("name")
                     imgDevice.setImageResource(R.mipmap.img_product_connect)
@@ -444,6 +530,14 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             DEVICE_BLE_OFF,
             DEVICE_DISCONNECT -> {
+
+                meConnRingBatteryLayout.visibility = View.GONE
+                meRingDeleteTv.visibility = View.VISIBLE
+
+                itemMeHomeRingStatusTv.text  =    resources.getString(R.string.string_no_conn)
+                itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
+
+
                 tvDeviceStatus?.text = resources.getString(R.string.string_no_conn)
                 ll_connect_status?.visibility = View.VISIBLE
                 tvDeviceElectricity?.visibility = View.GONE
@@ -507,6 +601,97 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             if (bean.isNullOrEmpty())
                 return
             mViewModel.checkDialSate(Gson().toJson(bean))
+        }
+    }
+
+
+    //删除提醒
+    private fun wearDialog(id: Int) {
+        activity?.let {
+            newGenjiDialog {
+                layoutId = R.layout.alert_dialog_login
+                dimAmount = 0.3f
+                isFullHorizontal = true
+                isFullVerticalOverStatusBar = false
+                gravity = DialogGravity.CENTER_CENTER
+                animStyle = R.style.BottomTransAlphaADAnimation
+                convertListenerFun { holder, dialog ->
+                    val btnOk = holder.getView<TextView>(R.id.dialog_confirm)
+                    val btnCancel = holder.getView<TextView>(R.id.dialog_cancel)
+                    val tvTitle = holder.getView<TextView>(R.id.tv_title)
+                    val dialogContent = holder.getView<TextView>(R.id.dialog_content)
+                    tvTitle?.text = resources.getString(R.string.string_text_remind)
+                    when (id) {
+
+                        R.id.meRingDeleteTv,
+                        R.id.meWatchDeleteTv -> {
+                            dialogContent?.text =
+                                resources.getString(R.string.content_delete_device)
+                        }
+
+                    }
+                    btnOk?.setOnClickListener {
+                        when (id) {
+
+                            R.id.meRingDeleteTv,
+                            R.id.meWatchDeleteTv -> {
+                                showWaitDialog(resources.getString(R.string.string_unbind_ing))
+                                val connMac = Hawk.get("address","")
+                                BLEManager.getInstance().disconnectDevice(connMac)
+                                // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
+                                BLEManager.getInstance().dataDispatcher.clearAll()
+
+                                Hawk.put("ELECTRICITY_STATUS", -1)
+
+                                var deleteMac : String ?=null
+
+                                //获取Mac
+                                if(R.id.meRingDeleteTv == id){
+                                    moreList.forEach {
+                                        if(it.productName.toLowerCase(Locale.ROOT).contains("ring")){
+                                            deleteMac = it.mac
+                                        }
+                                    }
+                                }
+
+                                if(id == R.id.meWatchDeleteTv){
+                                    moreList.forEach {
+                                        if(it.productName.toLowerCase(Locale.ROOT).contains("gt")){
+                                            deleteMac = it.mac
+                                        }
+                                    }
+                                }
+
+
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    val value = HashMap<String, String>()
+                                    value["mac"] = ""
+                                    mViewModel.setUserInfo(value)
+                                    deleteMac?.toLowerCase(Locale.ROOT)
+                                        ?.let { it1 -> mViewModel.deleteRecordByMac(it1) }
+
+                                    Hawk.put("address", "")
+                                    Hawk.put("name", "")
+                                    BleConnection.Unbind = true
+                                    Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
+                                    SNEventBus.sendEvent(DEVICE_DELETE_DEVICE)
+                                    hideWaitDialog()
+
+                                    //  RoomUtils.roomDeleteAll()
+                                    //   JumpUtil.startBleConnectActivity(this@MyDeviceActivity)
+                                }, 2000)
+                            }
+
+                        }
+                        dialog.dismiss()
+
+
+                    }
+                    btnCancel?.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+            }.showOnWindow(it.supportFragmentManager)
         }
     }
 }

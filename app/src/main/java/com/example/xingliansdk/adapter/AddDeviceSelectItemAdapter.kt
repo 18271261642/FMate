@@ -28,10 +28,10 @@ class AddDeviceSelectItemAdapter(var list: MutableList<DeviceCategoryBean.Device
     }
 
     override fun onBindViewHolder(holder: AddSelectItemViewHolder, position: Int) {
-       holder.itemNameTv?.text = list.get(position).productName
+        holder.itemNameTv?.text = list.get(position).productName
     }
 
     override fun getItemCount(): Int {
-      return list.size
+      return if(list.size>2) 2 else list.size
     }
 }

@@ -666,6 +666,7 @@ class BleWork : IWork, OnCountTimerListener,
                 kotlin.runCatching {
                     HomeViewApi.mHomeViewApi.saveUserEquip(value)
                 }.onSuccess {
+
                 }.onFailure {
                 }
             }

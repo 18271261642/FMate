@@ -8,9 +8,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.xingliansdk.Config;
 import com.example.xingliansdk.R;
+import com.example.xingliansdk.XingLianApplication;
+import com.example.xingliansdk.bean.DevicePropertiesBean;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,6 +33,11 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
     private Context context;
 
 
+    private OnMoreConnDeleteListener onMoreConnDeleteListener;
+
+    public void setOnMoreConnDeleteListener(OnMoreConnDeleteListener onMoreConnDeleteListener) {
+        this.onMoreConnDeleteListener = onMoreConnDeleteListener;
+    }
 
     public MoreConnectedDeviceAdapter(List<ConnectedDeviceBean> list, Context context) {
         this.list = list;
@@ -45,6 +56,42 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         ConnectedDeviceBean connectedDeviceBean = list.get(position);
         holder.itemMoreConnectNameTv.setText(connectedDeviceBean.getProductName());
 
+        ImageView typeImg = holder.itemMoreConnectTypeImgView;
+
+
+        if(connectedDeviceBean.getProductName().toLowerCase(Locale.ROOT).contains("ring")){
+            Glide.with(context).load(R.drawable.ic_place_ring).into(typeImg);
+        }else{
+            Glide.with(context).load(R.drawable.ic_place_watch).into(typeImg);
+        }
+
+        //已经连接的Mac
+        String mac = Hawk.get("address");
+        boolean isConn = mac != null && mac.toLowerCase(Locale.ROOT).equals(connectedDeviceBean.getMac()) && XingLianApplication.mXingLianApplication.getDeviceConnStatus();
+
+        holder.itemMoreConnStatusTv.setText(isConn? "已连接" : "未连接");
+
+        if(isConn){
+            DevicePropertiesBean devicePropertiesBean = Hawk.get(
+                    Config.database.DEVICE_ATTRIBUTE_INFORMATION,
+                    new DevicePropertiesBean(0, 0, 0, 0)
+            );
+
+            if(devicePropertiesBean != null){
+                holder.itemMoreConnectBatteryValue.setText(devicePropertiesBean.getElectricity()+"%");
+            }
+        }else{
+            holder.itemMOreConnBatteryImg.setVisibility(View.GONE);
+            holder.itemMoreConnectBatteryValue.setText("删除设备");
+        }
+
+        holder.itemMoreConnectBatteryValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onMoreConnDeleteListener != null)
+                    onMoreConnDeleteListener.deleteItem(holder.getLayoutPosition());
+            }
+        });
 
     }
 
@@ -65,12 +112,16 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         //未连接的布局
         private ConstraintLayout itemMoreConnectDisStatusLayout;
 
+        private ImageView itemMOreConnBatteryImg;
+
         //电量
         private TextView itemMoreConnectBatteryValue;
 
         //重新连接
         private TextView itemMoreConnectReConnTv;
 
+        //是否连接
+        private TextView itemMoreConnStatusTv;
 
 
         public MoreDeviceViewHolder(@NonNull View itemView) {
@@ -83,6 +134,13 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
             itemMoreConnectBatteryValue = itemView.findViewById(R.id.itemMoreConnectBatteryValue);
             itemMoreConnectReConnTv = itemView.findViewById(R.id.itemMoreConnectReConnTv);
 
+            itemMoreConnStatusTv = itemView.findViewById(R.id.itemMoreConnStatusTv);
+            itemMOreConnBatteryImg = itemView.findViewById(R.id.itemMOreConnBatteryImg);
+
         }
+    }
+
+    private interface OnMoreConnDeleteListener{
+        void deleteItem(int position);
     }
 }

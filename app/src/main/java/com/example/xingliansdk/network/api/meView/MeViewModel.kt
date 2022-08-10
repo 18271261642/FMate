@@ -4,10 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.network.api.dialView.RecommendDialBean
 import com.example.xingliansdk.network.api.dialView.RecommendDialViewApi
+import com.example.xingliansdk.network.api.login.LoginApi
+import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.meView.MeViewApi.Companion.mMeViewApi
 import com.example.xingliansdk.network.api.moreDevice.ConnectRecordApi
 import com.example.xingliansdk.network.requestCustom
 import com.example.xingliansdk.ui.deviceconn.ConnRecordListBean
+import com.google.gson.Gson
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 
@@ -15,6 +18,8 @@ import com.shon.connector.utils.TLog
 class MeViewModel : BaseViewModel() {
     val result: MutableLiveData<Any> = MutableLiveData()
     val msg: MutableLiveData<String> = MutableLiveData()
+
+
     fun getDialImg(pNumber : String ) {
         requestCustom({
             mMeViewApi.getDialImg(pNumber)
@@ -73,6 +78,41 @@ class MeViewModel : BaseViewModel() {
         requestCustom({ ConnectRecordApi.connectRecordApi.getConnectedRecord() },
             { recordDeviceResult.postValue(it) }) { code, message ->
             recordMsg.postValue(message)
+        }
+    }
+
+    //删除连接记录
+    val deleteRecord : MutableLiveData<Any> = MutableLiveData()
+    val deleteMsg : MutableLiveData<Any> = MutableLiveData()
+
+    //根据Mac删除记录
+    fun deleteRecordByMac(mac : String){
+        requestCustom({ ConnectRecordApi.connectRecordApi.deleteRecordByMac(mac)},{deleteRecord.postValue(it)}){
+                code, message ->
+            deleteMsg.postValue(message)
+        }
+    }
+
+
+
+
+    private val resultUserInfo: MutableLiveData<LoginBean> = MutableLiveData()
+
+
+    fun setUserInfo(value: HashMap<String, String>) {
+        requestCustom(
+            {
+                LoginApi.loginApi.setUserInfo(value)
+            }, {
+                TLog.error("==" + Gson().toJson(it))
+                resultUserInfo.postValue(it)
+            }
+        ) { code, message ->
+            message?.let {
+                msg.postValue(it)
+                TLog.error("==" + Gson().toJson(it))
+                ShowToast.showToastLong(it)
+            }
         }
     }
 }
