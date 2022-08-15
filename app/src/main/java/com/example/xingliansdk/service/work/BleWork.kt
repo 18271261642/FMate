@@ -266,35 +266,35 @@ class BleWork : IWork, OnCountTimerListener,
 
     private fun getBigDataHistory() {
         TLog.error("getBigDataHistory 被访问")
-        Handler(Looper.getMainLooper())
-            .postDelayed({
-                if (!iFonConnectError) {
-                    BleWrite.writeBigDataHistoryCall(
-                        Config.BigData.APP_DAILY_ACTIVITIES,
-                        this@BleWork
-                    )
-                    BleWrite.writeBigDataHistoryCall(
-                        Config.BigData.APP_SLEEP,
-                        this@BleWork
-                    )
-                    BleWrite.writeBigDataHistoryCall(
-                        Config.BigData.APP_HEART_RATE,
-                        this@BleWork
-                    )
-                    BleWrite.writeBigDataHistoryCall(
-                        Config.BigData.APP_BLOOD_OXYGEN,
-                        this@BleWork
-                    )
-                    writeBigDataHistoryCall(
-                        Config.BigData.APP_STRESS_FATIGUE,
-                        this@BleWork
-                    )
-                    writeBigDataHistoryCall(
-                        Config.BigData.APP_TEMPERATURE,
-                        this@BleWork
-                    )
-                }
-            }, 500)
+//        Handler(Looper.getMainLooper())
+//            .postDelayed({
+//                if (!iFonConnectError) {
+//                    BleWrite.writeBigDataHistoryCall(
+//                        Config.BigData.APP_DAILY_ACTIVITIES,
+//                        this@BleWork
+//                    )
+//                    BleWrite.writeBigDataHistoryCall(
+//                        Config.BigData.APP_SLEEP,
+//                        this@BleWork
+//                    )
+//                    BleWrite.writeBigDataHistoryCall(
+//                        Config.BigData.APP_HEART_RATE,
+//                        this@BleWork
+//                    )
+//                    BleWrite.writeBigDataHistoryCall(
+//                        Config.BigData.APP_BLOOD_OXYGEN,
+//                        this@BleWork
+//                    )
+//                    writeBigDataHistoryCall(
+//                        Config.BigData.APP_STRESS_FATIGUE,
+//                        this@BleWork
+//                    )
+//                    writeBigDataHistoryCall(
+//                        Config.BigData.APP_TEMPERATURE,
+//                        this@BleWork
+//                    )
+//                }
+//            }, 500)
     }
 
 
@@ -666,8 +666,9 @@ class BleWork : IWork, OnCountTimerListener,
                 kotlin.runCatching {
                     HomeViewApi.mHomeViewApi.saveUserEquip(value)
                 }.onSuccess {
-
+                    TLog.error("----------上传状态-------")
                 }.onFailure {
+                    TLog.error("----------上传状态---falie----")
                 }
             }
         Hawk.put("address", nowMaC)

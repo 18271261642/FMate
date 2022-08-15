@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test.TestNetActivity
+import com.example.xingliansdk.Config
 import com.example.xingliansdk.Config.database.*
 import com.example.xingliansdk.Config.eventBus.*
 import com.example.xingliansdk.R
@@ -296,6 +297,8 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
     //处理显示绑定的逻辑
     private fun operateBind(){
+        if(moreList.isEmpty())
+            return
         moreList.forEach {
             if(it.productName.contains("Ring") && moreList.size == 1){    //只有戒指
                 //把另一个隐藏掉
@@ -461,12 +464,6 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
 
 
-
-
-
-
-
-
     override fun onResume() {
         super.onResume()
         try {
@@ -490,6 +487,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventResult(event: SNEvent<*>) {
         when (event.code) {
+            Config.eventBus.DEVICE_FIRMWARE->{  //获取固件信息
+                TLog.error("-------连接成功获取固件信息返回=======")
+                //获取连接的记录
+                mViewModel.getConnRecordDevice()
+            }
+
+
             DEVICE_CONNECT_NOTIFY -> {
                 tvDeviceName?.text = Hawk.get("name")
                 getBleStatus()
