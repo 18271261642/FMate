@@ -659,7 +659,7 @@ class BleWork : IWork, OnCountTimerListener,
         value["appVersion"] = HelpUtil.getVersionCode(context).toString()
         value["osType"] = "1"
         value["appVersionName"] = HelpUtil.getVersionName(context)!!
-        value["productCategoryId"] = "2"
+        value["productCategoryId"] = XingLianApplication.getXingLianApplication().getCategoryId().toString()
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)
             {
@@ -667,6 +667,7 @@ class BleWork : IWork, OnCountTimerListener,
                     HomeViewApi.mHomeViewApi.saveUserEquip(value)
                 }.onSuccess {
                     TLog.error("----------上传状态-------")
+                    SNEventBus.sendEvent(-10,"update_equip")
                 }.onFailure {
                     TLog.error("----------上传状态---falie----")
                 }

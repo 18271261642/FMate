@@ -119,6 +119,8 @@ class XingLianApplication : BaseApp() {
         private var measureBpPromptDialog : MeasureBpPromptDialog ?= null
 
 
+        //类型id，戒指d=1，手表 id=2 从后台获取类型列表，选择类型id，上传对应类型
+        private var productCategoryId = 1
 
         fun getSelectedCalendar(): Calendar? {
             return mSelectedCalendar
@@ -401,6 +403,13 @@ class XingLianApplication : BaseApp() {
         return isForceDial
     }
 
+    public fun setCategoryId(id : Int){
+        productCategoryId = id
+    }
+
+    public fun getCategoryId() : Int{
+        return productCategoryId;
+    }
 
     private  val broadcastReceiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {

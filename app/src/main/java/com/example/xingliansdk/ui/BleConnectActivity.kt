@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.example.xingliansdk.Config.database.DEVICE_OTA
 import com.example.xingliansdk.Config.eventBus
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.ScanAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
@@ -69,6 +70,8 @@ class BleConnectActivity :
     //搜索过滤，暂时根据名称过滤
     private var searchName: String? = null
 
+    //类型id
+    private var categoryId = 1
 
     override fun layoutId(): Int {
         return R.layout.activity_ble_conne
@@ -92,6 +95,8 @@ class BleConnectActivity :
 
 
         searchName = intent.getStringExtra("scan_name")
+        categoryId = intent.getIntExtra("category_id",1)
+
         if(searchName != null){
             scanDescTv.text = searchName
         }
@@ -153,11 +158,11 @@ class BleConnectActivity :
                 .setUseHardwareBatchingIfSupported(false)
                 .build()
         scanner.stopScan(mScanCallback)
-        filters.add(
-            ScanFilter.Builder()
-                .setServiceUuid(ParcelUuid.fromString(Config.serviceUUID))
-                .build()
-        ) //应该是加入uuid的话只能搜索到指定id内容
+//        filters.add(
+//            ScanFilter.Builder()
+//                .setServiceUuid(ParcelUuid.fromString(Config.serviceUUID))
+//                .build()
+//        ) //应该是加入uuid的话只能搜索到指定id内容
         filters.add(
             ScanFilter.Builder()
                 .setServiceUuid(ParcelUuid.fromString(Config.OTAServiceUUID))
@@ -167,9 +172,10 @@ class BleConnectActivity :
         filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(Config.GOODX_OTA_SERVICE_UUID)).build())
 
         if(searchName != null && searchName.equals("智能戒指")){
-            filters.add(ScanFilter.Builder().setDeviceName("startLink Ring").build())
+            filters.add(ScanFilter.Builder().setDeviceName("StarLink Ring").build())
         }else{
-           // filters.add(ScanFilter.Builder().setDeviceName("startLink Ring").build())
+            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT1").build())
+            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT2").build())
         }
 
         scanner.startScan(filters, mScanSettings, mScanCallback)
@@ -188,7 +194,7 @@ class BleConnectActivity :
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
                 results.forEach {
-                    Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name)
+                    Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name+" "+Arrays.toString(it.scanRecord?.bytes))
                 }
                 //  hideWaitDialog()
 //                TLog.error("results+="+results.size)
@@ -292,6 +298,8 @@ class BleConnectActivity :
                 if(baseDialog.isShowing)
                 hideWaitDialog()
 //                JumpUtil.startMainHomeActivity(this)
+
+                XingLianApplication.getXingLianApplication().setCategoryId(categoryId)
 
                 val intent = Intent()
                 intent.putExtra("reback",0)

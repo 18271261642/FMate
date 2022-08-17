@@ -80,10 +80,11 @@ class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>(),AddDevic
         //图片url
         val deviceImg = dbBean?.list?.get(position)?.image
         //类型
-
+        val categoryId = dbBean?.list?.get(position)?.id
         val intent = Intent(this@AddDeviceSelectActivity,BleConnectActivity::class.java)
         intent.putExtra("scan_name",selectName)
         intent.putExtra("scan_img",deviceImg)
+        intent.putExtra("category_id",categoryId)
         //startActivity(intent)
         startActivityForResult(intent,0x00)
 

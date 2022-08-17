@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
@@ -310,11 +311,18 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
             if(it.productName.contains("GT") && moreList.size == 1){    //只有手表
                 meHomeRingCardView.visibility = View.GONE
+                meHomeWatchCardView.visibility = View.VISIBLE
                 watchDialCarView.visibility = View.VISIBLE
                 return
             }
 
+            meHomeWatchCardView.visibility = View.VISIBLE
+            watchDialCarView.visibility = View.VISIBLE
+            meHomeWatchCardView.visibility = View.VISIBLE
+
         }
+
+        setDeviceConn()
     }
 
 
@@ -482,17 +490,69 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
     }
 
+
+    //显示连接状态，每次只能有一个连接
+    private fun setDeviceConn(){
+        if(moreList.isEmpty())
+            return
+
+        //遍历集合，与已经连接的Mac地址比对，判断哪个连接
+        val saveAddress = Hawk.get<String>("address","")
+        if(TextUtils.isEmpty(saveAddress))
+            return
+        //如果未连接就全部显示未连接
+        if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+            meRingDeleteTv.visibility = View.VISIBLE
+            meConnRingBatteryLayout.visibility = View.GONE
+            itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_no_conn)
+
+            itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
+            meConnWatchBatteryLayout.visibility = View.GONE
+            meWatchDeleteTv.visibility = View.VISIBLE
+            return
+        }
+
+
+        moreList.forEach {
+            if(it.mac == saveAddress.toLowerCase(Locale.CHINA)){
+                if(it.productCategoryId == 1){  //戒指
+                    meRingDeleteTv.visibility = View.GONE
+                    meConnRingBatteryLayout.visibility = View.VISIBLE
+                    itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_connected)
+                    itemMeRingBatteryValue.text =  "$electricity%"
+                }else{  //手表
+                    itemMeHomeStatusTv.text = resources.getString(R.string.string_connected)
+                    meConnWatchBatteryLayout.visibility = View.VISIBLE
+                    itemMeConnectBatteryValue.text = "$electricity%"
+                    meWatchDeleteTv.visibility = View.GONE
+                }
+            }else{
+                meRingDeleteTv.visibility = View.VISIBLE
+                meConnRingBatteryLayout.visibility = View.GONE
+                itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_no_conn)
+
+                itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
+                meConnWatchBatteryLayout.visibility = View.GONE
+                meWatchDeleteTv.visibility = View.VISIBLE
+
+            }
+        }
+    }
+
+
+
+
     var electricity: Int = 0
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventResult(event: SNEvent<*>) {
         when (event.code) {
-            Config.eventBus.DEVICE_FIRMWARE->{  //获取固件信息
-                TLog.error("-------连接成功获取固件信息返回=======")
+
+            -10->{  //更新成功
+                TLog.error("-------更新成功=======")
                 //获取连接的记录
                 mViewModel.getConnRecordDevice()
             }
-
 
             DEVICE_CONNECT_NOTIFY -> {
                 tvDeviceName?.text = Hawk.get("name")
@@ -502,23 +562,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
             DEVICE_ELECTRICITY -> {
                 electricity = event.data.toString().toInt()
+                TLog.error("---------电量="+electricity)
                 getBleStatus()
                 if (tvDeviceElectricity != null) {
+
+                    setDeviceConn()
+
                     tvDeviceElectricity.text = "$electricity%"
-                    //获取连接的记录
-                    mViewModel.getConnRecordDevice()
-
-                    //已经连接了，删除隐藏，电量显示
-                    meWatchDeleteTv.visibility = View.GONE
-                    meRingDeleteTv.visibility = View.GONE
-
-                    meConnRingBatteryLayout.visibility = View.VISIBLE
-
-
-                    itemMeHomeRingStatusTv.text  =    resources.getString(R.string.string_connected)
-                    itemMeRingBatteryValue.text =  "$electricity%"
-                    itemMeConnectBatteryValue.text = "$electricity%"
-
 
                     tvDeviceStatus.text = resources.getString(R.string.string_connected)
                     tvDeviceName.text = Hawk.get("name")
@@ -535,11 +585,13 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             DEVICE_BLE_OFF,
             DEVICE_DISCONNECT -> {
 
-                meConnRingBatteryLayout.visibility = View.GONE
-                meRingDeleteTv.visibility = View.VISIBLE
+                setDeviceConn()
 
-                itemMeHomeRingStatusTv.text  =    resources.getString(R.string.string_no_conn)
-                itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
+//                meConnRingBatteryLayout.visibility = View.GONE
+//                meRingDeleteTv.visibility = View.VISIBLE
+//
+//                itemMeHomeRingStatusTv.text  =    resources.getString(R.string.string_no_conn)
+//                itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
 
 
                 tvDeviceStatus?.text = resources.getString(R.string.string_no_conn)
