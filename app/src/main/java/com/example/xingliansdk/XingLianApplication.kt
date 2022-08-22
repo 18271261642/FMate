@@ -50,6 +50,7 @@ import com.shon.connector.utils.ShowToast
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import java.lang.IllegalArgumentException
+import kotlin.collections.LinkedHashMap
 
 
 class XingLianApplication : BaseApp() {
@@ -106,6 +107,8 @@ class XingLianApplication : BaseApp() {
         //正在同步表盘中是否强制退出，强制退出后停止同步表盘
         private var isForceDial = false;
 
+        //设备类型的map，设备编号为key，value为类型
+        private val categoryMap = LinkedHashMap<String,Int>()
 
         //监听时间变化的广播
         private var timeBroadcastReceiver : SystemTimeBroadcastReceiver ? = null
@@ -191,8 +194,13 @@ class XingLianApplication : BaseApp() {
         LitePal.initialize(this)
         MultiDex.install(this)
 
-        val intent = Intent(getContext(), AppService::class.java)
-        startService(intent)
+        try {
+            val intent = Intent(getContext(), AppService::class.java)
+            startService(intent)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+
 
         //适配器
         AutoSizeConfig.getInstance().unitsManager.setSupportDP(true)
@@ -409,6 +417,15 @@ class XingLianApplication : BaseApp() {
 
     public fun getCategoryId() : Int{
         return productCategoryId;
+    }
+
+   fun setDeviceCategoryKey(key:String,value : Int){
+       categoryMap[key] = value
+   }
+
+    fun getDeviceCategoryValue(key: String): Int? {
+
+        return categoryMap[key]
     }
 
     private  val broadcastReceiver = object :BroadcastReceiver(){

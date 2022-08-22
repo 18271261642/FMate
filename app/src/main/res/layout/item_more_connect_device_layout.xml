@@ -35,9 +35,9 @@
 
     <LinearLayout
         android:id="@+id/itemMoreConnectStatusLayout"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tempConnView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/itemMoreConnectTypeImgView"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="@dimen/widget_size_30"
         android:layout_width="wrap_content"
         android:visibility="gone"
@@ -138,6 +138,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/text_size_15"
             app:layout_constraintLeft_toRightOf="@id/itemMOreConnBatteryImg"/>
+
+
+
+        <TextView
+            android:id="@+id/itemMoreConnectDelTv"
+            android:layout_width="56dp"
+            android:layout_height="20dp"
+            android:text="删除设备"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            app:layout_constraintTop_toBottomOf="@id/tempConnView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="14sp"
+            android:layout_marginStart="@dimen/text_size_15"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@ import com.example.xingliansdk.dialog.OnCommDialogClickListener
 import com.example.xingliansdk.dialog.UpdateDialogView
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
+import com.example.xingliansdk.network.api.device.DeviceCategoryBean
 import com.example.xingliansdk.network.api.otaUpdate.OTAUpdateBean
 import com.example.xingliansdk.network.api.weather.ServerWeatherViewModel
 import com.example.xingliansdk.network.api.weather.bean.ServerWeatherBean
@@ -59,6 +60,9 @@ import java.text.DecimalFormat
 import java.util.*
 
 
+/**
+ * 主activity页面
+ */
 public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareInformationInterface ,
     BleWrite.SpecifySleepSourceInterface, MeasureBigBpListener ,AmapLocationService.OnLocationListener{
 
@@ -116,6 +120,10 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
         Permissions()
 
         bindBle()
+        //获取设备类型
+        mViewModel.getAllDeviceCategory()
+
+        //获取用户信息
         mainViewModel.userInfo()
 
         //版本更新
@@ -149,6 +157,27 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
 
     override fun createObserver() {
         super.createObserver()
+
+        //设备类型
+        mViewModel.deviceCategoryResult.observe(this){
+            val     dbBean = it as DeviceCategoryBean
+            TLog.error("------获取设备类型列表="+Gson().toJson(dbBean))
+            dbBean.list.forEach {
+                //类型id
+                val categoryId = it.id
+                //再遍历每个productNumber
+                val producList = it.productList
+
+                producList.forEach {
+                    XingLianApplication.getXingLianApplication().setDeviceCategoryKey(it.productNumber,categoryId)
+                }
+            }
+        }
+
+
+
+
+
         mViewModel.resultOta.observe(this){
             TLog.error("IT==" + Gson().toJson(it))
             //&& it.versionCode>mDeviceFirmwareBean.version

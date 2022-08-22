@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.ParcelUuid
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.widget.TextView
@@ -24,6 +25,7 @@ import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.ScanAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.base.viewmodel.BaseViewModel
+import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.blecontent.BleConnection.connectDevice
 import com.example.xingliansdk.blecontent.BleConnection.iFOta
 import com.example.xingliansdk.blecontent.BleConnection.iFonConnectError
@@ -43,6 +45,7 @@ import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
 import com.orhanobut.hawk.Hawk
+import com.shon.bluetooth.BLEManager
 import com.shon.connector.Config
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_ble_conne.*
@@ -173,6 +176,7 @@ class BleConnectActivity :
 
         if(searchName != null && searchName.equals("智能戒指")){
             filters.add(ScanFilter.Builder().setDeviceName("StarLink Ring").build())
+            filters.add(ScanFilter.Builder().setDeviceName("starLink Ring").build())
         }else{
             filters.add(ScanFilter.Builder().setDeviceName("StarLink GT1").build())
             filters.add(ScanFilter.Builder().setDeviceName("StarLink GT2").build())
@@ -249,7 +253,20 @@ class BleConnectActivity :
                 hideWaitDialog()
                 return@setOnItemClickListener
             }
-            connectDevice( mScanAdapter!!.data[position].device.address
+
+
+            //先判断是否已经连接过，连接过就断开，把Mac更改，
+            val savedMac = Hawk.get("address","")
+            if(!TextUtils.isEmpty(savedMac)){
+                BLEManager.getInstance().disconnectDevice(savedMac.toUpperCase(Locale.ROOT))
+                Hawk.put("address", "")
+                Hawk.put("name", "")
+                BleConnection.Unbind = true
+                Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
+            }
+
+
+            connectDevice(mScanAdapter!!.data[position].device.address
             , mScanAdapter!!.data[position]?.scanRecord!!
             ,1)
         }

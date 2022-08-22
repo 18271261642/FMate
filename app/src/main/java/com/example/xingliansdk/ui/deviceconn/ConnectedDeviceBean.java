@@ -31,6 +31,9 @@ public class ConnectedDeviceBean  {
     //是否是连接状态
     private boolean isConnected;
 
+    //连接状态，默认未连接
+    private ConnstatusEnum connstatusEnum = ConnstatusEnum.NO_CONNECTED;
+
     //电量
     private int battery;
 
@@ -49,6 +52,8 @@ public class ConnectedDeviceBean  {
     public void setBattery(int battery) {
         this.battery = battery;
     }
+
+
 
     public int getId() {
         return id;
@@ -104,6 +109,14 @@ public class ConnectedDeviceBean  {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public ConnstatusEnum getConnstatusEnum() {
+        return connstatusEnum;
+    }
+
+    public void setConnstatusEnum(ConnstatusEnum connstatusEnum) {
+        this.connstatusEnum = connstatusEnum;
     }
 
     @Override

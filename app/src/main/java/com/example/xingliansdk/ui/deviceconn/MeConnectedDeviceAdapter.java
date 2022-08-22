@@ -30,7 +30,12 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
     private List<ConnectedDeviceBean> list;
     private Context context;
 
+    private OnMeAdapterItemClick onMeAdapterItemClick;
 
+
+    public void setOnMeAdapterItemClick(OnMeAdapterItemClick onMeAdapterItemClick) {
+        this.onMeAdapterItemClick = onMeAdapterItemClick;
+    }
 
     public MeConnectedDeviceAdapter(List<ConnectedDeviceBean> list, Context context) {
         this.list = list;
@@ -74,11 +79,58 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
             holder.itemMeConnectedTv.setText(connectedDeviceBean.isConnected() ? "更多设备" : "添加设备");
         }
 
+        int itemPosition = holder.getLayoutPosition();
+        //重新连接文字，未连接显示，连接后隐藏
+        TextView reConnTv = holder.tmeItemMeCView;
+        reConnTv.setVisibility(connectedDeviceBean.isConnected() ? View.INVISIBLE : View.VISIBLE);
+        if(!connectedDeviceBean.isConnected()){
+            reConnTv.setText(connectedDeviceBean.getConnstatusEnum() == ConnstatusEnum.CONNECTING ? "连接中.." : "重新连接");
+        }
+
+
+        //删除，连接成功隐藏，未连接显示
+        TextView deleteTv = holder.meWatchDeleteTv;
+        deleteTv.setVisibility(connectedDeviceBean.isConnected() ? View.INVISIBLE : View.VISIBLE);
+
+
+        holder.meConnWatchBatteryLayout.setVisibility(connectedDeviceBean.isConnected() ? View.VISIBLE : View.GONE);
+
+
+        deleteTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onMeAdapterItemClick !=null)
+                    onMeAdapterItemClick.onItemDeleteClick(itemPosition);
+            }
+        });
+
+        //重新连接的点击
+        reConnTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onMeAdapterItemClick !=null)
+                    onMeAdapterItemClick.onItemReConnClick(itemPosition);
+            }
+        });
+
+
+        //删除的点击
+
+        //整个item的点击
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onMeAdapterItemClick!= null)
+                    onMeAdapterItemClick.onItemClick(itemPosition);
+            }
+        });
+
     }
 
+    //最大两个
     @Override
     public int getItemCount() {
-        return list.size();
+        return list.size() == 0 ? 0 : (Math.min(list.size(), 2));
     }
 
 
@@ -102,6 +154,15 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
         //添加设备或更多设备，已连接显示更多设备，未连接显示添加设备，只有一个item是显示添加设备
         private TextView itemMeConnectedTv;
 
+        //重新连接，点击后判断条件是否满足，重新连接
+        private TextView tmeItemMeCView;
+
+        //删除
+        private TextView meWatchDeleteTv;
+
+        //电量的布局，已连接显示，未连接不显示
+        private LinearLayout meConnWatchBatteryLayout;
+
 
         public MoreDeviceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +170,7 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
             itemMoreConnectTypeImgView = itemView.findViewById(R.id.itemMeTypeImgView);
             itemMeConnectedTv = itemView.findViewById(R.id.itemMeConnectedTv);
 
+            meWatchDeleteTv = itemView.findViewById(R.id.meWatchDeleteTv);
 
             itemMeHomeStatusTv = itemView.findViewById(R.id.itemMeHomeStatusTv);
 //            itemMoreConnectDisStatusLayout = itemView.findViewById(R.id.itemMoreConnectDisStatusLayout);
@@ -116,6 +178,23 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
             itemMeConnBatteryImg = itemView.findViewById(R.id.itemMeConnectBatteryValue);
 //            itemMoreConnectReConnTv = itemView.findViewById(R.id.itemMoreConnectReConnTv);
 
+
+            tmeItemMeCView = itemView.findViewById(R.id.tmeItemMeCView);
+
+            meConnWatchBatteryLayout = itemView.findViewById(R.id.meConnWatchBatteryLayout);
+
         }
+    }
+
+
+    public interface OnMeAdapterItemClick{
+        //整个item的点击
+        void onItemClick(int position);
+
+        //重新连接的点击
+        void onItemReConnClick(int position);
+
+        //删除设备的点击
+        void onItemDeleteClick(int position);
     }
 }

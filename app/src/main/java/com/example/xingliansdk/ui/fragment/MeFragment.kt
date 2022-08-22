@@ -150,6 +150,35 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         meConnectedRy.adapter = recordAdapter
 
 
+        recordAdapter?.setOnMeAdapterItemClick(object : MeConnectedDeviceAdapter.OnMeAdapterItemClick{
+            override fun onItemClick(position: Int) {
+                if (!turnOnBluetooth()) {
+                    return
+                }
+                if (BleConnection.iFonConnectError || BleConnection.Unbind) {
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
+                    return
+                }
+
+                if(!XingLianApplication.mXingLianApplication.getDeviceConnStatus()){
+                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
+                    return
+                }
+
+                JumpUtil.startMyDeviceActivity(activity, electricity)
+            }
+
+            //重新连接
+            override fun onItemReConnClick(position: Int) {
+                toRetryConnDevice(moreList[position].mac)
+            }
+
+            override fun onItemDeleteClick(position: Int) {
+                wearDialog(R.id.meRingDeleteTv,position)
+            }
+
+        })
+
     }
 
 
@@ -264,18 +293,19 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 moreList.addAll(it.list)
             }
 
-            TLog.error("-----222--记录返回="+Gson().toJson(moreList))
-
             if(moreList.size == 0){
-                meHolderLayout.visibility = View.GONE
-                meConnectEmptyLayout.visibility = View.VISIBLE
-                meNoDeviceLayout.visibility = View.VISIBLE
                 meConnectedRy.visibility = View.GONE
+                meNoDeviceLayout.visibility = View.VISIBLE
             }else{
-                meConnectEmptyLayout.visibility = View.GONE
-                meHolderLayout.visibility = View.VISIBLE
-                operateBind()
+                meConnectedRy.visibility = View.VISIBLE
+                meNoDeviceLayout.visibility = View.GONE
             }
+
+
+
+            recordAdapter?.notifyDataSetChanged()
+
+            setDeviceConn()
 
         }
 
@@ -291,38 +321,6 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             TLog.error("-error----删除连接记录="+Gson().toJson(it))
         }
 
-
-
-    }
-
-
-    //处理显示绑定的逻辑
-    private fun operateBind(){
-        if(moreList.isEmpty())
-            return
-        moreList.forEach {
-            if(it.productName.contains("Ring") && moreList.size == 1){    //只有戒指
-                //把另一个隐藏掉
-                meHomeWatchCardView.visibility = View.GONE
-                //戒指没有表盘市场
-                watchDialCarView.visibility = View.GONE
-                return
-            }
-
-            if(it.productName.contains("GT") && moreList.size == 1){    //只有手表
-                meHomeRingCardView.visibility = View.GONE
-                meHomeWatchCardView.visibility = View.VISIBLE
-                watchDialCarView.visibility = View.VISIBLE
-                return
-            }
-
-            meHomeWatchCardView.visibility = View.VISIBLE
-            watchDialCarView.visibility = View.VISIBLE
-            meHomeWatchCardView.visibility = View.VISIBLE
-
-        }
-
-        setDeviceConn()
     }
 
 
@@ -333,12 +331,12 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //        }
         when (v.id) {
 
-            R.id.meRingDeleteTv->{  //删除戒指的记录，传Mac，删除后重新更新UI
-                wearDialog(R.id.meRingDeleteTv)
-            }
-            R.id.meWatchDeleteTv->{ //删除手表记录，传Mac，删除后更新UI
-                wearDialog(R.id.meWatchDeleteTv)
-            }
+//            R.id.meRingDeleteTv->{  //删除戒指的记录，传Mac，删除后重新更新UI
+//                wearDialog(R.id.meRingDeleteTv)
+//            }
+//            R.id.meWatchDeleteTv->{ //删除手表记录，传Mac，删除后更新UI
+//                wearDialog(R.id.meWatchDeleteTv)
+//            }
 
 
             R.id.meMoreDeviceTv->{  //更多设备
@@ -500,43 +498,58 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         val saveAddress = Hawk.get<String>("address","")
         if(TextUtils.isEmpty(saveAddress))
             return
+
+        //判断是否要显示表盘市场，只有一个戒指时不显示
+        var isShowDial = false
+        moreList.forEach {
+            TLog.error("-555555-记录返回="+(it.productCategoryId == 2)+" "+it.productCategoryId)
+            if(it.productCategoryId == 2){
+                isShowDial = true
+            }
+        }
+
+        moreList.forEach {
+
+            if(it.productCategoryId == 1 && it.mac.equals(saveAddress, ignoreCase = true)
+            ){
+                isShowDial = false
+            }
+        }
+
+        TLog.error("------是否需要显示表盘="+isShowDial)
+        watchDialCarView.visibility = if(isShowDial) View.VISIBLE else View.GONE
+        //如果戒指连接了就不显示表盘市场
+
+
         //如果未连接就全部显示未连接
         if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
-            meRingDeleteTv.visibility = View.VISIBLE
-            meConnRingBatteryLayout.visibility = View.GONE
-            itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_no_conn)
+            moreList.forEachIndexed { index, connectedDeviceBean ->
+                connectedDeviceBean.connstatusEnum = ConnstatusEnum.NO_CONNECTED
+                connectedDeviceBean.isConnected = false
+            }
 
-            itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
-            meConnWatchBatteryLayout.visibility = View.GONE
-            meWatchDeleteTv.visibility = View.VISIBLE
+            recordAdapter?.notifyDataSetChanged()
             return
         }
 
 
-        moreList.forEach {
-            if(it.mac == saveAddress.toLowerCase(Locale.CHINA)){
-                if(it.productCategoryId == 1){  //戒指
-                    meRingDeleteTv.visibility = View.GONE
-                    meConnRingBatteryLayout.visibility = View.VISIBLE
-                    itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_connected)
-                    itemMeRingBatteryValue.text =  "$electricity%"
-                }else{  //手表
-                    itemMeHomeStatusTv.text = resources.getString(R.string.string_connected)
-                    meConnWatchBatteryLayout.visibility = View.VISIBLE
-                    itemMeConnectBatteryValue.text = "$electricity%"
-                    meWatchDeleteTv.visibility = View.GONE
-                }
+
+        moreList.forEachIndexed { index, connectedDeviceBean ->
+            connectedDeviceBean.isConnected =
+                connectedDeviceBean.mac.equals(saveAddress, ignoreCase = true)
+            if(connectedDeviceBean.isConnected){
+                connectedDeviceBean.connstatusEnum = ConnstatusEnum.CONNECTED
+                connectedDeviceBean.battery = electricity
             }else{
-                meRingDeleteTv.visibility = View.VISIBLE
-                meConnRingBatteryLayout.visibility = View.GONE
-                itemMeHomeRingStatusTv.text  = resources.getString(R.string.string_no_conn)
-
-                itemMeHomeStatusTv.text = resources.getString(R.string.string_no_conn)
-                meConnWatchBatteryLayout.visibility = View.GONE
-                meWatchDeleteTv.visibility = View.VISIBLE
-
+                connectedDeviceBean.battery = 0
             }
+
         }
+
+        TLog.error("------更改状态="+Gson().toJson(moreList))
+
+        recordAdapter?.notifyDataSetChanged()
+
     }
 
 
@@ -662,7 +675,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
 
     //删除提醒
-    private fun wearDialog(id: Int) {
+    private fun wearDialog(id: Int,position : Int) {
         activity?.let {
             newGenjiDialog {
                 layoutId = R.layout.alert_dialog_login
@@ -702,30 +715,18 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                                 var deleteMac : String ?=null
 
                                 //获取Mac
-                                if(R.id.meRingDeleteTv == id){
-                                    moreList.forEach {
-                                        if(it.productName.toLowerCase(Locale.ROOT).contains("ring")){
-                                            deleteMac = it.mac
-                                        }
-                                    }
-                                }
-
-                                if(id == R.id.meWatchDeleteTv){
-                                    moreList.forEach {
-                                        if(it.productName.toLowerCase(Locale.ROOT).contains("gt")){
-                                            deleteMac = it.mac
-                                        }
-                                    }
-                                }
+                                deleteMac = moreList[position].mac
 
 
                                 Handler(Looper.getMainLooper()).postDelayed({
                                     val value = HashMap<String, String>()
                                     value["mac"] = ""
-                                    mViewModel.setUserInfo(value)
+                                    if(moreList.size == 1){
+                                        mViewModel.setUserInfo(value)
+                                    }
+//                                    mViewModel.setUserInfo(value)
                                     deleteMac?.toLowerCase(Locale.ROOT)
                                         ?.let { it1 -> mViewModel.deleteRecordByMac(it1) }
-
                                     Hawk.put("address", "")
                                     Hawk.put("name", "")
                                     BleConnection.Unbind = true
@@ -748,6 +749,43 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                     }
                 }
             }.showOnWindow(it.supportFragmentManager)
+        }
+    }
+
+
+    //重新连接
+    fun toRetryConnDevice(reMac : String){
+        if (!turnOnBluetooth()) {
+            return
+        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (Hawk.get<String>("address").isNullOrEmpty()) {
+            } else
+                BLEManager.getInstance().disconnectDevice(Hawk.get<String>("address"))
+//                    TLog.error("断开")
+        }, 1000)
+
+        TLog.error("==" + Hawk.get<String>("address"))
+        if (Hawk.get<String>("address").isNullOrEmpty()
+            && reMac.isEmpty()
+        ) {
+            Hawk.put("address", reMac)
+            TLog.error("内部==" + userInfo.user.mac)
+        }
+        Hawk.put("address", reMac)
+
+        XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
+          //  tvReconnection.text = resources.getString(R.string.string_conn_ing)
+
+
+            moreList.forEach {
+                if(it.mac.equals(reMac, ignoreCase = true)){
+                    it.connstatusEnum = ConnstatusEnum.CONNECTING
+                }
+            }
+            recordAdapter?.notifyDataSetChanged()
+            tvDele.visibility = View.GONE
+            BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
         }
     }
 }

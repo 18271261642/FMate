@@ -2,17 +2,23 @@ package com.example.xingliansdk.ui.deviceconn
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.adapter.AddDeviceSelectAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.network.api.device.DeviceCategoryBean
 import com.example.xingliansdk.network.api.device.DeviceCategoryViewModel
 import com.example.xingliansdk.ui.BleConnectActivity
 import com.example.xingliansdk.widget.TitleBarLayout
+import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.orhanobut.hawk.Hawk
+import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_add_device_select_layout.*
 import kotlinx.android.synthetic.main.activity_new_bp_home_layout.*
+import java.util.*
 
 
 //添加设备页面
@@ -60,6 +66,7 @@ class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>(),AddDevic
 
 
         mViewModel.deviceCategoryResult.observe(this){
+            TLog.error("-----类型="+Gson().toJson(it))
             dbBean = it as DeviceCategoryBean
             addSelectAdapter = AddDeviceSelectAdapter(dbBean!!,this)
             addSelectRyView.adapter = addSelectAdapter
@@ -75,6 +82,19 @@ class AddDeviceSelectActivity : BaseActivity<DeviceCategoryViewModel>(),AddDevic
 
 
     override fun onItemClick(position: Int) {
+
+        val deviceCategoryItemBean = dbBean?.list?.get(position)
+
+//        val hasMac = Hawk.get("address","")
+//
+//        val connId = XingLianApplication.getXingLianApplication().getDeviceCategoryValue()
+//
+//        //判断是否已经连接过，已经连接了就提示先断开再连接
+//        if(XingLianApplication.getXingLianApplication().getDeviceConnStatus() && (!TextUtils.isEmpty(hasMac) && hasMac.toLowerCase(
+//                Locale.ROOT).equals(deviceCategoryItemBean.productList.g)))
+
+
+
         //类型，戒指或者手表
         val selectName = dbBean?.list?.get(position)?.name
         //图片url

@@ -104,6 +104,7 @@
 
             <include
                 android:id="@+id/meConnectedLayout"
+                android:visibility="gone"
                 layout="@layout/item_me_watch_ring_layout"/>
 
             <LinearLayout
@@ -295,7 +296,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="12dp"
                 app:contentPadding="10dp">
 

@@ -5,6 +5,8 @@ import com.example.xingliansdk.base.viewmodel.BaseViewModel
 import com.example.xingliansdk.callback.UnPeekLiveData
 import com.example.xingliansdk.network.api.appUpdate.AppUpdateApi
 import com.example.xingliansdk.network.api.appUpdate.AppUpdateBean
+import com.example.xingliansdk.network.api.device.DeviceCategoryBean
+import com.example.xingliansdk.network.api.device.DeviceTypeApi
 import com.example.xingliansdk.network.api.jignfan.JingfanBpApi
 import com.example.xingliansdk.network.api.login.LoginBean
 import com.example.xingliansdk.network.api.mainView.MainApi
@@ -180,6 +182,23 @@ class MainViewModel : BaseViewModel() {
 
                 }
             })
+    }
+
+
+    val deviceCategoryResult : MutableLiveData<DeviceCategoryBean> = MutableLiveData()
+    val dCategoryMsg : MutableLiveData<String> = MutableLiveData()
+
+
+    //获取设备属性列表
+    fun getAllDeviceCategory(){
+        requestCustom({
+            DeviceTypeApi.deviceTypeApi.getAllDeviceCategoryData()
+        },{
+            deviceCategoryResult.postValue(it)
+        }){
+                code, message ->
+            dCategoryMsg.postValue(message)
+        }
     }
 
 }

@@ -23,6 +23,10 @@ ext {
             apiKeyGaodeMap : "4716c47de236ac44dd48f9cde3c98d25",
             apiKeyGoogleMap: "AIzaSyDwmewF127UgSSMfcBch9d7mhxJ1R9uDmQ",
     ]
+
+//    HttpServer    : "http://www.starlinkmed.com:8089",
+//    HttpServerDev : "https://starlinkmed.com:18086",
+
     HTTP = [
             HttpServer    : "http://www.starlinkmed.com:8089",
             HttpServerDev : "https://starlinkmed.com:18086",

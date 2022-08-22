@@ -109,7 +109,6 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
             }
             recordAdapter?.notifyDataSetChanged()
 
-
         }
 
     }
@@ -154,7 +153,10 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
                                 Handler(Looper.getMainLooper()).postDelayed({
                                     val value = HashMap<String, String>()
                                     value["mac"] = ""
-                                    mViewModel.setUserInfo(value)
+                                    if(moreList.size == 0){
+                                        mViewModel.setUserInfo(value)
+                                    }
+                                   // mViewModel.setUserInfo(value)
                                     mViewModel.deleteRecordByMac(mac.toLowerCase(Locale.ROOT))
 
                                     Hawk.put("address", "")

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:shape_solidColor="@color/white"
     app:shape_radius="@dimen/text_size_15"
-    android:layout_margin="@dimen/text_size_15"
-    app:cardCornerRadius="12dp"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -22,6 +20,13 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>
 
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardCornerRadius="12dp"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content">
 
     <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/meNoDeviceLayout"
@@ -91,5 +96,6 @@
         android:src="@mipmap/img_product_disconnect_route"/>
 
     </com.hjq.shape.layout.ShapeConstraintLayout>
+    </androidx.cardview.widget.CardView>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</LinearLayout>

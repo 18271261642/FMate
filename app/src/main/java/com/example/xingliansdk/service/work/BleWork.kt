@@ -266,35 +266,35 @@ class BleWork : IWork, OnCountTimerListener,
 
     private fun getBigDataHistory() {
         TLog.error("getBigDataHistory 被访问")
-//        Handler(Looper.getMainLooper())
-//            .postDelayed({
-//                if (!iFonConnectError) {
-//                    BleWrite.writeBigDataHistoryCall(
-//                        Config.BigData.APP_DAILY_ACTIVITIES,
-//                        this@BleWork
-//                    )
-//                    BleWrite.writeBigDataHistoryCall(
-//                        Config.BigData.APP_SLEEP,
-//                        this@BleWork
-//                    )
-//                    BleWrite.writeBigDataHistoryCall(
-//                        Config.BigData.APP_HEART_RATE,
-//                        this@BleWork
-//                    )
-//                    BleWrite.writeBigDataHistoryCall(
-//                        Config.BigData.APP_BLOOD_OXYGEN,
-//                        this@BleWork
-//                    )
-//                    writeBigDataHistoryCall(
-//                        Config.BigData.APP_STRESS_FATIGUE,
-//                        this@BleWork
-//                    )
-//                    writeBigDataHistoryCall(
-//                        Config.BigData.APP_TEMPERATURE,
-//                        this@BleWork
-//                    )
-//                }
-//            }, 500)
+        Handler(Looper.getMainLooper())
+            .postDelayed({
+                if (!iFonConnectError) {
+                    BleWrite.writeBigDataHistoryCall(
+                        Config.BigData.APP_DAILY_ACTIVITIES,
+                        this@BleWork
+                    )
+                    BleWrite.writeBigDataHistoryCall(
+                        Config.BigData.APP_SLEEP,
+                        this@BleWork
+                    )
+                    BleWrite.writeBigDataHistoryCall(
+                        Config.BigData.APP_HEART_RATE,
+                        this@BleWork
+                    )
+                    BleWrite.writeBigDataHistoryCall(
+                        Config.BigData.APP_BLOOD_OXYGEN,
+                        this@BleWork
+                    )
+                    writeBigDataHistoryCall(
+                        Config.BigData.APP_STRESS_FATIGUE,
+                        this@BleWork
+                    )
+                    writeBigDataHistoryCall(
+                        Config.BigData.APP_TEMPERATURE,
+                        this@BleWork
+                    )
+                }
+            }, 500)
     }
 
 
@@ -652,6 +652,7 @@ class BleWork : IWork, OnCountTimerListener,
         nowMaC: String?,
         mac: String?
     ) {
+
         var value = HashMap<String, Any>()
         value["mac"] = nowMaC!!.toLowerCase(Locale.CHINA)   //上传到后台转小写
         value["productNumber"] = productNumber!!
@@ -659,7 +660,10 @@ class BleWork : IWork, OnCountTimerListener,
         value["appVersion"] = HelpUtil.getVersionCode(context).toString()
         value["osType"] = "1"
         value["appVersionName"] = HelpUtil.getVersionName(context)!!
-        value["productCategoryId"] = XingLianApplication.getXingLianApplication().getCategoryId().toString()
+        value["productCategoryId"] = XingLianApplication.getXingLianApplication().getDeviceCategoryValue(productNumber).toString()
+
+        TLog.error("--------连接成功设备信息="+Gson().toJson(value))
+
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)
             {
@@ -801,8 +805,6 @@ class BleWork : IWork, OnCountTimerListener,
     fun getTemp(startTime: Long, endTime: Long, list: ArrayList<Int>) {
 
         TLog.error("-------温度温度=="+startTime+" "+endTime)
-
-
 
         if (HelpUtil.netWorkCheck(context))
             GlobalScope.launch(Dispatchers.IO)

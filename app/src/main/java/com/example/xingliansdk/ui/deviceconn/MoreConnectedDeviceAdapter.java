@@ -72,6 +72,8 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         holder.itemMoreConnStatusTv.setText(isConn? "已连接" : "未连接");
 
         if(isConn){
+            holder.itemMoreConnectDelTv.setVisibility(View.GONE);
+
             DevicePropertiesBean devicePropertiesBean = Hawk.get(
                     Config.database.DEVICE_ATTRIBUTE_INFORMATION,
                     new DevicePropertiesBean(0, 0, 0, 0)
@@ -82,10 +84,14 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
             }
         }else{
             holder.itemMOreConnBatteryImg.setVisibility(View.GONE);
-            holder.itemMoreConnectBatteryValue.setText("删除设备");
+            holder.itemMoreConnectBatteryValue.setVisibility(View.GONE);
+
+            holder.itemMoreConnectDelTv.setVisibility(View.VISIBLE);
         }
 
-        holder.itemMoreConnectBatteryValue.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.itemMoreConnectDelTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(onMoreConnDeleteListener != null)
@@ -107,8 +113,7 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
 
         private TextView itemMoreConnectNameTv;
         private ImageView itemMoreConnectTypeImgView;
-        //已经连接了的布局
-        private LinearLayout itemMoreConnectStatusLayout;
+
         //未连接的布局
         private ConstraintLayout itemMoreConnectDisStatusLayout;
 
@@ -123,12 +128,18 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         //是否连接
         private TextView itemMoreConnStatusTv;
 
+        //删除设备
+        private TextView itemMoreConnectDelTv;
+
 
         public MoreDeviceViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemMoreConnectDelTv = itemView.findViewById(R.id.itemMoreConnectDelTv);
+
             itemMoreConnectNameTv= itemView.findViewById(R.id.itemMoreConnectNameTv);
             itemMoreConnectTypeImgView = itemView.findViewById(R.id.itemMoreConnectTypeImgView);
-            itemMoreConnectStatusLayout = itemView.findViewById(R.id.itemMoreConnectStatusLayout);
+//            itemMoreConnectStatusLayout = itemView.findViewById(R.id.itemMoreConnectStatusLayout);
             itemMoreConnectDisStatusLayout = itemView.findViewById(R.id.itemMoreConnectDisStatusLayout);
 
             itemMoreConnectBatteryValue = itemView.findViewById(R.id.itemMoreConnectBatteryValue);
@@ -141,6 +152,7 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
     }
 
     private interface OnMoreConnDeleteListener{
+        //删除设备
         void deleteItem(int position);
     }
 }
