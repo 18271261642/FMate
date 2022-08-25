@@ -65,6 +65,9 @@ import com.shon.connector.call.write.controlclass.AutomaticMeasurementSwitchCall
 import com.shon.connector.call.write.controlclass.AutomaticRRMeasurementSwitchCall;
 import com.shon.connector.call.write.controlclass.BloodPressureSwitchCall;
 import com.shon.connector.call.write.controlclass.TemperatureSwitchCall;
+import com.shon.connector.call.write.deviceclass.DeviceRingHeartCall;
+import com.shon.connector.call.write.deviceclass.DeviceRingTempCall;
+import com.shon.connector.call.write.deviceclass.DeviceSingleHtCall;
 import com.shon.connector.call.write.deviceclass.FlashGetFeaturesCall;
 import com.shon.connector.call.write.deviceclass.UUIDBindCall;
 import com.shon.connector.call.write.dial.DialDeleteCall;
@@ -1273,6 +1276,38 @@ public static void writeFlashWriteAssignCall(byte [] flashAddress,byte [] startK
         write.setServiceUUid(Config.serviceUUID);
         write.setCharacteristicUUID(Config.mWriteCharacter);
         write.enqueue(new SetBpAutoMeasureCall(address,autoBpStatusBean,commBackListener));
+    }
+
+
+    //设置戒指的心率开关
+    public static void writeRingHeartStatus(boolean isOpen,CommBackListener commBackListener){
+        WriteCall writeCall = new WriteCall(address);
+        writeCall.setPriority(true);
+        writeCall.setTimeout(3000);
+        writeCall.setServiceUUid(Config.serviceUUID);
+        writeCall.setCharacteristicUUID(Config.mWriteCharacter);
+        writeCall.enqueue(new DeviceRingHeartCall(address,isOpen,commBackListener));
+    }
+
+    //设置戒指温度开关
+    public static void writeRingTempStatus(boolean isOpen,CommBackListener commBackListener){
+        WriteCall writeCall = new WriteCall(address);
+        writeCall.setPriority(true);
+        writeCall.setTimeout(3000);
+        writeCall.setServiceUUid(Config.serviceUUID);
+        writeCall.setCharacteristicUUID(Config.mWriteCharacter);
+        writeCall.enqueue(new DeviceRingTempCall(address,isOpen,commBackListener));
+    }
+
+
+    //戒指，开始或结束测量心率
+    public static void writeRingMeasureHtStatus(boolean isOpen){
+        WriteCall writeCall = new WriteCall(address);
+        writeCall.setPriority(true);
+        writeCall.setTimeout(3000);
+        writeCall.setServiceUUid(Config.serviceUUID);
+        writeCall.setCharacteristicUUID(Config.mWriteCharacter);
+        writeCall.enqueue(new DeviceSingleHtCall(address,isOpen));
     }
 
     public static void setWriteTimeOut(int timeOut){

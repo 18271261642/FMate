@@ -155,17 +155,21 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                 if (!turnOnBluetooth()) {
                     return
                 }
-                if (BleConnection.iFonConnectError || BleConnection.Unbind) {
+//                if (BleConnection.iFonConnectError || BleConnection.Unbind) {
+//                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
+//                    return
+//                }
+//
+//                if(!XingLianApplication.mXingLianApplication.getDeviceConnStatus()){
+//                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
+//                    return
+//                }
+                if(!moreList.get(position).isConnected){
                     ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
                     return
                 }
 
-                if(!XingLianApplication.mXingLianApplication.getDeviceConnStatus()){
-                    ShowToast.showToastLong(resources.getString(R.string.string_no_conn_desc))
-                    return
-                }
-
-                JumpUtil.startMyDeviceActivity(activity, electricity)
+                JumpUtil.startMyDeviceActivity(activity, electricity,moreList.get(position).productCategoryId)
             }
 
             //重新连接
@@ -294,14 +298,15 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
 
             if(moreList.size == 0){
+                watchDialCarView.visibility = View.VISIBLE
+                meMoOperateLayout.visibility = View.GONE
                 meConnectedRy.visibility = View.GONE
                 meNoDeviceLayout.visibility = View.VISIBLE
             }else{
+                meMoOperateLayout.visibility = View.VISIBLE
                 meConnectedRy.visibility = View.VISIBLE
                 meNoDeviceLayout.visibility = View.GONE
             }
-
-
 
             recordAdapter?.notifyDataSetChanged()
 
@@ -468,8 +473,6 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 
 
 
-
-
     override fun onResume() {
         super.onResume()
         try {
@@ -495,22 +498,22 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             return
 
         //遍历集合，与已经连接的Mac地址比对，判断哪个连接
-        val saveAddress = Hawk.get<String>("address","")
+        val saveAddress = Hawk.get("address","")
         if(TextUtils.isEmpty(saveAddress))
             return
 
-        //判断是否要显示表盘市场，只有一个戒指时不显示
-        var isShowDial = false
-        moreList.forEach {
-            TLog.error("-555555-记录返回="+(it.productCategoryId == 2)+" "+it.productCategoryId)
-            if(it.productCategoryId == 2){
-                isShowDial = true
-            }
-        }
+        //判断是否要显示表盘市场，只有戒指连接时不显示表盘，其它都显示表盘
+        var isShowDial = true
+//        moreList.forEach {
+//            TLog.error("-555555-记录返回="+(it.productCategoryId == 2)+" "+it.productCategoryId)
+//            if(it.productCategoryId == 2){
+//                isShowDial = true
+//            }
+//        }
 
         moreList.forEach {
 
-            if(it.productCategoryId == 1 && it.mac.equals(saveAddress, ignoreCase = true)
+            if(it.productCategoryId == 1 && it.mac.equals(saveAddress, ignoreCase = true) && XingLianApplication.getXingLianApplication().getDeviceConnStatus()
             ){
                 isShowDial = false
             }
@@ -521,22 +524,22 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         //如果戒指连接了就不显示表盘市场
 
 
-        //如果未连接就全部显示未连接
-        if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
-            moreList.forEachIndexed { index, connectedDeviceBean ->
-                connectedDeviceBean.connstatusEnum = ConnstatusEnum.NO_CONNECTED
-                connectedDeviceBean.isConnected = false
-            }
-
-            recordAdapter?.notifyDataSetChanged()
-            return
-        }
+//        //如果未连接就全部显示未连接
+//        if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+//            moreList.forEachIndexed { index, connectedDeviceBean ->
+//                connectedDeviceBean.connstatusEnum = ConnstatusEnum.NO_CONNECTED
+//                connectedDeviceBean.isConnected = false
+//            }
+//
+//            recordAdapter?.notifyDataSetChanged()
+//            return
+//        }
 
 
 
         moreList.forEachIndexed { index, connectedDeviceBean ->
             connectedDeviceBean.isConnected =
-                connectedDeviceBean.mac.equals(saveAddress, ignoreCase = true)
+                connectedDeviceBean.mac.equals(saveAddress, ignoreCase = true) && XingLianApplication.getXingLianApplication().getDeviceConnStatus()
             if(connectedDeviceBean.isConnected){
                 connectedDeviceBean.connstatusEnum = ConnstatusEnum.CONNECTED
                 connectedDeviceBean.battery = electricity
@@ -551,8 +554,6 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         recordAdapter?.notifyDataSetChanged()
 
     }
-
-
 
 
     var electricity: Int = 0
@@ -705,17 +706,25 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
                             R.id.meRingDeleteTv,
                             R.id.meWatchDeleteTv -> {
                                 showWaitDialog(resources.getString(R.string.string_unbind_ing))
-                                val connMac = Hawk.get("address","")
-                                BLEManager.getInstance().disconnectDevice(connMac)
-                                // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
-                                BLEManager.getInstance().dataDispatcher.clearAll()
-
-                                Hawk.put("ELECTRICITY_STATUS", -1)
 
                                 var deleteMac : String ?=null
-
                                 //获取Mac
                                 deleteMac = moreList[position].mac
+                                //判断是否是解绑当前连接的设备
+                                val connMac = Hawk.get("address","")
+                                if(deleteMac.equals(connMac, ignoreCase = true)){
+                                    BLEManager.getInstance().disconnectDevice(connMac.toUpperCase(
+                                        Locale.ROOT))
+                                    // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
+                                    BLEManager.getInstance().dataDispatcher.clearAll()
+
+                                    Hawk.put("ELECTRICITY_STATUS", -1)
+                                    Hawk.put("address", "")
+                                    Hawk.put("name", "")
+                                    BleConnection.Unbind = true
+                                    Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
+                                    SNEventBus.sendEvent(DEVICE_DELETE_DEVICE)
+                                }
 
 
                                 Handler(Looper.getMainLooper()).postDelayed({
@@ -727,11 +736,7 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
 //                                    mViewModel.setUserInfo(value)
                                     deleteMac?.toLowerCase(Locale.ROOT)
                                         ?.let { it1 -> mViewModel.deleteRecordByMac(it1) }
-                                    Hawk.put("address", "")
-                                    Hawk.put("name", "")
-                                    BleConnection.Unbind = true
-                                    Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
-                                    SNEventBus.sendEvent(DEVICE_DELETE_DEVICE)
+
                                     hideWaitDialog()
 
                                     //  RoomUtils.roomDeleteAll()
@@ -758,34 +763,45 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
         if (!turnOnBluetooth()) {
             return
         }
+
+        val saveMac = Hawk.get("address","")
+        if(!TextUtils.isEmpty(saveMac)){
+            BLEManager.getInstance().disconnectDevice(saveMac)
+            XingLianApplication.getXingLianApplication().setDeviceConnectedStatus(false)
+        }
+
         Handler(Looper.getMainLooper()).postDelayed({
-            if (Hawk.get<String>("address").isNullOrEmpty()) {
-            } else
-                BLEManager.getInstance().disconnectDevice(Hawk.get<String>("address"))
-//                    TLog.error("断开")
-        }, 1000)
-
-        TLog.error("==" + Hawk.get<String>("address"))
-        if (Hawk.get<String>("address").isNullOrEmpty()
-            && reMac.isEmpty()
-        ) {
-            Hawk.put("address", reMac)
-            TLog.error("内部==" + userInfo.user.mac)
-        }
-        Hawk.put("address", reMac)
-
-        XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
-          //  tvReconnection.text = resources.getString(R.string.string_conn_ing)
-
-
-            moreList.forEach {
-                if(it.mac.equals(reMac, ignoreCase = true)){
-                    it.connstatusEnum = ConnstatusEnum.CONNECTING
-                }
+            if (Hawk.get<String>("address").isNullOrEmpty()
+                && reMac.isEmpty()
+            ) {
+                Hawk.put("address", reMac)
+                TLog.error("内部==" + userInfo.user.mac)
             }
-            recordAdapter?.notifyDataSetChanged()
-            tvDele.visibility = View.GONE
-            BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
-        }
+            Hawk.put("address", reMac)
+
+            XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
+                //  tvReconnection.text = resources.getString(R.string.string_conn_ing)
+
+                moreList.forEach {
+                    if(it.mac.equals(reMac, ignoreCase = true)){
+                        it.connstatusEnum = ConnstatusEnum.CONNECTING
+                    }
+                }
+                recordAdapter?.notifyDataSetChanged()
+                tvDele.visibility = View.GONE
+                BleConnection.initStart(Hawk.get(DEVICE_OTA, false), 3000)
+            }
+        },1000)
+
+
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            if (Hawk.get<String>("address").isNullOrEmpty()) {
+//            } else
+//                BLEManager.getInstance().disconnectDevice(Hawk.get<String>("address"))
+////                    TLog.error("断开")
+//        }, 1000)
+
+        TLog.error("-------重连==" + Hawk.get<String>("address"))
+
     }
 }

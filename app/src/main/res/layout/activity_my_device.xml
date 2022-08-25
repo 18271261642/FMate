@@ -70,6 +70,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp" />
 
+            <include
+                android:id="@+id/ringHeartLayout"
+                layout="@layout/item_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp" />
+
+            <include
+                android:id="@+id/ringTempLayout"
+                layout="@layout/item_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp" />
+
+
+            <include
+                android:id="@+id/includeRotateBrightScreen"
+                layout="@layout/item_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp" />
+
+
+
+
             <com.example.xingliansdk.widget.SettingItemLayout
                 android:id="@+id/settingTakeMedicine"
                 android:layout_width="match_parent"
@@ -148,19 +173,7 @@
                 />
 
 
-<!--            <include-->
-<!--                android:id="@+id/includeHeartRateAlarmSwitch"-->
-<!--                layout="@layout/item_switch"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="1dp" />-->
 
-            <include
-                android:id="@+id/includeRotateBrightScreen"
-                layout="@layout/item_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp" />
 
             <include
                 android:id="@+id/includeIncomingCall"
@@ -169,13 +182,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:visibility="gone" />
-
-            <!--            <include-->
-            <!--                android:id="@+id/includeBindDevice"-->
-            <!--                layout="@layout/item_switch"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp" />-->
 
 
             <include

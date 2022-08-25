@@ -18,6 +18,7 @@ import com.example.xingliansdk.bean.room.AppDataBase
 import com.example.xingliansdk.blecontent.BleConnection
 import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
+import com.example.xingliansdk.ui.ring.RingSwitchBean
 //import com.example.xingliansdk.pictureselector.GlideEngine
 import com.example.xingliansdk.ui.setting.MyDeviceActivity.FlashBean.UIFlash
 import com.example.xingliansdk.ui.setting.vewmodel.MyDeviceViewModel
@@ -39,6 +40,7 @@ import com.shon.bluetooth.DataDispatcher
 import com.shon.connector.BleWrite
 import com.shon.connector.bean.RemindTakeMedicineBean
 import com.shon.connector.bean.TimeBean
+import com.shon.connector.call.listener.CommBackListener
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_login.*
@@ -178,6 +180,12 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
         if (mDrinkWater != null) {
             includeDrinkWaterReminder.Switch.isOpened = mDrinkWater == 2
         }
+
+        val saveMac = Hawk.get("address","")
+        //戒指的心率
+        val ringSwitch = Hawk.get(saveMac+"_ring",RingSwitchBean(false,false))
+        ringHeartLayout.Switch.isOpened = ringSwitch.isOpenHeart
+        ringTempLayout.Switch.isOpened =ringSwitch.isOpenTemp
     }
 
     private fun sedentary(status: Int = 1) {
@@ -214,6 +222,17 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     }
 
     private fun initBind() {
+
+        //判断是否是属于戒指，
+        val categoryId = intent.getIntExtra("category",0)
+        ringHeartLayout.tv_name.text = "心率周期测量"
+        ringTempLayout.tv_name.text = "体温周期测量"
+        ringHeartLayout.visibility = if(categoryId == 1) View.VISIBLE else View.GONE
+        ringTempLayout.visibility = if(categoryId == 1) View.VISIBLE else View.GONE
+
+        ringHeartLayout.img.setImageResource(R.mipmap.ic_auto_ht)
+        ringTempLayout.img.setImageResource(R.mipmap.ic_auto_bp)
+
         includeSedentaryReminder.tv_name.text = resources.getString(R.string.string_device_long_sit)
         includeSedentaryReminder.img.setImageResource(R.mipmap.icon_device_sedentary_reminder)
         includeSedentaryReminder.tv_sub.visibility=View.VISIBLE//8-11号又加回来
@@ -293,6 +312,64 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
                 includeLowPowerMode.Switch.isOpened = false
             }
         })
+
+
+        //戒指温度开关
+        ringTempLayout.Switch.setOnStateChangedListener(object : SwitchView.OnStateChangedListener{
+            override fun toggleToOn(view: SwitchView?) {
+                ringTempLayout.Switch.isOpened = true
+                setRingTemp(true)
+            }
+
+            override fun toggleToOff(view: SwitchView?) {
+                ringTempLayout.Switch.isOpened = false
+                setRingTemp(false)
+            }
+        })
+
+
+
+        //戒指心率
+        ringHeartLayout.Switch.setOnStateChangedListener(object : SwitchView.OnStateChangedListener{
+            override fun toggleToOn(view: SwitchView?) {
+                ringHeartLayout.Switch.isOpened = true
+                setRingHeart(true)
+            }
+
+            override fun toggleToOff(view: SwitchView?) {
+                ringHeartLayout.Switch.isOpened = false
+                setRingHeart(false)
+            }
+
+        })
+    }
+
+    //温度
+    private fun setRingTemp(isOpen: Boolean){
+        val saveMac = Hawk.get("address","")
+        BLEManager.getInstance().dataDispatcher.clear("")
+        BleWrite.writeRingTempStatus(isOpen
+        ) { value ->
+            if (value == true) {
+                val ringStatus = Hawk.get(saveMac+"_ring",RingSwitchBean(false,false))
+                ringStatus.isOpenTemp = true
+                Hawk.put(saveMac+"_ring",ringStatus )
+            }
+        }
+    }
+
+    //设置心率
+    private fun setRingHeart(isOpen : Boolean){
+        val saveMac = Hawk.get("address","")
+        BLEManager.getInstance().dataDispatcher.clear("")
+        BleWrite.writeRingHeartStatus(isOpen
+        ) { value ->
+            if (value == true) {
+                val ringStatus = Hawk.get(saveMac+"_ring",RingSwitchBean(false,false))
+                ringStatus.isOpenHeart = true
+                Hawk.put(saveMac+"_ring", ringStatus)
+            }
+        }
     }
 
     private fun setSwitchButton() {

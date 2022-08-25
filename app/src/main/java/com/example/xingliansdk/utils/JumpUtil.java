@@ -252,6 +252,20 @@ public class JumpUtil {
         );
     }
 
+
+    /**
+     * 跳转到设备设置界面
+     *
+     * @param context 从哪个页面跳转
+     */
+    public static void startMyDeviceActivity(Context context, int electricity,int category) {
+        context.startActivity(new Intent(context, MyDeviceActivity.class)
+                .putExtra("electricity", electricity)
+                .putExtra("category",category)
+        );
+    }
+
+
     /**
      * 跳转到测量状态模块
      *

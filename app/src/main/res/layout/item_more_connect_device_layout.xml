@@ -84,10 +84,15 @@
 
 
 
-        <View
+        <TextView
             android:id="@+id/tempConnView"
-            android:layout_width="1dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重新连接"
+            android:textColor="@color/red"
+            android:layout_marginStart="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -112,7 +117,7 @@
             android:textColor="#ff666666"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/text_size_15"
+            android:layout_marginStart="@dimen/text_size_10"
             app:layout_constraintLeft_toRightOf="@id/itemMOreConnedImgView"/>
 
 
@@ -123,6 +128,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_ble_conn_moer_battery"/>
 
@@ -132,6 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="--"
+            android:visibility="gone"
             android:textColor="#ff666666"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tempConnView"
@@ -143,16 +150,16 @@
 
         <TextView
             android:id="@+id/itemMoreConnectDelTv"
-            android:layout_width="56dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="删除设备"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textColor="@color/red"
             app:layout_constraintTop_toBottomOf="@id/tempConnView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:textSize="14sp"
-            android:layout_marginStart="@dimen/text_size_15"/>
+            android:layout_marginStart="5dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

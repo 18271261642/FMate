@@ -67,13 +67,19 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
 
         //已经连接的Mac
         String mac = Hawk.get("address");
-        boolean isConn = mac != null && mac.toLowerCase(Locale.ROOT).equals(connectedDeviceBean.getMac()) && XingLianApplication.mXingLianApplication.getDeviceConnStatus();
+        boolean isConn = connectedDeviceBean.isConnected();//mac != null && mac.toLowerCase(Locale.ROOT).equals(connectedDeviceBean.getMac()) && XingLianApplication.mXingLianApplication.getDeviceConnStatus();
 
         holder.itemMoreConnStatusTv.setText(isConn? "已连接" : "未连接");
 
+        holder.tempConnView.setVisibility(isConn ? View.INVISIBLE : View.VISIBLE);
+        holder.tempConnView.setText(connectedDeviceBean.getConnstatusEnum() == ConnstatusEnum.CONNECTING ? "连接中.." : "重新连接");
+
+
+
         if(isConn){
             holder.itemMoreConnectDelTv.setVisibility(View.GONE);
-
+            holder.itemMOreConnBatteryImg.setVisibility(View.VISIBLE);
+            holder.itemMoreConnectBatteryValue.setVisibility(View.VISIBLE);
             DevicePropertiesBean devicePropertiesBean = Hawk.get(
                     Config.database.DEVICE_ATTRIBUTE_INFORMATION,
                     new DevicePropertiesBean(0, 0, 0, 0)
@@ -90,12 +96,22 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         }
 
 
-
+        //删除设备
         holder.itemMoreConnectDelTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(onMoreConnDeleteListener != null)
                     onMoreConnDeleteListener.deleteItem(holder.getLayoutPosition());
+            }
+        });
+
+
+        //重连连接
+        holder.tempConnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onMoreConnDeleteListener != null)
+                    onMoreConnDeleteListener.reConnItem(holder.getLayoutPosition());
             }
         });
 
@@ -123,7 +139,7 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         private TextView itemMoreConnectBatteryValue;
 
         //重新连接
-        private TextView itemMoreConnectReConnTv;
+        private TextView tempConnView;
 
         //是否连接
         private TextView itemMoreConnStatusTv;
@@ -143,7 +159,7 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
             itemMoreConnectDisStatusLayout = itemView.findViewById(R.id.itemMoreConnectDisStatusLayout);
 
             itemMoreConnectBatteryValue = itemView.findViewById(R.id.itemMoreConnectBatteryValue);
-            itemMoreConnectReConnTv = itemView.findViewById(R.id.itemMoreConnectReConnTv);
+            tempConnView = itemView.findViewById(R.id.tempConnView);
 
             itemMoreConnStatusTv = itemView.findViewById(R.id.itemMoreConnStatusTv);
             itemMOreConnBatteryImg = itemView.findViewById(R.id.itemMOreConnBatteryImg);
@@ -151,8 +167,11 @@ public class MoreConnectedDeviceAdapter extends RecyclerView.Adapter<MoreConnect
         }
     }
 
-    private interface OnMoreConnDeleteListener{
+    public interface OnMoreConnDeleteListener{
         //删除设备
         void deleteItem(int position);
+
+        //重新连接
+        void reConnItem(int position);
     }
 }

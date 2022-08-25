@@ -11,6 +11,8 @@ import com.example.xingliansdk.adapter.PopularScienceAdapter
 import com.example.xingliansdk.base.BaseActivity
 import com.example.xingliansdk.bean.PopularScienceBean
 import com.example.xingliansdk.bean.room.*
+import com.example.xingliansdk.eventbus.SNEvent
+import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.heartView.HeartRateVoBean
 import com.example.xingliansdk.network.api.homeView.HomeCardVoBean
 import com.example.xingliansdk.ui.heartrate.viewmodel.HeartRateViewModel
@@ -27,12 +29,18 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.gson.Gson
 import com.gyf.barlibrary.ImmersionBar
+import com.luck.picture.lib.tools.ToastUtils
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
+import com.shon.bluetooth.BLEManager
+import com.shon.connector.BleWrite
 import com.shon.connector.Config
+import com.shon.connector.bean.DataBean
 import com.shon.connector.utils.ShowToast
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_heart_rate_o.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -51,6 +59,7 @@ fun Long.formatTime(): String? {
  */
 class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListener,
     OnChartValueSelectedListener {
+
     private lateinit var mList: ArrayList<Int>
     private lateinit var hartsHrr: LineChart
     var type = -1
@@ -67,6 +76,9 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         ImmersionBar.with(this)
             .titleBar(titleBar)
             .init()
+
+        SNEventBus.register(this)
+
         mList = arrayListOf()
         type = intent.getIntExtra("HistoryType", 0)
         var bean = intent.getSerializableExtra("HeartRate") as HomeCardVoBean.ListDTO
@@ -101,6 +113,40 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         setView()
         setTitleDateData()
         setAdapter()
+
+        initData()
+    }
+
+    //是否在测量
+    val  isMeasureHeart = false
+
+    private fun initData(){
+
+        ringMeasureHtTv.setOnClickListener{
+//            if(isMeasureHeart){
+//                ShowToast.showToastShort("正在测量中,请稍后..")
+//                return@setOnClickListener
+//            }
+
+            measureRingHeartStatus(true)
+            ringMeasureHtTv.text = "测量中"
+        }
+        if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+            ringMeasureHtTv.visibility = View.GONE
+            return
+        }
+        //戒指测量按钮,没有连接不显示
+        if(mDeviceFirmwareBean.productNumber != null){
+            val productNumber = mDeviceFirmwareBean.productNumber
+            ringMeasureHtTv.visibility = if(XingLianApplication.getXingLianApplication().getDeviceCategoryValue(productNumber) == 1) View.VISIBLE else View.GONE
+        }
+
+    }
+
+
+    private fun measureRingHeartStatus(isStart : Boolean){
+        BLEManager.getInstance().dataDispatcher.clear("")
+        BleWrite.writeRingMeasureHtStatus(isStart)
     }
 
     private fun setAdapter() {
@@ -544,5 +590,24 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             )
         )
         tvHeart.text = HelpUtil.getSpan(heart.toString(), resources.getString(R.string.string_time_minute))
+    }
+
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventReceived(event: SNEvent<Any>) {
+        when (event.code) {
+            Config.ActiveUpload.DEVICE_REAL_TIME_OTHER.toInt() -> {
+                var data: DataBean = event.data as DataBean
+                TLog.error("-------测量="+data.time)
+                //心率
+                val ht = data.heartRate
+                if(ht in 31..249){
+                    tvHeart.text = HelpUtil.getSpan(ht.toString(), resources.getString(R.string.string_time_minute))
+                    measureRingHeartStatus(false)
+                    ringMeasureHtTv.text = "测量"
+                }
+            }
+        }
     }
 }

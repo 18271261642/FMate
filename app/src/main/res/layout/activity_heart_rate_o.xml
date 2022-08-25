@@ -88,6 +88,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/ConsTitle">
+
             <TextView
                 android:id="@+id/tvType"
                 android:layout_width="match_parent"
@@ -96,15 +97,51 @@
                 android:gravity="center"
                 android:textColor="@color/main_text_color"
                 android:textSize="12sp" />
-            <TextView
-                android:id="@+id/tvHeart"
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingBottom="8dp"
-                android:textColor="@color/main_text_color"
-                android:textSize="36sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvHeart"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/main_text_color"
+                    android:textSize="36sp" />
+
+
+                <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/ringMeasureHtTv"
+                    app:shape_radius="@dimen/text_size_5"
+                    app:shape_strokeColor="@color/red"
+                    app:shape_strokeWidth="1dp"
+                    android:visibility="gone"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="@dimen/dp_10"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="@dimen/dp_10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/tvHeart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测量"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

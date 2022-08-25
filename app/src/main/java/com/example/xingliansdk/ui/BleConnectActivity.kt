@@ -73,7 +73,7 @@ class BleConnectActivity :
     //搜索过滤，暂时根据名称过滤
     private var searchName: String? = null
 
-    //类型id
+    //类型id 戒指1；手表2
     private var categoryId = 1
 
     override fun layoutId(): Int {
@@ -185,6 +185,8 @@ class BleConnectActivity :
         scanner.startScan(filters, mScanSettings, mScanCallback)
     }
 
+    private val tmpScanList = mutableListOf<ScanResult>()
+
     private var mScanCallback: ScanCallback =
         object : ScanCallback() {
             override fun onScanResult(
@@ -197,6 +199,7 @@ class BleConnectActivity :
 
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
+                tmpScanList.clear()
                 results.forEach {
                     Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name+" "+Arrays.toString(it.scanRecord?.bytes))
                 }
@@ -210,7 +213,31 @@ class BleConnectActivity :
                 {
                     startScanZeroNum=0
                 }
-                mScannerLiveData!!.onScannerResult(results)
+
+
+                if(categoryId == 1){    //戒指 8008
+                    results.forEach {
+                        val recordArray = it.scanRecord?.bytes
+                        if(recordArray != null){
+                            if((recordArray[4].toInt() == -1 && recordArray[5].toInt() ==8)){
+                                tmpScanList.add(it)
+                            }
+                        }
+
+                    }
+                }else{  //手表  8001  8003
+                    results.forEach {
+                        val recordArray = it.scanRecord?.bytes
+                        if(recordArray != null){
+                            if((recordArray[4].toInt() == -1 && recordArray[5].toInt() ==1) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==3) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==6)){
+                                tmpScanList.add(it)
+                            }
+                        }
+
+                    }
+                }
+
+                mScannerLiveData!!.onScannerResult(tmpScanList)
                 if(startScanZeroNum>5)
                 {
                     TLog.error("开始从新搜素")

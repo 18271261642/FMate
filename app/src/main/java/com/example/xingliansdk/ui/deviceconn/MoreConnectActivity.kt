@@ -1,22 +1,30 @@
 package com.example.xingliansdk.ui.deviceconn
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
+import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xingliansdk.Config
 import com.example.xingliansdk.R
+import com.example.xingliansdk.XingLianApplication
 import com.example.xingliansdk.base.BaseActivity
+import com.example.xingliansdk.bean.DeviceFirmwareBean
+import com.example.xingliansdk.bean.DevicePropertiesBean
 import com.example.xingliansdk.blecontent.BleConnection
+import com.example.xingliansdk.eventbus.SNEvent
 import com.example.xingliansdk.eventbus.SNEventBus
 import com.example.xingliansdk.network.api.moreDevice.ConnectRecordViewModel
 import com.example.xingliansdk.utils.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.gyf.barlibrary.ImmersionBar
+import com.hjq.permissions.XXPermissions
 import com.ly.genjidialog.extensions.convertListenerFun
 import com.ly.genjidialog.extensions.newGenjiDialog
 import com.ly.genjidialog.other.DialogGravity
@@ -25,7 +33,10 @@ import com.shon.bluetooth.BLEManager
 import com.shon.connector.utils.TLog
 import kotlinx.android.synthetic.main.activity_blood_pressure.titleBar
 import kotlinx.android.synthetic.main.activity_more_connect_layout.*
+import kotlinx.android.synthetic.main.fragment_me.*
 import me.hgj.jetpackmvvm.ext.util.toJson
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,6 +64,8 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
             .titleBar(titleBar)
             .init()
 
+        SNEventBus.register(this)
+
         moreRecordAddDeviceTv.setOnClickListener(){
             startActivity(Intent(this@MoreConnectActivity,AddDeviceSelectActivity::class.java))
         }
@@ -72,9 +85,16 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
         recordAdapter = MoreConnectedDeviceAdapter(moreList,this)
         moreDeviceRecyclerView.adapter = recordAdapter
 
-        recordAdapter!!.setOnMoreConnDeleteListener {
-            wearDialog(0,moreList.get(it).mac)
-        }
+        recordAdapter!!.setOnMoreConnDeleteListener(object : MoreConnectedDeviceAdapter.OnMoreConnDeleteListener{
+            override fun deleteItem(position: Int) {
+                wearDialog(0,moreList.get(position).mac)
+            }
+
+            override fun reConnItem(position: Int) {
+                toRetryConnDevice(moreList[position].mac)
+            }
+
+        })
 
     }
 
@@ -90,29 +110,43 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
         super.createObserver()
         mViewModel.recordDeviceResult.observe(this){
             TLog.error("-------data="+it.list.toString())
-
-
-
-//            val jsonObject = JSONObject(it.toJson())
-//
-//            val listStr = jsonObject.get("data")
-
-//            val recordListBean = GsonUtils.getGsonObject<ConnRecordListBean>(it.toJson())
-
-//
-
-//            val lt = GsonUtils.getGsonObject<List<ConnectedDeviceBean>>(Gson().toJson(listStr))
-//
             moreList.clear()
             if (it.list!= null) {
                 moreList.addAll(it.list)
             }
-            recordAdapter?.notifyDataSetChanged()
-
+            setDeviceConn()
         }
 
     }
 
+
+    private fun setDeviceConn(){
+        if(moreList.isEmpty())
+            return
+        if(!XingLianApplication.getXingLianApplication().getDeviceConnStatus()){
+            moreList.forEach {
+                it.connstatusEnum = ConnstatusEnum.NO_CONNECTED
+                it.isConnected = false
+                it.battery = 0
+            }
+            recordAdapter?.notifyDataSetChanged()
+            return
+        }
+
+        val connMac = Hawk.get("address","")
+        val devicePropertiesBean =  Hawk.get(
+            Config.database.DEVICE_ATTRIBUTE_INFORMATION,
+            DevicePropertiesBean(0, 0, 0, 0)
+        )
+        moreList.forEach {
+            it.isConnected = it.mac==connMac.toLowerCase(Locale.ROOT)
+            it.connstatusEnum = ConnstatusEnum.CONNECTED
+            it.battery = devicePropertiesBean.electricity
+        }
+
+
+        recordAdapter?.notifyDataSetChanged()
+    }
 
     //删除提醒
     private fun wearDialog(id: Int,mac : String) {
@@ -143,12 +177,21 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
 
                             0 -> {
                                 showWaitDialog(resources.getString(R.string.string_unbind_ing))
-                                val connMac = Hawk.get("address", "")
-                                BLEManager.getInstance().disconnectDevice(mac.toUpperCase(Locale.ROOT))
-                                // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
-                                BLEManager.getInstance().dataDispatcher.clearAll()
 
-                                Hawk.put("ELECTRICITY_STATUS", -1)
+                                val connMac = Hawk.get("address", "")
+                                if(connMac.equals(mac, ignoreCase = true)){   //删除当前绑定的设备
+
+                                    BLEManager.getInstance().disconnectDevice(mac.toUpperCase(Locale.ROOT))
+                                    // BLEManager.getInstance().dataDispatcher.clear(Hawk.get("address"))
+                                    BLEManager.getInstance().dataDispatcher.clearAll()
+                                    Hawk.put("ELECTRICITY_STATUS", -1)
+                                    Hawk.put("address", "")
+                                    Hawk.put("name", "")
+                                    BleConnection.Unbind = true
+                                    Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
+                                    SNEventBus.sendEvent(Config.eventBus.DEVICE_DELETE_DEVICE)
+
+                                }
 
                                 Handler(Looper.getMainLooper()).postDelayed({
                                     val value = HashMap<String, String>()
@@ -159,11 +202,6 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
                                    // mViewModel.setUserInfo(value)
                                     mViewModel.deleteRecordByMac(mac.toLowerCase(Locale.ROOT))
 
-                                    Hawk.put("address", "")
-                                    Hawk.put("name", "")
-                                    BleConnection.Unbind = true
-                                    Hawk.put("Unbind", "MyDeviceActivity Unbind=true")
-                                    SNEventBus.sendEvent(Config.eventBus.DEVICE_DELETE_DEVICE)
                                     hideWaitDialog()
                                     mViewModel.getConnRecordDevice()
                                     //  RoomUtils.roomDeleteAll()
@@ -184,5 +222,96 @@ class MoreConnectActivity : BaseActivity<ConnectRecordViewModel>(){
         }
     }
 
+
+    var electricity: Int = 0
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventResult(event: SNEvent<*>) {
+        when (event.code) {
+            -10->{  //更新成功
+                TLog.error("-------更新成功=======")
+                //获取连接的记录
+                mViewModel.getConnRecordDevice()
+            }
+
+            Config.eventBus.DEVICE_CONNECT_NOTIFY -> {
+
+                Hawk.put("type", Config.eventBus.DEVICE_CONNECT_NOTIFY)
+            }
+            Config.eventBus.DEVICE_ELECTRICITY -> {
+                electricity = event.data.toString().toInt()
+                TLog.error("---------电量="+electricity)
+
+                if (tvDeviceElectricity != null) {
+                    setDeviceConn()
+                }
+                Hawk.put("type", Config.eventBus.DEVICE_ELECTRICITY)
+            }
+            Config.eventBus.DEVICE_BLE_OFF,
+            Config.eventBus.DEVICE_DISCONNECT -> {
+
+                setDeviceConn()
+                Hawk.put("type", Config.eventBus.DEVICE_DISCONNECT)
+            }
+            Config.eventBus.DEVICE_DELETE_DEVICE -> {
+
+                Hawk.put("type", Config.eventBus.DEVICE_DELETE_DEVICE)
+            }
+            Config.eventBus.SPORTS_GOAL_SLEEP -> {
+                // setting_sleep.setContentText(DateUtil.getTextTime(Hawk.get(SLEEP_GOAL)))
+            }
+            Config.eventBus.SPORTS_GOAL_EXERCISE_STEPS -> {
+                val step: String = event.data.toString()
+                // setting_step.setContentText(step)
+            }
+            Config.eventBus.EVENT_BUS_IMG_HEAD -> {
+
+            }
+        }
+    }
+
+
+
+    //重新连接
+    fun toRetryConnDevice(reMac : String){
+        if (!turnOnBluetooth()) {
+            return
+        }
+
+
+
+        val saveMac = Hawk.get("address","")
+        if(!TextUtils.isEmpty(saveMac)){
+            BLEManager.getInstance().disconnectDevice(saveMac)
+            XingLianApplication.getXingLianApplication().setDeviceConnectedStatus(false)
+        }
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            TLog.error("==" + Hawk.get<String>("address"))
+            if (Hawk.get<String>("address").isNullOrEmpty()
+                && reMac.isEmpty()
+            ) {
+                Hawk.put("address", reMac)
+                TLog.error("内部==" + userInfo.user.mac)
+            }
+            Hawk.put("address", reMac)
+
+            XXPermissions.with(this).permission(android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->
+                //  tvReconnection.text = resources.getString(R.string.string_conn_ing)
+                moreList.forEach {
+                    if(it.mac.equals(reMac, ignoreCase = true)){
+                        it.connstatusEnum = ConnstatusEnum.CONNECTING
+                    }
+                }
+                recordAdapter?.notifyDataSetChanged()
+                BleConnection.initStart(Hawk.get(Config.database.DEVICE_OTA, false), 3000)
+            }
+
+        }, 1000)
+
+
+    }
 
 }

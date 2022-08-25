@@ -29,7 +29,7 @@ ext {
 
     HTTP = [
             HttpServer    : "http://www.starlinkmed.com:8089",
-            HttpServerDev : "https://starlinkmed.com:18086",
+            HttpServerDev : "http://www.starlinkmed.com:8089",
             HttpServerChangSang : "https://test-health.vita-course.com",
             appName     : "ai Health",
             appNameDebug: "ai Health(测试版)"
