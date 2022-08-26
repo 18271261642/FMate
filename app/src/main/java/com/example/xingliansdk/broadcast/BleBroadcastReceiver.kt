@@ -86,6 +86,7 @@ class BleBroadcastReceiver : BroadcastReceiver(), XLNotifyCall.NotifyCallInterfa
                     mDataBean.diastolicBloodPressure = mData.diastolicBloodPressure
                     mDataBean.temperature = mData.temperature
                     mDataBean.humidity = mData.humidity
+                    mDataBean.time = mData.time
 //                    TLog.error("BleBroadcastReceiver 心率===${Gson().toJson(mDataBean)}")
                     SNEventBus.sendEvent(
                         Config.ActiveUpload.DEVICE_REAL_TIME_OTHER.toInt(),

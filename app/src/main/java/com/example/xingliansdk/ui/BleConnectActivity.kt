@@ -229,7 +229,10 @@ class BleConnectActivity :
                     results.forEach {
                         val recordArray = it.scanRecord?.bytes
                         if(recordArray != null){
-                            if((recordArray[4].toInt() == -1 && recordArray[5].toInt() ==1) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==3) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==6)){
+                            if((recordArray[4].toInt() == -1 && recordArray[5].toInt() ==1) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==3) || (recordArray[4].toInt() == -1 && recordArray[5].toInt() ==6)
+                                || (recordArray[4].toInt() == 7 && recordArray[5].toInt() ==-86)){
+                               TLog.error("--------收拾llll="+it.device.name)
+
                                 tmpScanList.add(it)
                             }
                         }

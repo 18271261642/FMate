@@ -592,7 +592,8 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
         tvHeart.text = HelpUtil.getSpan(heart.toString(), resources.getString(R.string.string_time_minute))
     }
 
-
+    //2000-00-00
+    private val timeCon = 946656000L;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventReceived(event: SNEvent<Any>) {
@@ -600,10 +601,15 @@ class HeartRateActivity : BaseActivity<HeartRateViewModel>(), View.OnClickListen
             Config.ActiveUpload.DEVICE_REAL_TIME_OTHER.toInt() -> {
                 var data: DataBean = event.data as DataBean
                 TLog.error("-------测量="+data.time)
+                val timeLong = data.time as Long
                 //心率
                 val ht = data.heartRate
                 if(ht in 31..249){
                     tvHeart.text = HelpUtil.getSpan(ht.toString(), resources.getString(R.string.string_time_minute))
+                    val currTime = (timeCon+timeLong) as Long
+                    TLog.error("---222----测量="+data.time+" "+currTime)
+                    val timeStr = DateUtil.getDate(DateUtil.HH_MM,currTime*1000)
+                    tvType.text = timeStr
                     measureRingHeartStatus(false)
                     ringMeasureHtTv.text = "测量"
                 }
