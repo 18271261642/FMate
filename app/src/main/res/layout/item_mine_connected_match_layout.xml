@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/text_size_5"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:shape_solidColor="@color/white">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_size_5"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:cardCornerRadius="12dp"
+        app:shape_solidColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_size_10"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:shape_radius="@dimen/text_size_10"
+            app:shape_solidColor="@color/white">
+
+
+            <TextView
+                android:id="@+id/itemMeConnectedTypeNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="StarLink GT1"
+                android:textColor="#ff333333"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingEnd="5dp">
+
+
+                <ImageView
+                    android:id="@+id/itemMeTypeImgView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="9dp"
+                    android:src="@drawable/ic_place_watch"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/itemMeConnectedTypeNameTv" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="-15dp"
+                    android:layout_marginEnd="3dp">
+
+                    <TextView
+                        android:id="@+id/tmeItemMeCView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="重新连接"
+                        android:textColor="@color/red"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/itemMOreConnedImgView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_ble_conn_status_img"
+                        app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/itemMeHomeStatusTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/text_size_5"
+                        android:text="未连接"
+                        android:textColor="#ff666666"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tmeItemMeCView"
+                        app:layout_constraintLeft_toRightOf="@id/itemMOreConnedImgView" />
+
+
+                    <TextView
+                        android:id="@+id/meWatchDeleteTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="删除设备"
+                        android:textColor="@color/red"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView" />
+
+
+                    <LinearLayout
+                        android:id="@+id/meConnWatchBatteryLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tmeItemMeCView">
+
+                        <ImageView
+                            android:id="@+id/itemMeConnBatteryImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_ble_conn_moer_battery" />
+
+
+                        <TextView
+                            android:id="@+id/itemMeConnectBatteryValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_size_5"
+                            android:text="90% "
+                            android:textColor="#ff666666"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/itemMeConnectedTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_size_10"
+            android:text="更多设备"
+            android:textColor="#ff5fdc9d"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_right_back"/>
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

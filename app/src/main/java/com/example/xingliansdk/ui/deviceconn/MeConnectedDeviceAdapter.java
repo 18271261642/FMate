@@ -34,6 +34,8 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
 
     private OnMeAdapterItemClick onMeAdapterItemClick;
 
+    private int type;
+
 
     public void setOnMeAdapterItemClick(OnMeAdapterItemClick onMeAdapterItemClick) {
         this.onMeAdapterItemClick = onMeAdapterItemClick;
@@ -44,11 +46,25 @@ public class MeConnectedDeviceAdapter extends RecyclerView.Adapter<MeConnectedDe
         this.context = context;
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        type = list.size()==2 ? 0 : 1;
+        return type;
+    }
+
+
     @NonNull
     @Override
     public MoreDeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_mine_connected_layout,parent,false);
-        return new MoreDeviceViewHolder(view);
+        if(type == 0){
+            View view = LayoutInflater.from(context).inflate(R.layout.item_mine_connected_layout,parent,false);
+            return new MoreDeviceViewHolder(view);
+        }else{
+            View view = LayoutInflater.from(context).inflate(R.layout.item_mine_connected_match_layout,parent,false);
+            return new MoreDeviceViewHolder(view);
+        }
+
     }
 
     @Override

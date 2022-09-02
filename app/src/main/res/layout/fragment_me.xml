@@ -120,6 +120,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textColor="#ff5fdc9d"
+                    android:textSize="@dimen/text_size_15"
                     android:layout_height="wrap_content"
                     android:text="更多设备"/>
 
@@ -129,6 +131,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#ff5fdc9d"
+                    android:textSize="@dimen/text_size_15"
                     android:layout_height="wrap_content"
                     android:text="添加设备"/>
 

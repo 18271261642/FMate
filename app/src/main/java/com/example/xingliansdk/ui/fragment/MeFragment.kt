@@ -519,6 +519,9 @@ class MeFragment : BaseFragment<MeViewModel>(), View.OnClickListener,
             }
         }
 
+
+        meAddDeviceTv.visibility = if(moreList.size==1) View.GONE else View.VISIBLE
+
         TLog.error("------是否需要显示表盘="+isShowDial)
         watchDialCarView.visibility = if(isShowDial) View.VISIBLE else View.GONE
         //如果戒指连接了就不显示表盘市场
