@@ -201,4 +201,17 @@ class MainViewModel : BaseViewModel() {
         }
     }
 
+
+    //保存戒指心率周期
+    fun saveRingHeartData(map : HashMap<String,String>){
+        requestCustom({DeviceTypeApi.deviceTypeApi.saveRingHtStatus(map)},{
+
+        }){
+            code, message ->
+        }
+    }
+
+
+    //保存戒指温度周期
+
 }

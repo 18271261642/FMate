@@ -22,4 +22,15 @@ class DeviceTypeApi private constructor() : AppApi<DeviceTypeInterface>() {
     suspend fun getAllDeviceCategoryData() : BaseResult<DeviceCategoryBean>{
         return apiInterface?.getDeviceCategory()!!
     }
+
+
+    //保存戒指心率周期开关
+    suspend fun saveRingHtStatus(value : HashMap<String,String>) : BaseResult<Boolean>{
+        return apiInterface?.saveRingTempData(value)!!
+    }
+
+    //保存戒指温度
+    suspend fun saveRingTempStatus(value: HashMap<String, String>) : BaseResult<Boolean>{
+        return apiInterface?.saveRingTempData(value)!!
+    }
 }
