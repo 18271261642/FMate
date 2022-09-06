@@ -348,12 +348,14 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     private fun setRingTemp(isOpen: Boolean){
         val saveMac = Hawk.get("address","")
         BLEManager.getInstance().dataDispatcher.clear("")
+        setRingHtAndTempStatus(1,isOpen)
         BleWrite.writeRingTempStatus(isOpen
         ) { value ->
             if (value == true) {
                 val ringStatus = Hawk.get(saveMac+"_ring",RingSwitchBean(false,false))
                 ringStatus.isOpenTemp = true
                 Hawk.put(saveMac+"_ring",ringStatus )
+              //  setRingHtAndTempStatus(1,isOpen)
             }
         }
     }
@@ -362,15 +364,33 @@ class MyDeviceActivity : BaseActivity<MyDeviceViewModel>(), View.OnClickListener
     private fun setRingHeart(isOpen : Boolean){
         val saveMac = Hawk.get("address","")
         BLEManager.getInstance().dataDispatcher.clear("")
+        setRingHtAndTempStatus(0,isOpen)
         BleWrite.writeRingHeartStatus(isOpen
         ) { value ->
             if (value == true) {
                 val ringStatus = Hawk.get(saveMac+"_ring",RingSwitchBean(false,false))
                 ringStatus.isOpenHeart = true
                 Hawk.put(saveMac+"_ring", ringStatus)
+              //  setRingHtAndTempStatus(0,isOpen)
             }
         }
     }
+
+
+    //保存戒指的心率和温度开关
+    private fun setRingHtAndTempStatus(code : Int,isOpen : Boolean){
+        val hashMap = HashMap<String,String>()
+        hashMap["startTime"] = "0"
+        hashMap["closingTime"] = "0"
+        hashMap["switchStatus"] = if(isOpen) "2" else "1"
+        hashMap["interval"] = "60"
+        if(code == 0)   //心率
+            mViewModel.saveRingHtData(hashMap)
+        else mViewModel.saveRingTempData(hashMap)
+
+    }
+
+
 
     private fun setSwitchButton() {
         var value = HashMap<String, String>()

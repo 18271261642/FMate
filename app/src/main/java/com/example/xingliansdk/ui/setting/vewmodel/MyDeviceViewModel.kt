@@ -96,5 +96,32 @@ class MyDeviceViewModel : BaseViewModel() {
             deleteMsg.postValue(message)
         }
     }
+
+
+    //设置戒指心率状态
+    val ringHtData : MutableLiveData<Any> = MutableLiveData()
+    val ringHtMsg : MutableLiveData<Any> = MutableLiveData()
+
+    //戒指温度
+    val ringTempData : MutableLiveData<Any> = MutableLiveData()
+    val ringTempMsg : MutableLiveData<Any> = MutableLiveData()
+
+    fun saveRingHtData(map : HashMap<String,String>){
+        requestCustom({DeviceTypeApi.deviceTypeApi.saveRingHtStatus(map)},{
+            ringHtData.postValue(it)
+        },{
+            code, message ->
+            ringHtMsg.postValue(message)
+        })
+    }
+
+    fun saveRingTempData(map : HashMap<String,String>){
+        requestCustom({DeviceTypeApi.deviceTypeApi.saveRingTempStatus(map)},{
+            ringTempData.postValue(it)
+        },{
+            code, message ->
+            ringTempMsg.postValue(message)
+        })
+    }
 }
 

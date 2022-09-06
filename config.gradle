@@ -24,12 +24,12 @@ ext {
             apiKeyGoogleMap: "AIzaSyDwmewF127UgSSMfcBch9d7mhxJ1R9uDmQ",
     ]
 
-//    HttpServer    : "http://www.starlinkmed.com:8089",
-//    HttpServerDev : "https://starlinkmed.com:18086",
+//    HttpServer    : "http://www.starlinkmed.com:8089", http://47.107.53.249:8089
+//    HttpServerDev : "https://starlinkmed.com:18086", http://47.107.53.249:8086
 
     HTTP = [
-            HttpServer    : "http://www.starlinkmed.com:8089",
-            HttpServerDev : "http://www.starlinkmed.com:8089",
+            HttpServer    : "http://47.107.53.249:8089",
+            HttpServerDev : "http://47.107.53.249:8089",
             HttpServerChangSang : "https://test-health.vita-course.com",
             appName     : "ai Health",
             appNameDebug: "ai Health(测试版)"
