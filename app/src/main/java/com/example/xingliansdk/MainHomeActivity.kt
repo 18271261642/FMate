@@ -337,15 +337,18 @@ public class MainHomeActivity : BaseActivity<MainViewModel>(),BleWrite.FirmwareI
     override fun onResume() {
         super.onResume()
 //        TLog.error("MainHomeActivity  onResume+"+ BLEManager.isConnected)
-        if (BleConnection.iFonConnectError) {
-            TLog.error("没连接的时候重连")
-            BleConnection.initStart(Hawk.get(Config.database.DEVICE_OTA, false))
+        XXPermissions.with(this).permission(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->  }
+        //判断是否有保存过Mac
+        val isSaveMac = Hawk.get("address","")
+        if(!TextUtils.isEmpty(isSaveMac)){
+            if (BleConnection.iFonConnectError) {
+                TLog.error("没连接的时候重连")
+
+            }
+         BleConnection.initStart(Hawk.get(Config.database.DEVICE_OTA, false))
         }
         //initPermission2()
         restartServiceIfNeed()
-        
-        
-        XXPermissions.with(this).permission(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).request { permissions, all ->  }
         
     }
 

@@ -129,6 +129,10 @@ public class FlashCallback(
 //                    TLog.error("arrayi == ${i}=="+ByteUtil.getHexString(array))
                 }
                 val arrayXOR = HexDump.byteMerger(array, HexDump.byteXOR(array))
+                if(i == 0 && index == 0){
+                    TLog.error("-----第一包:"+ByteUtil.getHexString(arrayXOR))
+                }
+                TLog.error("-------长度="+arrayXOR.size)
                 ll.add(arrayXOR)
             }
             mList.add(ll)

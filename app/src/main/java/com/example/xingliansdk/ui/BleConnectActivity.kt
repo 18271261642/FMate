@@ -100,6 +100,7 @@ class BleConnectActivity :
         searchName = intent.getStringExtra("scan_name")
         categoryId = intent.getIntExtra("category_id",1)
 
+        TLog.error("-----categoryId="+categoryId)
         if(searchName != null){
             scanDescTv.text = searchName
         }
@@ -161,11 +162,11 @@ class BleConnectActivity :
                 .setUseHardwareBatchingIfSupported(false)
                 .build()
         scanner.stopScan(mScanCallback)
-//        filters.add(
-//            ScanFilter.Builder()
-//                .setServiceUuid(ParcelUuid.fromString(Config.serviceUUID))
-//                .build()
-//        ) //应该是加入uuid的话只能搜索到指定id内容
+        filters.add(
+            ScanFilter.Builder()
+                .setServiceUuid(ParcelUuid.fromString(Config.serviceUUID))
+                .build()
+        ) //应该是加入uuid的话只能搜索到指定id内容
         filters.add(
             ScanFilter.Builder()
                 .setServiceUuid(ParcelUuid.fromString(Config.OTAServiceUUID))
@@ -174,13 +175,13 @@ class BleConnectActivity :
         //汇顶平台ota模式下uuid
         filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(Config.GOODX_OTA_SERVICE_UUID)).build())
 
-        if(searchName != null && searchName.equals("智能戒指")){
-            filters.add(ScanFilter.Builder().setDeviceName("StarLink Ring").build())
-            filters.add(ScanFilter.Builder().setDeviceName("starLink Ring").build())
-        }else{
-            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT1").build())
-            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT2").build())
-        }
+//        if(searchName != null && searchName.equals("智能戒指")){
+//            filters.add(ScanFilter.Builder().setDeviceName("StarLink Ring").build())
+//            filters.add(ScanFilter.Builder().setDeviceName("starLink Ring").build())
+//        }else{
+//            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT1").build())
+//            filters.add(ScanFilter.Builder().setDeviceName("StarLink GT2").build())
+//        }
 
         scanner.startScan(filters, mScanSettings, mScanCallback)
     }
@@ -201,7 +202,7 @@ class BleConnectActivity :
                 super.onBatchScanResults(results)
                 tmpScanList.clear()
                 results.forEach {
-                    Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name+" "+Arrays.toString(it.scanRecord?.bytes))
+                    Log.e("OTA搜索","--------搜索返回="+it.device.address +" "+ it.device.name+" "+Arrays.toString(it.scanRecord?.bytes)+"\n"+ it.scanRecord?.bytes?.get(4)?.toInt())
                 }
                 //  hideWaitDialog()
 //                TLog.error("results+="+results.size)

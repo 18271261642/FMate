@@ -340,7 +340,10 @@ object BleConnection {
             override fun onBatchScanResults(results: List<ScanResult>) {
                 super.onBatchScanResults(results)
                 results.forEach {
-                    TLog.error("----搜索到的设备="+Gson().toJson(it))
+                    val recordArray = it.scanRecord?.bytes
+                    TLog.error("----搜索到的设备="+ (recordArray?.get(4)?.toInt() ?: "0") +" "+ (recordArray?.get(5)
+                        ?.toInt() ?: "0")
+                    )
                 }
 
                 val saveAddress = Hawk.get<String>("address","")

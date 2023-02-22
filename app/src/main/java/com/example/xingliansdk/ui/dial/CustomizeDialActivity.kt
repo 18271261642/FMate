@@ -339,18 +339,28 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
                     //  return
                 } else {
                     uiFeature = 65533
-                    ThreadUtils.submit {
-                        var bitmap = Glide.with(this)
-                            .asBitmap()
-                            .load(mCustomizeDialBean.imgPath)
-                            .into(
-                                Target.SIZE_ORIGINAL,
-                                Target.SIZE_ORIGINAL
-                            ).get()
-                        grbByte = BitmapAndRgbByteUtil.bitmap2RGBData(bitmap)
-                        TLog.error("grbByte==${grbByte.size}")
-                        //   ImgUtil.loadMeImgDialCircle(imgRecall, bitmap)
-                    }
+//                    ThreadUtils.submit {
+//                        var bitmap = Glide.with(this)
+//                            .asBitmap()
+//                            .load(mCustomizeDialBean.imgPath)
+//                            .into(
+//                                Target.SIZE_ORIGINAL,
+//                                Target.SIZE_ORIGINAL
+//                            ).get()
+//                        grbByte = BitmapAndRgbByteUtil.bitmap2RGBData(bitmap)
+//                        TLog.error("grbByte==${grbByte.size}")
+//                        //   ImgUtil.loadMeImgDialCircle(imgRecall, bitmap)
+//                    }
+
+                    var bitmap = Glide.with(this)
+                        .asBitmap()
+                        .load(mCustomizeDialBean.imgPath)
+                        .into(
+                            Target.SIZE_ORIGINAL,
+                            Target.SIZE_ORIGINAL
+                        ).get()
+                    grbByte = BitmapAndRgbByteUtil.bitmap2RGBData(bitmap)
+                    TLog.error("grbByte==${grbByte.size}")
                 }
                 //生成新图并保存
                 var newBit = BitmapAndRgbByteUtil.loadBitmapFromView(rlImg)
@@ -364,69 +374,81 @@ class CustomizeDialActivity : BaseActivity<DetailDialViewModel>(), View.OnClickL
 
 
                 TLog.error("==" + grbByte.size)
-                BleWrite.writeDialWriteAssignCall(
-                    DialCustomBean(
-                        1,
-                        uiFeature,
-                        grbByte.size,
-                        mCustomizeDialBean.color,
-                        mCustomizeDialBean.functionType,
-                        mCustomizeDialBean.locationType
-                    )
-                ) {
-                    isSyncDial = true
-                    TLog.error("it==" + it)
-                    when (it) {
 
-                        1 -> {
-                            hideWaitDialog()
-                            ShowToast.showToastLong("传入非法值")
-                            isSyncDial = false
-                        }
-                        2 -> {
-                            val startByte = byteArrayOf(
-                                0x00, 0xff.toByte(), 0xff.toByte(),
-                                0xff.toByte()
-                            )
-                            TLog.error("mCustomizeDialBean.imgPath+=" + mCustomizeDialBean.imgPath)
-                            BleWrite.writeFlashErasureAssignCall(
-                                16777215, 16777215
-                            ) { key ->
-                                if (key == 2) {
-                                    isSyncDial = true
-                                    TLog.error("开始擦写++" + grbByte.size)
-                                    FlashCall().writeFlashCall(
-                                        startByte, startByte, grbByte,
-                                        Config.eventBus.DIAL_CUSTOMIZE, -100, 0
-                                    )
-                                } else{
-                                    ShowToast.showToastLong(resources.getString(R.string.string_flash_no_support))
-                                    isSyncDial = false;
-                                }
+                val startByte = byteArrayOf(
+                    0x00, 0xff.toByte(), 0xff.toByte(),
+                    0xff.toByte()
+                )
 
-                            }
+                FlashCall().writeFlashCall(
+                    startByte, startByte, grbByte,
+                    Config.eventBus.DIAL_CUSTOMIZE, -100, 0
+                )
 
-                        }
-                        3 -> {
-                            hideWaitDialog()
-                            var hasMap = HashMap<String, String>()
-                            hasMap["dialId"] = "0"
-
-                            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
-
-                            mViewModel.updateUserDial(hasMap)
-                            // finish()
-                            // ShowToast.showToastLong("设备已经有存储这个表盘")
-                            //给后台一个 更改表盘的指令
-                            isSyncDial = false
-                        }
-                        4 -> {
-                            hideWaitDialog()
-                            ShowToast.showToastLong(resources.getString(R.string.string_dial_has_dial))
-                            isSyncDial = false
-                        }
-                    }
-                }
+//
+//                BleWrite.writeDialWriteAssignCall(
+//                    DialCustomBean(
+//                        1,
+//                        uiFeature,
+//                        grbByte.size,
+//                        mCustomizeDialBean.color,
+//                        mCustomizeDialBean.functionType,
+//                        mCustomizeDialBean.locationType
+//                    )
+//                ) {
+//                    isSyncDial = true
+//                    TLog.error("it==" + it)
+//                    when (it) {
+//
+//                        1 -> {
+//                            hideWaitDialog()
+//                            ShowToast.showToastLong("传入非法值")
+//                            isSyncDial = false
+//                        }
+//                        2 -> {
+//                            val startByte = byteArrayOf(
+//                                0x00, 0xff.toByte(), 0xff.toByte(),
+//                                0xff.toByte()
+//                            )
+//                            TLog.error("mCustomizeDialBean.imgPath+=" + mCustomizeDialBean.imgPath)
+//                            BleWrite.writeFlashErasureAssignCall(
+//                                16777215, 16777215
+//                            ) { key ->
+//                                if (key == 2) {
+//                                    isSyncDial = true
+//                                    TLog.error("开始擦写++" + grbByte.size)
+//                                    FlashCall().writeFlashCall(
+//                                        startByte, startByte, grbByte,
+//                                        Config.eventBus.DIAL_CUSTOMIZE, -100, 0
+//                                    )
+//                                } else{
+//                                    ShowToast.showToastLong(resources.getString(R.string.string_flash_no_support))
+//                                    isSyncDial = false;
+//                                }
+//
+//                            }
+//
+//                        }
+//                        3 -> {
+//                            hideWaitDialog()
+//                            var hasMap = HashMap<String, String>()
+//                            hasMap["dialId"] = "0"
+//
+//                            Hawk.put(com.shon.connector.Config.SAVE_DEVICE_CURRENT_DIAL,0)
+//
+//                            mViewModel.updateUserDial(hasMap)
+//                            // finish()
+//                            // ShowToast.showToastLong("设备已经有存储这个表盘")
+//                            //给后台一个 更改表盘的指令
+//                            isSyncDial = false
+//                        }
+//                        4 -> {
+//                            hideWaitDialog()
+//                            ShowToast.showToastLong(resources.getString(R.string.string_dial_has_dial))
+//                            isSyncDial = false
+//                        }
+//                    }
+//                }
             }
         }
     }
