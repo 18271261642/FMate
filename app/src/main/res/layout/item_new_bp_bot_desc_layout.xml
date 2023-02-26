@@ -94,7 +94,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.example.xingliansdk.view.DashedLineView
+        <com.app.fmate.view.DashedLineView
             android:layout_width="16dp"
             android:layout_height="3dp"/>
 

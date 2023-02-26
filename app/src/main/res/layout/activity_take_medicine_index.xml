@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.setting.takeMedicine.TakeMedicineIndexActivity">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"

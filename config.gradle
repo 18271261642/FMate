@@ -20,7 +20,7 @@ ext {
     mapApiKey = [
 
           /*  apiKeyGaodeMap : "ef2698e05ff8170fbd76f27721772f22",*/
-            apiKeyGaodeMap : "4716c47de236ac44dd48f9cde3c98d25",
+            apiKeyGaodeMap : "abe3cd7a05efa66881f39444734600a5",
             apiKeyGoogleMap: "AIzaSyDwmewF127UgSSMfcBch9d7mhxJ1R9uDmQ",
     ]
 
@@ -31,8 +31,8 @@ ext {
             HttpServer    : "http://47.107.53.249:8089",
             HttpServerDev : "http://47.107.53.249:8089",
             HttpServerChangSang : "https://test-health.vita-course.com",
-            appName     : "ai Health",
-            appNameDebug: "ai Health(测试版)"
+            appName     : "F Mate",
+            appNameDebug: "F Mate(测试版)"
     ]
     Libs = [
             'multidex'                       : 'androidx.multidex:multidex:2.0.0'//分包处理

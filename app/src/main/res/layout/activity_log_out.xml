@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.login.LogOutActivity">
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:id="@+id/titleBar"

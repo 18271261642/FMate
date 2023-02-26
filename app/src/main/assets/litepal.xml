@@ -6,9 +6,9 @@
 
     <list>
         <!--地图运动数据-->
-        <mapping class="com.example.xingliansdk.bean.db.AmapSportBean"/>
+        <mapping class="com.app.fmate.bean.db.AmapSportBean"/>
 
-        <mapping class="com.example.xingliansdk.ui.bp.PPG1CacheDb"/>
+        <mapping class="com.app.fmate.ui.bp.PPG1CacheDb"/>
 
     </list>
 

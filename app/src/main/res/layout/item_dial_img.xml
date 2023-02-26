@@ -67,7 +67,7 @@
     <!--            />-->
 
     <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-    <com.example.xingliansdk.view.DownloadProgressButton
+    <com.app.fmate.view.DownloadProgressButton
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:minWidth="78dp"

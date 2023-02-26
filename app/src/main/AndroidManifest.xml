@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.xingliansdk">
+    package="com.app.fmate">
 
 
     <dist:module dist:instant="true" /> <!-- 计歩 -->
@@ -73,7 +73,7 @@
     <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
 
     <application
-        android:name=".XingLianApplication"
+        android:name="com.app.fmate.XingLianApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -91,69 +91,69 @@
             android:value="true" />
 
 
-        <activity android:name=".AppStart">
+        <activity android:name="com.app.fmate.AppStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.fragment.map.share.ImgShareActivity"/>
-        <activity android:name=".ui.dial.DialIndexActivity" />
-        <activity android:name=".ui.dial.DialDetailsActivity" />
-        <activity android:name=".ui.dial.CustomizeDialActivity" />
-        <activity android:name=".ui.dial.DialMarketActivity" />
-        <activity android:name=".ui.setting.account.FindPhoneMainActivity" />
-        <activity android:name=".ui.setting.account.UpPasswordActivity" />
-        <activity android:name=".ui.setting.account.AccountActivity" />
-        <activity android:name=".ui.setting.SettingActivity" />
-        <activity android:name=".ui.ShowPermissionActivity"/>
+        <activity android:name="com.app.fmate.ui.fragment.map.share.ImgShareActivity"/>
+        <activity android:name="com.app.fmate.ui.dial.DialIndexActivity" />
+        <activity android:name="com.app.fmate.ui.dial.DialDetailsActivity" />
+        <activity android:name="com.app.fmate.ui.dial.CustomizeDialActivity" />
+        <activity android:name="com.app.fmate.ui.dial.DialMarketActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.FindPhoneMainActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.UpPasswordActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.AccountActivity" />
+        <activity android:name="com.app.fmate.ui.setting.SettingActivity" />
+        <activity android:name="com.app.fmate.ui.ShowPermissionActivity"/>
         <activity
-            android:name=".ui.problemsFeedback.ProblemsFeedbackActivity"
+            android:name="com.app.fmate.ui.problemsFeedback.ProblemsFeedbackActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.web.WebActivity" />
-        <activity android:name=".ui.login.SureLogOutActivity" />
-        <activity android:name=".ui.login.LogOutCodeActivity" />
-        <activity android:name=".ui.login.LogOutActivity" />
-        <activity android:name=".ui.login.PasswordActivity" />
-        <activity android:name=".ui.setting.heartRateAlarm.HeartRateAlarmActivity" />
-        <activity android:name=".ui.setting.flash.FlashActivity" />
-        <activity android:name=".ui.camera.CameraActivity" />
-        <activity android:name=".ui.setting.DoNotDisturbActivity" />
-        <activity android:name=".ui.setting.FeedbackActivity" />
-        <activity android:name=".ui.setting.AboutActivity" />
-        <activity android:name=".ui.setting.InfRemindActivity" />
-        <activity android:name=".ui.sleep.details.SleepNightActivity" />
-        <activity android:name=".ui.deviceSport.DeviceSportChartActivity" />
-        <activity android:name=".ui.exerciseRecord.ExerciseRecordActivity" />
-        <activity android:name=".ui.fragment.home.CardEditActivity" />
-        <activity android:name=".ui.fragment.map.ExerciseTypeActivity" />
-        <activity android:name=".ui.setting.SportsGoalActivity" />
-        <activity android:name=".ui.setting.UnitActivity" />
-        <activity android:name=".ui.setting.takeMedicine.TakeMedicineRepeatActivity" />
-        <activity android:name=".ui.setting.takeMedicine.TakeMedicineActivity" />
-        <activity android:name=".ui.setting.takeMedicine.TakeMedicineIndexActivity" /> <!-- <activity android:name=".ui.setting.MyDeviceActivity"></activity> -->
-        <activity android:name=".ui.login.LoginActivity"
+        <activity android:name="com.app.fmate.ui.web.WebActivity" />
+        <activity android:name="com.app.fmate.ui.login.SureLogOutActivity" />
+        <activity android:name="com.app.fmate.ui.login.LogOutCodeActivity" />
+        <activity android:name="com.app.fmate.ui.login.LogOutActivity" />
+        <activity android:name="com.app.fmate.ui.login.PasswordActivity" />
+        <activity android:name="com.app.fmate.ui.setting.heartRateAlarm.HeartRateAlarmActivity" />
+        <activity android:name="com.app.fmate.ui.setting.flash.FlashActivity" />
+        <activity android:name="com.app.fmate.ui.camera.CameraActivity" />
+        <activity android:name="com.app.fmate.ui.setting.DoNotDisturbActivity" />
+        <activity android:name="com.app.fmate.ui.setting.FeedbackActivity" />
+        <activity android:name="com.app.fmate.ui.setting.AboutActivity" />
+        <activity android:name="com.app.fmate.ui.setting.InfRemindActivity" />
+        <activity android:name="com.app.fmate.ui.sleep.details.SleepNightActivity" />
+        <activity android:name="com.app.fmate.ui.deviceSport.DeviceSportChartActivity" />
+        <activity android:name="com.app.fmate.ui.exerciseRecord.ExerciseRecordActivity" />
+        <activity android:name="com.app.fmate.ui.fragment.home.CardEditActivity" />
+        <activity android:name="com.app.fmate.ui.fragment.map.ExerciseTypeActivity" />
+        <activity android:name="com.app.fmate.ui.setting.SportsGoalActivity" />
+        <activity android:name="com.app.fmate.ui.setting.UnitActivity" />
+        <activity android:name="com.app.fmate.ui.setting.takeMedicine.TakeMedicineRepeatActivity" />
+        <activity android:name="com.app.fmate.ui.setting.takeMedicine.TakeMedicineActivity" />
+        <activity android:name="com.app.fmate.ui.setting.takeMedicine.TakeMedicineIndexActivity" /> <!-- <activity android:name=".ui.setting.MyDeviceActivity"></activity> -->
+        <activity android:name="com.app.fmate.ui.login.LoginActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".ui.heartrate.RealTimeHeartRateActivity" />
-        <activity android:name=".ui.device.OtherSettingActivity" />
-        <activity android:name=".ui.device.BigDataIntervalActivity" />
-        <activity android:name=".ui.device.ModuleMeasurementListActivity" />
-        <activity android:name=".ui.setting.SettingWeatherActivity" />
-        <activity android:name=".ui.setting.schedule.ScheduleListActivity" />
-        <activity android:name=".ui.setting.alarmClock.AlarmClockListActivity" />
-        <activity android:name=".ui.setting.alarmClock.AlarmClockActivity" />
-        <activity android:name=".ui.setting.DeviceInformationActivity" />
-        <activity android:name=".ui.sleep.SleepDetailsActivity" />
-        <activity android:name=".ui.bloodOxygen.BloodOxygenActivity" />
-        <activity android:name=".ui.pressure.PressureActivity" />
-        <activity android:name=".ui.weight.WeightActivity" />
-        <activity android:name=".ui.login.ForgetPasswordActivity" />
-        <activity android:name=".ui.setting.account.BindNewPhoneActivity" />
-        <activity android:name=".ui.setting.account.PasswordCheckActivity" />
-        <activity android:name=".ui.setting.account.AppealActivity" />
+        <activity android:name="com.app.fmate.ui.heartrate.RealTimeHeartRateActivity" />
+        <activity android:name="com.app.fmate.ui.device.OtherSettingActivity" />
+        <activity android:name="com.app.fmate.ui.device.BigDataIntervalActivity" />
+        <activity android:name="com.app.fmate.ui.device.ModuleMeasurementListActivity" />
+        <activity android:name="com.app.fmate.ui.setting.SettingWeatherActivity" />
+        <activity android:name="com.app.fmate.ui.setting.schedule.ScheduleListActivity" />
+        <activity android:name="com.app.fmate.ui.setting.alarmClock.AlarmClockListActivity" />
+        <activity android:name="com.app.fmate.ui.setting.alarmClock.AlarmClockActivity" />
+        <activity android:name="com.app.fmate.ui.setting.DeviceInformationActivity" />
+        <activity android:name="com.app.fmate.ui.sleep.SleepDetailsActivity" />
+        <activity android:name="com.app.fmate.ui.bloodOxygen.BloodOxygenActivity" />
+        <activity android:name="com.app.fmate.ui.pressure.PressureActivity" />
+        <activity android:name="com.app.fmate.ui.weight.WeightActivity" />
+        <activity android:name="com.app.fmate.ui.login.ForgetPasswordActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.BindNewPhoneActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.PasswordCheckActivity" />
+        <activity android:name="com.app.fmate.ui.setting.account.AppealActivity" />
         <activity
-            android:name=".ui.heartrate.HeartRateActivity"
+            android:name="com.app.fmate.ui.heartrate.HeartRateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
@@ -180,59 +180,59 @@
             android:name="com.amap.api.v2.apikey"
             android:value="ef2698e05ff8170fbd76f27721772f22" />-->
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ui.BloodPressureActivity" />
-        <activity android:name=".ui.MotionActivity" />
-        <activity android:name=".ui.Ble5Activity" />
-        <activity android:name=".ui.TemperatureActivity" />
-        <activity android:name=".ui.fragment.map.RunningActivity" /> <!-- <activity android:name=".WriteRedActivity" /> -->
+        <activity android:name="com.app.fmate.MainActivity" />
+        <activity android:name="com.app.fmate.ui.BloodPressureActivity" />
+        <activity android:name="com.app.fmate.ui.MotionActivity" />
+        <activity android:name="com.app.fmate.ui.Ble5Activity" />
+        <activity android:name="com.app.fmate.ui.TemperatureActivity" />
+        <activity android:name="com.app.fmate.ui.fragment.map.RunningActivity" /> <!-- <activity android:name=".WriteRedActivity" /> -->
         <!-- <activity android:name=".MainActivity2" />&lt;!&ndash;测试俩个心率用的&ndash;&gt; -->
         <!-- <activity android:name=".dfu.Notification.NotificationActivity" /> -->
-        <activity android:name=".dfu.DFUActivity"
+        <activity android:name="com.app.fmate.dfu.DFUActivity"
             android:launchMode="singleTask"/> <!-- <activity android:name=".MainHomeActivity" /> -->
         <!-- <activity android:name=".TestActivity" /> -->
-        <activity android:name=".ui.setting.MyDeviceActivity" /> <!-- <activity android:name=".ui.setting.SportsGoalActivity"> -->
-        <activity android:name=".ui.setting.SleepGoalActivity" />
-        <activity android:name=".ui.setting.schedule.ScheduleActivity" />
-        <activity android:name=".ui.login.GoalActivity" />
+        <activity android:name="com.app.fmate.ui.setting.MyDeviceActivity" /> <!-- <activity android:name=".ui.setting.SportsGoalActivity"> -->
+        <activity android:name="com.app.fmate.ui.setting.SleepGoalActivity" />
+        <activity android:name="com.app.fmate.ui.setting.schedule.ScheduleActivity" />
+        <activity android:name="com.app.fmate.ui.login.GoalActivity" />
         <activity
-            android:name=".MainHomeActivity"
+            android:name="com.app.fmate.MainHomeActivity"
             android:launchMode="singleTop" /> <!-- <activity android:name=".MapJavaActivity" /> -->
-        <activity android:name=".ui.temp.TempActivity" />
+        <activity android:name="com.app.fmate.ui.temp.TempActivity" />
 
-        <activity android:name=".ui.BleConnectActivity" /> <!-- 地图运动记录 -->
-        <activity android:name=".ui.fragment.map.newmap.AmapHistorySportActivity" /> <!-- 展示轨迹 -->
-        <activity android:name=".ui.fragment.map.newmap.AmapSportRecordActivity" />
+        <activity android:name="com.app.fmate.ui.BleConnectActivity" /> <!-- 地图运动记录 -->
+        <activity android:name="com.app.fmate.ui.fragment.map.newmap.AmapHistorySportActivity" /> <!-- 展示轨迹 -->
+        <activity android:name="com.app.fmate.ui.fragment.map.newmap.AmapSportRecordActivity" />
 
         <!--汇顶固件升级-->
-        <activity android:name=".dfu.GoodixDfuActivity"
+        <activity android:name="com.app.fmate.dfu.GoodixDfuActivity"
             android:screenOrientation="portrait"/>
         <!--血压设置页面-->
-        <activity android:name=".ui.bp.BpSettingActivity"/>
+        <activity android:name="com.app.fmate.ui.bp.BpSettingActivity"/>
         <!--新版血压主页面-->
-        <activity android:name=".ui.bp.BpHomeActivity"/>
+        <activity android:name="com.app.fmate.ui.bp.BpHomeActivity"/>
         <!--测量血压-->
-        <activity android:name=".ui.bp.MeasureNewBpActivity"
+        <activity android:name="com.app.fmate.ui.bp.MeasureNewBpActivity"
             android:launchMode="singleTop"
             android:turnScreenOn="true"/>
         <!--血压校准-->
-        <activity android:name=".ui.bp.BpCheckActivity"/>
+        <activity android:name="com.app.fmate.ui.bp.BpCheckActivity"/>
 
         <!--手动输入血压-->
-        <activity android:name=".ui.bp.InputBpActivity"/>
+        <activity android:name="com.app.fmate.ui.bp.InputBpActivity"/>
 
 
         <!--已经绑定的列表-->
-        <activity android:name=".ui.deviceconn.MoreConnectActivity"/>
+        <activity android:name="com.app.fmate.ui.deviceconn.MoreConnectActivity"/>
         <!--选择列表-->
-        <activity android:name=".ui.deviceconn.AddDeviceSelectActivity"/>
+        <activity android:name="com.app.fmate.ui.deviceconn.AddDeviceSelectActivity"/>
 
         <receiver
-            android:name=".broadcast.BleBroadcastReceiver"
+            android:name="com.app.fmate.broadcast.BleBroadcastReceiver"
             android:enabled="true"
             android:exported="true" />
         <receiver
-            android:name=".broadcast.BluetoothMonitorReceiver"
+            android:name="com.app.fmate.broadcast.BluetoothMonitorReceiver"
             android:enabled="true"
             android:exported="true"
             />
@@ -243,18 +243,18 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <provider
-            android:name=".base.Ktx"
+            android:name="com.app.fmate.base.Ktx"
             android:authorities="${applicationId}.service.NetworkStateReceive"
             android:exported="false" />
 
         <service
-            android:name=".service.AppService"
+            android:name="com.app.fmate.service.AppService"
             android:configChanges="locale" />
         <service
-            android:name=".service.WriteLogIntentService"
+            android:name="com.app.fmate.service.WriteLogIntentService"
             android:configChanges="locale" />
         <service
-            android:name=".service.SNAccessibilityService"
+            android:name="com.app.fmate.service.SNAccessibilityService"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
@@ -266,7 +266,7 @@
                 android:resource="@xml/accessibility_service_config" />
         </service> <!-- 各大三方app 通知 -->
         <service
-            android:name=".service.reminder.SNNotificationService"
+            android:name="com.app.fmate.service.reminder.SNNotificationService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
@@ -276,7 +276,7 @@
         </service> <!-- 来电提醒 -->
         <!-- 步数传感器 -->
         <service
-            android:name=".ui.fragment.service.StepService"
+            android:name="com.app.fmate.ui.fragment.service.StepService"
             android:priority="1000">
             <intent-filter>
 
@@ -291,14 +291,14 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".broadcast.CallReminderReceive">
+        <receiver android:name="com.app.fmate.broadcast.CallReminderReceive">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver> <!-- 短信提醒 -->
         <receiver
-            android:name=".broadcast.SmsReminderReceive"
+            android:name="com.app.fmate.broadcast.SmsReminderReceive"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -315,7 +315,7 @@
                 android:resource="@xml/file_camerx_paths" />
         </provider>
         <!--三方分享-->
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity android:name="com.app.fmate.wxapi.WXEntryActivity"
             />
         <!--QQ三方分享-->
         <activity
@@ -336,11 +336,11 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
 
-        <service android:name=".utils.RemoteControlService"/>
+        <service android:name="com.app.fmate.utils.RemoteControlService"/>
 
-        <service android:name=".service.SendWeatherService"/>
+        <service android:name="com.app.fmate.service.SendWeatherService"/>
 
-        <activity android:name="com.example.test.TestNetActivity"/>
+        <activity android:name="com.app.test.TestNetActivity"/>
     </application>
 
 </manifest>

@@ -373,7 +373,7 @@
                         android:textSize="18sp"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/setting_step"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -389,7 +389,7 @@
                         android:layout_height="1px"
                         android:background="@color/color_view" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/setting_sleep"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -430,7 +430,7 @@
                         android:textSize="18sp"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/setting_unit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -447,7 +447,7 @@
                         android:layout_height="1px"
                         android:background="@color/color_view" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/setting_help"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -463,7 +463,7 @@
                         android:layout_height="1px"
                         android:background="@color/color_view" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/settingAbout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -480,7 +480,7 @@
                         android:layout_height="1px"
                         android:background="@color/color_view" />
 
-                    <com.example.xingliansdk.widget.SettingItemLayout
+                    <com.app.fmate.widget.SettingItemLayout
                         android:id="@+id/settingSett"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

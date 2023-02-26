@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.phoneareacodelibrary">
+    package="com.app.phoneareacodelibrary">
 
     <application>
-        <activity android:name=".PhoneAreaCodeActivity"></activity>
+        <activity android:name="com.app.phoneareacodelibrary.PhoneAreaCodeActivity"></activity>
     </application>
 
 </manifest>

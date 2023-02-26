@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -324,7 +324,7 @@
                     android:id="@+id/statusTempView"/>
 
 
-                <com.example.xingliansdk.view.PressView
+                <com.app.fmate.view.PressView
                     android:id="@+id/statusStopPressView"
                     android:layout_width="105dp"
                     android:layout_height="105dp"

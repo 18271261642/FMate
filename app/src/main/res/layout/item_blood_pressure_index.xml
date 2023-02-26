@@ -43,7 +43,7 @@
             android:textColor="@color/color_blood_pressure_low"
             android:textSize="14sp" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:TextSize_index="14px"
@@ -52,7 +52,7 @@
             app:styleImage_index="@drawable/round_bloodpressure_low"
             app:tvTypeColor_index="@color/color_blood_pressure_low" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:TextSize_index="14px"
@@ -69,7 +69,7 @@
             android:textColor="@color/color_blood_pressure_normal"
             android:textSize="14sp" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:TextSize_index="14px"
@@ -78,7 +78,7 @@
             app:styleImage_index="@drawable/round_bloodpressure_normal"
             app:tvTypeColor_index="@color/color_blood_pressure_normal" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:id="@+id/bpDbp85Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:textColor="@color/color_blood_pressure_two"
             android:textSize="14sp" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:id="@+id/spDbp140Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             app:styleImage_index="@drawable/round_bloodpressure_two_level"
             app:tvTypeColor_index="@color/color_blood_pressure_two" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:id="@+id/bpDbp90Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
             android:textColor="@color/color_heart"
             android:textSize="14sp" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:id="@+id/spDbp160Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             app:styleImage_index="@drawable/round_bloodpressure_three_level"
             app:tvTypeColor_index="@color/color_heart" />
 
-        <com.example.xingliansdk.widget.IndexItemLayout
+        <com.app.fmate.widget.IndexItemLayout
             android:id="@+id/bpDbp100Item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

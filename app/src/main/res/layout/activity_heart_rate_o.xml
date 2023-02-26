@@ -11,7 +11,7 @@
 <!--        android:id="@+id/include_title"-->
 <!--        layout="@layout/title_bar_two" />-->
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -21,7 +21,7 @@
         app:showActionImage="true"
         app:showHome="true"
         app:titleTextColor01="@color/main_text_color" />
-    <com.example.xingliansdk.view.CusNestedScrollView
+    <com.app.fmate.view.CusNestedScrollView
         android:layout_width="match_parent"
         android:scrollbars="none"
         android:layout_weight="1"
@@ -301,5 +301,5 @@
             />
 
     </LinearLayout>
-    </com.example.xingliansdk.view.CusNestedScrollView>
+    </com.app.fmate.view.CusNestedScrollView>
 </LinearLayout>

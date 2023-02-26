@@ -7,4 +7,4 @@ include ':bluetooth'
 include ':JetpackMvvm'
 include ':app'
 
-rootProject.name = "XinglianApp"
+rootProject.name = "FMate"

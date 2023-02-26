@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.login.SureLogOutActivity">
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"

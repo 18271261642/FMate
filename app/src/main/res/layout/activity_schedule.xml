@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.setting.alarmClock.AlarmClockActivity">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -93,7 +93,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@color/color_view" />
 
-            <com.example.xingliansdk.widget.SettingItemLayout
+            <com.app.fmate.widget.SettingItemLayout
                 android:id="@+id/SettingDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@color/color_view" />
 
-            <com.example.xingliansdk.widget.SettingItemLayout
+            <com.app.fmate.widget.SettingItemLayout
                 android:id="@+id/Setting_alarm_clock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <com.example.xingliansdk.widget.CircularProgressView
+        <com.app.fmate.widget.CircularProgressView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/CircularProgressView"

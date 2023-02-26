@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/measureBpTitleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -37,7 +37,7 @@
 
 
 
-            <com.example.xingliansdk.view.BpMeasureView
+            <com.app.fmate.view.BpMeasureView
                 android:id="@+id/bpMeasureView"
                 android:layout_width="170dp"
                 app:center_txt_status="tt"

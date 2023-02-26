@@ -12,7 +12,7 @@
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.xingliansdk.widget.TitleBarLayout
+        <com.app.fmate.widget.TitleBarLayout
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"

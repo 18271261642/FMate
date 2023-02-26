@@ -13,7 +13,7 @@
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="1-29"
@@ -23,7 +23,7 @@
         app:styleImage_index="@drawable/round_bloodpressure_low"
         app:tvTypeColor_index="@color/color_blood_pressure_low"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="30-59"
@@ -33,7 +33,7 @@
         app:styleImage_index="@drawable/round_bloodpressure_normal"
         app:tvTypeColor_index="@color/color_blood_pressure_normal"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="60-79"
@@ -44,7 +44,7 @@
         app:styleImage_index="@drawable/round_bloodpressure_one_level"
         />
 
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="80-99"

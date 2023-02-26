@@ -96,17 +96,17 @@
     -keep public class com.qweather.plugin.bean.** { *; }
     -keep public class com.qweather.plugin.view.** { *; }
 
-    -keep class com.example.xingliansdk.network.**{*;}
-    -keep class com.example.otalib.**{*;}
+    -keep class com.app.fmate.network.**{*;}
+    -keep class com.app.otalib.**{*;}
     -keep class no.nordicsemi.android.dfu.** {*; }
-    -keep class com.example.xingliansdk.ui.sleep.**{*;}
-    -keep class com.example.xingliansdk.bean.**{*;}
+    -keep class com.app.fmate.ui.sleep.**{*;}
+    -keep class com.app.fmate.bean.**{*;}
     -keep class com.shon.connector.bean.**{*;}
-    -keep class com.example.xingliansdk.ui.fragment.map.**{*;}
-     -keep class com.example.xingliansdk.service.**{*;}
+    -keep class com.app.fmate.ui.fragment.map.**{*;}
+     -keep class com.app.fmate.service.**{*;}
 
      -keep public class com.sina.weibo.sdk.**{*;}
-     -keep public class com.example.xingliansdk.listeners.**{*;}
+     -keep public class com.app.fmate.listeners.**{*;}
 
-     -keep public class com.example.xingliansdk.broadcast.SystemTimeBroadcastReceiver
-      -keep public class com.example.xingliansdk.broadcast.**{*;}
+     -keep public class com.app.fmate.broadcast.SystemTimeBroadcastReceiver
+      -keep public class com.app.fmate.broadcast.**{*;}

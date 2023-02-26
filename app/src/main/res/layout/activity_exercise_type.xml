@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.map.ExerciseTypeActivity">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -154,7 +154,7 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="wrap_content">
-    <com.example.xingliansdk.view.LongClickView
+    <com.app.fmate.view.LongClickView
         android:id="@+id/longSave"
         android:layout_width="80dp"
         android:layout_height="80dp"

@@ -13,7 +13,7 @@
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_sleep_night_time"
@@ -23,7 +23,7 @@
         app:styleImage_index="@drawable/round_time_sleep"
         app:tvTypeColor_index="@color/sub_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_sleep_deep_scale"
@@ -33,7 +33,7 @@
         app:styleImage_index="@drawable/round_deep_sleep"
         app:tvTypeColor_index="@color/sub_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_sleep_light_scale"
@@ -43,7 +43,7 @@
         app:tvTypeColor_index="@color/sub_text_color"
         app:styleImage_index="@drawable/round_light_sleep"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_sleep_eye_scale"
@@ -54,7 +54,7 @@
         app:tvTypeColor_index="@color/sub_text_color"
         />
 
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:id="@+id/sleepLastItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

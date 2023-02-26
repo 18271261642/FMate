@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="下载进度:0"
         />
-    <com.example.xingliansdk.view.DownloadProgressButton
+    <com.app.fmate.view.DownloadProgressButton
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/download"
@@ -44,13 +44,13 @@
         app:text_color="@color/color_main_green"
         app:text_covercolor="#fff"
         />
-    <com.example.xingliansdk.view.CustomBarChart
+    <com.app.fmate.view.CustomBarChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chart1"
 
         />
-    <com.example.xingliansdk.utils.BloodPreesureChartView
+    <com.app.fmate.utils.BloodPreesureChartView
         android:id="@+id/BloodPreesureChartView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

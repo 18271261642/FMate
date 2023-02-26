@@ -17,7 +17,7 @@
         android:id="@+id/tempView"/>
 
 
-    <com.example.xingliansdk.view.PressView
+    <com.app.fmate.view.PressView
         android:id="@+id/amapStopPressView"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="15dp"

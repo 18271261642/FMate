@@ -55,7 +55,7 @@
         android:background="@color/color_view"
         app:layout_constraintTop_toBottomOf="@+id/ConsDate" />
 
-    <com.example.xingliansdk.view.CustomBarChart
+    <com.app.fmate.view.CustomBarChart
         android:id="@+id/chart1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -8,7 +8,7 @@
     tools:context=".ui.sleep.SleepDetailsActivity">
 
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -216,7 +216,7 @@
                         android:text="@string/string_no_data"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.example.xingliansdk.view.SleepView
+                    <com.app.fmate.view.SleepView
                         android:id="@+id/sleepView"
                         android:layout_width="match_parent"
                         android:layout_height="240dp"
@@ -229,7 +229,7 @@
                         app:sq_marginRightRatio="0.05"
                         app:sq_marginTopRatio="0.05" />
 
-                    <com.example.xingliansdk.view.SleepTodayView
+                    <com.app.fmate.view.SleepTodayView
                         android:id="@+id/sleepTodayView"
                         android:layout_width="match_parent"
                         android:layout_height="240dp"

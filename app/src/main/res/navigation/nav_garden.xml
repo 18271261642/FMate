@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.xingliansdk.ui.fragment.MainFragment"
+        android:name="com.app.fmate.ui.fragment.MainFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_main">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.xingliansdk.ui.fragment.HomeFragment"
+        android:name="com.app.fmate.ui.fragment.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_sleepDetailsActivity"
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/motionMapFragment"
-        android:name="com.example.xingliansdk.ui.fragment.MotionMapFragment"
+        android:name="com.app.fmate.ui.fragment.MotionMapFragment"
         android:label="MotionMapFragment">
 
         <action
@@ -64,7 +64,7 @@
     <!--    </fragment>-->
     <fragment
         android:id="@+id/meFragment"
-        android:name="com.example.xingliansdk.ui.fragment.MeFragment"
+        android:name="com.app.fmate.ui.fragment.MeFragment"
         android:label="MeFragment">
         <action
             android:id="@+id/action_meFragment_to_deviceInformationActivity"
@@ -78,46 +78,46 @@
     </fragment>
     <activity
         android:id="@+id/testActivity"
-        android:name="com.example.xingliansdk.TestActivity"
+        android:name="com.app.fmate.TestActivity"
         android:label="activity_test"
         tools:layout="@layout/activity_test" />
     <activity
         android:id="@+id/bleConnectActivity"
-        android:name="com.example.xingliansdk.ui.BleConnectActivity"
+        android:name="com.app.fmate.ui.BleConnectActivity"
         android:label="activity_ble_conne"
         tools:layout="@layout/activity_ble_conne" />
     <activity
         android:id="@+id/sleepDetailsActivity"
-        android:name="com.example.xingliansdk.ui.sleep.SleepDetailsActivity"
+        android:name="com.app.fmate.ui.sleep.SleepDetailsActivity"
         android:label="activity_sleep_details"
         tools:layout="@layout/activity_sleep_details" />
     <activity
         android:id="@+id/heartRateActivity"
-        android:name="com.example.xingliansdk.ui.heartrate.HeartRateActivity"
+        android:name="com.app.fmate.ui.heartrate.HeartRateActivity"
         android:label="HeartRateActivity"
         tools:layout="@layout/activity_heart_rate_o" />
     <activity
         android:id="@+id/deviceInformationActivity"
-        android:name="com.example.xingliansdk.ui.setting.DeviceInformationActivity"
+        android:name="com.app.fmate.ui.setting.DeviceInformationActivity"
         android:label="activity_device_information"
         tools:layout="@layout/activity_device_information" />
     <activity
         android:id="@+id/alarmClockListActivity"
-        android:name="com.example.xingliansdk.ui.setting.alarmClock.AlarmClockListActivity"
+        android:name="com.app.fmate.ui.setting.alarmClock.AlarmClockListActivity"
         android:label="activity_alarm_clock_list"
         tools:layout="@layout/activity_alarm_clock_list" />
     <activity
         android:id="@+id/settingWeatherActivity"
-        android:name="com.example.xingliansdk.ui.setting.SettingWeatherActivity"
+        android:name="com.app.fmate.ui.setting.SettingWeatherActivity"
         android:label="activity_setting_weather"
         tools:layout="@layout/activity_setting_weather" />
     <activity
         android:id="@+id/moduleMeasurementListActivity"
-        android:name="com.example.xingliansdk.ui.device.ModuleMeasurementListActivity"
+        android:name="com.app.fmate.ui.device.ModuleMeasurementListActivity"
         android:label="ModuleMeasurementListActivity" />
     <activity
         android:id="@+id/bigDataIntervalActivity"
-        android:name="com.example.xingliansdk.ui.device.BigDataIntervalActivity"
+        android:name="com.app.fmate.ui.device.BigDataIntervalActivity"
         android:label="activity_big_data_interval"
         tools:layout="@layout/activity_big_data_interval" />
     <!--    <fragment-->
@@ -126,12 +126,12 @@
     <!--        android:label="MotionMapFragment" />-->
     <fragment
         android:id="@+id/GoalFragment"
-        android:name="com.example.xingliansdk.ui.fragment.map.GoalFragment"
+        android:name="com.app.fmate.ui.fragment.map.GoalFragment"
         android:label="activity_goal"
         tools:layout="@layout/activity_goal"></fragment>
     <fragment
         android:id="@+id/MapFragment"
-        android:name="com.example.xingliansdk.ui.fragment.map.MapFragment"
+        android:name="com.app.fmate.ui.fragment.map.MapFragment"
         android:label="fragment_movement_type"
         tools:layout="@layout/fragment_movement_type">
         <action
@@ -141,7 +141,7 @@
 
     <fragment
         android:id="@+id/permissions_fragment"
-        android:name="com.example.xingliansdk.ui.camera.fragments.PermissionsFragment"
+        android:name="com.app.fmate.ui.camera.fragments.PermissionsFragment"
         android:label="PermissionsFragment">
         <action
             android:id="@+id/action_permissions_to_camera"
@@ -152,7 +152,7 @@
     </fragment>
     <fragment
         android:id="@+id/camera_fragment"
-        android:name="com.example.xingliansdk.ui.camera.fragments.CameraFragment"
+        android:name="com.app.fmate.ui.camera.fragments.CameraFragment"
         android:label="CameraFragment">
 
         <action
@@ -167,7 +167,7 @@
     </fragment>
     <fragment
         android:id="@+id/gallery_fragment"
-        android:name="com.example.xingliansdk.ui.camera.fragments.GalleryFragment"
+        android:name="com.app.fmate.ui.camera.fragments.GalleryFragment"
         android:label="GalleryFragment" >
         <argument
             android:name="root_directory"

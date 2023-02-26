@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.bloodOxygen.BloodOxygenActivity">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"

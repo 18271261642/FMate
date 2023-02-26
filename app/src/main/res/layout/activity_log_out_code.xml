@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".ui.login.LogOutCodeActivity">
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:id="@+id/titleBar"
@@ -32,7 +32,7 @@
         android:layout_marginRight="32dp"
         android:textColor="@color/sub_text_color"
         android:text="已发送验证码至 +86 134****4567"/>
-    <com.example.xingliansdk.view.VerificationCodeView
+    <com.app.fmate.view.VerificationCodeView
         android:layout_marginTop="48dp"
         android:layout_marginBottom="48dp"
         android:id="@+id/codeView"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.map.share.ImgShareActivity">
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         app:midtitle="分享"

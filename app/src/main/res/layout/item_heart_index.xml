@@ -29,7 +29,7 @@
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_heart_constant_1"
@@ -40,7 +40,7 @@
         app:tvTypeColor_index="@color/color_blood_pressure_low"
         app:contentTextColor_index="@color/bottom_nav_text_dim"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_heart_constant_2"
@@ -50,7 +50,7 @@
         app:styleImage_index="@drawable/round_green"
         app:tvTypeColor_index="@color/color_main_green"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_heart_constant_3"
@@ -60,7 +60,7 @@
         app:tvTypeColor_index="@color/color_blood_pressure_one"
         app:styleImage_index="@drawable/round_bloodpressure_one_level"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_heart_constant_4"
@@ -71,7 +71,7 @@
         app:tvTypeColor_index="@color/color_blood_pressure_two"
         />
 
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/string_heart_constant_5"

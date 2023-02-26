@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name_release">ai Health</string>
-    <string name="app_name_debug">ai Health(测试版)</string>
+    <string name="app_name_release">F Mate</string>
+    <string name="app_name_debug">F Mate(测试版)</string>
 
     <string name="string_add_device">添加设备</string>
     <string name="string_more_device">更多设备</string>
@@ -226,8 +226,8 @@
     <string name="string_logout_account">注销账号</string>
     <string name="string_get_verify_code">获取验证码</string>
 
-    <string name="string_privacy_content_desc">欢迎来到ai Health\\n点击\"同意并继续\"代表您已阅读并理解《ai Health用户协议》 和 《隐私政策》 ." "当进入APP时,为了向您提供即时通讯,内容分享等服务,我们需要收集你的设备信息,个人信息,MAC,IMEI等.我们将在此承诺不会泄露你的任何三方信息,只用于APP使用."  "若您点击\"不同意并退出\",则您将无法使用我们的产品,请您退出App</string>
-    <string name="string_no_agree_desc">不同意 《ai Health用户协议》 和 《隐私政策》将无法使用ai Health产品和服务,请您退出 App</string>
+    <string name="string_privacy_content_desc">欢迎来到F Mate\\n点击\"同意并继续\"代表您已阅读并理解《F Mate用户协议》 和 《隐私政策》 ." "当进入APP时,为了向您提供即时通讯,内容分享等服务,我们需要收集你的设备信息,个人信息,MAC,IMEI等.我们将在此承诺不会泄露你的任何三方信息,只用于APP使用."  "若您点击\"不同意并退出\",则您将无法使用我们的产品,请您退出App</string>
+    <string name="string_no_agree_desc">不同意 《F Mate用户协议》 和 《隐私政策》将无法使用F Mate产品和服务,请您退出 App</string>
     <string name="string_no_agree">不同意,退出APP</string>
     <string name="string_agree">同意</string>
     <string name="string_input_phone">请输入手机号!</string>
@@ -369,7 +369,7 @@
     <string name="string_bp_night_auto_measure">夜间自动测量</string>
     <string name="string_bp_night_half_hour_measure">夜间00:00～08:00，每30分钟自动测量一次</string>
     <string name="string_notify_more_click">更多权限问题请点击</string>
-    <string name="string_notify_help">找到 ai Health ,打开或重启服务即可</string>
+    <string name="string_notify_help">找到 F Mate ,打开或重启服务即可</string>
     <string name="string_add_most_alarm">最多只可以添加五条,请选择删除或修改</string>
     <string name="string_no_alarm">当前无闹钟</string>
     <string name="string_alarm_never">永不</string>
@@ -460,7 +460,7 @@
     <string name="string_dfu_normal_desc">当前固件有新版本，如暂不升级，将会影响部分功能提醒哦</string>
     <string name="string_dfu_low_battery_desc">当前固件有新版本，您可以将手表和手机充电后来升级哦</string>
 
-    <string name="string_permiss_title">ai Health权限使用说明</string>
+    <string name="string_permiss_title">F Mate权限使用说明</string>
     <string name="string_permiss_desc">为保证APP的正常使用,请开启以下权限</string>
     <string name="string_permiss_ble">使用蓝牙功能</string>
     <string name="string_permiss_ble_desc">需要使用手机蓝牙功能连接蓝牙手表</string>

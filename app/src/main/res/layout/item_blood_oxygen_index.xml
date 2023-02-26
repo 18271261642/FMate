@@ -12,7 +12,7 @@
         android:padding="16dp"
         android:textColor="@color/main_text_color"
         />
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/blood_oxygen_90"
@@ -23,7 +23,7 @@
         app:tvTypeColor_index="@color/color_main_green"
         />
 
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/blood_oxygen_70_90"
@@ -34,7 +34,7 @@
         app:styleImage_index="@drawable/round_bloodpressure_one_level"
         />
 
-    <com.example.xingliansdk.widget.IndexItemLayout
+    <com.app.fmate.widget.IndexItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentText_index="@string/blood_oxygen_70"

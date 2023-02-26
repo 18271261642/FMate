@@ -24,7 +24,7 @@
                 android:layout_marginTop="@dimen/widget_size_10"
                 android:layout_weight="1">
 
-                <com.example.xingliansdk.widget.CircleProgressBar
+                <com.app.fmate.widget.CircleProgressBar
                     android:id="@+id/cpbProgressBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <com.example.xingliansdk.widget.BarChartView
+            <com.app.fmate.widget.BarChartView
                 android:id="@+id/bcvStepChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

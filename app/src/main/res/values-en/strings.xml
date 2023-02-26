@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name_release">ai Health</string>
-    <string name="app_name_debug">ai Health(Beta)</string>
+    <string name="app_name_release">F Mate</string>
+    <string name="app_name_debug">F Mate(Beta)</string>
 
     <string name="string_add_device">Add Device</string>
     <string name="string_more_device">More Device</string>
@@ -233,10 +233,10 @@
     <string name="string_logout_account">Account cancellation</string>
     <string name="string_get_verify_code">Get code</string>
 
-    <string name="string_privacy_content_desc">Welcome to ai Health\n click 、"Agree and continue\"Represents that you have read and understood the《ai Health user agreement》 and 《Privacy policy》 ." +
+    <string name="string_privacy_content_desc">Welcome to F Mate\n click 、"Agree and continue\"Represents that you have read and understood the《F Mate user agreement》 and 《Privacy policy》 ." +
                         "When entering the app, in order to provide you with instant messaging, content sharing and other services, we need to collect your device information, personal information, MAC, IMEI, etc We hereby promise not to divulge any third-party information of you and only use it for app use." +
                         "If you click\"Disagree and exit\",You will not be able to use our products,Please exit the app</string>
-    <string name="string_no_agree_desc">Disagree the《ai Health user agreement》 and 《Privacy policy》Will not be available to use the ai Health products and services, please exit the App</string>
+    <string name="string_no_agree_desc">Disagree the《F Mate user agreement》 and 《Privacy policy》Will not be available to use the F Mate products and services, please exit the App</string>
     <string name="string_no_agree">Disagree,exit the App</string>
     <string name="string_agree">agree</string>
     <string name="string_input_phone">Please enter your mobile number!</string>
@@ -378,7 +378,7 @@
     <string name="string_bp_night_auto_measure">Automatic measurement at night</string>
     <string name="string_bp_night_half_hour_measure">night 00:00～08:00，automatic measurement every 30 minutes</string>
     <string name="string_notify_more_click">For more permission questions, please click</string>
-    <string name="string_notify_help">find the ai Health ,just open or restart the service</string>
+    <string name="string_notify_help">find the F Mate ,just open or restart the service</string>
     <string name="string_add_most_alarm">You can only add five items at most. Please select Delete or modify</string>
     <string name="string_no_alarm">No alarm clock currently</string>
     <string name="string_alarm_never">Never</string>
@@ -469,7 +469,7 @@
     <string name="string_dfu_normal_desc">The current firmware has a new version. If it is not upgraded, some functions will be affected</string>
     <string name="string_dfu_low_battery_desc">The current firmware has a new version. You can charge your watch and mobile phone and upgrade later</string>
 
-    <string name="string_permiss_title">ai Health permission instructions</string>
+    <string name="string_permiss_title">F Mate permission instructions</string>
     <string name="string_permiss_desc">To ensure the normal use of the app, please open the following permissions</string>
     <string name="string_permiss_ble">Using Bluetooth</string>
     <string name="string_permiss_ble_desc">To use the Bluetooth function, you need to use the Bluetooth function of the mobile phone to connect the Bluetooth Watch</string>

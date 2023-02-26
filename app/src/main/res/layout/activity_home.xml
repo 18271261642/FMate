@@ -37,7 +37,7 @@
         android:id="@+id/mSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.example.xingliansdk.utils.CustomRefreshHeader
+        <com.app.fmate.utils.CustomRefreshHeader
             android:id="@+id/mRefreshHeader"
             android:layout_width="match_parent"
             app:cus_pullText="@string/string_home_pull_desc"
@@ -63,7 +63,7 @@
                     android:layout_margin="16dp"
                     android:padding="20dp">
 
-                    <com.example.xingliansdk.widget.CircleProgressBar
+                    <com.app.fmate.widget.CircleProgressBar
                         android:id="@+id/circleSports"
                         android:layout_width="0dp"
                         android:layout_weight="1"

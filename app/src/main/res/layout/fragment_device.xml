@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.fragment.DeviceFragment">
- <com.example.xingliansdk.widget.TitleBarLayout
+ <com.app.fmate.widget.TitleBarLayout
      android:id="@+id/titleBar"
      android:layout_width="match_parent"
      app:backcolor="@color/white"
@@ -90,7 +90,7 @@
       />
  </androidx.constraintlayout.widget.ConstraintLayout>
 
- <com.example.xingliansdk.widget.SettingItemLayout
+ <com.app.fmate.widget.SettingItemLayout
      android:layout_marginTop="1dp"
      android:id="@+id/settingModuleMeasurement"
      android:layout_width="match_parent"
@@ -98,7 +98,7 @@
      app:layoutType="1"
      app:styleImage="@mipmap/ic_launcher"
      app:titleText="设备模块测量状态" />
- <com.example.xingliansdk.widget.SettingItemLayout
+ <com.app.fmate.widget.SettingItemLayout
      android:layout_marginTop="1dp"
      android:id="@+id/settingBloodPressureCalibration"
      android:layout_width="match_parent"
@@ -106,7 +106,7 @@
      app:layoutType="1"
      app:styleImage="@mipmap/ic_launcher"
      app:titleText="设备同步血压校准值" />
- <com.example.xingliansdk.widget.SettingItemLayout
+ <com.app.fmate.widget.SettingItemLayout
      android:layout_marginTop="1dp"
      android:id="@+id/settingBigDataInterval"
      android:layout_width="match_parent"
@@ -114,7 +114,7 @@
      app:layoutType="1"
      app:styleImage="@mipmap/ic_launcher"
      app:titleText="大数据存储间隔" />
- <com.example.xingliansdk.widget.SettingItemLayout
+ <com.app.fmate.widget.SettingItemLayout
      android:layout_marginTop="1dp"
      android:id="@+id/settingReminderPush"
      android:layout_width="match_parent"
@@ -122,7 +122,7 @@
      app:layoutType="1"
      app:styleImage="@mipmap/ic_launcher"
      app:titleText="消息提醒" />
- <com.example.xingliansdk.widget.SettingItemLayout
+ <com.app.fmate.widget.SettingItemLayout
      android:layout_marginTop="1dp"
      android:id="@+id/settingUnbind"
      android:layout_width="match_parent"

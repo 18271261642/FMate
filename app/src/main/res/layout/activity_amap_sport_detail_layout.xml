@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-    <com.example.xingliansdk.widget.TitleBarLayout
+    <com.app.fmate.widget.TitleBarLayout
         android:layout_width="match_parent"
         app:midtitle="@string/string_sport_detail"
         app:showHome="true"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.example.xingliansdk.view.CusMapContainerView
+            <com.app.fmate.view.CusMapContainerView
                 android:id="@+id/cusMapContainerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -42,7 +42,7 @@
                     android:id="@+id/amapDetailMapView"
                     android:layout_width="match_parent"
                     android:layout_height="400dp" />
-            </com.example.xingliansdk.view.CusMapContainerView>
+            </com.app.fmate.view.CusMapContainerView>
 
 
 
